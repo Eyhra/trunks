@@ -1,0 +1,30 @@
+-	script	oracao	-1,{
+
+	OnInit:
+		bindatcmd "anjo",strnpcinfo(3)+"::OnAtcommand",0,99; //
+		end;
+	
+	OnAtcommand:
+		if( BaseJob==Job_SuperNovice ) {
+			if (@CalledAngel >= gettimetick(2)) { // Verifica que o jogador espere antes que o jogador chame o Anjo da Guarda novamente, uma tentativa de impedi-lo de enviar spam ao comando.
+				message strcharinfo(0),"Espere pelo menos "+(CalledAngel-gettimetick(2))+" Segundos para chamar seu Anjo da guarda mais uma vez!";
+				end;
+			}
+			set @CalledAngel,gettimetick(2)+(3*60)+8;	//3 minutos(tempo de espera) + 8segundos(tempo de lançamento do feitiço)
+			message strcharinfo(0),"Querido anjo, você pode ouvir minha voz?"; // Começo da oração
+			sleep2 2000;
+			message strcharinfo(0),"Eu sou "+ strcharinfo(0 )+" Super Novice~";
+			sleep2 2000;
+			message strcharinfo(0),"Me ajude~ Por favor~ T_T";
+			sleep2 2000;
+			sc_start 92,180000,5; //Início da habilidade Explosão Crítica
+			skilleffect 270,777;  //Efeito de habilidade visual da explosão crítica
+			sc_start SC_INCCRI,300000,30; //Taxa Crítica Extra para garantir que o SN obtenha a Taxa Crítica de +50 que deve obter ao orar
+			specialeffect2 338;   //SA Anjo
+			sleep2 1500;
+			message strcharinfo(0),strcharinfo(0 )+" Você acabou de ser abençoado por seu Anjo da guarda !!!";
+		}
+		else { 
+			message strcharinfo(0),"Você orou com a esperança de ver um anjo, mas parece que eles só aparecem para os super noviços ...";  //Se o jogador não for um Super Novice
+		}
+}

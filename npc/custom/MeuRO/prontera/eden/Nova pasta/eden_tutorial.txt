@@ -1,0 +1,667 @@
+//===== rAthena Script =======================================
+//= Eden Tutorial
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A series of quests introducing the major features of
+//= Ragnarok Online.
+//===== Additional Comments: =================================
+//= 1.0 First Version. [Euphy]
+//============================================================
+
+// Main Quest :: TutorialVer2
+//============================================================
+moc_para01,34,178,3	script	Instrutora de Iniciantes	904,{
+	set .np$,"^00B2EE[ Instrutora ]^000000";
+	if (Class == Job_Novice) {
+		// Fall through
+	} else if (checkquest(9167) == -1) {
+	OnStartQuest:
+		if (@tutorial_restart) {
+			set .@tutorial_restart,1;
+			set @tutorial_restart,0;
+		}
+		mes .np$;
+		mes "Ultimamente, tem-se dito que";
+		mes "eles estão desenvolvendo maneiras de adicionar opções";
+		mes "para colocar soquetes ou adicionar status";
+		mes "em equipamentos que normalmente não têm.";
+		mes "Eles chamam isso ^006400Encantar^000000.";
+		next;
+		mes .np$;
+		mes "Depois de ver isso sendo desenvolvido,";
+		mes "me inspirei muito nele";
+		mes "que eu trabalhei duro para descobrir";
+		mes "uma maneira de fazer isso e eu finalmente";
+		mes "fiz meu próprio caminho para ^006400Encantar^000000!";
+		next;
+		mes .np$;
+		mes "Mas para fazer isso";
+		mes "Eu preciso de alguns materiais especiais.";
+		mes "Se você está bem com isso...";
+		mes "Você acha que pode";
+		mes "me ajude reunindo-os?";
+		next;
+		switch(select("Estou um pouco ocupado agoraClaro, posso ajudar!:^ff0000[»]^000000Estou um pouco ocupado agora...")) {
+		case 1:
+			mes .np$;
+			mes "No entanto, olhando para você";
+			mes "em seu estado atual me faz";
+			mes "duvidar de sua capacidade de reunir";
+			mes "os itens que eu preciso...";
+			next;
+			mes .np$;
+			mes "Bem, eu acho que se você empregar";
+			mes "um ^006400Mercenário^000000 para este";
+			mes "então eu acho que posso confiar em você";
+			mes "com meus pedidos... certo?";
+			next;
+			mes .np$;
+			mes "Para contratar um mercenário,";
+			mes "vá encontrar a ^006400Gilda dos Mercenários^000000";
+			mes "que fica na porta da frente ^8B4513Prontera^000000.";
+			mes "Vá para o ^006400Agente de Informações^000000";
+			mes "e pergunte a eles onde o ^006400Oficial da Guilda dos Mercenários^000000";
+			mes "está localizado e eles vão deixar você saber.";
+			next;
+			if (.@tutorial_restart) {
+				erasequest 9167;
+				erasequest 9168;
+				erasequest 9169;
+				erasequest 9170;
+				erasequest 9171;
+				erasequest 9172;
+				completequest 9173;
+				erasequest 9173;
+			}
+			mes .np$;
+			mes "Agora... Apresse-se e empregue";
+			mes "um ^006400Mercenário^000000 e volte para mim!";
+			setquest 9167;
+			close;
+		case 2:
+			mes .np$;
+			mes "Bem, já que você disse que está ocupado";
+			mes "Eu não posso ser ajudado...";
+			mes "Quando você não estiver tão ocupado, venha me encontrar novamente.";
+			close;
+		}
+	} else if (checkquest(9167) == 0 || checkquest(9167) == 1) {
+		if (!getmercinfo(1)) {
+			mes .np$;
+			mes "Você ainda não conseguiu um mercenário.";
+			next;
+			mes .np$;
+			mes "Para contratar um mercenário,";
+			mes "vá encontrar a ^006400Gilda dos Mercenários^000000";
+			mes "que fica na porta da frente ^8B4513Prontera^000000.";
+			mes "Vá para o ^006400Agente de Informações^000000";
+			mes "e pergunte a eles onde o ^006400Oficial da Guilda dos Mercenários^000000";
+			mes "está localizado e eles vão deixar você saber.";
+			next;
+			mes .np$;
+			mes "Agora... Apresse-se e empregue";
+			mes "um ^006400Mercenário^000000 e volte para mim!";
+			close;
+		}
+		mes .np$;
+		mes "Ver você com um ^006400Mercenário^000000 definitivamente me faz confiar mais em você.";
+		next;
+		mes .np$;
+		mes "Se um 006400Mercenário^000000 lhe der efeito direto";
+		mes "lutando por você";
+		mes "então um ^006400Pet^000000 ajuda você indiretamente com seus";
+		mes "habilidades e aparências variadas,";
+		mes "e captura seu coração.";
+		mes "Tente criar um ^006400Pet^000000 no futuro também.";
+		next;
+		mes .np$;
+		mes "Agora, vejamos... Para";
+		mes "obtenha este ^006400Encantar^000000 para ter sucesso";
+		mes "você tem que ir pegar alguns materiais para mim...";
+		mes "O que eu preciso é...";
+		mes "..............";
+		next;
+		select("^3CB371[»]^000000 Eu não acho que ouvi você claramente...");
+		mes .np$;
+		mes "Eu realmente não gosto de me repetir..";
+		mes "Se você me perguntar de novo assim";
+		mes "isso deixa sua boca cansada?";
+		mes "Nessas situações, abra sua ^006400Janela de Quest^000000";
+		mes "e você pode ver o que é pedido de você";
+		mes "e os detalhes do meu pedido.";
+		next;
+		mes .np$;
+		mes "Se você olhar para o canto superior esquerdo";
+		mes "na área com as informações,";
+		mes "ele diz ^006400QUEST^000000";
+		mes "e se você clicar nele";
+		mes "mostrar todas as informações";
+		mes "que pertence ao pedido.";
+		next;
+		mes .np$;
+		mes "Depois de verificar quais materiais";
+		mes "você precisa ir buscar";
+		mes "a ^006400Janela de Missão^000000,";
+		mes "venha encontrar e falar comigo novamente.";
+		completequest 9167;
+		setquest 9168;
+		close;
+	} else if (checkquest(9168) == 0 || checkquest(9168) == 1) {
+		if (checkweight(607,1) == 0) {
+			if (MaxWeight - Weight < getiteminfo(607, ITEMINFO_WEIGHT)) {
+				mes .np$;
+				mes "Você parecia lento com muitos itens";
+				mes "em seu inventário, tornando-o pesado...";
+				mes "Vai ser difícil fazer o meu pedido";
+				mes "quando você está pesado com todo esse lixo!";
+				mes "Vá esvaziar seu inventário e volte para mim.";
+				close;
+			} else {
+				mes .np$;
+				mes "Parece que você tem";
+				mes "um item demais em você...";
+				mes "Se você quiser me ajudar então";
+				mes "você vai ter que colocar alguns";
+				mes "coisas longe e depois volte.";
+				close;
+			}
+		}
+		mes .np$;
+		mes "Você abriu sua janela ^006400Quest^000000";
+		mes "para verificar os materiais?";
+		next;
+		switch(select("^3CB371[»]^000000 Sim!:^ff0000[»]^000000 Não...:^3CB371[»]^000000 Onde está a janela da Quest...")) {
+		case 1:
+			mes .np$;
+			mes "Oh sim? Então devo testá-lo para ver";
+			mes "se você realmente verificou?";
+			mes "Anote o material que eu pedi para você pegar.";
+			next;
+			input .@inputstr$;
+			if (.@inputstr$ == "10 Jellopy") {
+				mes .np$;
+				mes "Ainda bem que sabes.";mes "Agora, você está se sentindo muito familiar";
+				mes "sobre a ^006400Janela de Missão^000000?";
+				mes "Mas há um problema...";
+				mes "Você sabe que material coletar,";
+				mes "mas reunir isso não será fácil.";
+				next;
+				mes .np$;
+				mes "Além disso, há uma coisa";
+				mes "Eu absolutamente acho que você precisa tentar.";
+				mes "E isso é...";
+				mes "o ^006400Catálogo Prata Universal^000000.";
+				next;
+				mes .np$;
+				mes "O ^006400Catálogo Prata Universal^000000";
+				mes "pode ser obtido de";
+				mes "o ^0000FFAssistente de Catálogo^000000";
+				mes "que está localizado na Sede do Grupo Eden.";
+				next;
+				mes .np$;
+				mes "Agora, vá e obtenha";
+				mes "um ^006400Catálogo Prata Universal^000000";
+				mes "então volte e fale comigo.";
+				completequest 9168;
+				setquest 9169;
+				close;
+			}
+			mes .np$;
+			mes "Você... ainda não parece";
+			mes "saber muito sobre o";
+			mes "^006400Janela de Missão^000000.";
+			mes "vou informá-lo novamente.";
+			next;
+			break;
+		case 2:
+			mes .np$;
+			mes "Apresse-se e confira para ver";
+			mes "quais materiais são necessários em";
+			mes "sua ^006400Janela de Missão^000000.";
+			close;
+		case 3:
+			break;
+		}
+		mes .np$;
+		mes "Se você olhar para o canto superior esquerdo";
+		mes "na área com as informações,";
+		mes "diz ^006400QUEST^000000";
+		mes "e se você clicar nele";
+		mes "vai mostrar todas as informações";
+		mes "que se refere ao pedido.";
+		next;
+		mes .np$;
+		mes "Depois de verificar quais materiais";
+		mes "você precisa ir reunir de";
+		mes "a janela ^006400Quest^000000,";
+		mes "venha encontrar e falar comigo novamente.";
+		close;
+	} else if (checkquest(9169) == 0 || checkquest(9169) == 1) {
+		if (countitem(12580) == 0) {
+			mes .np$;
+			mes "Hum? Então eu notei que";
+			mes "você não foi e pegou um";
+			mes "^006400Universal Silver Catalog^000000 ainda!";
+			next;
+			mes .np$;
+			mes "Você pode pegar";
+			mes "^006400Catálogo Prata Universal^000000";
+			mes "do ^0000FFAssistente de Catálogo^000000";
+			mes "que está localizado na Sede do Grupo Eden.";
+			next;
+			mes .np$;
+			mes "Então, vá e pegue";
+			mes "^006400Catálogo Prata Universal^000000";
+			mes "então volte para mim.";
+			close;
+		}
+		mes .np$;
+		mes "Oh! Você conseguiu uma";
+		mes "^006400Catálogo Prata Universal^000000!";
+		next;
+		mes .np$;
+		mes "Isso permite que você navegue e pesquise";
+		mes "através de todas as várias lojas";
+		mes "que estão no mesmo mapa e";
+		mes "estão abertos para venda.";
+		next;
+		mes .np$;
+		mes "Custa apenas 200 zeny por um";
+		mes "destes e com isso você pode";
+		mes "pesquisar até 10 vezes.";
+		mes "Você pode dizer que é uma necessidade.";
+		next;
+		mes .np$;
+		mes "Então, vá para a área que você quer";
+		mes "e experimente o ^006400Catálogo Prata Universal^000000";
+		mes "então venha e me encontre";
+		mes "depois de fazer isso.";
+		completequest 9169;
+		setquest 9170;
+		close;
+	} else if (checkquest(9170) == 0 || checkquest(9170) == 1) {
+		if (countitem(12580)) {
+			mes .np$;
+			mes "Hmm... Parece que você ainda tem";
+			mes "o ^006400Catálogo de Prata Universal^000000 em seu inventário.";
+			mes "Já que você está dizendo que esqueceu como usar";
+			mes "Vou explicar para você novamente.";
+			next;
+			mes .np$;
+			mes "Você vê... o ^006400Catálogo Prata Universal^000000";
+			mes "permite navegar e pesquisar";
+			mes "através de todas as várias lojas";
+			mes "que estão no mesmo mapa e";
+			mes "estão abertos para venda.";
+			next;
+			mes .np$;
+			mes "Então, vá para a área que você quer";
+			mes "e experimente o ^006400Catálogo Prata Universal^000000";
+			mes "eles venham me encontrar";
+			mes "depois de fazer isso.";
+			close;
+		}
+		mes .np$;
+		mes "Como você se sente depois de experimentar";
+		mes "o ^006400Catálogo Prata Universal^000000?";
+		mes "É muito mais fácil do que";
+		mes "passando por cada indivíduo";
+		mes "vendedor e encontrando o item";
+		mes "você precisa, certo?";
+		next;
+		mes .np$;
+		mes "Agora, saia e reúna";
+		mes "os materiais que eu preciso e";
+		mes "vou me certificar de te dar";
+		mes "um fantástico ^006400encantamento^000000!";
+		mes "Eu estarei esperando!";
+		completequest 9170;
+		setquest 9171;
+		close;
+	} else if (checkquest(9171) == 0 || checkquest(9171) == 1) {
+		if (countitem(909) < 10) {
+			mes .np$;
+			mes "Parece que você não trouxe";
+			mes "materiais suficientes. Você esqueceu";
+			mes "o que você precisava reunir?";
+			next;
+			switch(select("^3CB371[»]^000000 Sim...:^ff0000[»]^000000 Não!")) {
+			case 1:
+				mes .np$;
+				mes "Me disseram que se você clicar no";
+				mes "coisa no canto superior esquerdo que diz";
+				mes "^006400QUEST^000000, ele mostrará tudo";
+				mes "a informação que você precisa";
+				mes "que se refere aos seus pedidos.";
+				next;
+				mes .np$;
+				mes "Depois de reunir todos os materiais";
+				mes "que estão listados em sua ^006400Janela de Quest^000000";
+				mes "venha falar comigo.";
+				close;
+			case 2:
+				mes .np$;
+				mes "Quando você pegar os itens";
+				mes "venha a mim e eu lhe mostrarei";
+				mes "um incrível ^006400ENCANTAR^000000.";
+				mes "Eu estarei esperando!";
+				close;
+			}
+		}
+		if (checkweight(607,6) == 0) {
+			if (MaxWeight - Weight < getiteminfo(607, ITEMINFO_WEIGHT)) {
+				mes .np$;
+				mes "Seu inventário parece estar cheio";
+				mes "com várias coisas... Você acha";
+				mes "você pode fazer qualquer coisa quando estiver";
+				mes "pesado? Vá guardar algumas coisas";
+				mes "então volte para mim.";
+				close;
+			} else {
+				mes .np$;
+				mes "Você parece ter coisas demais";
+				mes "no seu inventário... Vá colocar";
+				mes "faça as coisas e depois volte para mim";
+				mes "quando você tem menos sufoco.";
+				close;
+			}
+		}
+		mes .np$;
+		mes "Você tem tudo que eu pedi!";
+		mes "Então~ Vamos começar no incrível";
+		mes "Encantar que encontrei e desenvolvi?";
+		next;
+		specialeffect EF_BASH3D2;
+		mes .np$;
+		mes "OK! Agora para a primeira habilidade!!";
+		mes "Para adicionar uma nova habilidade à sua armadura...";
+		mes "^006400ENCANTAMENTO DE SOQUETE OCULTO^000000!!";
+		next;
+		specialeffect EF_BASH3D2;
+		mes .np$;
+		mes "E para a segunda habilidade!!";
+		mes "Para adicionar um novo soquete ao seu";
+		mes "arma e escudo...";
+		mes "^006400ENCANTADOR DE SOQUETE^000000!!";
+		next;
+		mes .np$;
+		mes "Lá. O Encantamento está feito. Você não pode entender o processo apenas me observando, então vou deixar você olhar para os próprios itens.";
+		delitem 909,10; //Jellopy
+		completequest 9171;
+		setquest 9172;
+		getitem2 15033,1,1,0,0,0,0,0,4702; //Tutorial_Mattle[Strength3]
+		getitem 15033,1; //Tutorial_Mattle
+		getitem 15034,1; //Tutorial_Mattle_
+		next;
+		mes .np$;
+		mes "Esses itens não podem ser";
+		mes "usado ou trocado, então nem";
+		mes "pense em fugir com eles.";
+		mes "Quando você terminar de olhar para eles,";
+		mes "devolva-os para mim.";
+		close;
+	} else if (checkquest(9172) == 0 || checkquest(9172) == 1) {
+		if (countitem(15033) == 0 || countitem(15034) == 0) {
+			mes .np$;
+			mes "O que você fez com o Encantado";
+			mes "itens que eu emprestei para você olhar?";
+			mes "Até que você traga de volta os frutos de";
+			mes "meu trabalho, eu não quero falar com você,";
+			mes "muito menos ver seu rosto.";
+			close;
+		}
+		mes .np$;
+		mes "Você terminou de olhar";
+		mes "os itens que eu encantei?";
+		next;
+		switch(select("^3CB371[»]^000000 Sim, obrigado:^3CB371[»]^000000 Ainda não olhei para eles")) {
+		case 1:
+			mes .np$;
+			mes "Então, o que você achou depois de inspecioná-lo? Agora que você viu um item Encantado real, você o entende??";
+			// Item deletions moved below to prevent errors.
+			next;
+			mes .np$;
+			mes "Graças a você pude ver ótimos resultados de minha pesquisa e estudo.";
+			next;
+			mes .np$;
+			mes "Se você tiver alguma dúvida sobre qualquer coisa que eu discuti com você, eu vou te contar tudo! Obrigado por seu trabalho duro!";
+			delitem 15033,2;
+			delitem 15034,1;
+			completequest 9172;
+			setquest 9173;
+			getexp 5000,2500;
+			close;
+		case 2:
+			mes .np$;
+			mes "Leve o seu tempo para examiná-los";
+			mes "então traga-os de volta para mim.";
+			close;
+		}
+	} else if (checkquest(9173) == 0 || checkquest(9173) == 1) {
+		mes .np$;
+		mes "Você tem alguma pergunta?";
+		next;
+		switch(select("^3CB371[»]^000000 Posso fazer a mesma quest novamente?:^3CB371[»]^000000 Sobre a janela de missões...:^3CB371[»]^000000 Sobre o ENCANTAR...:^3CB371[»]^000000 Sobre a pesquisa de fornecedores...:^3CB371[»]^000000 Sobre Mercenário e Animais de Estimação...:^ff0000[»]^000000 Terminar conversa")) {
+		case 1:
+			if (checkquest(9173,PLAYTIME) == 0 || checkquest(9173,PLAYTIME) == 1) {
+				mes .np$;
+				mes "O único método para fazer as mesmas missões repetidamente é fazer as ^006400Missões diárias^000000.";
+				next;
+				mes .np$;
+				mes "Depois de concluir uma ^006400Missões diárias^000000 e entregá-la, espere cerca de um dia, depois volte para pegar a solicitação e faça tudo de novo!";
+				mes .np$;
+				mes "Se você recebeu uma missão diária, olhe no canto inferior direito da ^006400Janela de Missões^000000. Há uma seção chamada ^006400LIMITADO^000000. Nessa seção, ele lhe dirá quanto tempo precisa passar antes que você possa pegar outra missão diária.";
+				next;
+				mes .np$;
+				mes "Parece que você ainda tem algum tempo para esperar depois de terminar minha missão. Espere um pouco mais, então venha me encontrar e você pode obter a mesma missão novamente.";
+				close;
+			}
+			mes .np$;
+			mes "Parece que cerca de um dia se passou desde que você terminou minha missão. Tudo bem, assim como as ^006400Missões diárias^000000, você pode obter uma missão comigo. Você queria continuar?";
+			next;
+			switch(select("^3CB371[»]^000000 Sim:^ff0000[»]^000000 Não")) {
+			case 1:
+				set @tutorial_restart,1;
+				goto OnStartQuest;
+			case 2:
+				mes .np$;
+				mes "OK. Mas se você mudar de ideia e quiser receber uma missão, venha me encontrar.";
+				close;
+			}
+		case 2:
+			mes .np$;
+			mes "Dizem que a ^006400Quest Window^000000 detalha tudo o que você precisa saber sobre suas missões.";
+			next;
+			mes .np$;
+			mes "Se você olhar para o canto superior esquerdo";
+			mes "na área com as informações,";
+			mes "diz ^006400QUEST^000000";
+			mes "e se você clicar nele";
+			mes "vai mostrar todas as informações";
+			mes "que se refere ao pedido.";
+			next;
+			mes .np$;
+			mes "Usar a ^006400Janela de Missão^000000 facilitará sua vida. Ele lhe dirá para onde ir, quais itens obter ou quem encontrar e etc..";
+			close;
+		case 3:
+			mes .np$;
+			mes "^006400ENCANTAR^000000, em geral, é dividido em duas partes: ^006400SOQUETE OCULTO000000 e ^006400ENCANTAMENTO DE SOQUETE OCULTO^000000.";
+			next;
+			mes .np$;
+			mes "^006400SOCKET ENCANTAR^000000 é usado para adicionar um SOCKET em equipamentos e ^006400ENCANTAMENTO DE SOQUETE OCULTO^000000 é usado para colocar estatísticas em um soquete de uma armadura.";
+			next;
+			mes .np$;
+			mes "Claro que para isso precisamos de alguns materiais e há uma chance de que ele falhe, mas esse é o risco que você está correndo.";
+			next;
+			mes .np$;
+			mes "As pessoas que fazem o ^006400SOCKET ECHANT^000000 podem ser encontradas em ^8B4513Prontera, Morocc, Payon,^000000. ^8B4513Rhitalzen^000000 está na Refinaria e ^0000FFSeiablem^000000 e ^0000FFReiablem^000000 podem ser encontrados perto da entrada.";
+			next;
+			mes .np$;
+			mes "Aquele que faz ^006400ENCANTAMENTO DE SOQUETE OCULTO^000000 encontra-se no local das 6 horas de ^8B4513Prontera^000000. Procure o Aprendiz ^0000FFCraftman^000000.";
+			next;
+			mes .np$;
+			mes "Você acha que entende um pouco mais sobre ^006400ENCANTAR^000000?";
+			close;
+		case 4:
+			mes .np$;
+			mes "^006400Vend Search^000000 pode ser utilizado pelo item ^006400Universal Silver Catalog^000000. Como você pesquisa como vendedores nesse mapa, será mais fácil encontrar o item que está procurando.";
+			next;
+			mes .np$;
+			mes "O ^006400Catálogo Prata Universal^000000";
+			mes "pode ser obtido de ";
+			mes "o ^0000FFAssistente de catálogo^000000";
+			mes "que está localizado na sede do Grupo Eden.";
+			next;
+			mes .np$;
+			mes "Custa apenas 200 zeny por um";
+			mes "destes e com ele você pode";
+			mes "pesquisar até 10 vezes.";
+			mes "Você pode dizer que é uma necessidade.";
+			next;
+			mes .np$;
+			mes "Então, você está se familiarizando com ^006400Vend Search^000000? Não fique aí parado e me escute. Vá em frente e experimente você mesmo!";
+			close;
+		case 5:
+			mes .np$;
+			mes "Dependendo do que você precisa, ^006400Mercenário^000000 e ^006400Pet^000000 podem ser usados de várias maneiras.";
+			next;
+			mes .np$;
+			mes "Se um 006400Mercenário^000000 lhe der efeito direto";
+			mes "lutando por você";
+			mes "então um ^006400Pet^000000 ajuda você indiretamente com seus";
+			mes "habilidades e aparências variadas,";
+			mes "e captura seu coração.";
+			next;
+			mes .np$;
+			mes "Para contratar um mercenário,";
+			mes "vá encontrar a ^006400Gilda dos Mercenários^000000";
+			mes "que fica na porta da frente ^8B4513Prontera^000000.";
+			mes "Vá para o ^006400Agente de Informações^000000";
+			mes "e pergunte a eles onde o ^006400Oficial da Guilda dos Mercenários^000000";
+			mes "está localizado e eles vão deixar você saber.";
+			next;
+			mes .np$;
+			mes "Para obter um ^006400Pet^000000, enquanto caça você obterá itens de domesticação. Use o domar no monstro para o qual é e você poderá obter um animal de estimação.";
+			next;
+			mes .np$;
+			mes "Como há uma chance de falha, use o item de domesticação com muito cuidado.";
+			next;
+			mes .np$;
+			mes "Além disso... você pode obter um ^006400Mercenário^000000 da Mercenary Guild e você pode obter um ^006400Pet^000000 trocando ou comprando de outro jogador.";
+			next;
+			mes .np$;
+			mes "Agora, você entende um pouco mais sobre como usar um ^006400Mercenário^000000 e um ^006400Pet^000000? Espero que você tenha a chance de usá-los no futuro.";
+			close;
+		case 6:
+			mes .np$;
+			mes "Se você tiver alguma dúvida, venha me encontrar novamente.";
+			close;
+		}
+	}
+	mes .np$;
+	mes "Ultimamente, tem-se dito que";
+	mes "eles estão desenvolvendo maneiras de adicionar opções";
+	mes "para colocar soquetes ou adicionar status";
+	mes "em equipamentos que normalmente não têm.";
+	close;
+}
+
+moc_para01,32,179,4	script	Objetivo do tutorial	895,{
+	set .np$,"^00B2EE[ Estilista Cirurgião ]^000000";
+	if (checkweight(608,7) == 0) {
+		if (MaxWeight - Weight < getiteminfo(608, ITEMINFO_WEIGHT)) {
+			mes .np$;
+			mes "Você parece estar acima do peso com itens. Vá guardar algumas coisas e depois volte.";
+			close;
+		} else {
+			mes .np$;
+			mes "Você tem muitos itens em você. Vá guardar algumas coisas e depois volte.";
+			close;
+		}
+	}
+	if (checkquest(4161) == 0 || checkquest(4161) == 1) {
+		mes .np$;
+		mes "Bem~ Temos que desafiar os especialistas certo?";
+		mes "Vamos começar encontrando o ^006400Especialista em Cerco^000000!";
+		close;
+	} else if (checkquest(4162) == 0 || checkquest(4162) == 1) {
+		mes .np$;
+		mes "Você passou o ^006400Especialista em Cerco^000000's teste! Parabéns!";
+		mes "Agora, vá encontrar o ^006400Especialista em Recrutamento de Partes^000000!";
+		close;
+	} else if (checkquest(4163) == 0 || checkquest(4163) == 1) {
+		mes .np$;
+		mes "Você passou o ^006400Especialista em Recrutamento de Partes^000000's teste! Parabéns!";
+		mes "Agora, vá encontrar o ^006400Especialista em Campo de Batalha^000000!";
+		close;
+	} else if (checkquest(4164) == 0 || checkquest(4164) == 1) {
+		mes .np$;
+		mes "Você passou o ^006400Especialista em Campo de Batalha^000000! teste! Parabéns!";
+		mes "Agora, vá encontrar o ^006400Especialista em Dungeon Memorial^000000!";
+		close;
+	} else if (checkquest(4165) == 0 || checkquest(4165) == 1) {
+		mes .np$;
+		mes "Você passou o ^006400Especialista em Dungeon Memorial^000000 teste! Parabéns!";
+		mes "Agora, vá encontrar o ^006400Especialista em mapas^000000!";
+		close;
+	} else if (checkquest(4166) == 0 || checkquest(4166) == 1) {
+		mes .np$;
+		mes "Você passou ^006400Especialista em mapas^000000's teste! Parabéns!";
+		mes "Estou tão feliz por você ter passado em todos os testes dos Experts! Você é melhor do que eu esperava!!";
+		next;
+		mes .np$;
+		mes "Agora, até você é um ^006400Especialista^000000!! Um apelido tão apropriado para você!";
+		mes "Muito obrigado por seu trabalho duro. Como prometido, aqui está uma pequena recompensa para você.";
+		next;
+		mes .np$;
+		mes "Acho que será útil para você durante suas aventuras. Desejo-lhe sorte em suas futuras aventuras~";
+		completequest 4166;
+		getitem 510,5; //Blue_Herb
+		getitem 511,5; //Green_Herb
+		getitem 504,5; //White_Potion
+		getitem 608,1; //Seed_Of_Yggdrasil
+		close;
+	} else if (checkquest(4166) == 2) {
+		mes .np$;
+		mes "Agora, até você é um ^006400Especialista^000000!! Um apelido tão apropriado para você!";
+		mes "Muito obrigado por seu trabalho duro.";
+		mes "Espero que suas futuras aventuras sejam repletas de boa sorte.";
+		close;
+	}
+	if (Class == Job_Novice) {
+		mes .np$;
+		mes "Hmm, eu me pergunto se existe algum aventureiro que seja inteligente o suficiente para desafiar nossos Experts...";
+		close;
+	}
+	mes .np$;
+	mes "Ei você! Você parece um aventureiro... Embora pareça um pouco sem graça...";
+	next;
+	if(select("^3CB371[»]^000000 O que você disse? eu sou esperto!:^ff0000[»]^000000 Sim... eu sou chato") == 1) {
+		mes .np$;
+		mes "Sério? Embora eu não saiba se posso acreditar nisso. Olha o especialista que está na minha frente! Ele assumiu apenas uma área de estudo por 16 anos e agora ele é tão digno quanto pode ser!";
+		next;
+		mes .np$;
+		mes "Bem, se você conseguir passar em todos os testes deles, eu acreditarei em suas habilidades.";
+		next;
+		mes .np$;
+		mes "E vou me desculpar por te chamar de chato. Que tal, Dull Expert?! Você quer desafiá-los?";
+		next;
+		if(select("^3CB371[»]^000000 De... Desafio!!:^ff0000[»]^000000 Hum... acho que vou desistir agora...") == 1) {
+			mes .np$;
+			mes "Você é mais corajoso do que parece. Você não pode voltar agora que decidiu desafiar!";
+			next;
+			mes .np$;
+			mes "Ok~ Comece falando com o ^006400Especialista em Cerco^000000 que está bem na frente.";
+			setquest 4161;
+			close;
+		}
+	}
+	mes .np$;
+	mes "Bem, não desanime... Se você mudar de ideia e quiser fazer o desafio, venha me encontrar.";
+	close;
+}

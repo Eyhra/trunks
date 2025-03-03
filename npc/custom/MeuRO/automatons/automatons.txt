@@ -1,0 +1,41 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Automatons ==============================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Automatons	-1,{
+
+OnInit:
+  bindatcmd "autopot",strnpcinfo(3)+"::OnAutoPot";
+  bindatcmd "autobuff",strnpcinfo(3)+"::OnAutoBuff";
+  bindatcmd "autorestock",strnpcinfo(3)+"::OnAutoRestock";
+  end;
+OnAutoPot:
+  autopot AutoPotId[0],AutoPotThreshold[0],getarraysize(AutoPotId[0]);
+  specialeffect2 543;
+ end;
+OnAutoBuff:
+	autobuff AutoBuffId[0],AutoBuffLevel[0],getarraysize(AutoBuffId[0]);
+end;
+OnAutoRestock:
+	.@active=RestockActive;
+
+	autorestock getd("RestockId"+.@active+"[0]"),getd("RestockAmount"+.@active+"[0]"),getarraysize(getd("RestockId"+.@active));
+	useatcmd "@restock";
+end;
+}

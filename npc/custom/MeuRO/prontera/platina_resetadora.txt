@@ -1,0 +1,75 @@
+//==================================================
+// Script Para Habilidade de Platina - Resetadora
+//==================================================
+prontera,171,194,3	script	Resetador SkillPlatina	4_4JOB_EINHAR,{
+	//	 		Skills,	Stats,	Both,	Limit
+	setarray .@Reset,	5000,	5000,	9000,	0;
+	set .np$,"^00B2EE[ Satoru ]^000000";
+	cutin "4job_einhar_warp",1;
+
+	mes .np$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+	mes "Em minha longa jornada eu consegui aprender muitas coisas!";
+	mes "E agora eu tenho acesso a magia que me permite poder lhe dar habilidades de platina ou resetar suas pontos de habilidades e estatus!";
+	next;
+	switch(select("^3CB371[»]^000000 Habilidade de Platina:^3CB371[»]^000000 Resetadora:^ff0000[»]^000000 Sair")) {
+		case 1:
+			next;
+			mes .np$;
+			mes "Eu posso te dar as habilidades especiais da sua classe!";
+			mes "Você as quer receber agora?";
+			next;
+			if (select("^3CB371[»]^000000 Sim, por favor:^ff0000[»]^000000 Não, obrigado") == 2) {
+				mes .np$;
+				mes "Tenha um bom, dia então...";
+				close3;
+			}
+			callfunc "F_GetPlatinumSkills";
+			mes .np$;
+			mes "Aqui estão!";
+			close3;
+		case 2:
+			next;
+			mes .np$;
+			if(.@Reset[3] && reset_limit > .@Reset[3]) {
+				mes "Me desculpe, você pode resetar apenas "+callfunc("F_InsertPlural",.@Reset[3],"vez")+" na sua vida.";
+			close3;
+			}
+			mes "Eu sou a resetora de status e habilidades!";
+			mes "Resetar Stauts: "+ callfunc("F_InsertComma",.@Reset[1]) +"z";
+			mes "Resetar Habilidades: "+ callfunc("F_InsertComma",.@Reset[0]) +"z";
+			mes "Resetar Ambos: "+ callfunc("F_InsertComma",.@Reset[2]) +"z";
+			if(.@Reset[3]) mes "Você pode resetar apenas "+callfunc("F_InsertPlural",.@Reset[3],"vez")+", então pense bem.";
+			mes "Por favor escolha o que deseja fazer:";
+			next;
+			set .@i,(select("^3CB371[»]^000000 Resetar Habilidades:^3CB371[»]^000000 Resetar Status:^3CB371[»]^000000 Resetar Ambos:^ff0000[»]^000000 Cancelar"));
+			if(.@i > 3) close3;
+			mes .np$;
+			if (Zeny < .@Reset[.@i-1]) {
+				mes "Desculpe, você não tem zeny o suficiente.";
+			close3;
+			}
+			if(.@Reset[3]){
+				mes "Você pode resetar apenas "+callfunc("F_InsertPlural",.@Reset[3],"vez")+" na sua vida, você tem certeza?";
+			if(select("^3CB371[»]^000000 Vou pensar melhor:^3CB371[»]^000000 Estou certo disso") == 1) close3;
+			}
+			set Zeny, Zeny-.@Reset[.@i-1];
+			if(.@i&1){
+				sc_end_class;
+				ResetSkill;
+			}
+			if(.@i&2) ResetStatus;
+			mes "Aqui está!";
+			if(.@Reset[3]) set reset_limit,reset_limit + 1;
+			close3;
+		case 3:
+			next;
+			mes .np$;
+			mes "Tudo bem, me procure quando precisar.";
+			close3;
+	}
+    OnInit:
+	.@UID = getnpcid(0);
+    setunittitle(.@UID, "Satoru");
+    setunitdata .@UID, UNPC_GROUP_ID, 7;
+}

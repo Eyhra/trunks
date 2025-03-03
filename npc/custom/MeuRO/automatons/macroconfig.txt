@@ -1,0 +1,361 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal=======================================
+//==== Macro Configurator ======================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal======================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Macro Configurator	-1,{
+function f_main;
+function f_mes_macro;
+function f_print_macro;
+function f_step_type_is_skill;
+function f_step_type_is_item;
+function f_get_macro_skill_name;
+function f_get_macro_item_name;
+function f_modify_macro;
+function f_list_and_select_step;
+function f_modify_step;
+function f_activate_macro;
+function f_pick_skill;
+function f_pick_item;
+function f_set_step_type;
+function f_fill_remaining_steps;
+function f_insert_step;
+function f_delete_step;
+OnInit:
+setarray .available_skills_id[0],5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,24,25,26,27,28,29,30,31,32,33,34,35,40,41,42,45,46,47,50,51,52,53,54,56,57,58,59,60,61,62,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,83,84,85,86,87,88,89,90,91,92,93,108,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,129,130,131,135,136,137,138,139,140,141,142,143,146,147,148,149,150,151,152,153,154,155,156,157,211,212,214,215,216,217,218,219,220,221,222,228,229,230,231,232,233,234,235,236,237,243,244,247,249,250,251,252,253,254,255,256,257,258,261,262,264,266,267,268,269,270,271,272,273,275,276,277,279,280,281,282,283,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,316,317,318,319,320,321,322,324,325,326,327,328,329,330,355,356,357,358,359,361,362,366,367,368,369,370,371,372,373,374,375,378,379,380,381,382,383,384,385,386,387,388,389,390,394,395,396,397,398,399,401,402,403,404,405,406,407,446,459,464,467,468,469,475,476,477,478,479,480,482,483,485,486,487,488,489,490,491,495,496,497,498,499,500,501,502,503,504,505,506,507,508,512,513,514,515,516,517,518,519,520,521,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,698,1001,1002,1004,1005,1006,1007,1008,1009,1010,1011,1013,1014,1015,1016,1017,1018,1019;
+setarray .available_skills_name$[0],"[5]Bash","[6]Provoke","[7]Magnum Break","[8]Endure","[10]Sight","[11]Napalm Beat","[12]Safety Wall","[13]Soul Strike","[14]Cold Bolt","[15]Frost Diver","[16]Stone Curse","[17]Fire Ball","[18]Fire Wall","[19]Fire Bolt","[20]Lightning Bolt","[21]Thunderstorm","[24]Ruwach","[25]Pneuma","[26]Teleport","[27]Warp Portal","[28]Heal","[29]Increase AGI","[30]Decrease AGI","[31]Aqua Benedicta","[32]Signum Crucis","[33]Angelus","[34]Blessing","[35]Cure","[40]Item Appraisal","[41]Vending","[42]Mammonite","[45]Improve Concentration","[46]Double Strafe","[47]Arrow Shower","[50]Steal","[51]Hiding","[52]Envenom","[53]Detoxify","[54]Resurrection","[56]Pierce","[57]Brandish Spear","[58]Spear Stab","[59]Spear Boomerang","[60]Twohand Quicken","[61]Counter Attack","[62]Bowling Bash","[66]Impositio Manus","[67]Suffragium","[68]Aspersio","[69]B.S. Sacramenti","[70]Sanctuary","[71]Slow Poison","[72]Status Recovery","[73]Kyrie Eleison","[74]Magnificat","[75]Gloria","[76]Lex Divina","[77]Turn Undead","[78]Lex Aeterna","[79]Magnus Exorcismus","[80]Fire Pillar","[81]Sightrasher","[83]Meteor Storm","[84]Jupitel Thunder","[85]Lord of Vermilion","[86]Water Ball","[87]Ice Wall","[88]Frost Nova","[89]Storm Gust","[90]Earth Spike","[91]Heaven's Drive","[92]Quagmire","[93]Sense","[108]Weapon Repair","[110]Hammer Fall","[111]Adrenaline Rush","[112]Weapon Perfection","[113]Power-Thrust","[114]Maximize Power","[115]Skid Trap","[116]Land Mine","[117]Ankle Snare","[118]Shockwave Trap","[119]Sandman","[120]Flasher","[121]Freezing Trap","[122]Blast Mine","[123]Claymore Trap","[124]Remove Trap","[125]Talkie Box","[129]Blitz Beat","[130]Detect","[131]Spring Trap","[135]Cloaking","[136]Sonic Blow","[137]Grimtooth","[138]Enchant Poison","[139]Poison React","[140]Venom Dust","[141]Venom Splasher","[142]First Aid","[143]Play Dead","[146]Auto Berserk","[147]Arrow Crafting","[148]Arrow Repel","[149]Sand Attack","[150]Back Slide","[151]Find Stone","[152]Stone Fling","[153]Cart Revolution","[154]Change Cart","[155]Crazy Uproar","[156]Holy Light","[157]Energy Coat","[211]Mug","[212]Back Stab","[214]Sightless Mind","[215]Divest Weapon","[216]Divest Shield","[217]Divest Armor","[218]Divest Helm","[219]Snatch","[220]Scribble","[221]Piece","[222]Remover","[228]Prepare Potion","[229]Bomb","[230]Acid Terror","[231]Aid Potion","[232]Summon Flora","[233]Summon Marine Sphere","[234]Alchemical Weapon","[235]Synthesized Shield","[236]Synthetic Armor","[237]Biochemical Helm","[243]Call Homunculus","[244]Vaporize","[247]Homunculus Resurrection","[249]Guard","[250]Smite","[251]Shield Boomerang","[252]Shield Reflect","[253]Holy Cross","[254]Grand Cross","[255]Sacrifice","[256]Resistant Souls","[257]Defending Aura","[258]Spear Quicken","[261]Summon Spirit Sphere","[262]Absorb Spirit Sphere","[264]Snap","[266]Occult Impaction","[267]Throw Spirit Sphere","[268]Mental Strength","[269]Root","[270]Fury","[271]Asura Strike","[272]Raging Quadruple Blow","[273]Raging Thrust","[275]Cast Cancel","[276]Magic Rod","[277]Spell Breaker","[279]Hindsight","[280]Endow Blaze","[281]Endow Tsunami","[282]Endow Tornado","[283]Endow Quake","[285]Volcano","[286]Deluge","[287]Whirlwind","[288]Magnetic Earth","[289]Dispell","[290]Hocus-pocus","[291]Monocell","[292]Class Change","[293]Monster Chant","[294]Grampus Morph","[295]Grim Reaper","[296]Gold Digger","[297]Beastly Hypnosis","[298]Questioning","[299]Gravity","[300]Leveling","[301]Suicide","[302]Rejuvenation","[303]Coma","[304]Amp","[305]Encore","[306]Lullaby","[307]Mental Sensing","[308]Down Tempo","[309]Battle Theme","[310]Harmonic Lick","[311]Classical Pluck","[312]Power Chord","[313]Acoustic Rhythm","[316]Melody Strike","[317]Unchained Serenade","[318]Unbarring Octave","[319]Perfect Tablature","[320]Impressive Riff","[321]Magic Strings","[322]Song of Lutie","[324]Slinging Arrow","[325]Hip Shaker","[326]Dazzler","[327]Focus Ballet","[328]Slow Grace","[329]Lady Luck","[330]Gypsy's Kiss","[355]Aura Blade","[356]Parrying","[357]Concentration","[358]Relax","[359]Frenzy","[361]Assumptio","[362]Basilica","[366]Mystical Amplification","[367]Gloria Domini","[368]Martyr's Reckoning","[369]Battle Chant","[370]Raging Palm Strike","[371]Glacier Fist","[372]Chain Crush Combo","[373]Indulge","[374]Soul Exhale","[375]Soul Siphon","[378]Enchant Deadly Poison","[379]Soul Destroyer","[380]Falcon Eyes","[381]Falcon Assault","[382]Focused Arrow Strike","[383]Wind Walker","[384]Shattering Strike","[385]Create Coins","[386]Create Nuggets","[387]Cart Boost","[388]Auto Attack System","[389]Stealth","[390]Counter Instinct","[394]Vulcan Arrow","[395]Sheltering Bliss","[396]Marionette Control","[397]Spiral Pierce","[398]Traumatic Blow","[399]Vital Strike","[401]Zen","[402]Mind Breaker","[403]Foresight","[404]Blinding Mist","[405]Fiber Lock","[406]Meteor Assault","[407]Create Deadly Poison","[446]Aid Berserk Potion","[459]Advanced Adrenaline Rush","[464]Kaupe","[467]Estin","[468]Estun","[469]Esma","[475]Preserve","[476]Divest All","[477]Upgrade Weapon","[478]Aid Condensed Potion","[479]Full Protection","[480]Shield Chain","[482]Double Casting","[483]Ganbanteim","[485]Cart Termination","[486]Maximum Power Thrust","[487]Longing for Freedom","[488]Wand of Hermode","[489]Tarot Card of Fate","[490]Acid Demonstration","[491]Plant Cultivation","[495]Onehand Quicken","[496]Twilight Alchemy 1","[497]Twilight Alchemy 2","[498]Twilight Alchemy 3","[499]Beast Strafing","[500]Flip the Coin","[501]Fling","[502]Triple Action","[503]Bulls Eye","[504]Madness Canceller","[505]Adjustment","[506]Increasing Accuracy","[507]Magical Bullet","[508]Cracker","[512]Tracking","[513]Disarm","[514]Piercing Shot","[515]Rapid Shower","[516]Desperado","[517]Gatling Fever","[518]Dust","[519]Full Buster","[520]Spread Attack","[521]Ground Drift","[523]Throw Shuriken","[524]Throw Kunai","[525]Throw Huuma Shuriken","[526]Throw Zeny","[527]Improvised Defense","[528]Vanishing Slash","[529]Shadow Leap","[530]Shadow Slash","[531]Cicada Skin Sheeding","[532]Mirror Image","[533]Spirit of the Blade","[534]Crimson Fire Petal","[535]Crimson Fire Formation","[536]Raging Fire Dragon","[537]Spear of Ice","[538]Hidden Water","[539]Ice Meteor","[540]Wind Blade","[541]Lightning Strike of Destruction","[542]Kamaitachi","[543]Soul","[544]Final Strike","[698]Christmas Carol","[1001]Charge Attack","[1002]Shrink","[1004]Throw Venom Knife","[1005]Close Confine","[1006]Sight Blaster","[1007]Create Elemental Converter","[1008]Elemental Change Water","[1009]Phantasmic Arrow","[1010]Pang Voice","[1011]Wink of Charm","[1013]Greed","[1014]Redemptio","[1015]Ki Translation","[1016]Ki Explosion","[1017]Elemental Change Earth","[1018]Elemental Change Fire","[1019]Elemental Change Wind";
+setarray .target_type$[0],"Foe","No Target","Ground","Support";
+.MACRO_ITEM_START_ID=40001;
+.npc$ = "[" + strnpcinfo(3) + "]";
+.previous$ = "<-- Previous menu";
+for(.@i = 0; .@i < getarraysize(.available_skills_name$); .@i++){
+  .@endindex=strpos(.available_skills_name$[.@i],"]",0);
+  .available_skills_name$[.@i]=substr(.available_skills_name$[.@i],.@endindex+1,getstrlen(.available_skills_name$[.@i])-1);
+}
+
+bindatcmd "macroconfig",strnpcinfo(3)+"::OnAtCommand";
+end;
+
+OnPCLoginEvent:
+for(.@macro = 1; .@macro < MAX_MACRO + 1; ++.@macro){
+  .@size = getarraysize(getd("MacroId"+.@macro));
+  if(.@size && getd("MacroId"+.@macro+"[0]"))
+    registermacro getd("MacroId"+.@macro+"[0]"),getd("MacroType"+.@macro+"[0]"),.@size,.@macro;
+}
+end;
+
+OnAtCommand:
+while(!f_main());
+end;
+
+function f_main{
+  .@menu$="";
+  for(.@i = 1; .@i <= MAX_MACRO + 1; ++.@i){
+    .@display$="";
+    .@n_steps = getarraysize(getd("MacroId"+.@i));
+    if(getd("MacroId"+.@i +"[0]")){
+      .@display$+=f_print_macro(.@i);
+    }else if(.@i < MAX_MACRO + 1){
+      .@display$+="Available";
+    }
+    .@menu$+=.@display$;
+    .@menu$+=":";
+  }
+  .@macro = select(.@menu$);
+  while(!f_modify_macro(.@macro));
+  return false;
+}
+function f_print_macro{
+  .@display$="";
+  .@i = getarg(0);
+  .@n_steps = getarraysize(getd("MacroId"+.@i));
+  if(getd("MacroId"+.@i +"[0]")){
+    .@display$+="M"+.@i+"["+.target_type$[getd("MacroTarget"+.@i)]+"] = ";
+    for(.@j = 1; .@j <= .@n_steps; ++.@j){
+      if(f_step_type_is_skill(.@i,.@j)){
+	.@display$+=f_get_macro_skill_name(.@i,.@j);
+	if(.@j < .@n_steps)
+	  .@display$+="->";
+      }else if(f_step_type_is_item(.@i,.@j)){
+	.@display$+=f_get_macro_item_name(.@i,.@j);
+	if(.@j < .@n_steps)
+	  .@display$+="->";
+      }
+    }
+  }
+return .@display$;
+}
+function f_mes_macro{
+  clear;
+  mes .npc$;
+  .@display$="";
+  .@i = getarg(0);
+  .@n_steps = getarraysize(getd("MacroId"+.@i));
+  if(getd("MacroId"+.@i +"[0]")){
+    mes "-----------------------------------";
+    mes "Macro "+.@i+" ("+.target_type$[getd("MacroTarget"+.@i)]+") :";
+    for(.@j = 1; .@j <= .@n_steps; ++.@j){
+      if(f_step_type_is_skill(.@i,.@j))
+	mes .@j + ". " + f_get_macro_skill_name(.@i,.@j);
+      else if(f_step_type_is_item(.@i,.@j))
+	mes .@j + ". " + f_get_macro_item_name(.@i,.@j);
+    }
+  }
+  return;
+}
+
+function f_step_type_is_skill{
+  .@macro = getarg(0);
+  .@step = getarg(1);
+  return getd("MacroType"+.@macro+"["+(.@step-1)+"]") == 1;
+}
+function f_step_type_is_item{
+  .@macro = getarg(0);
+  .@step = getarg(1);
+  return getd("MacroType"+.@macro+"["+(.@step-1)+"]") == 2;
+}
+function f_get_macro_skill_name{
+  .@macro = getarg(0);
+  .@step = getarg(1);
+  return getskillname(getd("MacroId"+.@macro+"["+(.@step-1)+"]"));
+}
+function f_get_macro_item_name{
+  .@macro = getarg(0);
+  .@step = getarg(1);
+  return getitemname(getd("MacroId"+.@macro+"["+(.@step-1)+"]"));
+}
+
+function f_modify_macro{
+  .@macro = getarg(0);
+  .@add_step$ = "Add/Modify steps";
+  if(getd("MacroId"+.@macro+"["+0+"]")){
+    .@save_macro$ = ">>>>Activate macro<<<<";
+    .@clear_macro$ = "^990000Clear macro^000000";
+  }
+  if(getarraysize(.@entry$))
+    .@list$=implode(.@entry$,":");
+  mes sprintf("Selected macro : %d",.@macro);
+  f_mes_macro(.@macro);
+  menu .@add_step$,L_Add,.@save_macro$,L_Save,.@clear_macro$,L_Clear,.previous$,-;
+  return true;
+
+  L_Add:
+  while(!f_list_and_select_step(.@macro));
+  return false;
+
+  L_Save:
+  f_activate_macro(.@macro);
+  return false;
+
+  L_Clear:
+  for(.@s = 0; .@s < MAX_MACRO_STEPS; ++.@s){
+   setd "MacroId"+.@macro+"["+(.@s)+"]",0;
+   setd "MacroType"+.@macro+"["+(.@s)+"]",0;
+  }
+  dispbottom "Cleared macro " + .@macro;
+  return false;
+
+}
+
+function f_activate_macro{
+  .@macro = getarg(0);
+
+  .@enemy$ = "Target / Foe";
+  .@self$ = "No Target";
+  .@ground$ = "Ground";
+  .@support$ = "Support / Self";
+  setarray .@targets$,.@enemy$,.@self$,.@ground$,.@support$;
+
+  .@target$ = .@enemy$ + ":" + .@self$ + ":" + .@ground$ + ":" + .@support$;
+  menu .@target$,L_Target_Type,.previous$,-;
+  return true;
+
+  L_Target_Type:
+  setd "MacroTarget"+.@macro,@menu - 1;
+  if(!countitem(.MACRO_ITEM_START_ID+.@macro -1)){
+    getitem (.MACRO_ITEM_START_ID+.@macro - 1),1;
+  }
+  registermacro getd("MacroId"+.@macro+"[0]"),getd("MacroType"+.@macro+"[0]"),getarraysize(getd("MacroId"+.@macro+"[0]")),.@macro;
+
+  dispbottom sprintf("Macro %d has been loaded with target `%s`",.@macro,.@targets$[@menu-1]);
+  end;
+}
+
+function f_list_and_select_step{
+  .@macro = getarg(0);
+  for(.@i = 0; .@i < MAX_MACRO_STEPS; ++.@i){
+    if(getd("MacroId"+.@macro+"["+.@i+"]")){
+      .@collection$[.@i] = (.@i+1)+"}";
+      if(getd("MacroType"+.@macro+"["+(.@i)+"]")==1)
+	.@collection$[.@i]+=" -> " + getskillname(getd("MacroId"+.@macro+"["+(.@i)+"]"));
+      if(getd("MacroType"+.@macro+"["+(.@i)+"]")==2)
+	.@collection$[.@i]+=" -> " + getitemname(getd("MacroId"+.@macro+"["+(.@i)+"]"));
+    }
+  }
+  .@size=getarraysize(.@collection$);
+  if(!.@size){
+    .@list$ = "1} Available";
+  }else{
+    .@list$ = implode(.@collection$,":");
+    cleararray .@collection$,"",getarraysize(.@collection$);
+    .@new$="";
+    if(.@size < MAX_MACRO_STEPS)
+      .@new$="New step";
+  }
+  menu .@list$,L_List,.@new$,L_New,.previous$,-;
+  return true;
+
+  L_New:
+  L_List:
+  f_modify_step(.@macro,@menu - 1);
+  return false;
+}
+
+
+function f_modify_step{
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  .@set_step_type$="Set step";
+  if(getd("MacroId"+.@macro+"["+(.@id)+"]")){
+    .@clear_step$ = "Clear entry and move list up";
+    .@fill_all_remaining_steps$ = "Fill all remaining steps with that entry";
+  }
+  if(.@id < getarraysize(getd("MacroId"+.@macro)) - 1 && getarraysize(getd("MacroId"+.@macro)) < MAX_MACRO_STEPS)
+    .@insert_step$ = "Insert new entry and move list down";
+  menu .@set_step_type$,L_Set_Type,.@insert_step$,L_Insert_Step,.@clear_step$,L_Clear_Step,.@fill_all_remaining_steps$,L_Fill_Remaining_Steps,.previous$,-;
+  return true;
+
+  L_Set_Type:
+  .@macro = getarg(0,.@macro)
+  .@id = getarg(1,.@id);
+  f_set_step_type(.@macro,.@id);
+  return false;
+  L_Fill_Remaining_Steps:
+  f_fill_remaining_steps(.@macro,.@id);
+  return false;
+  L_Insert_Step:
+  f_insert_step(.@macro,.@id);
+  return false;
+
+  L_Clear_Step:
+  f_delete_step(.@macro,.@id);
+  return false;
+
+}
+function f_set_step_type{
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  menu "Set skill",L_Set_Skill,"Set equipment",L_Set_Equipment,.previous$,-;
+  return true;
+  L_Set_Skill:
+  setd "MacroType"+.@macro+"["+(.@id)+"]",1;
+  f_pick_skill(.@macro,.@id);
+  return false;
+
+  L_Set_Equipment:
+  setd "MacroType"+.@macro+"["+(.@id)+"]",2;
+  f_pick_item(.@macro,.@id);
+  return false;
+}
+
+function f_fill_remaining_steps{
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  if(.@id >= MAX_MACRO_STEPS - 1)
+    return false;
+
+  for(.@i = .@id; .@i < MAX_MACRO_STEPS;++.@i){
+    setd "MacroId"+.@macro+"["+(.@i)+"]",getd("MacroId"+.@macro+"["+(.@id)+"]");
+    setd "MacroType"+.@macro+"["+(.@i)+"]",getd("MacroType"+.@macro+"["+(.@id)+"]");
+  }
+  return false;
+}
+
+function f_insert_step{
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  .@size = getarraysize(getd("MacroId"+.@macro));
+  if(.@size == MAX_MACRO_STEPS)
+    return false;
+
+  for(.@i = .@size; .@i > .@id;--.@i){
+    setd "MacroId"+.@macro+"["+(.@i)+"]",getd("MacroId"+.@macro+"["+(.@i-1)+"]");
+    setd "MacroType"+.@macro+"["+(.@i)+"]",getd("MacroType"+.@macro+"["+(.@i-1)+"]");
+  }
+
+  //    setd "MacroId"+.@macro+"["+(.@id)+"]",0;
+  //    setd "MacroType"+.@macro+"["+(.@id)+"]",0;
+  f_set_step_type(.@macro,.@id + 1);
+  return false;
+}
+function f_delete_step{
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  .@size = getarraysize(getd("MacroId"+.@macro));
+  for(.@i = .@id; .@i < .@size - 1;++.@i){
+    setd "MacroId"+.@macro+"["+.@i+"]",getd("MacroId"+.@macro+"["+(.@i+1)+"]");
+    setd "MacroType"+.@macro+"["+.@i+"]",getd("MacroType"+.@macro+"["+(.@i+1)+"]");
+  }
+  setd "MacroId"+.@macro+"["+(.@size - 1)+"]",0;
+  setd "MacroType"+.@macro+"["+(.@size - 1)+"]",0;
+  dispbottom "Cleared entry " + (1+.@macro) + " from macro " + .@macro;
+  return false;
+}
+function f_pick_skill {
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  getskilllist();
+  freeloop(1);
+  for(.@j = 0; .@j < getarraysize(.available_skills_id);++.@j){
+    for(.@i = 0; .@i < @skilllist_count; .@i++){
+      if(.available_skills_id[.@j]==@skilllist_id[.@i]){
+	.@menu$ += getskillname(@skilllist_id[.@i]);
+	break;
+      }
+    }
+    .@menu$+=":";
+  }
+  freeloop(0);
+  .@select = select(.@menu$)-1;
+  setd "MacroId" + .@macro + "["+(.@id)+"]",.available_skills_id[.@select];
+  return false;
+}
+
+function f_pick_item {
+  .@macro = getarg(0);
+  .@id = getarg(1);
+  getinventorylist();
+  freeloop(1);
+  for(.@i = 0; .@i < @inventorylist_count; .@i++){
+    .@type = getiteminfo(@inventorylist_id[.@i],ITEMINFO_TYPE);
+    if(.@type == 4 || .@type == 5){
+      .@menu$+=getitemname(@inventorylist_id[.@i]);
+      for(.@j = 1; .@j <= 4; ++.@j){
+	setd ".@card"+.@j,getd("@inventorylist_card"+.@j+"["+.@i+"]");
+	if(getd(".@card"+.@j) >0)
+	  .@menu$+=" ["+getitemname(getd(".@card"+.@j))+"]";
+      }
+    }
+    .@menu$+=":"; //this increments the select counter
+  }
+  freeloop(0);
+  .@select=select(.@menu$)-1;
+  setd "MacroId"+.@macro+"["+(.@id)+"]", @inventorylist_id[.@select];
+  return false;
+}
+}

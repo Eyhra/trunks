@@ -1,0 +1,42 @@
+// F_ShuffleNumbers( <start num>, <last num>, <output array>{, <count>} );
+function	script	F_ShuffleNumbers	{
+    deletearray getarg(2);
+    .@static = getarg(0);
+    .@range = getarg(1) +1 - .@static;
+    .@count = getarg(3, .@range);
+    if (.@range <= 0 || .@count <= 0)
+        return 0;
+    if (.@count > .@range)
+        .@count = .@range;
+    for (.@i = 0; .@i < .@range; ++.@i)
+        .@temparray[.@i] = .@i;
+    for (.@i = 0; .@i < .@count; ++.@i) {
+        .@rand = rand(.@range);
+        set getelementofarray( getarg(2), .@i ), .@temparray[.@rand] + .@static;
+        .@temparray[.@rand] = .@temparray[--.@range];
+    }
+    return .@count;
+}
+
+//-	script	sjdfkhsf	-1,{
+//OnInit:
+//    .itemid = 501;
+//    .amount = 10;
+//    bindatcmd "test", strnpcinfo(0)+"::OnDebug", 99, 100;
+//    end;
+//OnMinute00:
+//    if ( gettime(DT_HOUR) % 2 ) end;
+//OnDebug:
+//    .@size = getunits( BL_PC, .@aid );
+//    F_ShuffleNumbers( 0, .@size -1, .@r );
+//    for ( .@i = 0; .@i < .@size; ++.@i ) {
+//        attachrid .@aid[.@r[.@i]];
+//        if ( getgmlevel() < 60 && ( checkvending() & (2|4) ) == 0 ) {
+//        if ( getgmlevel() < 60 && ( checkvending() & (2|4) ) == 0 && checkidle() < 60 ) {
+//            announce strcharinfo(0) +" ganhou o sorteio da sorte !!",bc_all;
+//            mail getcharid(0), "Sorteio da sorte", "Prêmio", "Aqui está o prêmio do sorteio", 0, .itemid, .amount;
+//            break;
+//        }
+//    }
+//    end;
+//}

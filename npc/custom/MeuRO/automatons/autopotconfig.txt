@@ -1,0 +1,156 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Autopot Configurator ====================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Autopot Configurator	-1,{
+ OnInit:
+  setarray .available_pots_id[0],504,505,506,522,523,525,526,547,605,606,607,608,645,656,657,662,11501,11502,11503,11504,11518,12020,12029,12030,12031,12114,12115,12116,12117,12118,12119,12120,12121,12262,14509,14510,14511,14536,12202,12203,12204,12205,12206,12207,12072,12077,12082,12087,12092,12097;
+  setarray .available_pots_name$[0],"[504]White Potion","[505]Blue Potion","[506]Green Potion","[522]Mastela Fruit","[523]Holy Water","[525]Panacea","[526]Royal Jelly","[547]Condensed White Potion","[605]Anodyne","[606]Aloevera","[607]Yggdrasil Berry","[608]Yggdrasil Seed","[645]Concentration Potion","[656]Awakening Potion","[657]Berserk Potion","[662]Authoritative Badge","[11501]Light White Potion","[11502]Light Blue Potion","[11503]WoE White Potion","[11504]WoE Blue Potion","[11518]Blue Potion","[12020]Cursed Water","[12029]Box of Gloom","[12030]Box of Resentment","[12031]Box of Drowsiness","[12114]Elemental Converter Fire","[12115]Elemental Converter Water","[12116]Elemental Converter Earth","[12117]Elemental Converter Wind","[12118]Fireproof Potion","[12119]Coldproof Potion","[12120]Earthproof Potion","[12121]Thunderproof Potion","[12262]Authoritative Badge","[14509]Light Concentration Potion","[14510]Light Awakening Potion","[14511]Light Berserk Potion","[14536]Abrasive","[12202]Str+10","[12203]Agi+10","[12204]Int+10","[12205]Dex+10","[12206]Luk+10","[12207]Vit+10","[12072]Str+7","[12077]Agi+7","[12082]Vit+7","[12087]Agi+7","[12092]Dex+7","[12097]Luk+7";
+  setarray .available_pots_ask$[0],"[504]1","[505]1","[506]0","[522]1","[523]0","[525]0","[526]0","[547]1","[605]0","[606]0","[607]1","[608]1","[645]0","[656]0","[657]0","[662]0","[11501]1","[11502]1","[11503]1","[11504]1","[11518]1","[12020]0","[12029]0","[12030]0","[12031]0","[12114]0","[12115]0","[12116]0","[12117]0","[12118]0","[12119]0","[12120]0","[12121]0","[12262]0","[14509]0","[14510]0","[14511]0","[14536]0","[12202]0","[12203]0","[12204]0","[12205]0","[12206]0","[12207]0","[12072]0","[12077]0","[12082]0","[12087]0","[12092]0","[12097]0";
+  setarray .available_pots_buff$[0],"[504]0","[505]0","[506]0","[522]0","[523]0","[525]0","[526]0","[547]0","[605]1","[606]1","[607]0","[608]0","[645]0","[656]0","[657]0","[662]0","[11501]0","[11502]0","[11503]0","[11504]0","[11518]0","[12020]1","[12029]1","[12030]0","[12031]0","[12114]1","[12115]1","[12116]1","[12117]1","[12118]0","[12119]0","[12120]0","[12121]0","[12262]0","[14509]0","[14510]0","[14511]0","[14536]0","[12202]0","[12203]0","[12204]0","[12205]0","[12206]0","[12207]0","[12072]0","[12077]0","[12082]0","[12087]0","[12092]0","[12097]0";
+
+  //set this to enable buff potions ( to be used with @autobuff )
+  set .AUTOBUFF, true;
+
+  for(.@i = 0; .@i < getarraysize(.available_pots_name$); .@i++){
+    .@endindex=strpos(.available_pots_name$[.@i],"]",0);
+    .available_pots_name$[.@i]=substr(.available_pots_name$[.@i],.@endindex+1,getstrlen(.available_pots_name$[.@i])-1);
+    .available_pots_ask$[.@i]=substr(.available_pots_ask$[.@i],.@endindex+1,getstrlen(.available_pots_ask$[.@i])-1);
+    .available_pots_buff$[.@i]=substr(.available_pots_buff$[.@i],.@endindex+1,getstrlen(.available_pots_buff$[.@i])-1);
+  }
+
+  bindatcmd "autopotconfig",strnpcinfo(3)+"::OnAtCommand";
+  end;
+ OnAtCommand:
+
+  if(getstatus(SC_AUTOPOT,0)){// stopping
+    autopot AutopotId[0],AutopotThreshold[0],getarraysize(AutopotId[0]);
+  }
+  while(1){
+    mes "[Autopot Configurator]";
+    callsub S_DisplayPot;
+    .@menu = select("Add/Modify:^dc143c[Reset all]^000000:Run @autopot");
+    if(.@menu==1)
+      callsub S_SelectPots;
+    else if(.@menu==2){
+      freeloop(1);
+      for(.@i = 0; .@i <getarraysize(.available_pots_id); .@i++){
+	AutopotId[.@i]=0;
+	AutopotThreshold[.@i]=0;
+      }
+      freeloop(0);
+    }
+    else if(.@menu==3){
+      useatcmd "@autopot";
+      mes "Executing @autopot...";
+      close;
+    }
+
+    clear;
+  }
+  end;
+
+ S_DisplayPot:
+
+  getinventorylist();
+  .@available_pots_count=getarraysize(.available_pots_id);
+  freeloop(1);
+  for(.@i = 0; .@i < getarraysize(AutopotId[0]); .@i++){
+    for(.@y=0; .@y < .@available_pots_count; .@y++){
+      if(AutopotId[.@i] == .available_pots_id[.@y]){
+	.@s$=.available_pots_name$[.@y]+"^00FF00"+"["+AutopotId[.@i]+"]"+"^000000";
+	if(atoi(.available_pots_ask$[.@y])>0)
+	  .@s$+= " < " + AutopotThreshold[.@i]+"%";
+	if(.AUTOBUFF && atoi(.available_pots_buff$[.@y])>0)
+	  .@s$+= " ^0000FF(Requires @autobuff)^000000";
+	mes .@s$;
+      }
+
+    }
+
+  }
+  freeloop(0);
+
+  return;
+ S_SelectPots:
+  getinventorylist();
+  .@k=0,.@a=0,.@i=0;
+  .@available_pots_count=getarraysize(.available_pots_id);
+  freeloop(1);
+  for(.@j = 0 ; .@j < .@available_pots_count; .@j++){
+    for(.@a = 0; .@a < getarraysize(AutopotId[0]); .@a++){
+      if(AutopotId[.@a]==.available_pots_id[.@j]){
+	.@menu$+="^00008b"+.available_pots_name$[.@j];
+	if(.AUTOBUFF && atoi(.available_pots_buff$[.@j])>0)
+	  .@menu$+= " ^0000FF(@)^000000";
+	if(AutopotThreshold[.@a] > 0){
+	  if(atoi(.available_pots_ask$[.@j]) == 0){
+	    .@menu$+=" [ON] ^000000";
+	  }
+	  else{
+	    .@menu$+=" [" +AutopotThreshold[.@a] + "%]^000000";
+	  }
+
+	}
+	break;
+      }
+    }
+    if(.@a == getarraysize(AutopotId[0])){
+      for(.@i = 0; .@i < @inventorylist_count; .@i++){
+	if(@inventorylist_id[.@i] == .available_pots_id[.@j]){
+	  .@menu$+=.available_pots_name$[.@j];
+	  if(.AUTOBUFF && atoi(.available_pots_buff$[.@j])>0)
+	    .@menu$+= " ^0000FF(@)^000000";
+	  break;
+	}
+      }
+      if(.@i == @inventorylist_count){
+	//	.@menu$+="^ababab"+.available_pots_name$[.@j]+"^000000";
+      }
+    }
+
+    .@menu$+=":"; //this increments the select counter
+
+  }
+  freeloop(0);
+  .@menu$+=":<-- Previous menu";
+  .@result = select(.@menu$)-1;
+  clear;
+
+  if(.@result == .@available_pots_count + 1)
+    return;
+  else{
+    AutopotId[.@result]=.available_pots_id[.@result];
+    if(atoi(.available_pots_ask$[.@result])>0){
+      mes "% life (or mana) under which the pot should be used?";
+      input .@threshold,0,100;
+    }else{
+      if(AutopotThreshold[.@result])
+	.@threshold=0;
+      else
+	.@threshold=101;
+    }
+    AutopotThreshold[.@result]=.@threshold;
+    if(.@threshold==0)
+      AutopotId[.@result]=0;
+  }
+  clear;
+  callsub S_DisplayPot;
+  return;
+}

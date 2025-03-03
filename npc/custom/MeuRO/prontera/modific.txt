@@ -1,0 +1,32 @@
+//==================================================
+//==============Modificações DO SERVIDOR===================
+//==================================================
+prontera,133,189,7	script	Modificações	4_m_believer02,{
+
+	mes "^0000CD[Modificações -MeuRO]^000000";
+
+	//mes "^DC143C---------------------^000000";
+	mes "<ITEM>Carta Besouro-Ladrão Dourado<INFO>4128</INFO></ITEM>.";
+	mes "<ITEM>Carta Doppelganger<INFO>4142</INFO></ITEM>.";
+	mes "<ITEM>Carta Drake<INFO>4137</INFO></ITEM>.";
+	mes "<ITEM>Carta Eddga<INFO>4123</INFO></ITEM>.";
+	mes "<ITEM>Carta Angeling<INFO>4054</INFO></ITEM>.";
+	mes "<ITEM>Carta Maya<INFO>4146</INFO></ITEM>.";
+	mes "<ITEM>Carta Atroce<INFO>4425</INFO></ITEM>.";
+	mes "<ITEM>Carta Ifrit<INFO>4430</INFO></ITEM>.";
+	mes "<ITEM>Carta Phreeon<INFO>4121</INFO></ITEM>.";
+	mes "<ITEM>Carta Belzebu<INFO>4145</INFO></ITEM>.";
+	mes "<ITEM>Carta Detardeurus<INFO>4386</INFO></ITEM>.";
+	mes "<ITEM>Carta Necromante<INFO>4440</INFO></ITEM>.";
+	mes "<ITEM>Carta Zipper<INFO>4281</INFO></ITEM>.";
+
+
+
+
+	close;
+OnInit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Tanso");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}

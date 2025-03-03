@@ -1,0 +1,90 @@
+itemmall,19,74,5	script	Estilista#cash	91,{
+	mes "[Stilista]";
+	mes "Ei, eu sou Kaniki.";
+	mes "Estou aqui para começar um novo tendência introduzindo meus novos penteados especiais!";
+	mes "Dê-me um ^ FF0000Novo Cupom de Estilo ^ 000000, e eu vou mudar o seu cabelo.";
+	next;
+	if (Sex == SEX_MALE) {
+		mes "[Kaniki]";
+		mes "Eu tenho dois penteados especiais para homens, o Curar de Emergência Permanente e o corte.";
+		mes "Lâmina de Aura";
+		next;
+		cutin "hair_m_24.bmp",4;
+		mes "[Kaniki]";
+		mes "Esta é Cura de Emergência Permanente.";
+		mes "É um estilo que eu inventei recentemente.";
+		mes "O que você acha? Legal, né?";
+		next;
+		cutin "",255;
+		cutin "hair_m_25.bmp",4;
+		mes "[Kaniki]";
+		mes "Agora é o corte de Lâmina de Aura.";
+		mes "Você nunca viu nada assim antes, não foi?";
+		next;
+		cutin "",255;
+	}else{
+		mes "[Kaniki]";
+		mes "Eu tenho dois novos penteados para mulheres, o Assumptio Permanente e o Corte de Troca Espiritual.";
+		mes "Quer ver como estes penteados são?";
+		next;
+		cutin "hair_f_24.bmp",4;
+		mes "[Kaniki]";
+		mes "Este é o Assumptio Permanente.";
+		mes "Ficaria muito bom em você, não acha?";
+		next;
+		cutin "",255;
+		cutin "hair_f_25.bmp",4;
+		mes "[Kaniki]";
+		mes "Em seguida o Corte de Troca Espiritual.";
+		mes "O que você acha? Não é muito legal?";
+		next;
+		cutin "",255;
+	}
+	mes "[Kaniki]";
+	mes "Decidiu se vai querer que eu mude o seu penteado?";
+	next;
+	if(select("Mudar Penteado:Não mudar") == 1) {
+		if (countitem(7622) > 0) {
+			mes "[Kaniki]";
+			mes "Ótimo, você trouxe um";
+			mes "^FF0000Cupom de Corte de Cabelo^000000"; 
+			mes "Tudo certo, qual penteado";
+			mes "você quer?";
+			next;
+			if (Sex == SEX_MALE) {
+				if(select("Cura de Emergência Permanente:Corte de Lâmina de Aura") == 1) {
+					delitem 7622,1;	// Cupom de Corte de Cabelo
+					setlook 1,24;
+				}else{
+					delitem 7622,1;	// Cupom de Corte de Cabelo
+					setlook 1,25;
+				}
+			}else{
+				if(select("Assumptio Permanente:Corte de Troca Espiritual") == 1) {
+					delitem 7622,1;	// Cupom de Corte de Cabelo
+					setlook 1,24;
+				}else{
+					delitem 7622,1;	// Cupom de Corte de Cabelo
+					setlook 1,25;
+				}
+			}
+			mes "[Kaniki]";
+			mes "Pronto! Está feito!";
+			mes "O que você acha do seu novo corte?";
+			mes "Espero te ver novamente. Cuide-se!";
+			close;
+		}else{
+			mes "[Kaniki]";
+			mes "Desculpe, mas só posso prover meus serviços de cabeleireiro";
+			mes "se você trouxer um";
+			mes "^FF0000Cupom de Corte de Cabelo^000000."; // Cupom de Corte de Cabelo
+			mes "Por favor, voltedepois que você conseguir um desses cupons, certo?";
+
+			close;
+		}
+	}
+	mes "[Kaniki]";
+	mes "Sério? Ah, isso é muito ruim.";
+	mes "Bem, se você mudar de ideia sobre o seu penteado, basta voltar e me dizer, certo?";
+	close;
+}

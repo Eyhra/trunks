@@ -1,0 +1,15 @@
+//====================================================================================
+//= Script para ativar o icone de rates sempre que o personagem logar
+//= Se for o primeiro login do personagem ele envia o personagem até o mapa de iniciante
+//====================================================================================
+-	script	HRO_Newbie_Welcome	-1,{
+
+OnPcLoginEvent:
+	if ( #HROEVENT_1 >  gettimetick(2) ) {
+		//fstatus(getcharid(0),1504,0,1);
+		dispbottom "[ KillerRO ] : Estamos com um evento especial ativo por " + callfunc("Time2Str",#HROEVENT_1) + ", use @evento para participar!";
+	} else {
+		set #HROEVENT_1,0;
+	}
+    end;
+}

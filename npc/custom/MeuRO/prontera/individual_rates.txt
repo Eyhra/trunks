@@ -1,0 +1,67 @@
+//=================== Loki Scripts ========================================
+//=     _           _    _     _____           _       _       
+//=    | |         | |  (_)   / ____|         (_)     | |      
+//=    | |     ___ | | ___   | (___   ___ _ __ _ _ __ | |_ ___ 
+//=    | |    / _ \| |/ / |   \___ \ / __| '__| | '_ \| __/ __|
+//=    | |___| (_) |   <| |   ____) | (__| |  | | |_) | |_\__ \
+//=    |______\___/|_|\_\_|  |_____/ \___|_|  |_| .__/ \__|___/
+//=                                             | |            
+//=                                             |_|            
+//================= Licenþa ===============================================
+//= NÒo venda ou repasse esse arquivo sem autorizaþÒo.
+//=========================================================================
+// Rates Individuais
+//=========================================================================
+
+-	script	Individual Rates	-1,{
+OnPCLoginEvent:
+	if(irateExp == 1){
+		fstatus(getcharid(0),2001,0,1);
+	}
+	if(irateExp == 25){
+		fstatus(getcharid(0),2002,0,1);
+	}
+	if(irateExp == 50){
+		fstatus(getcharid(0),2003,0,1);
+	}
+	if(!irateExp){
+        mes "Olá "+strcharinfo(0);
+        mes "Bem vindo ao nosso servidor.";
+        while(irateExp == 0){
+            mes "Por favor, escolha as rates que gostaria de jogar:";
+            next;
+            .@select$ = "";
+            for(.@i = 0; .@i < getarraysize(.ratesExp); .@i++)
+                .@select$ += "Exp/Drop > "+.ratesExp[.@i]+"x/"+.ratesDrop[.@i]+"x:";
+            .@r = select(.@select$) - 1;
+            mes "Rate escolhida:";
+            mes " > Experiência "+.ratesExp[.@r]+"x";
+            mes " > Drop: "+.ratesDrop[.@r]+"x";
+            mes "Confirma?";
+            next;
+            if(select("Sim:Não") == 1){
+                mes "Confirmado, tenha um bom jogo.";
+                irateExp = .ratesExp[.@r];
+                irateDrop = .ratesDrop[.@r];
+                if(irateExp == 1){
+					fstatus(getcharid(0),2001,0,1);
+				}
+				if(irateExp == 25){
+					fstatus(getcharid(0),2002,0,1);
+				}
+				if(irateExp == 50){
+					fstatus(getcharid(0),2003,0,1);
+				}
+				close;
+            }
+        }
+	}
+    end;
+
+OnInit:
+    // Rates de Experiência Base/Classe
+    setarray .ratesExp, 1, 25, 50;
+    // Rates de Drop (Menos Cartas MVP/Boss)
+    setarray .ratesDrop, 50, 25, 0;
+    end;
+}

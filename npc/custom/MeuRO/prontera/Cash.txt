@@ -1,0 +1,10 @@
+prontera,163,185,4	script	CashFree	4_EP17_AS,{
+
+	#CASHPOINTS += 10000;
+
+OnInit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Bill");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}

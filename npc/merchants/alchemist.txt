@@ -1,0 +1,132 @@
+alde_alche,24,188,3	script	Negociante da Guilda	740,{
+	if (checkweight(1201,1) == 0) {
+		mes "- Espere um minuto! -";
+		mes "- Você está carregando -";
+		mes "- muitos itens. -";
+		mes "- Por favor, volte novamente -";
+		mes "- depois de armazenar alguns itens na kafra. -";
+		close;
+	}
+	mes "[Alquimista]";
+	mes "Bem-vind" + ((Sex) ? "o":"a") + " à";
+	mes "União dos Alquimistas.";
+	mes "Como posso ajudá-l" + ((Sex) ? "o":"a") + " hoje?";
+	next;
+	switch(select("Comprar materiais.:Comprar manuais de produção.:Cancelar.")) {
+	case 1:
+		mes "[Alquimista]";
+		mes "O que você gostaria?";
+		next;
+		if (select("Vasilha de Mistura - 8 Zeny.:Cancelar.") == 1) {
+			mes "[Alquimista]";
+			mes "Quantos você quer?";
+			mes "Digite '0' se você deseja cancelar.";
+			next;
+			while(1) {
+				input .@input,0,2001;
+				if (.@input == 0) {
+					mes "[Alquimista]";
+					mes "A negociação foi cancelado.";
+					mes "Volte quando precisar dos meus serviços.";
+					close;
+				}
+				else if (.@input < 1 || .@input > 2000) {
+					mes "[Alquimista]";
+					mes "O número deve ser menor que 2000.";
+					next;
+				}
+				else {
+					break;
+				}
+			}
+			set .@sell,.@input * 8;
+			set .@item_weight,.@input * 10;
+			if (Zeny < .@sell) {
+				mes "[Alquimista]";
+				mes "Você não tem zeny suficiente.";
+				mes "Verifique a quantia de zeny que você tem primeiro.";
+				close;
+			}
+			if ((MaxWeight - Weight) < .@item_weight) {
+				mes "[Alquimista]";
+				mes "Me parece que você pode carregar tudo.";
+				mes "Por favor, verifique o espaço no seu inventário.";
+				close;
+			}
+			set Zeny, Zeny-.@sell;
+			getitem 7134,.@input; //Vasilha de Mistura
+			mes "[Alquimista]";
+			mes "Obrigado, Volte sempre..";
+			close;
+		}
+		mes "[Alquimista]";
+		mes "Bem então, volte quando você precisa comprar materiais relacionados com Alquimia, tudo bem?";
+		close;
+	case 2:
+		mes "[Alquimista]";
+		mes "O que você precisa?";
+		mes "Os manuais geralmente são 100.000 zenys. Mas há alguns manuais especiais que custam bem mais.";
+		next;
+		switch(select("Guia de Criação de Poções:Guia de Criação de Álcool:Guia de Criação de Granadas:Guia de Criação de Frasco de Ácido:Guia de Criação de Frasco de Plantas:Guia de Criação de Frasco de Esferas Marinhas:Guia de Criação de Poção Condensada:Cancelar Negociação.")) {
+		case 1:
+			callsub S_SellManual,7144,100000; //Manual de Criação: Vol.1: Poções Comuns
+			break;
+		case 2:
+			callsub S_SellManual,7127,100000; // Manual de Criação Vol.2: Álcool
+			break;
+		case 3:
+			callsub S_SellManual,7128,100000; //Manual de Criação: Vol.3: Fogo Grego
+			break;
+		case 4:
+			callsub S_SellManual,7129,100000; //Manual de Criação: Vol.4: Ácidos
+			break;
+		case 5:
+			callsub S_SellManual,7130,100000; //Manual de Criação: Vol.5: Plantas
+			break;
+		case 6:
+			callsub S_SellManual,7131,100000; //Manual de Criação: Vol.6: Explosivos
+			break;
+		case 7:
+			callsub S_SellManual,7132,100000; //Manual de Criação: Vol.7: Revestimentos
+			break;
+		case 8:
+			callsub S_SellManual,7133,240000; //Manual de Criação: Vol.8: Poções Compactas
+			break;
+		case 9:
+			mes "[Alquimista]";
+			mes "Bem então ...";
+			mes "Volte sempre que você precisa comprar um manual de produção.";
+			close;
+		}
+	case 3:
+		mes "[Alquimista]";
+		mes "Tudo bem, tenha um bom dia.";
+		close;
+	}
+
+S_SellManual:
+	.@item_id = getarg(0);
+	.@zeny_req = getarg(1);
+
+	if (Zeny < .@zeny_req) {
+		mes "[Alquimista]";
+		mes "Você não tem zeny suficiente.";
+		mes "Verifique quanto zeny você tem primeiro.";
+		close;
+	}
+	mes "[Alquimista]";
+	mes getitemname(.@item_id) +"?";
+	mes "Isso vai custar "+ .@zeny_req +" zeny.";
+	next;
+	if (select("Purchase.:Quit.") == 1) {
+		Zeny = Zeny - .@zeny_req;
+		getitem .@item_id,1;
+		mes "[Alquimista]";
+		mes "Obrigado.";
+		close;
+	}
+	mes "[Alquimista]";
+	mes "Volte sempre";
+	mes "que precisar.";
+	close;
+}

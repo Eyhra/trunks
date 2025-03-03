@@ -1,0 +1,2301 @@
+//===== rAthena Script ======================================= 
+//= Nidhoggr's Nest
+//===== By: ================================================== 
+//= L0ne_W0lf, various sources
+//===== Current Version: ===================================== 
+//= 1.7
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Nidhoggr's Nest Instance
+//===== Additional Comments: ================================= 
+//= 1.0 First version.
+//= 1.1 Minor dialog updates.
+//= 1.2 No longer glitches when anyone but party leader talks to the first NPC.
+//= 1.3 Added 'instance_check_party' command to the script for proper checking if
+//=     the invoking party meets the requirements to join the Memorial Dungeon.
+//= 1.4 Cleaning. [Euphy]
+//= 1.5 Instance system rewrite. [Euphy]
+//= 1.6 Added GM management NPCs. [Euphy]
+//= 1.7 Traduzida para o português. [hannizaldummy]
+//============================================================ 
+
+nyd_dun02,100,201,3	script	Porteiro Yggdrasil	111,8,8,{
+	set .np$,"^00B2EE[ Porteiro Yggdrasil ]^000000";
+	if (ins_nyd == 0) {
+		mes "Um grande portão de pedra está diante de você. A escultura de um terrível dragão abre suas poderosas asas.";
+		next;
+		mes "Perto da parte inferior do portão, as mulheres da tribo Laphine foram transformadas em pedra e agora parecem fazer parte da grande porta.";
+		next;
+		switch(select("^3CB371[»]^000000 Aproxime-se para olhar com mais atenção:^ff0000[»]^000000 Afaste-se")) {
+		case 1:
+			specialeffect2 EF_HOLYHIT;
+			pushpc 3,3;
+			if (ep13_1_edq == 14)
+				set ep13_1_edq,15;
+			mes "Um poder misterioso impede que você se aproxime demais. Parece que há algo forte além da porta...";
+			next;
+			mes "Talvez haja um grande segvermelhoo escondido além do portão, além das expectativas.";
+			next;
+			mes "Seria melhor voltar ao acampamento e informar os outros e pedir ajuda.";
+			if (ep13_1_edq != 15) {
+				next;
+				mes "Você terá que obter a confiança dos outros no campo de despesas trabalhando duro.";
+			}
+			set ins_nyd,1;
+			close;
+		case 2:
+			close;
+		}
+	} else if (ins_nyd == 1) {
+		mes "Um poder misterioso impede que você se aproxime demais. Parece que há algo forte além da porta...";
+		next;
+		mes "Talvez haja um grande segvermelhoo escondido além do portão, além das expectativas.";
+		next;
+		mes "Seria melhor voltar ao acampamento e informar os outros e pedir ajuda.";
+		if (ep13_1_edq == 14 || ep13_1_edq == 15) {
+			set ep13_1_edq,15;
+			close;
+		}
+		next;
+		mes "Você terá que obter a confiança dos outros no campo de despesas trabalhando duro.";
+		close;
+	} else if (ins_nyd == 111 || ins_nyd == 112) {
+		specialeffect2 EF_CHANGECOLD;
+		mes "A estranha sensação ao vermelhoor do seu corpo desapareceu";
+		next;
+		mes "Quando você toca o portão de pedra, você ouve uma voz de comando.";
+		next;
+		mes "[??????]";
+		mes "Um sem asas... Nossas palavras prometidas...";
+		next;
+		switch(select("^3CB371[»]^000000 'Feitiço do Guardião'!:^ff0000[»]^000000 Dê um passo para trás")) {
+		case 1:
+			mes "[??????]";
+			mes "Palavras prometidas... Feitiço do Guardião... Prova de sua existência.";
+			next;
+			mes .np$;
+			mes "Em nome de Yggdrasiliad, eu vou aceitá-lo como um servo do Guardião.";
+			next;
+			specialeffect2 EF_CHANGECOLD;
+			set ins_nyd,200;
+			mes .np$;
+			mes "Aceito sua entrada pelo portão do Guardião. Você agora é considerado um servo fiel do Guardião Nidhogg.";
+			next;
+			mes "A voz desapareceu, e o poder das trevas está se acalmando por trás do portão de pedra.";
+			close;
+		case 2:
+			close;
+		}
+	} else if (ins_nyd == 131 || ins_nyd == 132 || ins_nyd > 199) {
+
+		set .@party_id,getcharid(1);
+		set .@md_name$,"Ninho de Nidhogg";
+
+		set .@ins_nyd_check,checkquest(3135,PLAYTIME); // 3 Day cooldown
+		set .@ins_nyd_check2,checkquest(3136,PLAYTIME); // 4 Hour play limit
+
+		mes "Quando coloquei minhas mãos no portão de pedra, uma voz soou do fundo do meu coração.";
+		next;
+		if (.@ins_nyd_check == -1 && .@ins_nyd_check2 == -1) {
+			if (!instance_check_party(.@party_id,1,70)) {
+				mes .np$;
+				mes "Onde estão os outros servos, para que vocês possam trabalhar juntos? Cada servo não pode ser admitido aqui individualmente...";
+				next;
+				mes .np$;
+				mes "Venha com pelo menos mais 1 servo... Somente os líderes do partido podem aceitar a admissão no Ninho de Nidhogg.";
+				next;
+				mes .np$;
+				mes "E apenas 1 representante de vocês precisa falar comigo, então não me incomode...";
+				close;
+			}
+			if (is_party_leader(.@party_id) == true) {
+				mes .np$;
+				mes "Os servos leais do Guardião... o que posso fazer por você??";
+				next;
+				switch(select("^3CB371[»]^000000 Por favor, permita-me entrar:^3CB371[»]^000000 Eu quero entrar:^ff0000[»]^000000 Eu quero sair")) {
+				case 1:
+					if (instance_create(.@md_name$) < 0) {
+						mes .np$;
+						mes "O Guardião parece querer ficar sozinho. Vou entrar e verificar, por favor, espere aqui.";
+						close;
+					}
+					mes .np$;
+					mes "Gravei seu pedido, você está pronto para entrar?";
+					next;
+					mes .np$;
+					mes "Se você estiver pronto, eu vou permitir que você entre.";
+					close;
+				case 2:
+					goto L_Enter;
+				case 3:
+					close;
+				}
+			}
+			mes .np$;
+			mes "Se você já tiver a instância gerada, você pode entrar nela.";
+			next;
+			if(select("^3CB371[»]^000000 Eu quero entrar:^ff0000[»]^000000 Eu quero sair") == 2)
+				close;
+			goto L_Enter;
+		} else {
+			if (.@ins_nyd_check == 0 || .@ins_nyd_check == 1) {
+				if (ins_nyd2 == 3 || ins_nyd2 == 4) {
+					mes .np$;
+					mes "Com a derrota da Sombra de Nidhogg, as raízes da Árvore do Mundo Yggdrasil também são afetadas.";
+					next;
+					mes .np$;
+					mes "Depois que a Sombra de Nidhogg desaparece, são necessários pelo menos 3 dias para estabilizar.";
+					close;
+				}
+				mes .np$;
+				mes "Se você já tiver a instância gerada, você pode entrar nela.";
+				next;
+				if(select("^3CB371[»]^000000 Eu quero entrar:^ff0000[»]^000000 Eu quero sair") == 2)
+					close;
+				goto L_Enter;
+			} else if (.@ins_nyd_check == 2) {
+				if (.@ins_nyd_check2 == 0 || .@ins_nyd_check2 == 1) {
+					mes .np$;
+					mes "O tempo limite para entrar na masmorra expirou. Você deve esperar que a Árvore do Mundo estabilize seu poder antes de tentar entrar novamente.";
+					close;
+				} else if (.@ins_nyd_check2 == 2) {
+					mes .np$;
+					mes "A Árvore do Mundo Yggdrasil se estabilizou. Gostaria de entrar novamente no Ninho de Nidhogg?";
+					next;
+					mes .np$;
+					mes "Se você quiser entrar novamente, registre-se comigo.";
+					erasequest 3135;
+					erasequest 3136;
+					set ins_nyd2,0;
+					close;
+				}
+			}
+		}
+		close;
+	} else {
+		mes "Um grande portão de pedra está diante de você. A escultura de um terrível dragão abre suas poderosas asas.";
+		next;
+		mes "Perto da parte inferior do portão, as mulheres da tribo Laphine foram transformadas em pedra e agora parecem fazer parte da grande porta.";
+		next;
+		switch(select("^3CB371[»]^000000 Aproxime-se para olhar com mais cuidado:^ff0000[»]^000000 Afaste-se")) {
+		case 1:
+			specialeffect2 EF_HOLYHIT;
+			pushpc 3,3;
+			mes "Um poder misterioso impede que você se aproxime demais. Parece que há algo forte além da porta...";
+			next;
+			mes "Talvez haja um grande segvermelhoo escondido além do portão, além das expectativas.";
+			close;
+		case 2:
+			close;
+		}
+	}
+	close;
+
+L_Enter:
+	switch(instance_enter("Ninho de Nidhogg")) {
+	case IE_OTHER:
+		mes .np$;
+		mes "Um erro desconhecido ocorreu.";
+		close;
+	case IE_NOINSTANCE:
+		mes .np$;
+		mes "Você não pediu para ser admitido... Você deve aceitar a admissão antes de entrar.";
+		close;
+	case IE_NOMEMBER:
+		mes .np$;
+		mes "Onde estão os outros servos, para que vocês possam trabalhar juntos? Cada servo não pode ser admitido aqui individualmente...";
+		close;
+	case IE_OK:
+		mapannounce "nyd_dun02", getpartyname(getcharid(1))+" o membro do grupo "+strcharinfo(0)+" entrou no Ninho de Nidhogg.",bc_map,"0x00ff99";
+		if (checkquest(3135) == -1) setquest 3135;
+		if (checkquest(3136) == -1) setquest 3136;
+		//warp "1@nyd",32,36;
+		close;
+	}
+
+OnTouch_:
+	if (ins_nyd == 0) {
+		specialeffect2 EF_CHANGECOLD;
+		specialeffect EF_CHANGECOLD;
+	}
+	end;
+}
+
+mid_camp,271,299,3	script	Lupa Historiadora#edq	755,3,3,{
+	set .np$,"^00B2EE[ Lupa Historiadora ]^000000";
+
+	mes .np$;
+	if (ins_nyd == 1) {
+		mes "Claro, o continente também tem muitas aventuras interessantes... Olá, eu sou Magnifier, um historiador despachado da corte real de Prontera.";
+		next;
+		mes .np$;
+		mes "Encontrar outra linha de trabalho pode ser um trabalho realmente digno, mas apenas um historiador conhece o mundo..";
+		next;
+		mes .np$;
+		mes "Como este mundo está organizado... e o caminho do futuro! Com nossos estudos do passado e do presente, podemos prever o que está por vir.";
+		next;
+		mes .np$;
+		mes "Esperamos muito de você, aventureiro experiente. Então, se você encontrar alguma coisa... apenas me diga.";
+		close;
+	} else if (ins_nyd == 2) {
+		mes "O Comandante Agip quer falar comigo? Vamos ouvir a história dele.";
+		next;
+		mes .np$;
+		mes "Você encontrou a caverna que as tribos de fadas tratam como um lugar sagrado? Você é um biscoito muito duro. O que você encontrou?";
+		next;
+		mes .np$;
+		mes "...";
+		next;
+		mes "... ...";
+		next;
+		mes .np$;
+		mes "Espere um segundo... eu tenho uma ideia brilhante.";
+		next;
+		mes .np$;
+		mes "Vamos ver... Este livro... Não... este...? Hum... Talvez isso...";
+		next;
+		mes .np$;
+		mes "...";
+		next;
+		mes .np$;
+		mes "... ...";
+		next;
+		mes .np$;
+		mes "Ah, aqui está! Árvore do Mundo Yggdrasil e as tribos de Deus... Este é o livro deles!";
+		next;
+		mes .np$;
+		mes "Talvez você tenha encontrado a linha central para entrar na Árvore do Mundo Yggdrasil!";
+		next;
+		mes .np$;
+		mes "Se isso for verdade, você encontrou a maior descoberta desde o aproveitamento da mana. Isso não é excitante?";
+		next;
+		mes .np$;
+		mes "Mas precisamos de muito mais informações... Eles estão recusando sua admissão??";
+		next;
+		mes .np$;
+		mes "Vou enviar uma mensagem ao meu assistente que está na Biblioteca de Prontera. Então, ajude-a a encontrar mais informações.";
+		next;
+		mes .np$;
+		mes "Definitivamente vou ajudá-lo a encontrar uma maneira de entrar diretamente na Árvore do Mundo, então acvermelhoite em mim! OK~!!";
+		set ins_nyd,3;
+		close;
+	} else if (ins_nyd == 3) {
+		mes "Por que você está parado aí? Vá para o meu assistente na Biblioteca de Prontera!";
+		close;
+	} else if (ins_nyd == 4) {
+		mes "Você voltou... Bom, como está a Naomi? Na verdade, não preciso me preocupar com ela. Ela está sempre alegre. Haha.";
+		next;
+		mes .np$;
+		mes "Parece que você tem muita coisa em mente... Seu rosto está cheio de curiosidade e perguntas.";
+		next;
+		mes .np$;
+		mes "Então, você leu toda a história que eu preparei?";
+		next;
+		switch(select("^ff0000[»]^000000 Ainda não:^3CB371[»]^000000 Eu li todas as histórias")) {
+		case 1:
+			mes .np$;
+			mes "Sheesh~ Eu preparei essas histórias para você com cuidado, mas você não se preocupou em verificar nada, não é??";
+			next;
+			mes .np$;
+			mes "Seria melhor se você voltasse depois de ler todos eles. São dados muito básicos do que devemos fazer para o futuro.";
+			close;
+		case 2:
+			mes .np$;
+			mes "Hum, bom trabalho. Talvez eu não precise verificar mais nada, certo?";
+			next;
+			mes .np$;
+			mes "Enviei você para descobrir quais materiais básicos serão necessários para os trabalhos que temos pela frente. Você deve trazer relatórios de pesquisa...";
+			next;
+			mes .np$;
+			mes "Você pode reclamar por que eu não trouxe nenhum... Isso é porque eu confio em suas habilidades, nunca tome nada como garantido.";
+			next;
+			mes .np$;
+			mes "Mas há um tempo atrás, enquanto você transferia relatórios do Comandante Agip para o continente, você perdeu esses relatórios...?";
+			next;
+			mes .np$;
+			mes "Até agora, nada apareceu... Foi que alguém te atacou??";
+			next;
+			mes .np$;
+			mes "De alguma forma, a verdade virá à tona, mas devemos ter cuidado para não chocar os nativos se formos lá sem avisar e eles não estiverem preparados para nossa chegada.";
+			next;
+			mes .np$;
+			mes "Já falei demais... De qualquer forma, como você sabe através do meu relatório, você encontrou uma grande coisa!";
+			next;
+			mes .np$;
+			mes "Em primeiro lugar, devemos descobrir mais sobre o lugar. Espero que possamos, mas... não podemos fazer muito sem a ajuda de outros.";
+			next;
+			mes .np$;
+			mes "Ouvi falar de expedições recentes de aventureiros que tentaram contatar as tribos... Você ouviu alguma coisa sobre isso?";
+			next;
+			mes .np$;
+			mes "De qualquer forma, vamos tentar contatá-los primeiro, para esclarecer sobre quaisquer cavernas ou tesouros.";
+			next;
+			mes .np$;
+			mes "Por enquanto, você tenta entrar em contato com as tribos Sapha e Laphine e tentar extrair informações delas.";
+			next;
+			mes .np$;
+			mes "Também vou continuar pesquisando aqui. Se você encontrar alguma coisa, volte e me avise.";
+			set ins_nyd,5;
+			close;
+		}
+	} else if ((ins_nyd == 5) || (ins_nyd == 51) || (ins_nyd == 52)) {
+		mes "Ok, vamos tentar contatá-los primeiro, para esclarecer sobre quaisquer cavernas ou tesouros.";
+		next;
+		mes .np$;
+		mes "Por enquanto, você tenta entrar em contato com as tribos Sapha e Laphine, e tenta extrair mais informações.";
+		next;
+		mes .np$;
+		mes "Também vou continuar pesquisando aqui. Se você encontrar alguma coisa, volte e me avise.";
+		close;
+	} else if ((ins_nyd == 61) || (ins_nyd == 62)) {
+		mes "Ah, você veio na hora certa. Encontrei uma coisa curiosa enquanto procurava relatos de Arunafeltz.";
+		next;
+		mes .np$;
+		mes "Neste momento, estamos em uma das raízes da Árvore do Mundo Yggdrasil.";
+		next;
+		mes .np$;
+		mes "Este ponto está conectado à Árvore do Mundo pela raiz. Acho que podemos esperar confrontos entre Sapha e Laphine aqui eventualmente, você não acha?";
+		next;
+		mes .np$;
+		mes "Como eu esperava, a caverna é a entrada para ir para uma das raízes de Yggdrasil...";
+		next;
+		mes .np$;
+		mes "Você encontrou alguma coisa sobre o Sapha e Laphine?";
+		next;
+		mes "...";
+		next;
+		mes "... ...";
+		next;
+		mes .np$;
+		mes "Ambos os lados agem de forma ambígua, então... estou ficando preocupado...";
+		next;
+		mes .np$;
+		mes "As duas tribos têm alguns problemas entre seus principais líderes. Não é nada oficial, mas...";
+		next;
+		mes .np$;
+		mes "Vamos reportar ao Comandante Agip sobre a situação até agora. Então, esperamos em sua decisão.";
+		set ins_nyd,7;
+		close;
+	} else if ((ins_nyd == 7) || (ins_nyd == 8)) {
+		mes "Informe ao Comandante Hibba Agip sobre o que descobrimos, pois o tempo depende de sua decisão.";
+		close;
+	} else if ((ins_nyd == 121) || (ins_nyd == 122) || (ins_nyd == 131) || (ins_nyd == 132) || (ins_nyd ==14)) {
+		mes "Então é assim... estávamos certos sobre algumas partes... chama-se Ninho do Guardião.";
+		next;
+		mes .np$;
+		mes "Nós adquirimos uma grande quantidade de conhecimento hoje, mas...";
+		next;
+		mes .np$;
+		mes "O que descobrimos... como isso vai influenciar a humanidade? É tão imprevisível...";
+		next;
+		mes .np$;
+		mes "Este é apenas o começo... estaremos bastante ocupados a partir de agora.";
+		next;
+		mes .np$;
+		mes "Primeiro, reporte-se ao Comandante Agip, depois aja de acordo com a situação. Deixe-me organizar meus resultados de pesquisa...";
+		close;
+	} else {
+		mes "Claro, o continente também tem muitas aventuras interessantes... Olá, eu sou Magnifier, um historiador despachado da corte real de Prontera.";
+		next;
+		mes .np$;
+		mes "Encontrar outra linha de trabalho pode ser um trabalho realmente digno, mas apenas um historiador conhece o mundo..";
+		next;
+		mes .np$;
+		mes "How this world is organized... and the way of the future! With our studies of the past and present we can pvermelhoict what is to come.";
+		next;
+		mes .np$;
+		mes "Esperamos muito de você, aventureiro experiente. Então, se você encontrar alguma coisa... apenas me diga.";
+		close;
+	}
+}
+
+prt_in,171,94,3	script	Assistente Naomi#edq	893,3,3,{
+	set .np$,"^00B2EE[ Assistente Naomi ]^000000";
+
+	mes .np$;
+	set .@name$,strcharinfo(0);
+	if (ins_nyd == 3) {
+		mes "The doctor never ever tries to come back, and there're too many things to do... How can I do it all...";
+		next;
+		mes .np$;
+		mes "Ei você. Por favor, mova estes livros. Coloque-os na prateleira 3 linha B.";
+		next;
+		mes "["+.@name$+"]";
+		mes "Ah... hum... eu... sou...";
+		next;
+		mes .np$;
+		mes "Você não vê que estou muito ocupado? Não hesite. Apenas faça.";
+		next;
+		switch(select("^ff0000[»]^000000 Olhe ocupado, e dê um passo para trás:^3CB371[»]^000000 Ajude-a apenas desta vez")) {
+		case 1:
+			mes .np$;
+			mes "Poxa! Onde é-? Onde fez-? ECA! É tão difícil!";
+			close;
+		case 2:
+			mes .np$;
+			mes "Ah... se você terminou de movê-los, eles devem ir para a prateleira 3, linha B.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Ah... eu... vejo...";
+			next;
+			mes .np$;
+			mes "Agora, estou quase terminando... Quem é você? Você é um novo assistente do Dr. Magnifier?";
+			next;
+			mes "["+.@name$+"]";
+			mes "Ele me pediu para trazer alguns relatórios. ele não disse nada?";
+			next;
+			mes .np$;
+			mes "Hmm... Eu não o vejo há mais de um ano! O que ele esta fazendo agora?";
+			next;
+			mes "["+.@name$+"]";
+			mes "Ele disse que iria mandar uma mensagem para você... você não entendeu??";
+			next;
+			mes .np$;
+			mes "Mensagem? ...Vamos ver... Eu nunca esperei que ele escrevesse uma mensagem...";
+			next;
+			mes .np$;
+			mes "Vou verificar a caixa de correio, espere um minuto. Se você ficar entediado, leia esses livros.";
+			next;
+			mes "...";
+			next;
+			mes "... ...";
+			next;
+			mes "É muito confuso devido a muitos livros e arquivos empilhados. O Dr. Magnifier parece ter uma tonelada de relatórios.";
+			next;
+			mes "["+.@name$+"]";
+			mes "'Nascimento do Mundo', 'A Ficção do Mito de Odin', 'A Batalha de Deus Depois', 'Sonhos das Tribos'. Há uma variedade de livros...";
+			next;
+			mes "...";
+			next;
+			mes .np$;
+			mes "Ah, desculpe por ter demorado tanto. Havia muitos e-mails, então demorei um pouco para encontrar coisas.";
+			next;
+			mes .np$;
+			mes "Ele me enviou e-mail mais de 20 vezes. eu não sabia disso...";
+			next;
+			mes .np$;
+			mes "Ah, aqui está a mensagem sobre você. Ele disse para compartilhar as informações sobre pesquisas e relatórios.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Qual é a área de atuação do médico?";
+			next;
+			mes .np$;
+			mes "Desde 5 anos atrás, ele está curioso sobre como o mundo começou, e então ele começou sua busca pelo Deus da criação..";
+			next;
+			mes .np$;
+			mes "Ele pesquisa o combate entre Odin e os Deuses, e sobre as origens e a vida dos Deuses.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Então, ele já sabia que o Renascimento de Satan Morocc ocorreu antes?";
+			next;
+			mes .np$;
+			mes "Eu não posso ter certeza, mas ele pensou que algum dia isso aconteceria. Eclodiu mais cedo do que ele esperava.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Mas Rune-Midgarts aprovou esta pesquisa?";
+			next;
+			mes .np$;
+			mes "Nossos acadêmicos não são uma religião. E eles também têm curiosidade sobre a história deste mundo.";
+			next;
+			mes .np$;
+			mes "O combate de Odin contra os Deuses, e os filhos de Deus e seu propósito... O Doutor pesquisou isso a vida toda.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Mas esses relatórios ainda não saíram. Eles têm?";
+			next;
+			mes .np$;
+			mes "É por isso que ele te mandou aqui. Aliás, não é a primeira vez que ouço isso.";
+			next;
+			mes .np$;
+			mes "Após o estabelecimento do Reino de Rune-Midgart e Arunafeltz, os rumores se espalharam em segvermelhoo sobre suas tribos, mitos, etc..";
+			next;
+			mes .np$;
+			mes "De qualquer forma, devo me certificar de que você leia todos esses livros, e continuarei fazendo meu trabalho.";
+			next;
+			mes "["+.@name$+"]";
+			mes "Eu não deveria ter arquivado os livros?";
+			next;
+			mes .np$;
+			mes "O Doutor disse que vai pegar os livros através de outra pessoa. Além disso, você não precisa das informações básicas sobre o que fazer?";
+			next;
+			mes .np$;
+			mes "Antes de voltar ao Doutor, é melhor você ler esses livros. Então, eu vou voltar ao trabalho.";
+			set ins_nyd,4;
+			close;
+		}
+	} else if (ins_nyd == 4) {
+		mes "Navegue ao vermelhoor, para dar uma olhada nos livros.";
+		next;
+		switch(select("^3CB371[»]^000000 Descoberta da Heterogeneidade:^3CB371[»]^000000 Relatório de Tribos Indígenas")) {
+		case 1:
+			mes "Satan Morocc sabe que não ressuscitou normalmente ou sozinho.";
+			next;
+			mes "Continuamente, aventureiros de Rune-Midgart o atacaram e ele está lentamente perdendo seu poder. Ele precisaria de mais tempo para ressuscitar completamente.";
+			next;
+			mes "Satan Morocc parou para destruir a cidade de Morocc, transformando-a em um deserto em ruínas, então começou a destruir o mundo.";
+			next;
+			mes "Satan Morocc estava preocupado com aqueles que iriam persegui-lo, então ele criou clones de Morocc para vigiar atrás dele.";
+			next;
+			mes "Modelado após Morocc, sua aparência tornou difícil contornar a lacuna tempo-espaço.";
+			next;
+			mes "Ainda assim, os aventureiros perseguiram. Eles vieram de todo o mundo, tentando se aproximar do Dimensional Gorge.";
+			next;
+			mes "Os relatos desses aventureiros foram enviados a representantes de todos os reinos, e uma equipe de expedição foi criada para saber mais informações.";
+			next;
+			mes "Os cientistas de Schwarzwald criaram uma combinação de metal, usando fragmentos de metais encontrados no desfiladeiro dimensional.";
+			next;
+			mes "A República de Schwarzwald solicitou aprovação para encontrar a fonte do novo metal e, como Rune-Midgarts não conseguiu concluir o teste, eles finalmente aceitaram..";
+			next;
+			mes "Eles se associaram para reunir voluntários. A Guilda dos Assassinos foi a primeira a se voluntariar.";
+			next;
+			mes "Os Assassinos têm um passado terrível com Satan Morocc, então eles reuniram 18 membros para persegui-lo..";
+			next;
+			mes "Cerca de 3 horas depois, todos os 18 membros retornaram sem nenhum problema, e cada homem e mulher compartilharam as informações que haviam coletado.";
+			next;
+			mes "Eles haviam descoberto um outro mundo com uma natureza e um ambiente definitivamente diferentes. E, de fato, as pessoas também poderiam viver lá.";
+			next;
+			mes "O mais surpreendente é o fluxo do tempo. Os 18 assassinos ficaram por cerca de 2 semanas lá, mas voltaram dentro de 3 horas após a partida.";
+			next;
+			mes "A última coisa a ser testada... foi enviar aventureiros que se ofereceram para explorar o novo mundo.";
+			next;
+			mes "Houve uma enxurrada de pedidos de aventureiros. Muitos voluntários desapareceram sobre o desfiladeiro dimensional e trouxeram novos dados.";
+			next;
+			mes "O novo mundo poderia suportar 3 ecossistemas completamente diferentes, dependendo da raça das pessoas que viviam lá.";
+			next;
+			mes "O fenômeno heterogêneo precisava ser estudado minuciosamente e cuidadosamente para compreender a relação entre o mundo deles e o nosso..";
+			next;
+			mes "Justamente quando se esperava que fosse impossível viajar para um mundo diferente, a primeira página de um novo capítulo foi aberta.";
+			close;
+		case 2:
+			mes "Há muito tempo, não havia sol, lua ou estrelas; apenas terra vazia... e Ymir nasceu. Então, ao fazer filhos, Ymir cresceu.";
+			next;
+			mes "Mas seus filhos também cresceram e ele foi morto por Odin, Vili e Ve; 3 irmãos, deuses, que atacaram de lados diferentes.";
+			next;
+			mes "Naquela época da queda de Ymir, seu sangue inundou o mundo... matando todos em seu caminho.";
+			next;
+			mes "Apenas Hvergelmir da tribo Sapha escapou dessa enxurrada de sangue. E ele jurou vingança em Jotunheim, que está coberto de neve enevoada.";
+			next;
+			mes "Atualmente, um da tribo Sapha foi descoberto além do Dimensional Gorge.";
+			next;
+			mes "Além da tribo Sapha, havia outra tribo além da lacuna tempo-espaço, conhecida como Laphine..";
+			next;
+			mes "As tribos Laphine também se reuniram para uma expedição para explorar a lacuna tempo-espaço e descobrir os estranhos sintomas da Árvore do Mundo e talvez um método de cura.";
+			next;
+			mes "A tribo Laphine foi encarregada de administrar Yggdrasil, estabelecer suas terras perto de Asgard e proteger o equilíbrio do poder mágico de Yggdrasil..";
+			next;
+			mes "A tribo Laphine nunca contatou ninguém fora de Asgard. Mas desde que descobriram que o poder de Yggdrasil está enfraquecendo...";
+			next;
+			mes "Eles declararam que comparecerão aos tribunais superiores pela primeira vez em 1000 anos humanos, desde o fim das batalhas de Deuses contra Magos..";
+			close;
+		}
+	} else {
+		mes "O médico nunca tenta voltar, e há muitas coisas para fazer... Como posso fazer tudo...";
+		next;
+		mes .np$;
+		mes "Você não vê que eu estou muito ocupado? Não demore, apenas vá!";
+		close;
+	}
+}
+
+splendide,198,178,3	script	Soldado Resmungão#edq	447,3,3,{
+	set .np$,"^00B2EE[ Soldado Resmungão ]^000000";
+
+	mes .np$;
+	if (isequipped(2782) == 1) {
+		mes "Hoje em dia, o mundo se tornou instável. Eu não posso nem voar confortavelmente mais.";
+		next;
+		if (ins_nyd == 5) {
+			switch(select("^3CB371[»]^000000 O que há com a caverna ao norte?:^3CB371[»]^000000 Quem são os membros da tribo Sapha?:^ff0000[»]^000000 Hmm... Podemos conversar mais tarde")) {
+			case 1:
+				mes .np$;
+				mes "Que? Se você passear por lá... você pode voltar com ferimentos.";
+				next;
+				mes .np$;
+				mes "Não sei exatamente como explicar, mas é como se estivesse de mau humor. Há muitos monstros terríveis lá.";
+				next;
+				mes .np$;
+				mes "Eles sussurram um para o outro, então... algo está lá... Mas eu não me importo...";
+				next;
+				mes .np$;
+				mes "Pode ser... aqueles membros da tribo Sapha já cavaram na caverna antes... Eles têm um talento especial para cavar.";
+				set ins_nyd,51;
+				close;
+			case 2:
+				mes .np$;
+				mes "Oh! É por causa deles que vivemos aqui, uma cidade baixa e suja, há mais de cem anos.";
+				next;
+				mes .np$;
+				mes "Eles não se importam se houver problemas com o Yggdrasil.";
+				next;
+				mes .np$;
+				mes "Eles certamente estão cheios de más ideias, então... eles destruíram a raiz do Yggdrasil.";
+				next;
+				mes .np$;
+				mes "Estamos aqui para garantir que o Sapha não piore as coisas.";
+				close;
+			case 3:
+				close;
+			}
+		} else {
+			mes .np$;
+			mes "Hoje em dia, o mundo se tornou instável. Eu não posso nem voar confortavelmente mais.";
+			next;
+			mes .np$;
+			mes "O que você pode esperar quando os gigantes Manuk começarem a cavar o mundo para destruir o Yggdrasil...";
+			next;
+			mes .np$;
+			mes "E o pior é que coisas estranhas estão se pavoneando pelas ruas das cidades...";
+			next;
+			mes .np$;
+			mes "Sim, você... O que você acha da forma como o governo está lidando com isso...?";
+			next;
+			mes .np$;
+			mes "Embora eles ignorem seu histórico, ainda assim, deve-se ter cuidado...";
+			close;
+		}
+	} else {
+		mes "SeLarsmar Di marThusVil U SeMushVohl";
+		close;
+	}
+}
+
+splendide,240,164,3	script	Soldado Suspirando#edq	461,3,3,{
+	set .np$,"^00B2EE[ Soldado Suspirando ]^000000";
+
+	mes .np$;
+	if (isequipped(2782) == 1) {
+		mes "Quando terminaremos esse combate com o Sapha? Ugghhhh...";
+		next;
+		if (ins_nyd == 5) {
+			switch(select("^3CB371[»]^000000 O que há com a caverna ao norte?:^3CB371[»]^000000 Quem são os membros da tribo Sapha?:^ff0000[»]^000000 Hmm... Podemos conversar mais tarde")) {
+			case 1:
+				mes .np$;
+				mes "Bem... não tenho certeza, mas evitamos ir a essa área.";
+				next;
+				mes .np$;
+				mes "Às vezes, os pesquisadores despachados ficam por aqui... me sinto mal por não ter nada para ver... sem motivo algum...";
+				next;
+				mes .np$;
+				mes "Mas os oficiais de comando certificam-se de que há algo escondido lá.";
+				next;
+				mes .np$;
+				mes "Não sabemos se os monstros lá são fortes, então nunca verificamos. Mas a nível pessoal, ninguém quer ir lá...";
+				set ins_nyd,51;
+				close;
+			case 2:
+				mes .np$;
+				mes "Não sei o que os outros pensam sobre isso... mas tivemos alguns problemas com nossa atitude contra as tribos Sapha.";
+				next;
+				mes .np$;
+				mes "Nós não tentamos resolver os problemas com conversa. Nós os atacamos primeiro.";
+				next;
+				mes .np$;
+				mes "Talvez... nossos oficiais de comando não queiram aceitar outras espécies diferentes de nós...";
+				next;
+				mes .np$;
+				mes "Não entenda mal... Recentemente, falamos sobre sua espécie em particular e nossos comandantes se sentem gratos a você.";
+				next;
+				mes .np$;
+				mes "Enfim... estou exausto durante esta situação inútil e estressante... Suspiro.";
+				close;
+			case 3:
+				close;
+			}
+		} else {
+			mes .np$;
+			mes "Quando terminaremos esse combate com o Sapha? Ugghhhh...";
+			next;
+			mes .np$;
+			mes "Francamente, não acho que você ou qualquer Sapha seja nosso inimigo. Suspirar...";
+			next;
+			mes .np$;
+			mes "Não há como resolver isso comunicando? Não há sentido em combate inútil! Nossa.";
+			close;
+		}
+	} else {
+		mes "Vohl Larsmar Ha Diel Cyatas";
+		close;
+	}
+}
+
+spl_in01,109,60,3	script	Comandante Lebiordirr#edq	435,3,3,{
+	set .np$,"^00B2EE[ Comandante Lebiordirr ]^000000";
+
+	mes .np$;
+	if (isequipped(2782) == 1) {
+		if (ins_nyd == 51) {
+			mes "Você está...? Você é quem está coletando informações dos meus soldados...?";
+			next;
+			mes .np$;
+			mes "Você deve ser cauteloso. Nossa tribo respeitou a existência de vocês humanos, mas...";
+			next;
+			mes .np$;
+			mes "Eu assumi um grande risco ao permitir que você entrasse aqui. Então seja cauteloso.";
+			next;
+			mes .np$;
+			mes "Não atraia muita atenção porque isso faria com que seu pessoal ficasse mal.";
+			next;
+			mes .np$;
+			mes "Agora, não precisamos falar muito sobre isso, então volte de onde você veio.";
+			next;
+			mes .np$;
+			mes "A menos que você tenha alguma mensagem para mim...? Seu rosto diz que você faz...";
+			next;
+			if(select("^ff0000[»]^000000 Não. Nada. Podemos conversar mais tarde:^3CB371[»]^000000 Eu pretendo ficar. Por boas razões")==1) close;
+			mes "^00B2EE[ Guarda Esplêndida ]^000000";
+			mes "Senhor, eu posso arrastar essa praga agora.";
+			next;
+			mes .np$;
+			mes "Não. Vamos ouvir uma explicação. Boa? Agora, se você quiser...";
+			next;
+			mes .np$;
+			mes "Eu soube que, recentemente, o tempo quebrou... então, você está aqui explorando uma solução, não?";
+			next;
+			mes .np$;
+			mes "Nossa tribo o respeitou, então esqueça a busca e a exploração por aqui.";
+			next;
+			mes .np$;
+			mes "Ouvi dizer que você deve procurar qualquer tesouro na caverna fechada ao norte.";
+			next;
+			mes .np$;
+			mes "Esse lugar é proibido por ordem da tribo Laphine. Então, as pessoas não podem simplesmente ir lá sem permissão.";
+			next;
+			mes .np$;
+			mes "Se você não pode seguir esta regra, vou parar de me associar a você e banir todas as suas pessoas daqui.";
+			next;
+			mes .np$;
+			mes "Ainda temos uma relação instável com os Sapha, geralmente não nos preocupamos com estranhos.";
+			next;
+			mes .np$;
+			mes "Agora, se você entende isso, informe seus amigos.";
+			set ins_nyd,61;
+			close;
+		} else if (ins_nyd == 61) {
+			mes "Se você não pode seguir esta regra, vou parar de me associar a você e banir todas as suas pessoas daqui.";
+			next;
+			mes .np$;
+			mes "Ainda temos uma relação instável com os Sapha, geralmente não nos preocupamos com estranhos.";
+			next;
+			mes .np$;
+			mes "Agora, se você entende isso, informe seus amigos.";
+			close;
+		} else if (ins_nyd == 81) {
+			mes "Por que você voltou, forasteiro?";
+			next;
+			select("^3CB371[»]^000000 Para perguntar aos Laphines sobre explorar...");
+			mes .np$;
+			mes "Explorando o quê? Escolha suas palavras com sabedoria?";
+			next;
+			mes .np$;
+			mes "Não nos entendemos? O que você quer?";
+			next;
+			select("^3CB371[»]^000000 Devo explorar a caverna.");
+			mes .np$;
+			mes "Isso significa... que você está ignorando meu aviso? A decisão é sua ou você está apenas seguindo ordens?";
+			next;
+			select("^3CB371[»]^000000 Estou apenas seguindo ordens");
+			mes .np$;
+			mes "Você está tentando me insultar de propósito, estranho?";
+			next;
+			mes .np$;
+			mes "Por que você quer explorar? É melhor ser uma razão muito boa.";
+			next;
+			select("^3CB371[»]^000000 É sobre o relatório do Dr. Magnifier...");
+			mes .np$;
+			mes "Então... O que me importa o relatório de um estranho?";
+			next;
+			mes .np$;
+			mes "Para proteger o Yggdrasil! Esse é o destino do Laphine. Você pode dizer isso sobre você?";
+			next;
+			mes .np$;
+			mes "Você tem alguma prova de seu nascimento com as bênçãos de Odin e Yggdrasil?";
+			next;
+			mes .np$;
+			mes "Eu não deveria dizer mais. Por favor, não tome isso como sendo rude, mas, por favor, vá agora!";
+			next;
+			select("^3CB371[»]^000000 Então vou pedir ajuda ao Sapha.");
+			mes .np$;
+			mes "Do que você está falando, forasteiro?";
+			next;
+			mes "^00B2EE[ Guarda Esplêndida ]^000000";
+			mes "Senhor, eu posso me livrar desse estranho rude se você quiser?";
+			next;
+			mes .np$;
+			mes "Não, espere... Os membros da tribo Sapha sabem o significado daquele lugar? Você pediu para se associar a eles?";
+			next;
+			mes .np$;
+			mes "Ah... Que complicado... Você está nos testando?";
+			next;
+			mes "^00B2EE[ Guarda Esplêndida ]^000000";
+			mes "Calma, senhor. vou jogar esse forasteiro na prisão.";
+			next;
+			mes .np$;
+			mes "Não... Não, espere. Ok, vou aceitar. Eu posso aceitar sua admissão no Santo Sekos.";
+			next;
+			mes .np$;
+			mes "OK. Se você é um servo da Yggdrasil como afirma ser, permitirei sua admissão. Mas eu não sou responsável por suas ações.";
+			next;
+			mes .np$;
+			mes "E certifique-se de que, se encontrar algo fora do comum, compartilhe conosco!";
+			next;
+			select("^3CB371[»]^000000 Mas é claro!");
+			mes .np$;
+			mes "Então... já que eu concordei em permitir sua exploração... Arioss, ajude-os e pegue os resultados.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Senhor... tem certeza? Esta é uma invasão do Santo Sekos...";
+			next;
+			mes .np$;
+			mes "Invasão é uma palavra dura. Estou permitindo a entrada deles. Melhor eles do que um gigante sujo. Pode apenas salvar nossas vidas...";
+			next;
+			mes .np$;
+			mes "Aqui, forasteiro. Arioss explicará a situação com os gigantes. Fale com ele...";
+			set ins_nyd,91;
+			close;
+		} else if ((ins_nyd == 91) || (ins_nyd == 101) || (ins_nyd == 111) || (ins_nyd == 200) || (ins_nyd == 201) || (ins_nyd == 202)) {
+			mes "Forasteiro. Arioss aqui vai explicar a situação com os gigantes, fale com ele...";
+			close;
+		} else if ((ins_nyd == 72) || (ins_nyd == 82) || (ins_nyd == 92) || (ins_nyd == 102) || (ins_nyd == 112) || (ins_nyd == 122) || (ins_nyd == 132)) {
+			mes "Bem-vindo ao acampamento Laphine em Splendide, forasteiro... Sou Lebiordirr. eu sou o responsável aqui.";
+			next;
+			mes .np$;
+			mes "Seja cauteloso com suas ações. Já temos muitos problemas com a tribo Sapha, pois é.";
+			next;
+			mes .np$;
+			mes "Se você for cauteloso com suas ações, não farei nenhum mal a você. Até a próxima.";
+			close;
+		} else if (ins_nyd == 203) {
+			mes "Eu estava esperando por você. Você voltou em segurança, isso é uma boa notícia. Você encontrou algo?";
+			next;
+			select("^3CB371[»]^000000 Explique sobre a licença do guardião Nidhogg");
+			mes .np$;
+			mes "Que? O Guardião não está em seu ninho...?";
+			next;
+			mes .np$;
+			mes "E por causa de seu desaparecimento, a Sombra do Guardião está atualmente destruindo as raízes da Árvore do Mundo...?";
+			next;
+			mes .np$;
+			mes "Isso é inacvermelhoitavel. Você deve estar insultando o orgulho do Guardião e nosso. Eu não forneci nossa ajuda para isso.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Não é assim, comandante, eles falam a verdade.";
+			next;
+			mes .np$;
+			mes "O que você está dizendo? Arioss, não esqueça seu lugar como sacerdote do Guardião.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Mesmo que eu não tenha visto com meus próprios olhos, isso explica por que perdemos a comunicação com a grande Árvore do Mundo Yggdrasil.";
+			next;
+			mes .np$;
+			mes "Não fale de Sua Alteza, o nome da Árvore do Mundo Yggdrasil tão levemente.";
+			next;
+			select("^3CB371[»]^000000 Passe ao longo das palavras de [ Árvore do mundo Yggdrasil ]");
+			mes .np$;
+			mes "Sua Alteza, a Árvore do Mundo Yggdrasil, disse que?";
+			next;
+			mes .np$;
+			mes "A razão por trás de tudo isso... não é por causa da tribo Sapha, mas por causa da saída repentina do Guardião? E o Guardian desistiu de sua identidade?";
+			next;
+			mes .np$;
+			mes "Isso deve ser relatado... relatado ao Sumo Sacerdote de Alfheim... Inacvermelhoitável.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Comandante... precisamos alertar o resto da tribo...?";
+			next;
+			mes .np$;
+			mes "Você não precisa se preocupar com isso, Arioss. Como comandante, vou lidar com isso. Você apenas finge que nada aconteceu...";
+			next;
+			mes .np$;
+			mes "Estranho, obrigado por sua cooperação em tais situações... Por favor, esqueça o que aconteceu hoje...";
+			next;
+			mes .np$;
+			mes "Arioss, por favor, compense este estranho pela ajuda. eu preciso ir descansar...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Comandante...";
+			set ins_nyd,121;
+			close;
+		} else if ((ins_nyd == 121) || (ins_nyd == 131)) {
+			mes "Estranho, obrigado por sua cooperação em tais situações... Por favor, esqueça o que aconteceu hoje...";
+			close;
+		} else {
+			mes "Bem-vindo ao acampamento Laphine em Splendide, forasteiro... Sou Lebiordirr. eu sou o responsável aqui.";
+			next;
+			mes .np$;
+			mes "Seja cauteloso com suas ações. Já temos muitos problemas com a tribo Sapha, pois é.";
+			next;
+			mes .np$;
+			mes "Se você for cauteloso com suas ações, não farei nenhum mal a você. Até a próxima.";
+			close;
+		}
+	} else {
+		mes "AssimDurnah Ra SharVeldIyaz UorAmanDur Yee neaOsaAdor Yee...";
+		close;
+	}
+}
+
+spl_in01,104,56,3	script	Auxiliar Arioss#edq	437,3,3,{
+	mes "^00B2EE[ Auxiliar Arioss ]^000000";
+	if (isequipped(2782) == 1) {
+		if (ins_nyd == 91) {
+			mes "Suspiro, já que é desejo do Comandante Lebiordirr, vou cooperar com você...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Você quer ir lá para descobrir exatamente o que é aquele lugar?";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Tudo bem... é como você assumiu, um lugar que se conecta à Árvore do Mundo. Também é o Ninho do Guardião.";
+			next;
+			select("^3CB371[»]^000000 Ninho do Guardião?");
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Sim, esse é o ninho de Nidhogg, o Guardião da Árvore do Mundo...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Apenas o servo de um guardião marcado da tribo Laphine pode entrar.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Esse lugar foi inicialmente fechado ao público, mas depois os gigantes da tribo Sapha mudaram as coisas...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Para obter mais minerais, eles começaram a cavar loucamente.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "No final, eles prejudicaram uma parte da raiz da Árvore do Mundo que fica muito perto de sua mina e, assim, a Árvore do Mundo ficou muito doente.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Depois de chegarmos aqui sabendo dos fatos, a Árvore do Mundo já estava em muito mau estado devido às muitas fábricas construídas pela tribo Sapha.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Apesar de, há muito tempo, estarmos atacando a tribo Sapha, tentando forçá-los a sair, eles não são derrotados tão facilmente, levando a esse impasse.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Durante este tempo, seu povo viajou através da lacuna espaço-tempo para esta terra.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Por causa dessas muitas razões inesperadas, o ninho do Guardião, que deveria ficar escondido no subsolo, foi descoberto por sua raça...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Agora você entende o quão grave é essa situação. Por causa da tribo Sapha, não podemos mais nos aproximar do Guardião e buscar seus ensinamentos de sabedoria.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "É muito insultante ao nosso orgulho... mas se você puder nos ajudar a entrar naquele lugar novamente, e falar com o Guardião, talvez possamos encontrar uma solução....";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Então vamos deixar para você. Quanto ao seu pedido, farei o meu melhor para cooperar.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Eu já disse o que você queria saber... Se precisar de mais alguma coisa, é só me avisar.";
+			set ins_nyd,101;
+			close;
+		} else if (ins_nyd == 101) {
+			mes "Ah, você disse que há um poder estranho bloqueando a entrada do ninho do Guardião, certo?";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Isso porque apenas os escolhidos pelo Guardião podem entrar.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Somos servos do Guardião há gerações e protegemos a Árvore do Mundo desde então..";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Antes de sermos capturados e trazidos para cá, havia 3 servos, incluindo eu. Nossa tarefa era curar a Árvore do Mundo.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Um foi morto em nossa última guerra com a tribo Sapha... e o outro foi capturado.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Eu lhe darei minha prova. Não se preocupe, estou apenas marcando você temporariamente como servo de um guardião.";
+			specialeffect2 EF_HOLYHIT;
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Além disso, lembre-se deste feitiço, é necessário para abrir o portão do Guardião.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "AnomarDu Ha OdesUdenVer Ie ";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "remuAlaAsh Mu ModtasAn Yu Dur";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "TalsehrDur So CyaReMush Di DielAlaWos Ie RuffserIman Ie ";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Vá encontrar a fada que guarda o portão e diga este feitiço.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "A prova e o feitiço confirmarão que você é um dos servos do Guardião.";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Por favor, conheça o Guardião e volte com uma resposta para tudo. eu acvermelhoito em você.";
+			set ins_nyd,111;
+			close;
+		} else if ((ins_nyd == 101) || (ins_nyd == 111) || (ins_nyd == 200) || (ins_nyd == 201) || (ins_nyd == 202)) {
+			mes "Por favor, encontre-se com o Guardião e receba uma resposta sábia dele. Eu vou confiar em você.";
+			close;
+		} else if ((ins_nyd == 72) || (ins_nyd == 82) || (ins_nyd == 92) || (ins_nyd == 102) || (ins_nyd == 112)) {
+			mes "... ...";
+			next;
+			mes "Não se importando nem um pouco com isso? que mulher burra...";
+			close;
+		} else if (ins_nyd == 121) {
+			mes "As coisas realmente se tornaram assim... como sacerdotes do Guardião, é nossa responsabilidade...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Eu represento toda a tribo Laphine e demonstro nossa gratidão. Isso tudo deve ser muito difícil para o nosso comandante...";
+			next;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Não se compara ao esforço que você fez por nós... mas por favor, aceite nosso sinal de amizade.";
+			if (checkre(3))
+				getexp 1500000,350000;
+			else
+				getexp 150000,35000;
+			getitem 6081,10; //Splendide_Coin
+			set ins_nyd,131;
+			mes "^00B2EE[ Auxiliar Arioss ]^000000";
+			mes "Se pudermos ajudá-lo com alguma coisa no futuro, faremos tudo o que pudermos para ajudá-lo. Mais uma vez, obrigado.";
+			close;
+		} else if (ins_nyd == 131) {
+			mes "Se pudermos ajudá-lo com alguma coisa no futuro, faremos tudo o que pudermos para ajudá-lo. Mais uma vez, obrigado.";
+			close;
+		} else {
+			mes "... ...";
+			next;
+			mes "Nunca dê atenção a... hum... a uma mulher grosseira...";
+			close;
+		}
+	} else {
+		mes "AmanVilShar Ie DorLuShar Mu Re";
+		close;
+	}
+}
+
+spl_in01,110,21,0	script	armadilha#s_edq	-1,10,10,{
+OnTouch_:
+	if ((isequipped(2782) == 1) && (ins_nyd == 51)) {
+		mes "^00B2EE[ Guarda Esplêndida ]^000000";
+		mes "Esse homem está atualmente preso.";
+		next;
+		mes "^00B2EE[ Guarda Esplêndida ]^000000";
+		mes "É melhor você se comportar, Auxiliar Arioss diz que diferentes raças devem ser tratadas da mesma maneira.";
+		warp "spl_in01",109,58;
+		close;
+	}
+	end;
+}
+
+spl_in01,101,52,5	script	Guarda Esplêndida#1_edq	447,1,1,{
+	mes "^00B2EE[ Guarda Esplêndida ]^000000";
+	if (isequipped(2782) == 1) mes "Este é o escritório Splendide. Não aja de forma indelicada.";
+	else mes "ThusDurnah Ra SharVeldIyaz U UorAmanDur Yee neaOsaAdor Yee ";
+	close;
+}
+
+spl_in01,118,52,3	script	Guarda Esplêndida#2_edq	447,1,1,{
+	mes "^00B2EE[ Guarda Esplêndida ]^000000";
+	if (isequipped(2782) == 1) mes "Este é o escritório Splendide. Não aja de forma indelicada.";
+	else mes "ThusDurnah Ra SharVeldIyaz U UorAmanDur Yee neaOsaAdor Yee ";
+	close;
+}
+
+man_in01,311,57,3	script	Neat Etorr#edq	453,3,3,{
+	mes "^00B2EE[ Neat Etorr ]^000000";
+	if (isequipped(2782) == 1) {
+		if (ins_nyd == 52) {
+			mes "Convidado do outro mundo, por favor, desculpe nossa grosseria...";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Como líder da tribo Sapha, tenho algo muito importante para lhe contar. Por isso te pedi...";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Sua raça chegou a esta terra não muito tempo atrás através da lacuna espaço-tempo.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Você já deve ter visto o que está acontecendo. Estamos em guerra com a tribo Laphine há muito tempo.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Recentemente, por não entender as situações atuais, você fez algumas coisas que eu, como líder, não posso mais ignorar.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Espero que seu povo tenha cuidado com suas ações nesta terra e encerre quaisquer intervenções desnecessárias.";
+			next;
+			if(select("^ff0000[»]^000000 Sair em silêncio:^3CB371[»]^000000 Não sei do que ele está falando e peça detalhes")==1) close;
+			mes "^00B2EE[ Soldado de Elite de Manuk ]^000000";
+			mes "Estamos realmente deixando essas pessoas irem depois de terem causado problemas em nossa terra??";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Depois do que aconteceu, acho que eles não sabem o que mais podem fazer. Deixe-me explicar.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Por enquanto, reconhecemos sua raça e fomos tolerantes com suas atividades.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Mas recentemente começamos a suspeitar que você seja os olhos e ouvidos da tribo Laphine.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Não muito tempo atrás, ouvimos dizer que você encontrou restos em uma caverna abandonada no norte e está realizando investigações e pesquisas a respeito..";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Capturamos um sacerdote da tribo Laphine durante a última guerra e ouvimos dizer que você teve contato com o referido cativo..";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Essa cativa é a única referência para nossa tribo, por isso cuidamos bem dela. Ela está relacionada à sua investigação atual.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Para seu povo, que não tem conexões diretas, não é um lugar para satisfazer sua curiosidade. Espero que você pare suas investigações e cuide da sua vida.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Se você não aceitar nosso pedido, não espere nenhuma cooperação entre nossas raças no futuro.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Por causa da guerra contra a tribo Laphine, tudo está uma bagunça. Mas mesmo assim, não podemos permitir que uma raça estrangeira interfira.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Você já ouviu tudo, agora, por favor, reporte de volta à sua corrida.";
+			set ins_nyd,62;
+			close;
+		} else if (ins_nyd == 62) {
+			mes "Essa cativa é a única referência para nossa tribo, por isso cuidamos bem dela. Ela está relacionada à sua investigação atual.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Para seu pessoal, que não tem conexões diretas, não é um lugar para satisfazer sua curiosidade. Espero que você pare suas investigações e cuide da sua vida.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Se você não aceitar nosso pedido, não espere nenhuma cooperação entre nossas raças no futuro.";
+			close;
+		} else if (ins_nyd == 72) {
+			mes "Recentemente, por não entender as situações atuais, você fez algumas coisas que eu, como líder, não posso mais ignorar.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Espero que seu povo tenha cuidado com suas ações nesta terra e encerre quaisquer intervenções desnecessárias.";
+			close;
+		} else if (ins_nyd == 82) {
+			mes "Você precisa de mim para algo, estranho?";
+			next;
+			select("^3CB371[»]^000000 Recebeu convite da tribo Sapha para cooperar e investigar");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Cooperar e investigar? O que você quer dizer?";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Parece que você não entendeu o que eu disse. O que você está pensando?";
+			next;
+			select("^3CB371[»]^000000 Por favor, permita-me investigar a caverna");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Pelo que posso dizer, você está desrespeitando meu pedido. É esta a sua intenção, ou a intenção do seu povo?";
+			next;
+			select("^3CB371[»]^000000 É nossa intenção");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Ah, não é uma decisão fácil. Você me assusta.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Mas posso perguntar por que você quer fazer isso?";
+			next;
+			select("^3CB371[»]^000000 Explique a teoria do professor Lupa");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "É surpreendente que você seja capaz de obter tais resultados. Também temos uma teoria semelhante.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Pelo menos também pensamos que devemos usar o Prisioneiro Laphines para obter informações.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Este problema tem sido a raiz de nossos conflitos com a tribo Laphine. Claro, também pode ser uma oportunidade para resolvê-los.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Portanto, é mais uma razão para depender de nossos próprios poderes. Não há espaço para você interferir. Por favor, desista.";
+			next;
+			select("^3CB371[»]^000000 Desista do pedido e peça ajuda à tribo Laphine");
+			mes "^00B2EE[ Soldado de Elite de Manuk ]^000000";
+			mes "You finally showed your true face. I knew you were a spy from the Laphine tribe!";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Ah... você iria tão longe a ponto de dizer isso. Que bem fará para você, ajudando a tribo Laphine?";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Esses anões detestáveis ofenderam nosso direito de viver e estão tentando se livrar de nós.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "A razão pela qual não permitimos que ninguém entre nesse site é porque está cheio de suspeitas.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Tudo bem, vou aprovar seu pedido e deixar você investigar o segvermelhoo que a tribo Laphine escondeu dentro da caverna.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Se você prometer compartilhar todos os resultados e descobertas de sua pesquisa, aceitaremos sua solicitação.";
+			next;
+			select("^3CB371[»]^000000 Claro");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Tudo bem, a partir de agora, cooperaremos com você e permitiremos que você se comunique diretamente com o Prisioneiro Laphines.";
+			next;
+			mes "^00B2EE[ Soldado de Elite de Manuk ]^000000";
+			mes "Comandante... você tem certeza disso? Nós nem sabemos se eles são amigos ou inimigos...";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Com apenas nossos poderes, é impossível descobrir o que o Laphine está fazendo. Acho que o passado provou isso.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "O que eles estão fazendo agora pode nos levar a uma solução.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Estranho, esperamos que nossa cooperação seja boa. Agora, por favor, vá interrogar o Prisioneiro Laphines.";
+			set ins_nyd,92;
+			close;
+		} else if ((ins_nyd == 92) || (ins_nyd == 102) || (ins_nyd == 112) || (ins_nyd == 200) || (ins_nyd == 201) || (ins_nyd == 202)) {
+			mes "Estranho, esperamos que nossa cooperação seja boa. Agora, por favor, vá interrogar o Prisioneiro Laphines.";
+			close;
+		} else if ((ins_nyd == 71) || (ins_nyd == 81) || (ins_nyd == 91) || (ins_nyd == 101) || (ins_nyd == 111) || (ins_nyd == 121) || (ins_nyd == 131)) {
+			mes "Forasteiro. Bem-vindo a Manuk, a aldeia de Sapha. Eu sou seu representante, Neat Etorr.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Somos apenas uma pequena aldeia, nada de especial... mas descanse confortavelmente.";
+			close;
+		} else if (ins_nyd == 203) {
+			mes "Eu estava esperando por você. É bom que você esteja seguro. Você encontrou algo?";
+			next;
+			select("^3CB371[»]^000000 Explique a saída repentina do Guardian");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Então... esse é o ninho da Árvore Guardiã do Mundo, o solo sagrado para a tribo Laphine.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Mas por causa da saída irada do Guardião, sua sombra está causando estragos na Árvore do Mundo?";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Se o que você está dizendo é verdade, então não há mais razão para continuarmos lutando contra a tribo Laphine...";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Que grande descoberta... Então Nidhogg não é mais o Guardião da Árvore do Mundo...?";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "A Sombra de Nidhogg veio a existir neste mundo, e prejudicou as raízes da Árvore do Mundo... que desastre.";
+			next;
+			select("^3CB371[»]^000000 Passe a mensagem da Árvore do Mundo Yggdrasil");
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "É isso que o padre do Guardião disse?";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "A partir de agora, precisamos conversar sobre isso com a tribo Laphine.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Mas claro... não sabemos se são razoáveis o suficiente... hehe.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Isso é tudo que precisávamos de você... O que resta são negócios entre nós e a tribo Laphine.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Obrigado por nos ajudar com um problema tão grande. Você pode esquecê-lo agora.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Não é muito, mas por favor isso como um sinal de nossa apreciação.";
+			if (checkre(3))
+				getexp 1500000,350000;
+			else
+				getexp 150000,35000;
+			getitem 6080,10; //Manuk_Coin
+			set ins_nyd,132;
+			close;
+		} else if (ins_nyd == 132) {
+			mes "Estranho, obrigado por nos ajudar no momento de necessidade. Eu nunca esquecerei a sua bondade.";
+			close;
+		} else {
+			mes "Forasteiro. Bem-vindo à aldeia Manuk de Sapha. Eu sou seu representante, Neat Etorr.";
+			next;
+			mes "^00B2EE[ Neat Etorr ]^000000";
+			mes "Somos apenas uma pequena aldeia, nada de especial... mas descanse confortavelmente.";
+			close;
+		}
+	} else {
+		mes "Tkeh likek Ohek QekhlHkl PkedlioH.";
+		close;
+	}
+}
+
+man_in01,286,61,5	script	Guarda Manuk#1_edq	450,1,1,{
+	mes "^00B2EE[ Guarda Manuk ]^000000";
+	if (isequipped(2782) == 1) mes "Estou guardando este Prisioneiro Laphines. Me deixe em paz.";
+	else mes "Klekod Oi Thekd Pheid Okei.";
+	close;
+}
+
+man_in01,295,61,3	script	Guarda Manuk#2_edq	450,1,1,{
+	mes "^00B2EE[ Guarda Manuk ]^000000";
+	if (isequipped(2782) == 1) mes "Estou guardando este Prisioneiro Laphines. Me deixe em paz.";
+	else mes "Liek QUekdk Ohei Vue.";
+	close;
+}
+
+man_in01,291,62,3	script	Prisioneiro Laphines#edq	437,3,3,{
+	mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+	if (isequipped(2782) == 1) {
+		if (ins_nyd == 5) {
+			mes "Você... não é da tribo Sapha... Você é... um forasteiro?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Você já entrou em contato com a tribo Laphine? Você já esteve em Splendide?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Por favor, fale com meu povo em Splendide. Eles virão me ajudar.";
+			next;
+			switch(select("^3CB371[»]^000000 O que aconteceu com você?:^3CB371[»]^000000 O que há na caverna ao norte?:^3CB371[»]^000000 Conte-me sobre sua tribo:^ff0000[»]^000000 Vou deixar você em paz")) {
+			case 1:
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Durante nossa última batalha com a tribo Sapha... eles me pegaram e me fizeram prisioneiro.";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "A tribo Sapha atacou primeiro. Eles estão destruindo a Árvore do Mundo.";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "É por isso que a guerra começou. Mas eu não quero mais lutar com a tribo Sapha...";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Se não fosse isso... eu não sobreviveria aqui...";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Por favor. Traga essa novidade para toda Splendide. Envie alguém para me salvar... ou eles podem me matar.";
+				close;
+			case 2:
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Há...";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Não... não posso te dizer... é o segvermelhoo da nossa tribo...";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Eu só quero dizer isso... se a tribo Sapha invadir aquele lugar, nós nunca vamos perdoá-los!";
+				set ins_nyd,52;
+				close;
+			case 3:
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Os Laphines protegeram a Árvore do Mundo Yggdrasil por gerações.";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Vivemos em um... tempo diferente, terra diferente... viemos para uma expedição.";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Depois que recebemos relatórios de nosso espião sobre os estranhos sintomas da Árvore do Mundo, reconhecemos a existência do Manuk.";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Eles estão minerando metal e, ao fazê-lo, destruindo as raízes da Árvore do Mundo...";
+				next;
+				mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+				mes "Então despachamos uma expedição aqui. Logo depois, a guerra com os Sapha começou...";
+				close;
+			case 4:
+				close;
+			}
+		} else if (ins_nyd == 92) {
+			mes "A tribo sapha chegou a cooperar com uma raça desconhecida?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Qual é o seu propósito? Por que você quer saber que lugar é esse?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Certo... é como você supôs, um lugar conectado à Árvore do Mundo. Também é o Ninho do Guardião.";
+			next;
+			select("^3CB371[»]^000000 Ninho do Guardião?");
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Sim, esse é o ninho de Nidhogg, o Guardião da Árvore do Mundo...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Apenas o servo de um guardião marcado da tribo Laphine pode entrar.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Esse lugar foi inicialmente fechado ao público, mas depois os gigantes da tribo Sapha mudaram as coisas...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Para obter mais minerais, eles começaram a cavar loucamente.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "No final, eles prejudicaram uma parte da raiz da Árvore do Mundo que fica muito perto de sua mina e, assim, a Árvore do Mundo ficou muito doente.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Depois de chegarmos aqui sabendo dos fatos, a Árvore do Mundo já estava em muito mau estado devido às muitas fábricas construídas pela tribo Sapha.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Apesar de, há muito tempo, estarmos atacando a tribo Sapha, tentando forçá-los a sair, eles não são derrotados tão facilmente, levando a esse impasse.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Durante este tempo, seu povo viajou através da lacuna espaço-tempo para esta terra.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Por causa dessas muitas razões inesperadas, o ninho do Guardião, que deveria ficar escondido no subsolo, foi descoberto por sua raça...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Agora você entende o quão grave é essa situação. Por causa da tribo Sapha, não podemos mais nos aproximar do Guardião e buscar seus ensinamentos de sabedoria.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Hmph... mesmo que eu não coopere, eu sei que você encontrará outros meios para entrar...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Olhando para a situação atual da tribo Laphine, não temos energia suficiente para cercar os campos de Manuk e afugentar os gigantes.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Ok, se já ficou assim, eu vou te ajudar. Não há becos sem saída. Se você continuar, você encontrará uma solução.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Mesmo que eu não diga nada, minha situação não vai mudar.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Eu já disse tudo o que você queria ouvir. Se você tiver quaisquer outros pedidos, por favor me avise.";
+			set ins_nyd,102;
+			close;
+		} else if (ins_nyd == 102) {
+			mes "Ah, você disse que há um poder estranho bloqueando a entrada do ninho do Guardião, certo?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Isso porque apenas os escolhidos pelo Guardião podem entrar.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Somos servos do Guardião há gerações e protegemos a Árvore do Mundo desde então..";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Antes de sermos capturados e trazidos para cá, havia 3 servos, incluindo eu. Nossa tarefa era curar a Árvore do Mundo.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Um foi morto em nossa última guerra com a tribo Sapha... e eu fui levado cativo.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Eu lhe darei minha prova. Não se preocupe, estou apenas marcando você temporariamente como servo de um guardião.";
+			specialeffect2 EF_HOLYHIT;
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Além disso, lembre-se deste feitiço, é necessário para abrir o portão do Guardião.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "AnomarDu Ha OdesUdenVer Ie ";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "remuAlaAsh Mu ModtasAn Yu Dur";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "TalsehrDur So CyaReMush Di DielAlaWos Ie RuffserIman Ie ";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Vá encontrar a fada que guarda o portão e diga este feitiço.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "A prova e o feitiço confirmarão que você é um dos servos do Guardião.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Por favor, conheça o Guardião e volte com uma resposta para tudo. E diga a resposta para...";
+			set ins_nyd,112;
+			close;
+		} else if ((ins_nyd == 71) || (ins_nyd == 81) || (ins_nyd == 91) || (ins_nyd == 101) || (ins_nyd == 111) || (ins_nyd == 121) || (ins_nyd == 131)) {
+			mes "... ...";
+			next;
+			mes "^00B2EE[ Guarda Manuk ]^000000";
+			mes "Ei, forasteiro! Afaste-se do prisioneiro!";
+			close;
+		} else if (ins_nyd == 112) {
+			mes "Por favor, conheça o Guardião e volte com uma resposta para tudo. E diga a resposta para...";
+			close;
+		} else if (ins_nyd == 132) {
+			mes "Sim... eu ouvi sua conversa com a tribo Sapha...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Se nossa tribo realmente confiasse na tribo Sapha... eu não sei.";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Nosso ódio por eles já atingiu um nível anormal...";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "Esses gigantes... eles podem realmente ser confiáveis?";
+			next;
+			mes "^00B2EE[ Prisioneiro Laphines ]^000000";
+			mes "É... é melhor você não acvermelhoitar naquele chamado Etorr... as mentes da tribo Sapha são imprevisíveis.";
+			close;
+		} else {
+			mes "... ...";
+			next;
+			mes "^00B2EE[ Guarda Manuk ]^000000";
+			mes "Ei, forasteiro! Afaste-se do prisioneiro!";
+			close;
+		}
+	} else {
+		mes "AmanVilShar Ie DorLuShar Mu Re";
+		close;
+	}
+}
+
+man_in01,282,42,0	script	armadilha#edq2	-1,10,10,{
+OnTouch_:
+	if ((isequipped(2782) == 1) && (ins_nyd == 52)) {
+		mes "^00B2EE[ Soldado de Elite de Manuk ]^000000";
+		mes "Esta é a ordem de Neat Etorr. Por favor, venha conosco para vê-lo.";
+		next;
+		mes "^00B2EE[ Soldado de Elite de Manuk ]^000000";
+		mes "Traga-o para Neat Etorr. Todos os soldados estejam preparados.";
+		warp "man_in01",311,54;
+		close;
+	}
+	end;
+}
+
+// First floor
+//============================================================
+1@nyd,213,277,5	script	Yggdrasilid Assassinado#1F	437,5,5,{
+	if ('ins_nyd2 == 0) {
+		mes "Quando uma luz fraca entra em seu coração, uma voz soa em sua cabeça.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+		mes "Está tudo acabado... servos do Guardião... Apressem-se e deixem este lugar.";
+		next;
+		while(1) {
+			switch(select("^3CB371[»]^000000 Quem é Você?:^3CB371[»]^000000 O que você quer dizer?")) {
+			case 1:
+				mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+				mes "Eu... eu sou a Árvore do Mundo Yggdrasil, serva do Guardião de Nidhogg, assim como o Sumo Sacerdote que lidera a Tribo Laphine.";
+				next;
+				mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+				mes "Então você não é sacerdotisa da Tribo Laphine... Como você entrou? Não, não há tempo para responder a isso.";
+				next;
+				mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+				mes "Apresse-se... e saia... saia deste lugar antes que seja tarde demais.";
+				next;
+				break;
+			case 2:
+				mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+				mes "O guardião... algo está errado com o guardião. Eu não sei o que o fez assim.";
+				next;
+				mes "^00B2EE[ Árvore do mundo Árvore do mundo Yggdrasil ]^000000";
+				mes "Este... este não é mais o ninho da Árvore Guardiã do Mundo Yggdrasil.";
+				next;
+				mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+				mes "A escuridão tomou conta do Guardião e destruiu todas as coisas vivas... agora este lugar se tornou o lar amaldiçoado de monstros.";
+				next;
+				mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+				mes "Agora o vil Sombra de Nidhogg está causando estragos aqui...";
+				next;
+				mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+				mes "Agora não é tarde demais, apresse-se e saia... conte à Tribo Laphine sobre isso... conte aos comandantes de Alfheim...";
+				next;
+				mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+				mes "Minha alma... foi aprisionada aqui. Você é o único em quem posso confiar agora.";
+				next;
+				set .@exit,1;
+			}
+			if (.@exit) break;
+		}
+		select("^3CB371[»]^000000 Sombra de Nidhogg?");
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "O Guardião Nidhogg... ele não está no ninho.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Ele... por alguma razão abandonou sua própria sombra, e deixou.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Tudo o que resta, é a feia Sombra do Guardião de Nidhogg... a Sombra que está enlouquecendo.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "A Sombra sugou todos os nutrientes da Árvore do Mundo Yggdrasil e enlouqueceu quando não há mais nada para obter. Agora, ele quer esta terra.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Uma vez que a sombra feia saia daqui para roubar o poder das outras Árvores Yggdrasil do Mundo, haverá uma grande destruição. Este mundo se tornará um inferno.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Você deve... contar aos comandantes de Alfheim sobre isso, e bolar um plano. Só eles...";
+		next;
+		select("^3CB371[»]^000000 Você deve... contar aos comandantes de Alfheim sobre isso, e bolar um plano. Só eles?");
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Com nossos poderes atuais... é impossível derrotar o Guardião.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Mas quem está enlouquecendo não é o Guardião, e sim sua sombra escura... talvez possamos prendê-lo aqui...";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Você está disposto a aceitar esta missão? Mesmo que isso signifique pagar com sua vida?";
+		next;
+		if(select("^3CB371[»]^000000 Deixe com a gente:^ff0000[»]^000000 Não podemos fazer isso") == 2)
+			close;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Agradeço profundamente sua decisão. Vou usar o que resta dos meus poderes para abrir o caminho para o Ninho do Guardião.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		if (is_party_leader() == true) {
+			mes "O caminho para o Ninho do Guardião é logo após a cachoeira pela grande Árvore Mundial Yggdrasil ao norte. Os mecanismos defensivos do Santuário começarão imediatamente.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "Derrote todos os guardiões de Nidhogg e atravesse a cachoeira até o ninho... e pare a Sombra de Nidhogg lá.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "O portão será aberto em breve. Vá derrotar todos os guardiões... você deve matá-los em 30 minutos antes que o portão se abra...";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "30 minutos... é o limite dos meus poderes. Por favor, despacha-te.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "E... Cuidado... Cuidado com o poder da sombra.";
+			'ins_nyd2 = ins_nyd2 = 1;
+			donpcevent instance_npcname("ins_nyd_1f_timer")+"::OnEnable";
+			donpcevent instance_npcname("nyd_call_mon_1")+"::OnEnable";
+			close;
+		} else {
+			mes "O caminho para o Ninho do Guardião é logo após a cachoeira pela grande Árvore Mundial Yggdrasil ao norte. Os mecanismos defensivos começarão imediatamente.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "Derrote todos os guardiões de Nidhogg e atravesse a cachoeira até o ninho... e pare a Sombra de Nidhogg lá.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "O portão será aberto em breve. Vá derrotar todos os guardiões... você deve matá-los em 30 minutos antes que o portão se abra...";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "30 minutos... é o limite dos meus poderes. Por favor, despacha-te.";
+			next;
+			mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+			mes "E... Cuidado... Cuidado com o poder da sombra.";
+			close;
+		}
+	} else if ('ins_nyd2 == 1) {
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "O caminho para o Ninho do Guardião é logo após a cachoeira pela grande Árvore Mundial Yggdrasil ao norte. Os mecanismos defensivos começarão imediatamente.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Derrote todos os guardiões de Nidhogg e atravesse a cachoeira até o ninho... e pare a Sombra de Nidhogg lá.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "O portão será aberto em breve. Vá derrotar todos os guardiões.";
+		close;
+	} else if ('ins_nyd2 == 2) {
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "O caminho para o Ninho do Guardião é logo após a cachoeira pela grande Árvore Mundial Yggdrasil ao norte.";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Use seus poderes... e destrua a sombra vil...";
+		next;
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Isso é... tudo o que posso fazer por você...";
+		close;
+	} else {
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "Aqueles que querem manchar o sagrado Santuário do Guardião....";
+		warp "mid_camp",100,100;
+	}
+	end;
+
+OnTouch:
+	if ('ins_nyd2 == 0) {
+		mes "O que uma mulher da Tribo Laphine está fazendo aqui...";
+		next;
+		mes "O que está acontecendo? Vamos conferir.";
+		close;
+	}
+	end;
+
+OnInstanceInit: // Temporary fix for @reloadscript.
+	set 'ins_nyd2,0;
+	end;
+}
+
+1@nyd,1,1,0	script	nyd_call_mon_1	-1,{
+OnInstanceInit:
+	enablenpc instance_npcname("nyd_call_mon_1");
+	end;
+
+OnEnable:
+	set .@map$, instance_mapname("1@nyd");
+	monster .@map$,220,250,"Guardião de Nidhogg#1",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,220,252,"Guardião de Nidhogg#2",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,240,270,"Guardião de Nidhogg#3",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,240,272,"Guardião de Nidhogg#4",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,200,200,"Guardião de Nidhogg#5",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,210,210,"Guardião de Nidhogg#6",2020,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,225,265,"Guardião de Nidhogg#7",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,225,270,"Guardião de Nidhogg#8",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,245,235,"Guardião de Nidhogg#9",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,255,255,"Guardião de Nidhogg#10",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,225,245,"Guardião de Nidhogg#11",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	monster .@map$,230,280,"Guardião de Nidhogg#12",2021,1,instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	mapannounce .@map$, "[ Guardião de Nidhogg ] : Proteja o Santuário do Guardião. Livre-se dos intrusos.",bc_map,"0x00ff99";
+	end;
+
+OnDisable:
+	killmonster instance_mapname("1@nyd"),instance_npcname("nyd_call_mon_1")+"::OnMyMobDead";
+	disablenpc instance_npcname("nyd_call_mon_1");
+	end;
+
+OnMyMobDead:
+	set .@map$, instance_mapname("1@nyd");
+	set .@mob_dead_num,mobcount(.@map$, instance_npcname("nyd_call_mon_1")+"::OnMyMobDead");
+	if (.@mob_dead_num < 1) {
+		mapannounce .@map$, "Todos os Guardião de Nidhoggs foram derrotados!",bc_map,"0x00ff99";
+		donpcevent instance_npcname("ins_nyd_1f_timer")+"::OnDisable";
+		donpcevent instance_npcname("nyd_to2f_warp")+"::OnEnable";
+		'ins_nyd2 = ins_nyd2 = 2;
+	}
+	end;
+}
+
+1@nyd,1,2,0	script	ins_nyd_1f_timer	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("ins_nyd_1f_timer");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_nyd_1f_timer");
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc instance_npcname("ins_nyd_1f_timer");
+	stopnpctimer;
+	killmonsterall instance_mapname("1@nyd");
+	end;
+
+OnTimer900000:
+	mapannounce instance_mapname("1@nyd"), "[ Árvore do mundo Yggdrasil ] : Não resta muito tempo. Por favor, despacha-te.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer1200000:
+	mapannounce instance_mapname("1@nyd"), "[ Árvore do mundo Yggdrasil ] : Meus poderes estão desaparecendo lentamente. Por favor, despacha-te.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer1500000:
+	mapannounce instance_mapname("1@nyd"), "[ Árvore do mundo Yggdrasil ] : Estou... quase no meu limite... por favor, apresse-se.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer1800000:
+	mapannounce instance_mapname("1@nyd"), "[ Árvore do mundo Yggdrasil ] : Você falhou... mas vou usar o poder que me resta... para mandá-lo para fora daqui..",bc_map,"0xFFFF00";
+	end;
+
+OnTimer1830000:
+	mapannounce instance_mapname("1@nyd"), "A abertura do portão falhou.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer1850000:
+	donpcevent instance_npcname("ins_nyd_1f_timer")+"::OnDisable";
+	donpcevent instance_npcname("nyd_call_mon_1")+"::OnDisable";
+	instance_warpall "mid_camp",310,150, instance_id();
+	stopnpctimer;
+	end;
+}
+
+1@nyd,195,320,0	script	nyd_to2f_warp	45,5,5,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("nyd_to2f_warp");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("nyd_to2f_warp");
+	end;
+
+OnTouch:
+	'ins_nyd2 = ins_nyd2 = 3;
+	warp instance_mapname("2@nyd"),200,10;
+	end;
+}
+
+1@nyd,1,1,0	script	ins_nyd1_spawn_mobs	-1,{
+OnInstanceInit:
+	set .@map$, instance_mapname("1@nyd");
+	monster .@map$,0,0,"Árvore Anciã",2019,40,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyTreeDead";
+	monster .@map$,0,0,"Ryncho",2020,30,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyRhynDead";
+	monster .@map$,0,0,"Phylla",2021,30,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyPhyDead";
+	monster .@map$,0,0,"Elemental da Água",2016,30,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyAquaDead";
+	monster .@map$,0,0,"Pinguicula Sombria",2015,30,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyPingDead";
+	end;
+
+OnMyTreeDead:
+	monster instance_mapname("1@nyd"),0,0,"Árvore Anciã",2019,1,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyTreeDead";
+	end;
+
+OnMyRhynDead:
+	monster instance_mapname("1@nyd"),0,0,"Ryncho",2020,1,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyRhynDead";
+	end;
+
+OnMyPhyDead:
+	monster instance_mapname("1@nyd"),0,0,"Phylla",2021,1,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyPhyDead";
+	end;
+
+OnMyAquaDead:
+	monster instance_mapname("1@nyd"),0,0,"Elemental da Água",2016,1,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyAquaDead";
+	end;
+
+OnMyPingDead:
+	monster instance_mapname("1@nyd"),0,0,"Pinguicula Sombria",2015,1,instance_npcname("ins_nyd1_spawn_mobs")+"::OnMyPingDead";
+	end;
+}
+
+// Second Floor
+//============================================================
+2@nyd,200,14,0	script	nyd_2f_enter	-1,6,6,{
+OnTouch_:
+	donpcevent instance_npcname("nyd_2f_enter_broad")+"::OnEnable";
+	disablenpc instance_npcname("nyd_2f_enter");
+	end;
+}
+
+2@nyd,1,1,0	script	nyd_2f_enter_broad	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("nyd_2f_enter_broad");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("nyd_2f_enter_broad");
+	initnpctimer;
+	end;
+
+OnTimer12000:
+	mapannounce instance_mapname("2@nyd"), "[ Sombra de Nidhogg ] : Não mais... eu não aguento mais isso...",bc_map,"0xFFFF00";
+	end;
+
+OnTimer15000:
+	mapannounce instance_mapname("2@nyd"), "[ Sombra de Nidhogg ] : Eu preciso... eu preciso dos poderes da Árvore do mundo Yggdrasil...",bc_map,"0xFFFF00";
+	end;
+
+OnTimer18000:
+	mapannounce instance_mapname("2@nyd"), "[ Sombra de Nidhogg ] : Destrua tudo...",bc_map,"0xFFFF00";
+	stopnpctimer;
+	disablenpc instance_npcname("nyd_2f_enter_broad");
+	end;
+}
+
+2@nyd,199,178,0	script	nyd_2f_ddr_control	-1,6,6,{
+OnTouch:
+	specialeffect2 EF_HOLYHIT;
+	mes "De baixo das lindas pedras, uma estranha brisa está se formando.";
+	next;
+	mes "O estranho poder envolve lentamente seu corpo, a dimensão está começando a mudar.";
+	close2;
+	warp instance_mapname("2@nyd"),199,255;
+	end;
+}
+
+2@nyd,199,268,0	script	nyd_2f_boss_enter	-1,8,8,{
+OnTouch_:
+	if (is_party_leader() == true) {
+		donpcevent instance_npcname("nyd_2f_boss_enter_call")+"::OnEnable";
+		disablenpc instance_npcname("nyd_2f_boss_enter");
+		end;
+	}
+	end;
+}
+
+2@nyd,2,2,0	script	nyd_2f_boss_enter_call	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("nyd_2f_boss_enter_call");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("nyd_2f_boss_enter_call");
+	set .@map$, instance_mapname("2@nyd");
+	monster .@map$,199,327,"Sombra de Nidhogg",2022,1,instance_npcname("nyd_2f_boss_enter_call")+"::OnMyMobDead";
+	mapannounce .@map$, "[ Sombra de Nidhogg ] : Eu vou devorar todos vocês... você e a Árvore do mundo Yggdrasil.",bc_map,"0x00ff99";
+	//donpcevent instance_npcname("nyd_2f_boss_enter_call")+"::Ongo";
+	initnpctimer;
+	end;
+
+OnDisable:
+	killmonster instance_mapname("2@nyd"),instance_npcname("nyd_2f_boss_enter_call")+"::OnMyMobDead";
+	disablenpc instance_npcname("nyd_2f_boss_enter_call");
+	end;
+
+OnTimer180000:
+	stopnpctimer;
+OnWarpColor:
+	set .@map$, instance_mapname("2@nyd");
+	switch(rand(1,4)) {
+	case 1:
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : Neste caos... seu sangue é exatamente o que eu preciso.",bc_map,"0xFFFF00";
+		donpcevent instance_npcname("nyd_2f_branco")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_amarelo")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_verde")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_vermelho")+"::OnEnable";
+		instance_warpall .@map$,115,278, instance_id();
+		end;
+	case 2:
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : Eu vou congelar até a última gota do seu sangue.",bc_map,"0xFFFF00";
+		donpcevent instance_npcname("nyd_2f_vermelho")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_amarelo")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_verde")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_branco")+"::OnEnable";
+		instance_warpall .@map$,115,373, instance_id();
+		end;
+	case 3:
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : Durma por toda a eternidade em uma ilusão vazia.",bc_map,"0xFFFF00";
+		donpcevent instance_npcname("nyd_2f_vermelho")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_branco")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_verde")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_amarelo")+"::OnEnable";
+		instance_warpall .@map$,284,278, instance_id();
+		end;
+	case 4:
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : Eu vou deixar você aproveitar a dor de morrer lentamente.",bc_map,"0xFFFF00";
+		donpcevent instance_npcname("nyd_2f_vermelho")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_branco")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_amarelo")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_verde")+"::OnEnable";
+		instance_warpall .@map$,284,374, instance_id();
+		end;
+	}
+	end;
+
+OnMyMobDead:
+	set .@map$, instance_mapname("2@nyd");
+	if (mobcount(.@map$,instance_npcname("nyd_2f_boss_enter_call")+"::OnMyMobDead") < 1) {
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : O guardião da Árvore do mundo Yggdrasil... seus poderes estão desaparecendo...",bc_map,"0x00ff99";
+		donpcevent instance_npcname("Árvore do mundo Yggdrasil#2F")+"::OnEnable";
+		donpcevent instance_npcname("nyd_2f_boss_enter_call")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_boss_enter_logic")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_vermelho_c")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_branco_c")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_amarelo_c")+"::OnDisable";
+		donpcevent instance_npcname("nyd_2f_verde_c")+"::OnDisable";
+		'ins_nyd2 = ins_nyd2 = 4;
+		end;
+	}
+	end;
+}
+
+2@nyd,2,4,0	script	nyd_2f_boss_enter_logic	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("nyd_2f_boss_enter_logic");
+	end;
+
+OnEnable:
+	stopnpctimer;
+	initnpctimer;
+	end;
+
+OnDisable:
+	stopnpctimer;
+	disablenpc instance_npcname("nyd_2f_boss_enter_logic");
+	end;
+
+OnTimer180000:
+	stopnpctimer;
+	donpcevent instance_npcname("nyd_2f_boss_enter_call")+"::OnWarpColor";
+	end;
+}
+
+2@nyd,202,324,5	script	Árvore do mundo Yggdrasil#2F	437,3,3,{
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Obrigada. Você é o salvador dos humanos e da Tribo Laphine.";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Você derrotou Sombra de Nidhogg. Mas... não se foi para sempre. Seus poderes são meramente adormecidos.";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Mas você nos ganhou muito tempo. Isso é ótimo.";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Por favor, vá e denuncie isso aos responsáveis por Splendide e Manuk.";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Como você viu, nem a tribo Sapha nem a tribo Laphine são culpadas pelo enfraquecimento da Árvore do Mundo. É tudo por causa da Sombra do Guardião...";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "A insanidade do Guardião... é causada por poderes desconhecidos para nós... Você deve contar isso a todos.";
+	next;
+	mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+	mes "Agora... Permita-me escoltá-lo para fora do ninho amaldiçoado.";
+	next;
+	switch(select("^ff0000[»]^000000 Por favor, deixe-me sair:^3CB371[»]^000000 Eu quero olhar ao vermelhoor por um tempo")) {
+	case 1:
+		'ins_nyd2 = 0;
+		// ins_nyd2 = 0;
+		set ins_nyd,203;
+		//setquest 3135;
+		warp "nyd_dun02",98,196;
+		end;
+	case 2:
+		mes "^00B2EE[ Árvore do mundo Yggdrasil ]^000000";
+		mes "É isso mesmo... estarei por perto se você quiser ir embora.";
+		close;
+	}
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Árvore do mundo Yggdrasil#2F");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Árvore do mundo Yggdrasil#2F");
+	mapannounce instance_mapname("2@nyd"), "[ Árvore do mundo Yggdrasil ] : Você fez bem. Faça com que todos vão para o Círculo Mágico no meio e preparem-se para a destruição do ninho.",bc_map,"0x00ff99";
+	end;
+}
+
+2@nyd,115,278,0	script	nyd_2f_vermelho	-1,5,5,{
+OnInstanceInit:
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp1")+"::OnEnable";
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp2")+"::OnEnable";
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp3")+"::OnEnable";
+	donpcevent instance_npcname(strnpcinfo(0)+"_c")+"::OnEnable";
+	initnpctimer;
+	end;
+
+OnDisable:
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp1")+"::OnDisable";
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp2")+"::OnDisable";
+	donpcevent instance_npcname(strnpcinfo(0)+"_warp3")+"::OnDisable";
+	disablenpc();
+	end;
+
+OnTouch:
+	if (compare(strnpcinfo(0),"vermelho")) {
+		percentheal -50,0;
+		percentheal -30,0;
+		sc_start SC_BLEEDING,60000,0;
+	} else if (compare(strnpcinfo(0),"branco")) {
+		percentheal -50,0;
+		sc_start SC_FREEZE,20000,0;
+	} else if (compare(strnpcinfo(0),"amarelo")) {
+		percentheal 0,-50;
+		sc_start SC_SLEEP,20000,0;
+		sc_start SC_CONFUSION,60000,0;
+	} else if (compare(strnpcinfo(0),"verde")) {
+		percentheal -50,-50;
+		sc_start SC_POISON,60000,0;
+	}
+	end;
+
+OnTimer10000:
+	disablenpc();
+	stopnpctimer;
+	end;
+}
+
+2@nyd,6,6,0	script	nyd_2f_vermelho_c	-1,{
+OnInstanceInit:
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	initnpctimer;
+	set .@map$, instance_mapname("2@nyd");
+	set .@label$, instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	if (compare(strnpcinfo(0),"vermelho")) {
+		monster .@map$,120,285,"Guardião de Nidhogg#1",2020,1,.@label$;
+		monster .@map$,119,286,"Guardião de Nidhogg#2",2020,1,.@label$;
+		monster .@map$,120,270,"Guardião de Nidhogg#3",2020,1,.@label$;
+		monster .@map$,119,269,"Guardião de Nidhogg#4",2021,1,.@label$;
+		monster .@map$,118,270,"Guardião de Nidhogg#5",2021,1,.@label$;
+	} else if (compare(strnpcinfo(0),"branco")) {
+		monster .@map$,120,380,"Guardião de Nidhogg#1",2020,1,.@label$;
+		monster .@map$,119,381,"Guardião de Nidhogg#2",2020,1,.@label$;
+		monster .@map$,120,367,"Guardião de Nidhogg#3",2020,1,.@label$;
+		monster .@map$,119,366,"Guardião de Nidhogg#4",2021,1,.@label$;
+		monster .@map$,118,365,"Guardião de Nidhogg#5",2021,1,.@label$;
+	} else if (compare(strnpcinfo(0),"amarelo")) {
+		monster .@map$,282,284,"Guardião de Nidhogg#1",2020,1,.@label$;
+		monster .@map$,283,283,"Guardião de Nidhogg#2",2020,1,.@label$;
+		monster .@map$,280,275,"Guardião de Nidhogg#3",2020,1,.@label$;
+		monster .@map$,281,276,"Guardião de Nidhogg#4",2021,1,.@label$;
+		monster .@map$,281,277,"Guardião de Nidhogg#5",2021,1,.@label$;
+	} else if (compare(strnpcinfo(0),"verde")) {
+		monster .@map$,282,378,"Guardião de Nidhogg#1",2020,1,.@label$;
+		monster .@map$,283,377,"Guardião de Nidhogg#2",2020,1,.@label$;
+		monster .@map$,280,368,"Guardião de Nidhogg#3",2020,1,.@label$;
+		monster .@map$,281,368,"Guardião de Nidhogg#4",2021,1,.@label$;
+		monster .@map$,281,367,"Guardião de Nidhogg#5",2021,1,.@label$;
+	}
+	end;
+
+OnMyMobDead:
+	set .@map$, instance_mapname("2@nyd");
+	if (mobcount(.@map$,instance_npcname(strnpcinfo(0))+"::OnMyMobDead") < 1) {
+		mapannounce .@map$, "[ Sombra de Nidhogg ] : Você não é ruim... mas eu serei seu oponente desta vez.",bc_map,"0x00ff99";
+		donpcevent instance_npcname("nyd_2f_boss_enter_logic")+"::OnEnable";
+		donpcevent instance_npcname(strnpcinfo(0))+"::OnDisable";
+		end;
+	}
+	end;
+
+/*
+OnReset:	// Label not called.
+	killmonster instance_mapname("2@nyd"),instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	donpcevent instance_npcname(strnpcinfo(0))+"::OnDisable";
+	end;
+*/
+
+OnDisable:
+	stopnpctimer;
+	killmonster instance_mapname("2@nyd"),instance_npcname(strnpcinfo(0))+"::OnMyMobDead"; //custom
+	donpcevent instance_npcname(substr(strnpcinfo(0),0,getstrlen(strnpcinfo(0))-3))+"::OnDisable";
+	disablenpc();
+	end;
+
+OnTimer180000:
+	killmonster instance_mapname("2@nyd"),instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	stopnpctimer;
+	donpcevent instance_npcname("nyd_2f_boss_enter_call")+"::OnWarpColor";
+	end;
+}
+
+2@nyd,130,298,0	script	nyd_2f_vermelho_warp1	-1,6,6,{
+OnInstanceInit:
+OnDisable:
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+
+OnTouch:
+	if (compare(strnpcinfo(0),"vermelho"))
+		warp instance_mapname("2@nyd"),115,278;
+	else if (compare(strnpcinfo(0),"branco"))
+		warp instance_mapname("2@nyd"),115,373;
+	else if (compare(strnpcinfo(0),"amarelo"))
+		warp instance_mapname("2@nyd"),284,278;
+	else if (compare(strnpcinfo(0),"verde"))
+		warp instance_mapname("2@nyd"),284,374;
+	end;
+}
+2@nyd,142,296,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_vermelho_warp2	-1,6,6
+2@nyd,145,283,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_vermelho_warp3	-1,6,6
+
+2@nyd,115,373,0	duplicate(nyd_2f_vermelho)	nyd_2f_branco	-1,5,5
+2@nyd,6,7,0	duplicate(nyd_2f_vermelho_c)	nyd_2f_branco_c	-1
+2@nyd,127,354,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_branco_warp1	-1,6,6,
+2@nyd,140,357,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_branco_warp2	-1,6,6
+2@nyd,145,367,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_branco_warp3	-1,6,6
+
+2@nyd,284,278,0	duplicate(nyd_2f_vermelho)	nyd_2f_amarelo	-1,5,5
+2@nyd,6,8,0	duplicate(nyd_2f_vermelho_c)	nyd_2f_amarelo_c	-1
+2@nyd,255,285,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_amarelo_warp1	-1,6,6
+2@nyd,257,296,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_amarelo_warp2	-1,6,6
+2@nyd,268,300,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_amarelo_warp3	-1,6,6
+
+2@nyd,284,374,0	duplicate(nyd_2f_vermelho)	nyd_2f_verde	-1,5,5
+2@nyd,6,9,0	duplicate(nyd_2f_vermelho_c)	nyd_2f_verde_c	-1
+2@nyd,274,356,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_verde_warp1	-1,6,6
+2@nyd,260,356,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_verde_warp2	-1,6,6
+2@nyd,258,368,0	duplicate(nyd_2f_vermelho_warp1)	nyd_2f_verde_warp3	-1,6,6
+
+2@nyd,1,1,0	script	ins_nyd2_spawn_mobs	-1,{
+OnInstanceInit:
+	set .@map$, instance_mapname("2@nyd");
+	areamonster .@map$,20,12,380,172,"Ryncho",2020,40,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyRhynDead";
+	areamonster .@map$,20,12,380,172,"Phylla",2021,40,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyPhyDead";
+	areamonster .@map$,20,12,380,172,"Sombra Obscura",2023,40,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyDarkshaDead";
+	areamonster .@map$,20,12,380,172,"Pinguicula Sombria",2015,40,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyPingDead";
+	end;
+
+OnMyRhynDead:
+	areamonster instance_mapname("2@nyd"),20,12,380,172,"Ryncho",2020,1,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyRhynDead";
+	end;
+
+OnMyPhyDead:
+	areamonster instance_mapname("2@nyd"),20,12,380,172,"Phylla",2021,1,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyPhyDead";
+	end;
+
+OnMyDarkshaDead:
+	areamonster instance_mapname("2@nyd"),20,12,380,172,"Sombra Obscura",2023,1,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyDarkshaDead";
+	end;
+
+OnMyPingDead:
+	areamonster instance_mapname("2@nyd"),20,12,380,172,"Pinguicula Sombria",2015,1,instance_npcname("ins_nyd2_spawn_mobs")+"::OnMyPingDead";
+	end;
+}
+
+// GM Management NPCs
+//============================================================
+sec_in02,36,167,3	script	Gerente Nidhogg	447,1,1,{
+	callfunc "F_GM_NPC";
+	mes "Digite a senha.";
+	next;
+	if (callfunc("F_GM_NPC","96845",1) == 0) {
+		mes "Senha incorreta.";
+		close;
+	}
+	mes "O que você precisa fazer?";
+	next;
+	switch(select("^3CB371[»]^000000 Redefinir variáveis para permitir a entrada em Nidhogg:^3CB371[»]^000000 Alterar variável 'ins_nyd':^3CB371[»]^000000 Remover temporizador de 3 dias 3135:^3CB371[»]^000000 Confirmar número de variável")) {
+	case 1:
+		set ins_nyd,200;
+		set ins_nyd2,0;
+		erasequest 3135;
+		mes "ins_nyd definido como 200 ins_nyd2 definido como 0";
+		mes "missão 3135 apagada.";
+		close;
+	case 2:
+		mes "Qual variável você deseja alterar?";
+		next;
+		switch(select("^3CB371[»]^000000 ins_nyd:^3CB371[»]^000000 ins_nyd2")) {
+			case 1: set .@var$,"ins_nyd"; break;
+			case 2: set .@var$,"ins_nyd2"; break;
+		}
+		mes "Insira o número da variável";
+		next;
+		input .@input;
+		setd .@var$, .@input;
+		mes .@var$+" foi definido para "+.@input+" .";
+		close;
+	case 3:
+		mes "O temporizador de 3 dias será removido quando fechar esta janela.";
+		next;
+		erasequest 3135;
+		mes "Concluiu a remoção do Temporizador de Missão.";
+		close;
+	case 4:
+		mes "ins_nyd está em "+ins_nyd+".";
+		mes "ins_nyd2 está em "+ins_nyd2+".";
+		close;
+	}
+}
+
+nyd_dun02,7,7,2	script	Purification Admin#nyd2	844,2,0,{
+	callfunc "F_GM_NPC";
+	mes "Por favor insira a senha";
+	set .@i, callfunc("F_GM_NPC","dragonsdaslayer",1);
+	next;
+	if (.@i == 0) {
+		mes "Digite a senha exatamente.";
+		close;
+	}
+	switch(select("^3CB371[»]^000000 Gerar Pedra de Purificação:^3CB371[»]^000000 Remover Pedra de Purificação:^3CB371[»]^000000 Desativar NPC de Entrada:^3CB371[»]^000000 Ativar NPC de Entrada:^ff0000[»]^000000 Cancelar")) {
+	case 1:
+		mes "A Pedra de Purificação foi criada e ficará ligada por 30 minutos.";
+		donpcevent "Pedra de Purificação#nyd2::OnEnable";
+		close;
+	case 2:
+		mes "A Pedra de Purificação foi destruída.";
+		donpcevent "Pedra de Purificação#nyd2::OnDisable";
+		close;
+	case 3:
+		mes "O Porteiro Yggdrasil em nyd_dun02 100 201 agora está OFF.";
+		disablenpc "Porteiro Yggdrasil";
+		close;
+	case 4:
+		mes "O Porteiro Yggdrasil em nyd_dun02 100 201 está agora On.";
+		enablenpc "Porteiro Yggdrasil";
+		close;
+	case 5:
+		close;
+	}
+}
+
+nyd_dun02,88,195,4	script	Pedra de Purificação#nyd2	406,{
+	erasequest 3135;
+	erasequest 3136;
+	set ins_nyd,200;
+	set ins_nyd2,0;
+	mes "^0000FFOs registros e efeitos posteriores relacionados ao Ninho de Nidhogg foram removidos. Você pode gerar e entrar na masmorra novamente.^000000";
+	close;
+OnInit:
+	disablenpc "Pedra de Purificação#nyd2";
+	end;
+OnEnable:
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "Pedra de Purificação#nyd2";
+	end;
+OnTimer1000:
+	enablenpc "Pedra de Purificação#nyd2";
+	end;
+OnTimer1740000:
+	mapannounce "nyd_dun02","A Pedra de Purificação será destruída em um minuto.",bc_map,"0x00FF99",FW_NORMAL,12;
+	end;
+OnTimer1800000:
+	disablenpc "Pedra de Purificação#nyd2";
+	end;
+}

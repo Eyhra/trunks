@@ -1,0 +1,22 @@
+-	script	VIP_STATUSs	-1,{
+
+OnVIPInfo:
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+			dispbottom "[ KillerRO ] : Você não possui tempo VIP, aproveite para fazer uma doação e ajudar o servidor, além de garantir benefícios exclusivos!";
+		end;
+	}
+			dispbottom "[ KillerRO ] : Seu Tempo VIP restante é de : "+ Time2Str(vip_status(VIP_STATUS_REMAINING)+gettimetick(2)),0x5cdcff;
+	end;
+	
+OnPCLoginEvent:
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+			dispbottom "[ KillerRO ] : Você não possui tempo VIP, aproveite para fazer uma doação e ajudar o servidor, além de garantir benefícios exclusivos!";
+		end;
+	}
+			dispbottom "[ KillerRO ] : Seu Tempo VIP restante é de : "+ Time2Str(vip_status(VIP_STATUS_REMAINING)+gettimetick(2)),0x5cdcff;
+	end;
+	
+OnInit:
+	bindatcmd "tempovip", strnpcinfo(0)+"::OnVIPInfo";
+	
+}

@@ -1,0 +1,146 @@
+function	script	F_CoolEventCorp	{
+	cutin "zonda_01",2;
+	mes "[Funcionáro da Corp. Eventos]";
+	mes "Bem-vind" + ((Sex) ? "o":"a") + " a Corporação Eventos Incríveis.";
+	mes "Nossa equip está sempre trabalhando para corresponder as suas expectativas referentes a qualidade do serviço prestado. Então como posso ajudá-l" + ((Sex) ? "o":"a") + " hoje?";
+	next;
+	switch(select(getarg(0))) {
+	case 1:
+		mes "[Funcionáro da Corp. Eventos]";
+		mes "Seu Ponto de Retorno foi salvo aqui " + getarg(1) + ".";
+		mes "Obrigado por utilizar os Serviços da Corporaçao Eventos Incríveis!";
+		savepoint getarg(2),getarg(3),getarg(4),1,1;
+		close2;
+		break;
+	case 2:
+		mes "[Funcionáro da Corp. Eventos]";
+		if(!callfunc("F_CanOpenStorage")){
+			mes "Desculpe, mas voce precisa ter Nivel 6 das Habilidades Básicas de Aprendiz para usar o armazém.";
+			close2;
+			break;
+		}
+		if(Zeny < 40){
+			mes "Desculpe, mas voce não tem Zeny suficiente para usar o serviço de armazém.";
+			mes "A taxa de acesso ao armazém é de 40 Zeny.";
+			close2;
+			break;
+		}
+		set Zeny, Zeny - 40;
+		mes "Deixe-me abrir o seu armazém pessoal, nesse extato momento.";
+		mes "Obrigado por apaiar a Corporaçao Eventos Incríveis, ao utilizar. Tenha um bom dia!";
+		callfunc("F_CheckKafCode");	//Verifique sua senha de armazenamento, se definido
+		close2;
+		openstorage;
+		break;
+	case 3:
+		mes "Por favor escolha";
+		mes "seu destino.";
+		next;
+		if (VIP_SCRIPT && !vip_status(VIP_STATUS_ACTIVE))
+			set .@cost,4400;
+		else
+			set .@cost,2200;
+		.@destination$ = getarg(5);
+		if (select(.@destination$ +" -> "+ .@cost +" z:Cancelar") == 1) {
+			if ((countitem(7060) != 0) || (Zeny >= .@cost)) {
+				if (countitem(7060) != 0) {
+					delitem 7060,1; //Vale-Teletransporte
+				}
+				else {
+					set Zeny,Zeny-.@cost;
+				}
+				if (.@destination$ == "Veins") warp "veins",205,101;
+				else if (.@destination$ == "Rachel") warp "rachel",115,125;
+				cutin "",255;
+				end;
+			}
+			else {
+				mes "[Funcionáro da Corp. Eventos]";
+				mes "Desculpe, mas voce não tem Zeny suficiente usar o Serviço de Teletransporte.";
+				mes "A Taxa de teletransporte para " + .@destination$ + " custa " + .@cost + " zeny.";
+			}
+		}
+		close2;
+		break;
+	case 4:
+		mes "[Funcionáro da Corp. Eventos]";
+		if(BaseClass != Job_Merchant){
+			mes "Desculpe, mas o serviço de aluguel de carrinho";
+			if (checkre(0))
+				mes "está disponível somente para a classe dos Mercadores";
+			else {
+				mes "está disponível somente para Mercadores, Ferreiros, Mestre Ferreiros, Alquimistas e Bioquímicos.";
+			}
+			close2;
+			break;
+		}
+		if(getskilllv("MC_PUSHCART") == 0){
+			mes "voce só pode alugar um carrinho depois de aprender a habilidade \"Usar Carrinho\".";
+			close2;
+			break;
+		}
+		if(checkcart() == 1){
+			mes "voce já possui um carrinho equipado.";
+			mes "Infelizmente, não podemos alugar mais de um carrinho para cada cliente";
+			close2;
+			break;
+		}
+		if(countitem(7061)){
+			delitem 7061,1; //Vale-Carrinho
+			setcart;
+			close2;
+			break;
+		}
+		mes "A taxa de aluguel do carrinho é de 800 zeny.";
+		mes "voce gostaria de alugar um carrinho?";
+		next;
+		if(select("Alugar Carrinho.:Cancelarar") == 1){
+			if(Zeny < 800){
+				mes "[Funcionáro da Corp. Eventos]";
+				mes "Desculpe, mas voce não tem zeny suficiente para pagar a taxa de 800 zeny do aluguel do carrinho.";
+			} else {
+				set Zeny, Zeny - 800;
+				setcart;
+			}
+		}
+		close2;
+		break;
+	case 5:
+		callfunc("F_SetKafCode","[Funcionáro da Corp. Eventos]","Corporação Eventos Incríveis.");
+	case 6:
+	default:
+		mes "[Funcionáro da Corp. Eventos]";
+		mes "Os Funcionáros da Corporaçao Eventos Incríveis, está sempre se esforçando para providenciar o melhor serviço para nossos clientes.";
+		mes "Nos ajude nos tornar os melhores usando nossos serviços com frequencia. Muito obrigado!";
+		close2;
+	}
+	cutin "", 255;
+	end;
+}
+lighthalzen,94,248,3	script	Eventos Incríveis::CoolEventCorpStaffLighthalzen	4_M_ZONDAMAN,{
+	callfunc "F_CoolEventCorp",
+		"Salvar:Usar Armazém::Alugar Carrinho:Serviço de Armazém com Senha:Cancelar",
+		"no vilarejo de Lighthalzen","lighthalzen",95,240;
+	end;
+}
+
+hugel,88,168,4	script	Corp. Eventos Incríveis::CoolEventCorpStaffHugel	4_M_ZONDAMAN,{
+	callfunc "F_CoolEventCorp",
+		"Salvar:Usar Armazém::Alugar Carrinho:Serviço de Armazém com Senha:Cancelar",
+		"no vilarejo de Hugel","hugel",96,155;
+	end;
+}
+
+rachel,109,138,5	script	Corp. Eventos Incríveis::CoolEventCorpStaffRachel	4_M_ZONDAMAN,{
+	callfunc "F_CoolEventCorp",
+		"Salvar:Usar Armazém:Serviço de Teleporte:Alugar Carrinho:Serviço de Armazém com Senha:Cancelar",
+		"na cidade de Rachel","rachel",113,137,"Veins";
+	end;
+}
+
+veins,208,128,5	script	Corp. Eventos Incríveis::CoolEventCorpStaffVeins	4_M_ZONDAMAN,{
+	callfunc "F_CoolEventCorp",
+		"Salvar:Usar Armazém:Serviço de Teleporte:Alugar Carrinho:Serviço de Armazém com Senha:Cancelar",
+		"na cidade de Veins","veins",204,103,"Rachel";
+	end;
+}

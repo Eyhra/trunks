@@ -1,0 +1,1002 @@
+//====================================================================================
+//= Script para ativar o icone de rates sempre que o personagem logar
+//= Se for o primeiro login do personagem ele envia o personagem até o mapa de iniciante
+//====================================================================================
+-	script	HRO_Newbie_Welcome	-1,{
+
+OnPcLoginEvent:
+	if(irateExp == 1){
+		fstatus(getcharid(0),2001,0,1);
+	}
+	if(irateExp == 25){
+		fstatus(getcharid(0),2002,0,1);
+	}
+	if(irateExp == 50){
+		fstatus(getcharid(0),2003,0,1);
+	}
+	if(irateExp == 1) { end; }
+	if(irateExp == 25) { end; }
+	if(irateExp == 50) { end; }
+	if ( !NEW_CHAR ) {
+		set .np$,"^00B2EE[ Anfitrião KillerRO ]^000000";
+		set .@char_id,getcharid(0);
+		cutin "16jur_nor",2;
+		mes .np$;
+		mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000!";
+		mes "Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+		next;
+		mes .np$;
+		mes "Estou aqui para te ajudar nesse iníco de jornada!";
+		sleep2 100;
+		mes "Caso queira me ajuda, levarei você a um mapa especial";
+		sleep2 200;
+		mes "Mas caso não queira só me dizer não, e seguir seu rumo por contra própia.";
+		sleep2 300;
+			switch(select("^3CB371[»]^000000 Sim!:^3CB371[»]^000000 Não!")) {
+				case 1:
+					next;
+					instance_create( "O inicio de uma jornada", IM_CHAR );
+					mes .np$;
+					mes "Para saber mais sobre o servidor você será enviado para um mapa!";
+					next;
+					instance_enter( "O inicio de uma jornada", 104, 98, .@char_id, instance_id(IM_CHAR));
+					end;
+				case 2:
+					next;
+					mes .np$;
+					mes "Certo, Boa jornada meu nobre guerreiro!";
+					next;
+					mes .np$;
+					mes "Eu preciso que você escolha uma das rates para continuar, lembre-se:";
+					sleep2 500;
+					mes "^3CB371[»]^000000 ^FFAA001x/1x^000000 = +^B7CA2450%^000000";
+					sleep2 750;
+					mes "^3CB371[»]^000000 ^FFAA0025x/25x^000000 = +^B7CA2425%^000000";
+					sleep2 1000;
+					mes "^3CB371[»]^000000 ^FFAA0050x/50x^000000 = Drops ^B7CA24normais^000000";
+					next;
+					setarray .@rates, itemselectmenu(60008,60009,60010);
+					mes .np$;
+					if ( .@rates == 60008) {
+						mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+						set irateExp,1;
+						set irateDrop,50;
+						fstatus(getcharid(0),2001,0,1);
+						close3;
+					}
+					if ( .@rates == 60009) {
+						mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+						set irateExp,25;
+						set irateDrop,25;
+						fstatus(getcharid(0),2002,0,1);
+						close3;
+					}
+					if ( .@rates == 60010) {
+						mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+						set irateExp,50;
+						set irateDrop,0;
+						fstatus(getcharid(0),2003,0,1);
+						close3;
+					} else {
+						goto setarrates;
+					}	
+					next;
+					if (!irateExp) {
+							if ( .@rates == 60008) {
+							mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+							set irateExp,1;
+							set irateDrop,50;
+							fstatus(getcharid(0),2001,0,1);
+							close3;
+							}
+							if ( .@rates == 60009) {
+							mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+							set irateExp,25;
+							set irateDrop,25;
+							fstatus(getcharid(0),2002,0,1);
+							close3;
+							}
+							if ( .@rates == 60010) {
+							mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+							set irateExp,50;
+							set irateDrop,0;
+							fstatus(getcharid(0),2003,0,1);
+							close3;
+						}
+					}
+				}
+			}
+setarrates:
+	mes .np$;
+	mes "Eu preciso que você escolha uma das rates para continuar, lembre-se:";
+	sleep2 500;
+	mes "^3CB371[»]^000000 ^FFAA001x/1x^000000 = +^B7CA2450%^000000";
+	sleep2 750;
+	mes "^3CB371[»]^000000 ^FFAA0025x/25x^000000 = +^B7CA2425%^000000";
+	sleep2 1000;
+	mes "^3CB371[»]^000000 ^FFAA0050x/50x^000000 = Drops ^B7CA24normais^000000";
+	next;
+	setarray .@rates, itemselectmenu(60008,60009,60010);
+		mes .np$;
+		if ( .@rates == 60008) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,1;
+			set irateDrop,50;
+			fstatus(getcharid(0),2001,0,1);
+			close3;
+		}
+		if ( .@rates == 60009) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,25;
+			set irateDrop,25;
+			fstatus(getcharid(0),2002,0,1);
+			close3;
+		}
+		if ( .@rates == 60010) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,50;
+			set irateDrop,0;
+			fstatus(getcharid(0),2003,0,1);
+			close3;
+		} else {
+			goto setarrates;
+		}	
+		next;
+			if (!irateExp) {
+					if ( .@rates == 60008) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,1;
+					set irateDrop,50;
+					fstatus(getcharid(0),2001,0,1);
+					close3;
+					}
+					if ( .@rates == 60009) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,25;
+					set irateDrop,25;
+					fstatus(getcharid(0),2002,0,1);
+					close3;
+					}
+					if ( .@rates == 60010) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,50;
+					set irateDrop,0;
+					fstatus(getcharid(0),2003,0,1);
+					close3;
+					}
+			}
+OnInit:
+	// Rates de Experiência Base/Classe
+    setarray .irateExp, 1, 25, 50;
+    // Rates de Drop (Menos Cartas MVP/Boss)
+    setarray .irateDrop, 50, 25, 0;	
+}
+//====================================================================================
+//= Script da instância do mapa de iniciantes
+//====================================================================================
+poring_c01,104,104,3	script	Instrutora KillerRO#1	4_F_ACOLYTE,{
+	set .np$,"^00B2EE[ Instrutora KillerRO ]^000000";
+	//setarray .@rates,60008,60009,60010,60011,60012;
+	cutin "acact_01",2;
+	if ( bossbatledoram == 1 ) { goto classena2; }
+	if ( JobLevel >= 10 ) { goto classeok; }
+	if ( bossbatle1 == 1 ) { goto bossbattle; }
+	if ( !#VIP_FREE01 ) { 
+	mes .np$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000!";
+	mes "Antes de qualquer coisa, bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+	next;
+	mes .np$;
+	mes "Vi aqui que esta é a sua primeira vez aqui no servidor, tome este presente!";
+	next;
+	set #VIP_FREE01, 1;
+	mes .np$;
+	mes "Vi aqui que esta é a sua primeira vez aqui no servidor, tome este presente!";
+	next;
+	vip_time(60*24*5);
+	specialeffect2 100;
+	goto comecandooo; 
+	}
+	mes .np$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000!";
+	mes "Antes de qualquer coisa, bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+	next;
+comecandooo:
+	mes .np$;
+	mes "Eu preciso que você escolha uma das rates para continuar, lembre-se:";
+	sleep2 500;
+	mes "^3CB371[»]^000000 ^FFAA001x/1x^000000 = +^B7CA2450%^000000";
+	sleep2 750;
+	mes "^3CB371[»]^000000 ^FFAA0025x/25x^000000 = +^B7CA2425%^000000";
+	sleep2 1000;
+	mes "^3CB371[»]^000000 ^FFAA0050x/50x^000000 = Drops ^B7CA24normais^000000";
+	next;
+	setarray .@rates, itemselectmenu(60008,60009,60010);
+		mes .np$;
+		if ( .@rates == 60008) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,1;
+			set irateDrop,50;
+			fstatus(getcharid(0),2001,0,1);
+			sleep2 750;
+			goto jena;
+		}
+		if ( .@rates == 60009) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,25;
+			set irateDrop,25;
+			fstatus(getcharid(0),2002,0,1);
+			sleep2 750;
+			goto jena;
+		}
+		if ( .@rates == 60010) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,50;
+			set irateDrop,0;
+			fstatus(getcharid(0),2003,0,1);
+			sleep2 750;
+			goto jena;
+		} else {
+			goto setarrates2;
+		}	
+		next;
+			if (!irateExp) {
+					if ( .@rates == 60008) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,1;
+					set irateDrop,50;
+					fstatus(getcharid(0),2001,0,1);
+					close3;
+					}
+					if ( .@rates == 60009) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,25;
+					set irateDrop,25;
+					fstatus(getcharid(0),2002,0,1);
+					close3;
+					}
+					if ( .@rates == 60010) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,50;
+					set irateDrop,0;
+					fstatus(getcharid(0),2003,0,1);
+					close3;
+					}
+			}
+setarrates2:
+	mes .np$;
+	mes "Eu preciso que você escolha uma das rates para continuar, lembre-se:";
+	sleep2 500;
+	mes "^3CB371[»]^000000 ^FFAA001x/1x^000000 = +^B7CA2450%^000000";
+	sleep2 750;
+	mes "^3CB371[»]^000000 ^FFAA0025x/25x^000000 = +^B7CA2425%^000000";
+	sleep2 1000;
+	mes "^3CB371[»]^000000 ^FFAA0050x/50x^000000 = Drops ^B7CA24normais^000000";
+	next;
+	setarray .@rates, itemselectmenu(60008,60009,60010);
+		mes .np$;
+		if ( .@rates == 60008) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,1;
+			set irateDrop,50;
+			fstatus(getcharid(0),2001,0,1);
+			sleep2 750;
+			goto jena;
+		}
+		if ( .@rates == 60009) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,25;
+			set irateDrop,25;
+			fstatus(getcharid(0),2002,0,1);
+			sleep2 750;
+			goto jena;
+		}
+		if ( .@rates == 60010) {
+			mes "Você escolheu a ^3CB371"+getitemname(.@rates)+"^000000";
+			set irateExp,50;
+			set irateDrop,0;
+			fstatus(getcharid(0),2003,0,1);
+			sleep2 750;
+			goto jena;
+		} else {
+			goto setarrates2;
+		}	
+		next;
+			if (!irateExp) {
+					if ( .@rates == 60008) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,1;
+					set irateDrop,50;
+					fstatus(getcharid(0),2001,0,1);
+					close3;
+					}
+					if ( .@rates == 60009) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,25;
+					set irateDrop,25;
+					fstatus(getcharid(0),2002,0,1);
+					close3;
+					}
+					if ( .@rates == 60010) {
+					mes "A ^3CB371"+getitemname(.@rates)+"^000000 está ativada!";
+					set irateExp,50;
+					set irateDrop,0;
+					fstatus(getcharid(0),2003,0,1);
+					close3;
+					}
+			}
+		jena:
+		mes "Agora mate alguns monstros nesse mapa e volte a falar comigo quando estiver no nível de classe 10.";
+		next;
+		mes .np$;
+		getitem 569, 100;
+		percentheal 100,100;
+		sc_start SC_INCREASEAGI,150000,10;
+		sc_start SC_BLESSING,150000,10;
+		specialeffect2 EF_HEAL2;
+		specialeffect2 37;
+		specialeffect2 42;
+		monster strcharinfo(3),0,0,"--ja--",30027,20,"";
+		monster strcharinfo(3),0,0,"--ja--",30028,20,"";
+		monster strcharinfo(3),0,0,"--ja--",30029,20,"";
+		monster strcharinfo(3),0,0,"--ja--",30030,20,"";
+		close3;
+classeok:
+	if ( BaseClass == Job_Summoner ) { goto bossbattle; }
+	if ( SkillPoint > 1 ) { goto jobpoint; }
+	killmonsterall instance_mapname("poring_c01");
+	mes .np$;
+	mes "Boa ^008aff"+strcharinfo(0)+"^000000! Agora você já pode escolher a sua primeira classe antes de ir para a cidade principal!";
+	sleep2 250;
+	next;
+	mes .np$;
+	mes "Então, qual classe você gostaria de se tornar?";
+	sleep2 250;
+	next;
+	if(sex) {
+		setarray .@jobs, itemselectmenu(60013,60023,60024,60025,60026,60027,60019,60020,60021,60028);
+	} else {
+		setarray .@jobs, itemselectmenu(60013,60014,60015,60016,60017,60018,60019,60020,60021,60022);
+	}
+	mes .np$;
+	mes "Você escolheu a classe ^3CB371"+getitemname(.@jobs)+"^000000.";
+	sleep2 500;
+	mes "Você tem certeza disso?";
+	sleep2 750;
+	switch(select("^3CB371[»]^000000 Sim, tenho certeza:^ff0000[»]^000000 Não, me deixe escolher novamente")) {
+		case 1:
+			next;
+			mes .np$;
+			if ( .@jobs == 60013 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 50;
+				JobChange(Job_Swordman);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 200;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750572, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750566, 1;
+				sleep2 200;
+				getitem 750566, 1;
+				sleep2 250;
+				//getitem 11569, 50;
+				sleep2 300;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 400;
+				specialeffect2 563;
+				sleep2 500;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60014 ||  .@jobs == 60023 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Mage);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750574, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750568, 1;
+				sleep2 200;
+				getitem 750568, 1;
+				sleep2 250;
+				//getitem 11569, 50;
+				sleep2 300;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 400;
+				specialeffect2 563;
+				sleep2 500;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60015 ||  .@jobs == 60024 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Archer);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750573, 1;
+				sleep2 100;
+				getitem 750579, 100;
+				sleep2 150;
+				getitem 2393, 1;
+				sleep2 200;
+				getitem 750565, 1;
+				sleep2 250;
+				getitem 750565, 1;
+				sleep2 300;
+				//getitem 11569, 50;
+				sleep2 400;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 500;
+				specialeffect2 563;
+				sleep2 600;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60016 ||  .@jobs == 60025 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Acolyte);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750574, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750570, 1;
+				sleep2 200;
+				getitem 750570, 1;
+				sleep2 250;
+				//getitem 11569, 50;
+				sleep2 300;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 400;
+				specialeffect2 563;
+				sleep2 500;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60017 ||  .@jobs == 60026 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Merchant);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750574, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750569, 1;
+				sleep2 200;
+				getitem 750569, 1;
+				sleep2 250;
+				//getitem 11569, 50;
+				sleep2 300;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 400;
+				specialeffect2 563;
+				sleep2 500;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60018 ||  .@jobs == 60027 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Thief);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750571, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750567, 1;
+				sleep2 200;
+				getitem 750567, 1;
+				sleep2 250;
+				//getitem 11569, 50;
+				sleep2 300;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 400;
+				specialeffect2 563;
+				sleep2 500;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60019 ) {
+				if ( BaseLevel <= 34 ) { goto classena3; }
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_SuperNovice);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750571, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				//getitem 11569, 50;
+				sleep2 200;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 250;
+				specialeffect2 563;
+				sleep2 350;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60020 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Taekwon);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 2393, 1;
+				sleep2 100;
+				//getitem 11569, 50;
+				sleep2 150;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 300;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60021 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Ninja);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750576, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750578, 100;
+				sleep2 200;
+				//getitem 11569, 50;
+				sleep2 250;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 300;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 550;
+				set bossbatledoram, 1;
+				close3;
+			} else if ( .@jobs == 60022 || .@jobs == 60028 ) {
+				mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+				sleep2 500;
+				JobChange(Job_Gunslinger);
+				specialeffect2 158;
+				if ( Sex == 1 ) {
+					mes "Você acabou de se tornar um ^3CB371"+getitemname(.@jobs)+"^000000!";
+				} else {
+					mes "Você acabou de se tornar uma ^3CB371"+getitemname(.@jobs)+"^000000!";
+				}
+				sleep2 750;
+				next;
+				mes .np$;
+				mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+				next;
+				mes .np$;
+				mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+				sleep2 50;
+				getitem 750577, 1;
+				sleep2 100;
+				getitem 2393, 1;
+				sleep2 150;
+				getitem 750580, 100;
+				sleep2 200;
+				//getitem 11569, 50;
+				sleep2 250;
+				mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+				sleep2 300;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "O QUE ESTÁ ACONTECENDO?!?!";
+				sleep2 200;
+				next;
+				mes "Então aqui que estão atacando nossas crianças?";
+				sleep2 200;
+				specialeffect2 563;
+				sleep2 400;
+				next;
+				mes .np$;
+				mes "Como assim?";
+				sleep2 200;
+				set bossbatledoram, 1;
+				close3;
+			} else { goto classeok; }
+			mes "Agora mate alguns monstros nesse mapa e volte a falar comigo quando estiver no nível de classe 10.";
+			next;
+			mes .np$;
+			mes "Boa sorte!";
+			percentheal 100,100;
+			sc_start SC_INCREASEAGI,150000,10;
+			sc_start SC_BLESSING,150000,10;
+			specialeffect2 EF_HEAL2;
+			specialeffect2 37;
+			specialeffect2 42;
+			monster strcharinfo(3),0,0,"--ja--",30027,20,"";
+			monster strcharinfo(3),0,0,"--ja--",30028,20,"";
+			monster strcharinfo(3),0,0,"--ja--",30029,20,"";
+			monster strcharinfo(3),0,0,"--ja--",30030,20,"";
+			close3;
+		case 2:
+			next;
+			goto classeok;
+	}
+	end;
+bossbattle:
+	if ( BaseLevel <= 9 ) { goto classena1; }
+	killmonsterall instance_mapname("poring_c01");
+	mes .np$;
+	mes "Parabéns ^008aff"+strcharinfo(0)+"^000000!";
+	sleep2 500;
+	specialeffect2 158;
+	next;
+	mes .np$;
+	mes "Te desejo sorte em sua jornada e novamente, Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+	next;
+	mes .np$;
+	mes "Mas, antes que eu me esqueça aqui, leve alguns equipamentos...";
+	sleep2 50;
+	getitem 1687, 1;
+	sleep2 150;
+	getitem 2393, 1;
+	sleep2 200;
+	getitem 750581, 1;
+	sleep2 250;
+	getitem 750581, 1;
+	sleep2 300;
+	//getitem 11569, 50;
+	sleep2 400;
+	mes "Acho que agora você está pronto para ir até a cidade pricipal!";
+	sleep2 500;
+	specialeffect2 563;
+	sleep2 600;
+	next;
+	mes .np$;
+	mes "O QUE ESTÁ ACONTECENDO?!?!";
+	sleep2 200;
+	next;
+	mes "Então aqui que estão atacando nossas crianças?";
+	sleep2 200;
+	specialeffect2 563;
+	sleep2 300;
+	next;
+	mes .np$;
+	mes "Como assim?";
+	sleep2 200;
+	set bossbatledoram, 1;
+	sleep2 750;
+	close3;
+jobpoint:
+	mes .np$;
+	mes "Por favor, use todos os seus pontos de habilidades antes de continuarmos.";
+	close3;
+classena:
+	if ( JobLevel >= 10 ) { goto classeok; }
+	mes .np$;
+	mes "^008aff"+strcharinfo(0)+"^000000, mate alguns monstros para pegar o nível 10 de classe e volte a falar comigo.";
+	killmonsterall instance_mapname("poring_c01");
+	next;
+	percentheal 100,100;
+	sc_start SC_INCREASEAGI,150000,10;
+	sc_start SC_BLESSING,150000,10;
+	specialeffect2 EF_HEAL2;
+	specialeffect2 37;
+	specialeffect2 42;
+	monster strcharinfo(3),0,0,"--ja--",30027,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30028,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30029,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30030,20,"";
+	close3;
+classena1:
+	mes .np$;
+	mes "^008aff"+strcharinfo(0)+"^000000, mate alguns monstros para pegar o nível 10 de base e volte a falar comigo, estou tentando descobrir o que foi isso!";
+	killmonsterall instance_mapname("poring_c01");
+	next;
+	percentheal 100,100;
+	sc_start SC_INCREASEAGI,150000,10;
+	sc_start SC_BLESSING,150000,10;
+	specialeffect2 EF_HEAL2;
+	specialeffect2 37;
+	specialeffect2 42;
+	monster strcharinfo(3),0,0,"--ja--",30027,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30028,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30029,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30030,20,"";
+	close3;
+classena3:
+	mes .np$;
+	mes "^008aff"+strcharinfo(0)+"^000000, para se tornar um Super Aprendiz você precisa do nível de base em pelo menos 35!";
+	killmonsterall instance_mapname("poring_c01");
+	next;
+	percentheal 100,100;
+	sc_start SC_INCREASEAGI,150000,10;
+	sc_start SC_BLESSING,150000,10;
+	specialeffect2 EF_HEAL2;
+	specialeffect2 37;
+	specialeffect2 42;
+	monster strcharinfo(3),0,0,"--ja--",30027,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30028,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30029,20,"";
+	monster strcharinfo(3),0,0,"--ja--",30030,20,"";
+	close3;
+classena2:
+	killmonsterall instance_mapname("poring_c01");
+	setarray .miniboss, rand(0,3);
+	mes .np$;
+	mes "^008aff"+strcharinfo(0)+"^000000!";
+	killmonsterall instance_mapname("poring_c01");
+	next;
+	mes .np$;
+	mes "Parece que um mini chefe da familía dos porings invadiu o nosso campo de treinamento!";
+	next;
+	mes .np$;
+	mes "Nos ajude e elimine ele!";
+	sleep2 250;
+	mes "Boa sorte!";
+	percentheal 100,100;
+	sc_start SC_INCREASEAGI,150000,10;
+	sc_start SC_BLESSING,150000,10;
+	specialeffect2 EF_HEAL2;
+	specialeffect2 37;
+	specialeffect2 42;
+	sleep2 250;
+	if ( .miniboss == 0){ monster strcharinfo(3),0,0,"--ja--",30031,1,"Instrutora KillerRO#1::OnBossKilled"; }
+	if ( .miniboss == 1){ monster strcharinfo(3),0,0,"--ja--",30032,1,"Instrutora KillerRO#1::OnBossKilled"; }
+	if ( .miniboss == 2){ monster strcharinfo(3),0,0,"--ja--",30033,1,"Instrutora KillerRO#1::OnBossKilled"; }
+	if ( .miniboss == 3){ monster strcharinfo(3),0,0,"--ja--",30034,1,"Instrutora KillerRO#1::OnBossKilled"; }
+	close3;
+OnBossKilled:
+	cutin "acact_01",2;
+	mes .np$;
+	mes "^008aff"+strcharinfo(0)+"^000000!";
+	set NEW_CHAR, 1;
+	sleep2 1000;
+	mes "Ufa!";
+	sleep2 2000;
+	mes "Muito obrigado por ter derrotado este chefe, agora sim, onde estávamos?";
+	sleep2 3500;
+	mes "Bem-vindo ao ^013659Killer^000000^B7CA24RO^000000!";
+	sc_start SC_EXPBOOST,900000,100;
+	sc_start SC_ITEMBOOST,900000,200;
+	specialeffect2 709;
+	sleep2 4500;
+	getitem 50000,1;
+	announce "Bem-vind"+(Sex==0?"a":"o")+" ao KillerRO, "+strcharinfo(0)+" !",2;
+	instance_destroy(instance_id(IM_CHAR));
+	close3;
+OnInstanceInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	end;
+	
+OnInit:
+    // Rates de Experiência Base/Classe
+    setarray .ratesExp, 1, 25, 50;
+    // Rates de Drop (Menos Cartas MVP/Boss)
+    setarray .irateDrop, 50, 25, 0;
+    end;	
+}

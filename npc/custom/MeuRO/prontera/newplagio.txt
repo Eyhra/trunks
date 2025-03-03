@@ -1,0 +1,137 @@
+prontera,149,194,5	script	Plagiodora	747,{
+set .@skill_level,getskilllv( "RG_PLAGIARISM" );
+	mes "[ ^FF0000Mestre Plagiador^000000 ]";
+	if (.plag_skill && !getskilllv("RG_PLAGIARISM")) {
+		mes "Você deve ter aprendido o plágio.";
+		close;
+	}
+	mes "Hey ^FFA500"+strcharinfo(0)+"^000000!";
+	mes "Você quer copiar uma habilidade?";
+	next;
+	switch(select("- Sacri e Crux Magnum:- Outras Skills:- Sair")) {
+	case 1:
+		set .@skill_level,getskilllv( "RG_PLAGIARISM" );
+
+		mes "Eu posso dar algumas habilidades para os Stalkers.";
+
+		if( !.@skill_level ){
+			mes "Mas apenas para aqueles que possuem a habilidade ^FF0000Plagio^000000 podem usar os meus servicos.";
+		} else {
+		if( select( ( CLONE_SKILL && CLONE_SKILL_LV )?"Desaprender habilidade":"Aprender Habilidade","Fechar" ) == 1 ){
+			if( CLONE_SKILL && CLONE_SKILL_LV ){
+				mes "Habilidade antiga desaprendida";
+				set CLONE_SKILL_LV,0;
+				skill CLONE_SKILL,CLONE_SKILL_LV,0;
+				set CLONE_SKILL,0;
+				next;
+				}
+			}
+			mes "Por favor selecione a habilidade desejada";
+			mes "Peço que relogue após sua escolha";
+			next;
+			set .@i,select( .menu$ ) - 1;
+			if( .@skill_level > .skill_max_level[.@i] )
+				set .@skill_level,.skill_max_level[.@i];
+			mes "Habilidade : ^0055FF"+.skill_name$[.@i]+"^000000";
+			mes "Nivel : ^0055FF"+.@skill_level+"^000000";
+			mes "Custo : ^0055FF"+( ( .skill_cost[.@i] )? .skill_cost[.@i]+" Zeny":"Free" )+"^000000";
+			mes " ";
+			//mes "^777777( Plagiarism Affect Skill Level )^000000";
+			if( select( "Confirmar","Cancelar" ) == 1 ){
+				if( .skill_cost[.@i] ){
+					if( Zeny >= .skill_cost[.@i] ){
+						set Zeny,Zeny - .skill_cost[.@i];
+					}else{
+						mes "Voce nao tem zenys suficientes.";
+						close;
+					}
+				}
+				set CLONE_SKILL,.skill_id[.@i];
+				set CLONE_SKILL_LV,.@skill_level;
+				mes "Habilidade aprendida ^0055FFLv"+CLONE_SKILL_LV+" "+.skill_name$[.@i]+"^000000";
+				skill CLONE_SKILL,CLONE_SKILL_LV,0;	
+				end;
+			}
+		}
+	//dispbottom "Skill ID "+CLONE_SKILL+" | Level : "+CLONE_SKILL_LV;
+	close;
+	case 2:
+		if( select( ( CLONE_SKILL && CLONE_SKILL_LV )?"Desaprender habilidade":"Aprender Habilidade","Fechar" ) == 1 ){
+			if( CLONE_SKILL && CLONE_SKILL_LV ){
+				mes "Habilidade antiga desaprendida";
+				set CLONE_SKILL_LV,0;
+				skill CLONE_SKILL,CLONE_SKILL_LV,0;
+				set CLONE_SKILL,0;
+				set CLONE_SKILL,.skill_id[.@i];
+				set CLONE_SKILL_LV,.@skill_level;
+				//mes "Habilidade aprendida ^0055FFLv"+CLONE_SKILL_LV+" "+.skill_name$[.@i]+"^000000";
+				//skill CLONE_SKILL,CLONE_SKILL_LV,0;
+				next;
+				}
+			}	
+		mes "[ ^FF0000Mestre Plagiador^000000 ]";
+		if (.plag_skill && !getskilllv("RG_PLAGIARISM")) {
+			mes "Você deve ter aprendido o plágio.";
+			close;
+		}
+		mes "Hey ^FFA500"+strcharinfo(0)+"^000000!";
+		mes "Você quer copiar uma habilidade?";
+		if (.zeny)
+			mes "Meu serviço custa ^FF0000"+.zeny+" Zeny^000000.";
+		if (select("~ Continuar","Cancelar") == 2) close;
+		if (.zeny > 0 && Zeny < .zeny) {
+			message(strcharinfo(0),"Você não tem Zeny.");
+			close;
+		}
+		.@menu$ = "";
+		.@f = getarraysize(.SkillID);
+		for(.@i = 0; .@i < .@f; .@i++)
+			.@menu$ += getskillname(.SkillID[.@i])+(.@i==.@f?"":":");
+		.@s = select(.@menu$) - 1;
+		close2;
+		if (.zeny > 0 && Zeny < .zeny)
+			end;
+		if (.zeny > 0)
+			Zeny -= .zeny;
+		npcskill .SkillID[.@s],.SkillLV[.@s],20,200;
+		sleep2 1500;
+		unitwarp getnpcid(0),.map$,.x,.y;
+		end;	
+	case 3: break;
+	}	
+
+	OnInit:
+		.@UID = getnpcid(0);
+		setunittitle(.@UID, "Zoe");
+		setunitdata .@UID, UNPC_GROUP_ID, 7;
+		//Default NPC Data Values
+		setunitdata(getnpcid(0),UNPC_DEX,3000);
+		setunitdata(getnpcid(0),UNPC_ATKMIN,1000);
+		setunitdata(getnpcid(0),UNPC_ATKMAX,2000);
+		getmapxy(.map$,.x,.y,BL_NPC);
+
+		//Configuration
+		//Zeny required? Set 0 to disable it
+		.zeny = 25000;
+		//Must Plagiarism skil be learned? (1. Yes | 0. No)
+		.plag_skill = 1;
+		//Skill ID Array
+		setarray .SkillID[0],14,19,20,84,90,490,534,537,540,536,542,156,83,89,47,21,85,230,541,91;
+		//Skill LV Array
+		setarray .SkillLV[0],10,10,10,10,5,10,10,10,10,5,5,1,10,10,10,10,10,5,5,5;
+		// Skill Display Names
+		setarray .skill_name$,"Sacri","Crux Magnun";
+		// Skill ID
+		setarray .skill_id,368,254;
+		// Skill Max Learn-able Level
+		setarray .skill_max_level,5,10;
+		// Skill Cost in Zeny
+		setarray .skill_cost,10000,10000;
+
+		set .skill_size,getarraysize( .skill_name$ );
+		while( .@i < .skill_size ){
+		set .menu$,.menu$ + "[ ^0055FFLv "+.skill_max_level[.@i]+"^000000 ] "+ .skill_name$[.@i] +":";
+		set .@i,.@i + 1;
+	}
+	end;
+	}

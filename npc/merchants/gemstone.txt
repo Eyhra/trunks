@@ -1,0 +1,81 @@
+payon,173,238,5	script	Jade#pay	754,{
+	if (checkweight(1201,1) == 0) {
+		mes "^3355FFEspere um momento! Creio que você esteja carregando muitos itens com você. Por favor, volte quando você tiver deixado alguns itens em seu Armazém.^000000";
+		close;
+	}
+	mes "[Jade]";
+	mes "Traga-me duas Gemas de mesma cor e eu vou mudá-las para gemas de cores diferentes.";
+	next;
+	switch(select("Gemas Azuis para Vermelhas!:Gemas Vermelhas para Amarelas!:Gemas Amarelas para Azuis!")) {
+	case 1: callsub S_TradeGems,717,716;
+	case 2: callsub S_TradeGems,716,715;
+	case 3: callsub S_TradeGems,715,717;
+	}
+
+S_TradeGems:
+	.@item_req = getarg(0);
+	.@item_id = getarg(1);
+
+	if (countitem(.@item_req) < 2) {
+		mes "[Jade]";
+		mes "Hah...!";
+		mes "Você está brincando comigo, não é?";
+		mes "Eu não posso prestar esse serviço a você se você não me der pelo menos 2 "+ getitemname(.@item_req) +"s!";
+		close;
+	}
+	else {
+		.@gems = countitem(.@item_req) /2;
+		mes "[Jade]";
+		mes "Acredito que posso criar um total de "+ .@gems +" "+ getitemname(.@item_id) +"s usando as "+ getitemname(.@item_req) +"s que você tem no momento.";
+		mes "O que gostaria de fazer?";
+		next;
+		switch(select("Me dê todas que você puder:Eu quero escolher a quantidade:Cancelar")) {
+		case 1:
+			delitem .@item_req,.@gems * 2;
+			getitem .@item_id,.@gems;
+			break;
+		case 2:
+			mes "[Jade]";
+			mes "Então, quantas você quer?";
+			mes "O máximo que você pode escolher é 100.";
+			next;
+			while(1) {
+				input .@input,0,101;
+				if (.@input == 0) {
+					mes "[Jade]";
+					mes "Nada?";
+					mes "Acho que você mudou de idéia...";
+					close;
+				}
+				else if (.@input > 100) {
+					mes "[Jade]";
+					mes "Errm...";
+					mes "Falei para colocar um número menor que 100, lembra...?";
+					next;
+				}
+				else if (.@gems < .@input) {
+					// Diálogo Personalizado
+					mes "[Jade]";
+					mes "Errm...";
+					mes "Você não tem tudo isso de gemas para trocar...";
+					next;
+				}
+				else break;
+			}
+			delitem .@item_req,.@input * 2;
+			getitem .@item_id,.@input;
+			break;
+		case 3:
+			mes "[Jade]";
+			mes "Tudo bem, sem problemas.";
+			mes "Volte sempre.";
+			close;
+		}
+		mes "[Jade]";
+		mes "Aqui está.";
+		mes "Sinta-se à vontade para voltar a qualquer hora.";
+		mes "Hum, o que está olhando?";
+		mes "Há algo em meu rosto?";
+		close;
+	}
+}

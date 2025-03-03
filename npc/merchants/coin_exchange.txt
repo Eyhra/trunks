@@ -1,0 +1,72 @@
+// Manuk & Splendide
+//============================================================
+-	script	::merchant_13_2	-1,{
+	set .@n$, "["+strnpcinfo(1)+"]";
+	mes .@n$;
+	if (isequipped(2782) && ep13_2_rhea == 100) {
+		if (!checkweight(1201,1)) {
+			mes "Parece que você está carregando muitas coisas.";
+			mes "Por que não colocar alguns de seus itens no armazenamento e voltar?";
+			close;
+		}
+		mes "Olá.";
+		mes "O que você está procurando?";
+		next;
+		if (strnpcinfo(1) == "Merchant of Manuk") {
+			setarray .@Items[2],12342,12343,12348;
+			set .@Book,11019; //Itens de Esplendor à Venda
+			set .@Coin,6080; //Moeda Manuk
+			set .@i, select("Ver descrição do item:Oportunidade de Manuk:Coragem de Manuk:Fé de Manuk:Cancelar");
+		}
+		else {
+			setarray .@Items[2],12344,12345,12349;
+			set .@Book,11018; //Itens de Esplendor à Venda
+			set .@Coin,6081; //Moeda Esplendor
+			set .@i, select("Ver descrição do item:Comprar Geleia de Fruta de Pinguicula:Comprar Geleia de Mel de Vagalume:Comprar Lágrimas de Cornus:Cancelar");
+		}
+		mes .@n$;
+		if (.@i == 1) {
+			mes "Aqui estão as descrições dos itens.";
+			close2;
+			readbook .@Book,1;
+			end;
+		}
+		else if (.@i < 5) {
+			mes "Posso te vender 3 "+getitemname(.@Items[.@i])+" por ^3131FF1 moeda^000000.";
+			next;
+			switch(select("Comprar.:Não obrigado.")) {
+			case 1:
+				if (countitem(.@Coin)) {
+					mes .@n$;
+					mes "Obrigado por ter vindo.";
+					delitem .@Coin,1; 
+					getitem .@Items[.@i],3;
+					close;
+				}
+				else {
+					mes .@n$;
+					mes "Você não tem moedas suficientes.";
+					close;
+				}
+			case 2:
+				mes .@n$;
+				break;
+			}
+		}
+		mes "Venha de novo se você mudar de idéia.";
+		close;
+	}
+	else {
+		if (strnpcinfo(1) == "Mercador de Manuk") {
+			mes "Rtt od d";
+			mes "Qwo hd is d irr";
+		}
+		else {
+			mes "BurWehAla";
+			mes "tasnarAndu Ie Ru";
+		}
+		close;
+	}
+}
+man_in01,286,16,1	duplicate(merchant_13_2)	Mercador de Manuk	454
+spl_in01,110,326,5	duplicate(merchant_13_2)	Mercador de Splendide	439

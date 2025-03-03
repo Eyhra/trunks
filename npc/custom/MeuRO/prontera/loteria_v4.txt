@@ -1,0 +1,205 @@
+prontera,144,200,5	script	Roleta da Sorte	563,{
+function LinkItem_;
+
+	.@name$ = strcharinfo(0);
+	.@rand = rand(.chances);
+	.@i = 0;
+	
+	mes "[Roleta da Sorte]";
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom dia":(gettime(3)>=13&&gettime(3)<=18?"Boa tarde":"Boa noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+	mes "==============================";
+	mes "Bem vindo as promoções do ^339966KillerRO!^000000";
+	mes "==============================";
+	next;
+	mes "[Roleta da Sorte]";
+	mes "A Promoções funcionam da seguinte forma:";
+	mes "Você precisa inserir um ^ff0000<ITEM>Loto Ticket<INFO>55007</INFO></ITEM>^000000.";
+	next;
+	mes "[Roleta da Sorte]";
+	mes "^c21704Nossos melhores prêmios são:^000000";
+	mes "==============================";
+	mes "^ff0000<ITEM>Asas Danificadas Primordial<INFO>51745</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas Danificadas Fundamental<INFO>51746</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas Danificadas Vital<INFO>51747</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure preta Primordial<INFO>51754</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure azul Fundamental<INFO>51755</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure roxa Vital<INFO>51756</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure branca Primordial<INFO>51761</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure sombria Fundamental<INFO>51762</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta dourada Primordial<INFO>51767</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta vermelha Fundamental<INFO>51768</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta azul Primordial<INFO>51771</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta branca Primordial<INFO>51774</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure laranja Primordial<INFO>51777</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta marrom Primordial<INFO>51780</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas celestes Primordial<INFO>51783</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas celestes azul Fundamental<INFO>51786</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas espirituais Primordial<INFO>51789</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas do lutador Primordial<INFO>51792</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure do aprendiz Primordial<INFO>51795</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Azure do aprendiz Fundamental<INFO>51798</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta negra Primordial<INFO>51801</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta roxa Primordial<INFO>51804</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta verde Fundamental<INFO>51807</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas do caçador Primordial<INFO>51810</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Asas do caçador azul Fundamental<INFO>51813</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta mistica Primordial<INFO>51816</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta vermelha Fundamental<INFO>51819</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Borboleta rosada Vital<INFO>51822</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Mascara arcana verde Primordial<INFO>51825</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Mascara arcana prata Fundamental<INFO>51828</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Mascara arcana azul Vital<INFO>51831</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "^ff0000<ITEM>Mascara arcana roxa Essencial<INFO>51834</INFO></ITEM>^000000 ^2dc204 1,00%";
+	mes "==============================";
+	mes "^c21704Os prêmios especiais são:^000000";
+	mes "==============================";
+	mes "^ff0000<ITEM>Fp Infinito<INFO>55010</INFO></ITEM>^000000 ^2dc204 2,00%";
+	mes "^ff0000<ITEM>Pot def Física<INFO>55011</INFO></ITEM>^000000 ^2dc204 50,00%";
+	mes "^ff0000<ITEM>Pot def Mágica<INFO>55015</INFO></ITEM>^000000 ^2dc204 50,00%";
+	mes "^ff0000<ITEM>Bênção de Tyr<INFO>55012</INFO></ITEM>^000000 ^2dc204 25,00%";
+	mes "^ff0000<ITEM>Food Hit<INFO>55013</INFO></ITEM>^000000 ^2dc204 100,00%";
+	mes "^ff0000<ITEM>Scrol Fp<INFO>55016</INFO></ITEM>^000000 ^2dc204 30,00%";
+	next;
+	if( countitem(.itm_p) < .itm_a ){
+		mes .n$;
+		mes "Você não tem nenhum";
+		mes .itm_a+" x "+.itm_n$;
+		mes "em seu inventário.";
+		mes " ";
+		mes "Por favor, volte aqui quanto tiver um Loto ticket.";
+		close;
+	}
+	mes .n$;
+	mes "Você arriscaria tentar a sorte?";
+	next;
+	if( select("^FFA500^3CB371[»]^000000 Tentar a sorte","^ff0000[»]^000000 Sair") == 2 ) {
+		mes .n$;
+		mes "Tudo bem! "+ strcharinfo(0) +" volte sempre que quiser.";
+		close;
+	}
+	//cutin "loto01",4; sleep2 150;
+	cutin "loto02",4; sleep2 150;
+	cutin "loto03",4; sleep2 150;
+	cutin "loto04",4; sleep2 150;
+	cutin "loto05",4; sleep2 150;
+	cutin "loto06",4; sleep2 150;
+	cutin "loto07",4; sleep2 150;
+	cutin "loto08",4; sleep2 150;
+	cutin "loto09",4; sleep2 150;
+	cutin "loto010",4; sleep2 150;
+	cutin "loto011",4; sleep2 150;
+	cutin "loto012",4; sleep2 150;
+	cutin "loto013",4; sleep2 150;
+	cutin "loto014",4; sleep2 150;
+	cutin "loto015",4; sleep2 150;
+	cutin "loto016",4; sleep2 150;
+	cutin "loto017",4; sleep2 150;
+	cutin "loto018",4; sleep2 150;
+	while (( .@rand -= .item_Rate[.@i] ) >= 0 ) .@i++;
+	progressbar "0x11CC99",.loading; specialeffect2 EF_REMOVETRAP;
+	getitem .item_ID[.@i], 1;
+	delitem .itm_p, 1;
+	announce "[ Roleta da Sorte ]: Player "+ .@name$ +" obteve 1 x "+ getitemname(.item_ID[.@i]) +" com "+ .item_Rate[.@i] +"%.",0;
+	mes .n$;
+	mes "Você obteve 1 x ^FF3000"+ getitemname(.item_ID[.@i]) +"^000000 com "+ .item_Rate[.@i] +"%.";
+	close3;
+	
+function	LinkItem_	{
+	.@id = getarg(0);
+	.@showslot = getarg(1,0);
+	.@slot = getitemslots(.@id);
+	return "<ITEM>"+(.@slot&&.@showslot?getitemname(.@id)+" ["+.@slot+"]":getitemname(.@id))+"<INFO>"+.@id+"</INFO></ITEM>";
+}	
+
+OnInit:
+	.@UID = getnpcid(0);
+	setunittitle(.@UID, "KillerRO");
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	.n$ = "[ Roleta da Sorte ]";
+	.loading = 0; 												// 0 = No Delay
+	.itm_p = 55007;												// Required Item
+	.itm_a = 1;													// Required Amount
+	.itm_n$ = LinkItem_(.itm_p);
+	setarray .item_ID, 51745, //Baixo Sinx
+					   51746, //Baixo Sinx
+					   51747, //Baixo Sinx
+					   51754, //Baixo Monk
+					   51755, //Baixo Monk
+					   51756, //Baixo Monk
+					   51761, //Baixo Lk
+					   51762, //Baixo Lk
+					   51767, //Baixo Sacer
+					   51768, //Baixo Sacer
+					   51771, //Baixo Wiz
+					   51774, //Baixo Prof
+					   51777, //Baixo Ws
+					   51780, //Baixo Guns
+					   51783, //Baixo Ninja
+					   51786, //Baixo Ninja
+					   51789, //Baixo Sl
+					   51792, //Baixo Mtk
+					   51795, //Baixo Super Aprendiz
+					   51798, //Baixo Super Aprendiz
+					   51801, //Baixo BardDancer
+					   51804, //Baixo Criador
+					   51807, //Baixo Criador
+					   51810, //Baixo Sniper
+					   51813, //Baixo Sniper
+					   51816, //Baixo Pala
+					   51819, //Baixo Pala
+					   51822, //Baixo Pala
+					   51825, //Baixo Stalker
+					   51828, //Baixo Stalker
+					   51831, //Baixo Stalker
+					   51834, //Baixo Stalker
+					   55010, //FP Infinito
+					   55011, //Pot def fisica
+					   55015, //Pot def Magica
+					   55012, //Pot bencao tyr
+					   55013, //Food Hit
+					   55016; //Scroll FP
+	setarray .item_Rate, 1, //Baixo Sinx
+					     1, //Baixo Sinx
+					     1, //Baixo Sinx
+					     1, //Baixo Monk
+					     1, //Baixo Monk
+					     1, //Baixo Monk
+					     1, //Baixo Lk
+					     1, //Baixo Lk
+					     1, //Baixo Sacer
+					     1, //Baixo Sacer
+					     1, //Baixo Wiz
+					     1, //Baixo Prof
+					     1, //Baixo Ws
+					     1, //Baixo Guns
+					     1, //Baixo Ninja
+					     1, //Baixo Ninja
+					     1, //Baixo Sl
+					     1, //Baixo Mtk
+					     1, //Baixo Super Aprendiz
+					     1, //Baixo Super Aprendiz
+					     1, //Baixo BardDancer
+					     1, //Baixo Criador
+					     1, //Baixo Criador
+					     1, //Baixo Sniper
+					     1, //Baixo Sniper
+					     1, //Baixo Pala
+					     1, //Baixo Pala
+					     1, //Baixo Pala
+					     1, //Baixo Stalker
+					     1, //Baixo Stalker
+					     1, //Baixo Stalker
+					     1, //Baixo Stalker
+					     2, //FP Infinito
+					     50, //Pot def fisica
+					     50, //Pot def Magica
+					     25, //Pot bencao tyr
+					     100, //Food Hit
+					     30; //Scroll FP
+	.@i = 0;
+	while ( .item_ID[.@i] ) {
+		.chances += .item_Rate[.@i];
+		.@i++;
+	}
+	end;
+}

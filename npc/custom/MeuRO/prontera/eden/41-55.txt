@@ -1,0 +1,91 @@
+//===== rAthena Script =======================================
+//= Eden Group Quests - Mission [41 - 55]
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Repetable Quests for Players between Baselevel 41 - 55.
+//===== Additional Comments: =================================
+//= 1.0 First Version.
+//= 1.1 Some little optimization here and there. [Masao]
+//= 1.2 Optimized. [Euphy]
+//= 1.3 Added support to Para_Team_Mark_ in Eden Group. [Ragno]
+//= 1.4 Added use of F_HasEdenGroupMark function. [Ragno]
+//============================================================
+
+moc_para01,40,38,3	script	Mission [41 - 55]	857,{
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Não é um membro do grupo Eden. Não está qualificado para aceder ao quadro de boletins.";
+		close;
+	}
+	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 1000) {
+		mes "^008800Espere um segundo!!";
+		mes "Não pode receber mais artigos porque está a carregar demasiados artigos. Por favor, tente de novo depois de se animar.^000000";
+		close;
+	}
+	if (checkquest(12088) == -1) {
+		if (BaseLevel < 41 || BaseLevel > 55) {
+			mes "Quadro de boletim da missão para aventureiros Lv41~55.";
+			close;
+		}
+		mes "[Conselho da Missão]";
+		mes "Quadro de boletim da missão.";
+		next;
+		if(select("Verifique as Missões.:Cancelar.") == 2) {
+			mes "^000077Ok. Vamos verificar as missões da próxima vez.^000000.";
+			close;
+		}
+		switch(select("Caça Sapo de Thara:Soldadinho de Chumbo:Caça Kukre:Caça Filhote de Orc:Caça Orc Guerreiro:Caça Vadon:Caça Megalodon:Caça Marte:Caça Cornutus:Caça Myst:Caça Névoa:Caça Esfera Marinha")) {
+			case 1: callsub L_Quest,12072,"Já viu um sapo vermelho? Chama-se Thara Frog e é muito rara. Estamos a tentar verificar onde ela habita. Por isso, por favor caçar 20 rãs Thara.";
+			case 2: callsub L_Quest,12073,"Ouvi falar de alguns brinquedos que atacavam as pessoas. É ridículo! Vamos mostrar-lhes o nosso poder! Temos de caçar 15 Cruzadores!";
+			case 3: callsub L_Quest,12074,"Alguém foi assaltado perto da praia! O possível suspeito é um monstro criminoso chamado Kukre. Por favor caçar 30 Kukre.";
+			case 4: callsub L_Quest,12075,"Os bebés Orc estão a ficar mais violentos nos dias de hoje. Por favor caçar 15 bebés Orc.";
+			case 5: callsub L_Quest,12076,"Os Guerreiros Orc estão a aumentar a sua agressão. Por favor caçar 20 Guerreiros Orc.";
+			case 6: callsub L_Quest,12077,"Já viu caranguejos com conchas grossas? Eles são Vadons. Por favor caçar 15 Vadons.";
+			case 7: callsub L_Quest,12078,"Os peixes mortos estão por toda a praia e a situação está a piorar. Por favor caçar 30 Megalodon.";
+			case 8: callsub L_Quest,12079,"Pode caçar Marselha? Preciso de 15 marteses para o meu estudo. Por favor, ajude-me.";
+			case 9: callsub L_Quest,12080,"Um idiota Cornutus mordeu o pé do Presidente da Câmara. O Presidente da Câmara está chateado, pelo que precisamos de caçar 20 Cornutus para o fazer feliz.!";
+			case 10: callsub L_Quest,12081,"As pessoas estão a passar-se por causa de Myst. Parece um fantasma, por isso, assusta as pessoas. Por favor caçar 15 Mistério.";
+			case 11: callsub L_Quest,12082,"Não perguntar porquê, mas por favor caçar 30 mariscos. É uma missão secreta!";
+			case 12: callsub L_Quest,12083,"Esfera marinha? Sabe o que é uma Esfera Marinha? Tenho uma missão para si para caçar 15 Esferas Marinhas, por favor faça-o.";
+			case 13: callsub L_Quest,12084,"O presidente da câmara quer comer um prato de peixe delicioso. O Phen será o ingrediente perfeito para ele. Por favor caçar 20 Phen!";
+			case 14: callsub L_Quest,12085,"Monstros Orc mortos regressaram à nossa cidade e ressuscitaram como esqueletos Orc. Estamos num caos! Por favor caçar 15 esqueletos Orc.";
+			case 15: callsub L_Quest,12086,"Alguns monstros estranhos chamados Zenorc estão a atacar-nos. Por favor caçar 30 Zenorc.";
+			case 16: callsub L_Quest,12087,"Esteja preparado! É uma missão cruel! Caçar 15 múmias!! Tentei uma vez, mas não consegui ter sucesso. É demasiado assustador!";
+		}
+		end;
+	}
+	setarray .@Exp[0],9600,7200,15750,7875,11100,8550,17100,9000,12300,9900,20250,10350,13800,11025,22500,11250;
+	for(set .@i,0; .@i<16; set .@i,.@i+1)
+		if (checkquest(12072+.@i,HUNTING) == 2) {
+			mes "[Conselho da Missão]";
+			mes "Concluiu a missão.";
+			mes "Aqui está a sua recompensa.";
+			erasequest 12088;
+			erasequest 12072+.@i;
+			specialeffect2 EF_STEAL;
+			getexp .@Exp[.@i],0;
+			close;
+		}
+	if ((checkquest(12072,HUNTING) == 0) && (checkquest(12073,HUNTING) == 0) && (checkquest(12074,HUNTING) == 0) && (checkquest(12075,HUNTING) == 0) && (checkquest(12076,HUNTING) == 0) && (checkquest(12077,HUNTING) == 0) && (checkquest(12078,HUNTING) == 0) && (checkquest(12079,HUNTING) == 0) && (checkquest(12080,HUNTING) == 0) && (checkquest(12081,HUNTING) == 0) && (checkquest(12082,HUNTING) == 0) && (checkquest(12083,HUNTING) == 0) && (checkquest(12084,HUNTING) == 0) && (checkquest(12085,HUNTING) == 0) && (checkquest(12086,HUNTING) == 0) && (checkquest(12087,HUNTING) == 0)) {
+		mes "Pode agora ver o quadro de boletins.";
+		erasequest 12088;
+		close;
+	}
+	mes "Não há nada de especial a fazer.";
+	close;
+L_Quest:
+	mes "[Memorando do Conselho de Missão]";
+	mes getarg(1);
+	next;
+	if(select("Aceitar a missão.:Cancelar.") == 1) {
+		mes "[Conselho da Missão]";
+		mes "Aceitou a missão. Para mais detalhes, prima as teclas 'alt + u', pode obter informações a partir da Janela de Missões.";
+		setquest 12088;
+		setquest getarg(0);
+	}
+	close;
+}

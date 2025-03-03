@@ -1,0 +1,144 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Autobuff Configurator ===================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Autobuff Configurator	-1,{
+ OnInit:
+  setarray .available_skills_id[0],8,10,24,33,45,60,74,75,111,112,113,114,139,143,155,157,249,252,257,258,270,279,307,308,309,310,311,312,313,317,319,320,321,322,325,327,328,329,330,355,356,357,359,369,378,380,383,384,387,395,459,475,482,486,487,488,495,500,504,505,506,517,543,1002,1006;
+  setarray .available_skills_name$[0],"[8]Endure","[10]Sight","[24]Ruwach","[33]Angelus","[45]Improve Concentration","[60]Twohand Quicken","[74]Magnificat","[75]Gloria","[111]Adrenaline Rush","[112]Weapon Perfection","[113]Power-Thrust","[114]Maximize Power","[139]Poison React","[143]Play Dead","[155]Crazy Uproar","[157]Energy Coat","[249]Guard","[252]Shield Reflect","[257]Defending Aura","[258]Spear Quicken","[270]Fury","[279]Hindsight","[307]Mental Sensing","[308]Down Tempo","[309]Battle Theme","[310]Harmonic Lick","[311]Classical Pluck","[312]Power Chord","[313]Acoustic Rhythm","[317]Unchained Serenade","[319]Perfect Tablature","[320]Impressive Riff","[321]Magic Strings","[322]Song of Lutie","[325]Hip Shaker","[327]Focus Ballet","[328]Slow Grace","[329]Lady Luck","[330]Gypsy's Kiss","[355]Aura Blade","[356]Parrying","[357]Concentration","[359]Frenzy","[369]Battle Chant","[378]Enchant Deadly Poison","[380]Falcon Eyes","[383]Wind Walker","[384]Shattering Strike","[387]Cart Boost","[395]Sheltering Bliss","[459]Advanced Adrenaline Rush","[475]Preserve","[482]Double Casting","[486]Maximum Power Thrust","[487]Longing for Freedom","[488]Wand of Hermode","[495]Onehand Quicken","[500]Flip the Coin","[504]Madness Canceller","[505]Adjustment","[506]Increasing Accuracy","[517]Gatling Fever","[543]Soul","[1002]Shrink","[1006]Sight Blaster";
+
+  for(.@i = 0; .@i < getarraysize(.available_skills_name$); .@i++){
+    .@endindex=strpos(.available_skills_name$[.@i],"]",0);
+    .available_skills_name$[.@i]=substr(.available_skills_name$[.@i],.@endindex+1,getstrlen(.available_skills_name$[.@i])-1);
+  }
+
+  bindatcmd "autobuffconfig",strnpcinfo(3)+"::OnAtCommand";
+  end;
+ OnAtCommand:
+
+  if(getstatus(SC_AUTOBUFF,0)){
+   autobuff AutoBuffId[0],AutoBuffLevel[0],getarraysize(AutoBuffId[0]);
+  }
+    while(1){
+      mes "[AutoBuff Configurator]";
+      mes "Here is your current skill setup :";
+      callsub S_DisplaySkill;
+      .@menu = select("Add/Modify:^dc143c[Reset all]^000000:Run @autobuff");
+      if(.@menu == 1){
+	callsub S_SelectSkills;
+
+      }
+      if(.@menu == 2){
+	freeloop(1);
+	for(.@i = 0; .@i < getarraysize(.available_skills_id); .@i++){
+	  AutoBuffId[.@i]=0;
+	  AutoBuffProc[.@i]=0;
+	  AutoBuffLevel[.@i]=0;
+	}
+	freeloop(0);
+
+      }
+      if(.@menu==3){
+	useatcmd "@autobuff";
+	mes "Executing @autobuff...";
+	close;
+      }
+      clear;
+    }
+  end  ;
+
+ S_DisplaySkill:
+
+  getskilllist();
+  .@available_skills_count=getarraysize(.available_skills_id);
+  freeloop(1);
+  for(.@i = 0; .@i < getarraysize(AutoBuffId[0]); .@i++){
+    if(AutoBuffProc[.@i] < 1)
+      continue;
+    .@count=0;
+    for(.@j = 0; .@j < @skilllist_count; .@j++){
+      if(AutoBuffId[.@i] == @skilllist_id[.@j]){
+	.@count++;
+	for(.@y=0; .@y < .@available_skills_count; .@y++){
+	  if(AutoBuffId[.@i] == .available_skills_id[.@y])
+	    .@s$=.available_skills_name$[.@y];
+	}
+      }
+    }
+    if(.@count < 1){
+      mes "Not learned anymore ^00FF00 "+ "^000000" + "(" + AutoBuffLevel[.@i]+ ")";
+    }else
+      mes "^00FF00 "+.@s$+ "^000000" + "(" + AutoBuffLevel[.@i]+")";
+  }
+  freeloop(0);
+
+  return;
+ S_SelectSkills:
+  getskilllist();
+  .@available_skills_count=getarraysize(.available_skills_id);
+  freeloop(1);
+  for(.@j = 0 ; .@j < .@available_skills_count; .@j++){
+    for(.@i = 0; .@i < @skilllist_count; .@i++){
+      if(@skilllist_lv[.@i] && @skilllist_id[.@i] == .available_skills_id[.@j]){
+	.@menu$+=.available_skills_name$[.@j];
+      }
+    }
+    .@menu$+=":";
+  }
+  freeloop(0);
+
+  .@menu$+=":<-- Previous menu";
+  .@reset = .@available_skills_count;
+  .@result = select(.@menu$)-1;
+  clear;
+
+  if(.@result == .@available_skills_count + 1){
+    return;
+  }
+
+  if(.@result == .@reset){
+
+  }else{
+    AutoBuffId[.@result]=.available_skills_id[.@result];
+    .@maxlevel=getskilllv(AutoBuffId[.@result]);
+    mes "[AutoBuff Configurator]";
+    mes "At which level should the skill be cast?";
+    .@menu$=""+.@maxlevel;
+    .@menu$+=":Remove";
+    for(.@i = 1; .@i < .@maxLevel;.@i++){
+      .@menu$+=":"+.@i;
+    }
+    .@level=select(.@menu$);
+    if(.@level==2){
+      AutoBuffId[.@result]=0;
+      AutoBuffProc[.@result]=0;
+      AutoBuffLevel[.@result]=0;
+
+    }else{
+      .@level =.@level==1?.@maxLevel:.@level-2;
+      mes "" + .@level;
+      AutoBuffLevel[.@result]=.@level;
+      AutoBuffProc[.@result]=100;
+    }
+    clear;
+  }
+  callsub S_DisplaySkill;
+  return;
+
+}

@@ -1,0 +1,81 @@
+function	script	f_visual	{
+
+if(Class == 4047 || (Class == 4049)){
+	atcommand "@undisguise";
+	sleep2 100;
+	changebase roclass(eaclass()|EAJL_THIRD);
+	end;
+	}
+	if(Class == 25 && Sex == 0){
+	atcommand "@undisguise";
+	sleep2 100;
+	changebase 4212;
+	end;
+	}
+	if(Class == 25 && Sex == 1){
+	atcommand "@undisguise";
+	sleep2 100;
+	changebase 4211;
+	end;
+	}
+	if(Class == 24){
+	atcommand "@undisguise";
+	sleep2 100;
+	changebase 4215;
+	end;
+	}
+	if(Class == 7 || (Class == 4002) || (Class == 4008)){
+	sleep2 100;
+	changebase 4060;
+	if(checkriding()){ 
+    atcommand "@option 0 0 524288";
+	}
+	end;
+	}
+
+function HasjROCostume {
+	switch(roclass(eaclass()&EAJ_UPPERMASK|EAJL_THIRD)) {
+		case Job_Guillotine_Cross:
+		case Job_Genetic:
+		case Job_Royal_Guard:
+		case Job_Arch_Bishop:
+		case Job_Mechanic:
+		case Job_Ranger:
+		case Job_Minstrel:
+		case Job_Wanderer:
+		case Job_Warlock:
+		case Job_Sorcerer:
+		case Job_Sura:
+		//case Job_Rune_Knight:
+		case Job_Shadow_Chaser:
+		//case Job_Star_Emperor:
+		//case Job_Soul_Reaper:
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+if(!HasjROCostume()) return;
+//	changebase roclass(eaclass()|EAJL_THIRD);
+//	sleep2 100;
+//    setlook LOOK_BODY2,1;
+atcommand "@undisguise";
+sleep2 100;
+changebase roclass(eaclass()|EAJL_THIRD);
+sleep2 100;
+setlook LOOK_BODY2,!(getlook(LOOK_BODY2));
+baselook = 0;
+
+OnPCLoginEvent:
+	if(baselook && .dress_perma){
+		changebase baselook;
+	}
+	end;
+	
+OnInit:
+
+.dress_perma = 1;
+end;
+
+}	

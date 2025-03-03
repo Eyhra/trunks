@@ -1,0 +1,10 @@
+kh_dun02,0,0,0	script	#Bio6_Reput	-1,{
+
+OnPCKillEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "kh_dun02") {
+		setreputpoint(8, -30);
+		end;
+	}
+	end;
+}

@@ -1,0 +1,1210 @@
+
+prontera,224,79,0	script	Configure Aqui#0	1002,{
+	mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+	mes "Configuração ATUAL:";
+	mes "Elemento: [^0000FF"+.mvpelename$+"^000000]";
+	mes "Raça: [^0000FF"+.mvpracename$+"^000000]";
+	mes "Tamanho: [^0000FF"+.mvpsizename$+"^000000]";
+	mes "Tipo: [^0000FF"+.mvptiponame$+"^000000]";
+	mes "Aura Verde: [^0000FF"+.mvpgreen+"^000000%]";
+	next;
+	switch(select("- Configurar ^0000FFElemento^000000:- Configurar ^0000FFRaça^000000:- Configurar ^0000FFTamanho^000000:- Configurar ^0000FFTipo^000000:- Configurar ^0000FFAura Verde^000000:- Nada, obrigadaaaa")) {
+	case 1:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o ELEMENTO!";
+		switch(select("- Neutral:- Water:- Earth:- Fire:- Wind:- Poison:- Holy:- Shadow:- Ghost:- Undead")) {
+			case 1:
+				.mvpelemental = 0;
+				.mvptestname$ = "Dummy [Neutral]";
+				.mvpelename$ = "Neutral";
+				goto OnReloardTest;
+			case 2:
+				.mvpelemental = 1;
+				.mvptestname$ = "Dummy [Water]";
+				.mvpelename$ = "Water";
+				goto OnReloardTest;
+			case 3:
+				.mvpelemental = 2;
+				.mvptestname$ = "Dummy [Earth]";
+				.mvpelename$ = "Earth";
+				goto OnReloardTest;
+			case 4:
+				.mvpelemental = 3;
+				.mvptestname$ = "Dummy [Fire]";
+				.mvpelename$ = "Fire";
+				goto OnReloardTest;
+			case 5:
+				.mvpelemental = 4;
+				.mvptestname$ = "Dummy [Wind]";
+				.mvpelename$ = "Wind";
+				goto OnReloardTest;
+			case 6:
+				.mvpelemental = 5;
+				.mvptestname$ = "Dummy [Poison]";
+				.mvpelename$ = "Poison";
+				goto OnReloardTest;
+			case 7:
+				.mvpelemental = 6;
+				.mvptestname$ = "Dummy [Holy]";
+				.mvpelename$ = "Holy";
+				goto OnReloardTest;
+			case 8:
+				.mvpelemental = 7;
+				.mvptestname$ = "Dummy [Shadow]";
+				.mvpelename$ = "Shadow";
+				goto OnReloardTest;
+			case 9:
+				.mvpelemental = 8;
+				.mvptestname$ = "Dummy [Ghost]";
+				.mvpelename$ = "Ghost";
+				goto OnReloardTest;
+			case 10:
+				.mvpelemental = 9;
+				.mvptestname$ = "Dummy [Undead]";
+				.mvpelename$ = "Undead";
+				goto OnReloardTest;
+		}
+	case 2:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a RAÇA!";
+		switch(select("- Formless:- Undead:- Brute:- Plant:- Insect:- Fish:- Demon:- Demi-Human:- Angel:- Dragon")) {
+			case 1:
+				.mvprace = 0;
+				.mvpracename$ = "Formless";
+				goto OnReloardTest;
+			case 2:
+				.mvprace = 1;
+				.mvpracename$ = "Undead";
+				goto OnReloardTest;
+			case 3:
+				.mvprace = 2;
+				.mvpracename$ = "Brute";
+				goto OnReloardTest;
+			case 4:
+				.mvprace = 3;
+				.mvpracename$ = "Plant";
+				goto OnReloardTest;
+			case 5:
+				.mvprace = 4;
+				.mvpracename$ = "Insect";
+				goto OnReloardTest;
+			case 6:
+				.mvprace = 5;
+				.mvpracename$ = "Fish";
+				goto OnReloardTest;
+			case 7:
+				.mvprace = 6;
+				.mvpracename$ = "Demon";
+				goto OnReloardTest;
+			case 8:
+				.mvprace = 7;
+				.mvpracename$ = "Demi-Human";
+				goto OnReloardTest;
+			case 9:
+				.mvprace = 8;
+				.mvpracename$ = "Angel";
+				goto OnReloardTest;
+			case 10:
+				.mvprace = 9;
+				.mvpracename$ = "Dragon";
+				goto OnReloardTest;
+		}
+	case 3:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Small:- Medium:- Large")) {
+			case 1:
+				.mvpsize = 0;
+				.mvpsizename$ = "Small";
+				goto OnReloardTest;
+			case 2:
+				.mvpsize = 1;
+				.mvpsizename$ = "Medium";
+				goto OnReloardTest;
+			case 3:
+				.mvpsize = 2;
+				.mvpsizename$ = "Large";
+				goto OnReloardTest;
+		}
+	case 4:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Normal:- MvP")) {
+			case 1:
+				.mvptipo = 0;
+				.mvptiponame$ = "Normal";
+				goto OnReloardTest;
+			case 2:
+				.mvptipo = 1;
+				.mvptiponame$ = "MvP";
+				goto OnReloardTest;
+		}
+	case 5:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a AURA VERDE!";
+		switch(select("- 2%:- 10%:- Sem Aura")) {
+			case 1:
+				.mvpgreen = 2;
+				goto OnReloardTest;
+			case 2:
+				.mvpgreen = 10;
+				goto OnReloardTest;
+			case 3:
+				.mvpgreen = 100;
+				goto OnReloardTest;
+		}	
+	case 6:
+		close;
+	}
+	
+OnReloardTest:
+	killmonster strnpcinfo(4),strnpcinfo(0)+"::OnMyMobDead";
+	stopnpctimer;
+	goto OnMyMobDead;
+	mes "Configurado!";
+	close;
+	
+OnMyMobDead:
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnInit:
+	.mvpelemental = 0;
+	.mvptestname$ = "Dummy [Neutral]";
+	.mvprace = 0;
+	.mvpracename$ = "Formless";
+	.mvpelename$ = "Neutral";
+	.mvpsize = 1;
+	.mvpsizename$ = "Medium";
+	.mvptipo = 0;
+	.mvptiponame$ = "Normal";
+	.mvpgreen = 100;
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnTimer5000:
+	.@dupid = atoi(strnpcinfo(2));
+	if(unitexists(.gid[.@dupid])){
+		getunitdata(.gid[.@dupid],.@d);
+		.@diff = (.mhp[.@dupid] - .@d[UMOB_HP]);
+		if(.@diff > 0){
+			npctalk "Dummy : Você teve um total de " + ((.@diff/5)/1000) + "K DPS nos últimos 5 segundos.";
+			setunitdata .gid[.@dupid],UMOB_HP,.mhp[.@dupid];
+			specialeffect EF_HEAL;
+		}
+	}
+	initnpctimer;
+}
+
+prontera,216,79,0	script	Configure Aqui#1	1002,{
+	mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+	mes "Configuração ATUAL:";
+	mes "Elemento: [^0000FF"+.mvpelename$+"^000000]";
+	mes "Raça: [^0000FF"+.mvpracename1$+"^000000]";
+	mes "Tamanho: [^0000FF"+.mvpsizename1$+"^000000]";
+	mes "Tipo: [^0000FF"+.mvptiponame1$+"^000000]";
+	mes "Aura Verde: [^0000FF"+.mvpgreen+"^000000%]";
+	next;
+	switch(select("- Configurar ^0000FFElemento^000000:- Configurar ^0000FFRaça^000000:- Configurar ^0000FFTamanho^000000:- Configurar ^0000FFTipo^000000:- Configurar ^0000FFAura Verde^000000:- Nada, obrigadaaaa")) {
+	case 1:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o ELEMENTO!";
+		switch(select("- Neutral:- Water:- Earth:- Fire:- Wind:- Poison:- Holy:- Shadow:- Ghost:- Undead")) {
+			case 1:
+				.mvpelemental = 0;
+				.mvptestname1$ = "Dummy [Neutral]";
+				.mvpelename$ = "Neutral";
+				goto OnReloardTest;
+			case 2:
+				.mvpelemental = 1;
+				.mvptestname1$ = "Dummy [Water]";
+				.mvpelename$ = "Water";
+				goto OnReloardTest;
+			case 3:
+				.mvpelemental = 2;
+				.mvptestname1$ = "Dummy [Earth]";
+				.mvpelename$ = "Earth";
+				goto OnReloardTest;
+			case 4:
+				.mvpelemental = 3;
+				.mvptestname1$ = "Dummy [Fire]";
+				.mvpelename$ = "Fire";
+				goto OnReloardTest;
+			case 5:
+				.mvpelemental = 4;
+				.mvptestname1$ = "Dummy [Wind]";
+				.mvpelename$ = "Wind";
+				goto OnReloardTest;
+			case 6:
+				.mvpelemental = 5;
+				.mvptestname1$ = "Dummy [Poison]";
+				.mvpelename$ = "Poison";
+				goto OnReloardTest;
+			case 7:
+				.mvpelemental = 6;
+				.mvptestname1$ = "Dummy [Holy]";
+				.mvpelename$ = "Holy";
+				goto OnReloardTest;
+			case 8:
+				.mvpelemental = 7;
+				.mvptestname1$ = "Dummy [Shadow]";
+				.mvpelename$ = "Shadow";
+				goto OnReloardTest;
+			case 9:
+				.mvpelemental = 8;
+				.mvptestname1$ = "Dummy [Ghost]";
+				.mvpelename$ = "Ghost";
+				goto OnReloardTest;
+			case 10:
+				.mvpelemental = 9;
+				.mvptestname1$ = "Dummy [Undead]";
+				.mvpelename$ = "Undead";
+				goto OnReloardTest;
+		}
+	case 2:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a RAÇA!";
+		switch(select("- Formless:- Undead:- Brute:- Plant:- Insect:- Fish:- Demon:- Demi-Human:- Angel:- Dragon")) {
+			case 1:
+				.mvprace = 0;
+				.mvpracename1$ = "Formless";
+				goto OnReloardTest;
+			case 2:
+				.mvprace = 1;
+				.mvpracename1$ = "Undead";
+				goto OnReloardTest;
+			case 3:
+				.mvprace = 2;
+				.mvpracename1$ = "Brute";
+				goto OnReloardTest;
+			case 4:
+				.mvprace = 3;
+				.mvpracename1$ = "Plant";
+				goto OnReloardTest;
+			case 5:
+				.mvprace = 4;
+				.mvpracename1$ = "Insect";
+				goto OnReloardTest;
+			case 6:
+				.mvprace = 5;
+				.mvpracename1$ = "Fish";
+				goto OnReloardTest;
+			case 7:
+				.mvprace = 6;
+				.mvpracename1$ = "Demon";
+				goto OnReloardTest;
+			case 8:
+				.mvprace = 7;
+				.mvpracename1$ = "Demi-Human";
+				goto OnReloardTest;
+			case 9:
+				.mvprace = 8;
+				.mvpracename1$ = "Angel";
+				goto OnReloardTest;
+			case 10:
+				.mvprace = 9;
+				.mvpracename1$ = "Dragon";
+				goto OnReloardTest;
+		}
+	case 3:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Small:- Medium:- Large")) {
+			case 1:
+				.mvpsize = 0;
+				.mvpsizename1$ = "Small";
+				goto OnReloardTest;
+			case 2:
+				.mvpsize = 1;
+				.mvpsizename1$ = "Medium";
+				goto OnReloardTest;
+			case 3:
+				.mvpsize = 2;
+				.mvpsizename1$ = "Large";
+				goto OnReloardTest;
+		}
+	case 4:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Normal:- MvP")) {
+			case 1:
+				.mvptipo = 0;
+				.mvptiponame1$ = "Normal";
+				goto OnReloardTest;
+			case 2:
+				.mvptipo = 1;
+				.mvptiponame1$ = "MvP";
+				goto OnReloardTest;
+		}
+	case 5:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a AURA VERDE!";
+		switch(select("- 2%:- 10%:- Sem Aura")) {
+			case 1:
+				.mvpgreen = 2;
+				goto OnReloardTest;
+			case 2:
+				.mvpgreen = 10;
+				goto OnReloardTest;
+			case 3:
+				.mvpgreen = 100;
+				goto OnReloardTest;
+		}	
+	case 6:
+		close;
+	}
+	
+OnReloardTest:
+	killmonster strnpcinfo(4),strnpcinfo(0)+"::OnMyMobDead";
+	stopnpctimer;
+	goto OnMyMobDead;
+	mes "Configurado!";
+	close;
+	
+OnMyMobDead:
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname1$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnInit:
+	.mvpelemental = 0;
+	.mvptestname1$ = "Dummy [Neutral]";
+	.mvprace = 0;
+	.mvpracename1$ = "Formless";
+	.mvpelename$ = "Neutral";
+	.mvpsize = 1;
+	.mvpsizename1$ = "Medium";
+	.mvptipo = 0;
+	.mvptiponame1$ = "Normal";
+	.mvpgreen = 100;
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname1$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnTimer5000:
+	.@dupid = atoi(strnpcinfo(2));
+	if(unitexists(.gid[.@dupid])){
+		getunitdata(.gid[.@dupid],.@d);
+		.@diff = (.mhp[.@dupid] - .@d[UMOB_HP]);
+		if(.@diff > 0){
+			npctalk "Dummy : Você teve um total de " + ((.@diff/5)/1000) + "K DPS nos últimos 5 segundos.";
+			setunitdata .gid[.@dupid],UMOB_HP,.mhp[.@dupid];
+			specialeffect EF_HEAL;
+		}
+	}
+	initnpctimer;
+}
+
+prontera,224,70,0	script	Configure Aqui#2	1002,{
+	mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+	mes "Configuração ATUAL:";
+	mes "Elemento: [^0000FF"+.mvpelename2$+"^000000]";
+	mes "Raça: [^0000FF"+.mvpracename2$+"^000000]";
+	mes "Tamanho: [^0000FF"+.mvpsizename2$+"^000000]";
+	mes "Tipo: [^0000FF"+.mvptiponame2$+"^000000]";
+	mes "Aura Verde: [^0000FF"+.mvpgreen+"^000000%]";
+	next;
+	switch(select("- Configurar ^0000FFElemento^000000:- Configurar ^0000FFRaça^000000:- Configurar ^0000FFTamanho^000000:- Configurar ^0000FFTipo^000000:- Configurar ^0000FFAura Verde^000000:- Nada, obrigadaaaa")) {
+	case 1:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o ELEMENTO!";
+		switch(select("- Neutral:- Water:- Earth:- Fire:- Wind:- Poison:- Holy:- Shadow:- Ghost:- Undead")) {
+			case 1:
+				.mvpelemental = 0;
+				.mvptestname2$ = "Dummy [Neutral]";
+				.mvpelename2$ = "Neutral";
+				goto OnReloardTest;
+			case 2:
+				.mvpelemental = 1;
+				.mvptestname2$ = "Dummy [Water]";
+				.mvpelename2$ = "Water";
+				goto OnReloardTest;
+			case 3:
+				.mvpelemental = 2;
+				.mvptestname2$ = "Dummy [Earth]";
+				.mvpelename2$ = "Earth";
+				goto OnReloardTest;
+			case 4:
+				.mvpelemental = 3;
+				.mvptestname2$ = "Dummy [Fire]";
+				.mvpelename2$ = "Fire";
+				goto OnReloardTest;
+			case 5:
+				.mvpelemental = 4;
+				.mvptestname2$ = "Dummy [Wind]";
+				.mvpelename2$ = "Wind";
+				goto OnReloardTest;
+			case 6:
+				.mvpelemental = 5;
+				.mvptestname2$ = "Dummy [Poison]";
+				.mvpelename2$ = "Poison";
+				goto OnReloardTest;
+			case 7:
+				.mvpelemental = 6;
+				.mvptestname2$ = "Dummy [Holy]";
+				.mvpelename2$ = "Holy";
+				goto OnReloardTest;
+			case 8:
+				.mvpelemental = 7;
+				.mvptestname2$ = "Dummy [Shadow]";
+				.mvpelename2$ = "Shadow";
+				goto OnReloardTest;
+			case 9:
+				.mvpelemental = 8;
+				.mvptestname2$ = "Dummy [Ghost]";
+				.mvpelename2$ = "Ghost";
+				goto OnReloardTest;
+			case 10:
+				.mvpelemental = 9;
+				.mvptestname2$ = "Dummy [Undead]";
+				.mvpelename2$ = "Undead";
+				goto OnReloardTest;
+		}
+	case 2:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a RAÇA!";
+		switch(select("- Formless:- Undead:- Brute:- Plant:- Insect:- Fish:- Demon:- Demi-Human:- Angel:- Dragon")) {
+			case 1:
+				.mvprace = 0;
+				.mvpracename2$ = "Formless";
+				goto OnReloardTest;
+			case 2:
+				.mvprace = 1;
+				.mvpracename2$ = "Undead";
+				goto OnReloardTest;
+			case 3:
+				.mvprace = 2;
+				.mvpracename2$ = "Brute";
+				goto OnReloardTest;
+			case 4:
+				.mvprace = 3;
+				.mvpracename2$ = "Plant";
+				goto OnReloardTest;
+			case 5:
+				.mvprace = 4;
+				.mvpracename2$ = "Insect";
+				goto OnReloardTest;
+			case 6:
+				.mvprace = 5;
+				.mvpracename2$ = "Fish";
+				goto OnReloardTest;
+			case 7:
+				.mvprace = 6;
+				.mvpracename2$ = "Demon";
+				goto OnReloardTest;
+			case 8:
+				.mvprace = 7;
+				.mvpracename2$ = "Demi-Human";
+				goto OnReloardTest;
+			case 9:
+				.mvprace = 8;
+				.mvpracename2$ = "Angel";
+				goto OnReloardTest;
+			case 10:
+				.mvprace = 9;
+				.mvpracename2$ = "Dragon";
+				goto OnReloardTest;
+		}
+	case 3:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Small:- Medium:- Large")) {
+			case 1:
+				.mvpsize = 0;
+				.mvpsizename2$ = "Small";
+				goto OnReloardTest;
+			case 2:
+				.mvpsize = 1;
+				.mvpsizename2$ = "Medium";
+				goto OnReloardTest;
+			case 3:
+				.mvpsize = 2;
+				.mvpsizename2$ = "Large";
+				goto OnReloardTest;
+		}
+	case 4:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Normal:- MvP")) {
+			case 1:
+				.mvptipo = 0;
+				.mvptiponame2$ = "Normal";
+				goto OnReloardTest;
+			case 2:
+				.mvptipo = 1;
+				.mvptiponame2$ = "MvP";
+				goto OnReloardTest;
+		}
+	case 5:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a AURA VERDE!";
+		switch(select("- 2%:- 10%:- Sem Aura")) {
+			case 1:
+				.mvpgreen = 2;
+				goto OnReloardTest;
+			case 2:
+				.mvpgreen = 10;
+				goto OnReloardTest;
+			case 3:
+				.mvpgreen = 100;
+				goto OnReloardTest;
+		}	
+	case 6:
+		close;
+	}
+	
+OnReloardTest:
+	killmonster strnpcinfo(4),strnpcinfo(0)+"::OnMyMobDead";
+	stopnpctimer;
+	goto OnMyMobDead;
+	mes "Configurado!";
+	close;
+	
+OnMyMobDead:
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname2$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnInit:
+	.mvpelemental = 0;
+	.mvptestname2$ = "Dummy [Neutral]";
+	.mvprace = 0;
+	.mvpracename2$ = "Formless";
+	.mvpelename2$ = "Neutral";
+	.mvpsize = 1;
+	.mvpsizename2$ = "Medium";
+	.mvptipo = 0;
+	.mvptiponame2$ = "Normal";
+	.mvpgreen = 100;
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname2$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnTimer5000:
+	.@dupid = atoi(strnpcinfo(2));
+	if(unitexists(.gid[.@dupid])){
+		getunitdata(.gid[.@dupid],.@d);
+		.@diff = (.mhp[.@dupid] - .@d[UMOB_HP]);
+		if(.@diff > 0){
+			npctalk "Dummy : Você teve um total de " + ((.@diff/5)/1000) + "K DPS nos últimos 5 segundos.";
+			setunitdata .gid[.@dupid],UMOB_HP,.mhp[.@dupid];
+			specialeffect EF_HEAL;
+		}
+	}
+	initnpctimer;
+}
+
+prontera,216,58,0	script	Configure Aqui#3	1002,{
+	mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+	mes "Configuração ATUAL:";
+	mes "Elemento: [^0000FF"+.mvpelename3$+"^000000]";
+	mes "Raça: [^0000FF"+.mvpracename3$+"^000000]";
+	mes "Tamanho: [^0000FF"+.mvpsizename3$+"^000000]";
+	mes "Tipo: [^0000FF"+.mvptiponame3$+"^000000]";
+	mes "Aura Verde: [^0000FF"+.mvpgreen+"^000000%]";
+	next;
+	switch(select("- Configurar ^0000FFElemento^000000:- Configurar ^0000FFRaça^000000:- Configurar ^0000FFTamanho^000000:- Configurar ^0000FFTipo^000000:- Configurar ^0000FFAura Verde^000000:- Nada, obrigadaaaa")) {
+	case 1:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o ELEMENTO!";
+		switch(select("- Neutral:- Water:- Earth:- Fire:- Wind:- Poison:- Holy:- Shadow:- Ghost:- Undead")) {
+			case 1:
+				.mvpelemental = 0;
+				.mvptestname3$ = "Dummy [Neutral]";
+				.mvpelename3$ = "Neutral";
+				goto OnReloardTest;
+			case 2:
+				.mvpelemental = 1;
+				.mvptestname3$ = "Dummy [Water]";
+				.mvpelename3$ = "Water";
+				goto OnReloardTest;
+			case 3:
+				.mvpelemental = 2;
+				.mvptestname3$ = "Dummy [Earth]";
+				.mvpelename3$ = "Earth";
+				goto OnReloardTest;
+			case 4:
+				.mvpelemental = 3;
+				.mvptestname3$ = "Dummy [Fire]";
+				.mvpelename3$ = "Fire";
+				goto OnReloardTest;
+			case 5:
+				.mvpelemental = 4;
+				.mvptestname3$ = "Dummy [Wind]";
+				.mvpelename3$ = "Wind";
+				goto OnReloardTest;
+			case 6:
+				.mvpelemental = 5;
+				.mvptestname3$ = "Dummy [Poison]";
+				.mvpelename3$ = "Poison";
+				goto OnReloardTest;
+			case 7:
+				.mvpelemental = 6;
+				.mvptestname3$ = "Dummy [Holy]";
+				.mvpelename3$ = "Holy";
+				goto OnReloardTest;
+			case 8:
+				.mvpelemental = 7;
+				.mvptestname3$ = "Dummy [Shadow]";
+				.mvpelename3$ = "Shadow";
+				goto OnReloardTest;
+			case 9:
+				.mvpelemental = 8;
+				.mvptestname3$ = "Dummy [Ghost]";
+				.mvpelename3$ = "Ghost";
+				goto OnReloardTest;
+			case 10:
+				.mvpelemental = 9;
+				.mvptestname3$ = "Dummy [Undead]";
+				.mvpelename3$ = "Undead";
+				goto OnReloardTest;
+		}
+	case 2:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a RAÇA!";
+		switch(select("- Formless:- Undead:- Brute:- Plant:- Insect:- Fish:- Demon:- Demi-Human:- Angel:- Dragon")) {
+			case 1:
+				.mvprace = 0;
+				.mvpracename3$ = "Formless";
+				goto OnReloardTest;
+			case 2:
+				.mvprace = 1;
+				.mvpracename3$ = "Undead";
+				goto OnReloardTest;
+			case 3:
+				.mvprace = 2;
+				.mvpracename3$ = "Brute";
+				goto OnReloardTest;
+			case 4:
+				.mvprace = 3;
+				.mvpracename3$ = "Plant";
+				goto OnReloardTest;
+			case 5:
+				.mvprace = 4;
+				.mvpracename3$ = "Insect";
+				goto OnReloardTest;
+			case 6:
+				.mvprace = 5;
+				.mvpracename3$ = "Fish";
+				goto OnReloardTest;
+			case 7:
+				.mvprace = 6;
+				.mvpracename3$ = "Demon";
+				goto OnReloardTest;
+			case 8:
+				.mvprace = 7;
+				.mvpracename3$ = "Demi-Human";
+				goto OnReloardTest;
+			case 9:
+				.mvprace = 8;
+				.mvpracename3$ = "Angel";
+				goto OnReloardTest;
+			case 10:
+				.mvprace = 9;
+				.mvpracename3$ = "Dragon";
+				goto OnReloardTest;
+		}
+	case 3:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Small:- Medium:- Large")) {
+			case 1:
+				.mvpsize = 0;
+				.mvpsizename3$ = "Small";
+				goto OnReloardTest;
+			case 2:
+				.mvpsize = 1;
+				.mvpsizename3$ = "Medium";
+				goto OnReloardTest;
+			case 3:
+				.mvpsize = 2;
+				.mvpsizename3$ = "Large";
+				goto OnReloardTest;
+		}
+	case 4:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Normal:- MvP")) {
+			case 1:
+				.mvptipo = 0;
+				.mvptiponame3$ = "Normal";
+				goto OnReloardTest;
+			case 2:
+				.mvptipo = 1;
+				.mvptiponame3$ = "MvP";
+				goto OnReloardTest;
+		}
+	case 5:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a AURA VERDE!";
+		switch(select("- 2%:- 10%:- Sem Aura")) {
+			case 1:
+				.mvpgreen = 2;
+				goto OnReloardTest;
+			case 2:
+				.mvpgreen = 10;
+				goto OnReloardTest;
+			case 3:
+				.mvpgreen = 100;
+				goto OnReloardTest;
+		}	
+	case 6:
+		close;
+	}
+	
+OnReloardTest:
+	killmonster strnpcinfo(4),strnpcinfo(0)+"::OnMyMobDead";
+	stopnpctimer;
+	goto OnMyMobDead;
+	mes "Configurado!";
+	close;
+	
+OnMyMobDead:
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname3$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnInit:
+	.mvpelemental = 0;
+	.mvptestname3$ = "Dummy [Neutral]";
+	.mvprace = 0;
+	.mvpracename3$ = "Formless";
+	.mvpelename3$ = "Neutral";
+	.mvpsize = 1;
+	.mvpsizename3$ = "Medium";
+	.mvptipo = 0;
+	.mvptiponame3$ = "Normal";
+	.mvpgreen = 100;
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname3$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnTimer5000:
+	.@dupid = atoi(strnpcinfo(2));
+	if(unitexists(.gid[.@dupid])){
+		getunitdata(.gid[.@dupid],.@d);
+		.@diff = (.mhp[.@dupid] - .@d[UMOB_HP]);
+		if(.@diff > 0){
+			npctalk "Dummy : Você teve um total de " + ((.@diff/5)/1000) + "K DPS nos últimos 5 segundos.";
+			setunitdata .gid[.@dupid],UMOB_HP,.mhp[.@dupid];
+			specialeffect EF_HEAL;
+		}
+	}
+	initnpctimer;
+}
+
+prontera,224,58,0	script	Configure Aqui#4	1002,{
+	mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+	mes "Configuração ATUAL:";
+	mes "Elemento: [^0000FF"+.mvpelename$+"^000000]";
+	mes "Raça: [^0000FF"+.mvpracename4$+"^000000]";
+	mes "Tamanho: [^0000FF"+.mvpsizename4$+"^000000]";
+	mes "Tipo: [^0000FF"+.mvptiponame4$+"^000000]";
+	mes "Aura Verde: [^0000FF"+.mvpgreen+"^000000%]";
+	next;
+	switch(select("- Configurar ^0000FFElemento^000000:- Configurar ^0000FFRaça^000000:- Configurar ^0000FFTamanho^000000:- Configurar ^0000FFTipo^000000:- Configurar ^0000FFAura Verde^000000:- Nada, obrigadaaaa")) {
+	case 1:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o ELEMENTO!";
+		switch(select("- Neutral:- Water:- Earth:- Fire:- Wind:- Poison:- Holy:- Shadow:- Ghost:- Undead")) {
+			case 1:
+				.mvpelemental = 0;
+				.mvptestname4$ = "Dummy [Neutral]";
+				.mvpelename$ = "Neutral";
+				goto OnReloardTest;
+			case 2:
+				.mvpelemental = 1;
+				.mvptestname4$ = "Dummy [Water]";
+				.mvpelename$ = "Water";
+				goto OnReloardTest;
+			case 3:
+				.mvpelemental = 2;
+				.mvptestname4$ = "Dummy [Earth]";
+				.mvpelename$ = "Earth";
+				goto OnReloardTest;
+			case 4:
+				.mvpelemental = 3;
+				.mvptestname4$ = "Dummy [Fire]";
+				.mvpelename$ = "Fire";
+				goto OnReloardTest;
+			case 5:
+				.mvpelemental = 4;
+				.mvptestname4$ = "Dummy [Wind]";
+				.mvpelename$ = "Wind";
+				goto OnReloardTest;
+			case 6:
+				.mvpelemental = 5;
+				.mvptestname4$ = "Dummy [Poison]";
+				.mvpelename$ = "Poison";
+				goto OnReloardTest;
+			case 7:
+				.mvpelemental = 6;
+				.mvptestname4$ = "Dummy [Holy]";
+				.mvpelename$ = "Holy";
+				goto OnReloardTest;
+			case 8:
+				.mvpelemental = 7;
+				.mvptestname4$ = "Dummy [Shadow]";
+				.mvpelename$ = "Shadow";
+				goto OnReloardTest;
+			case 9:
+				.mvpelemental = 8;
+				.mvptestname4$ = "Dummy [Ghost]";
+				.mvpelename$ = "Ghost";
+				goto OnReloardTest;
+			case 10:
+				.mvpelemental = 9;
+				.mvptestname4$ = "Dummy [Undead]";
+				.mvpelename$ = "Undead";
+				goto OnReloardTest;
+		}
+	case 2:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a RAÇA!";
+		switch(select("- Formless:- Undead:- Brute:- Plant:- Insect:- Fish:- Demon:- Demi-Human:- Angel:- Dragon")) {
+			case 1:
+				.mvprace = 0;
+				.mvpracename4$ = "Formless";
+				goto OnReloardTest;
+			case 2:
+				.mvprace = 1;
+				.mvpracename4$ = "Undead";
+				goto OnReloardTest;
+			case 3:
+				.mvprace = 2;
+				.mvpracename4$ = "Brute";
+				goto OnReloardTest;
+			case 4:
+				.mvprace = 3;
+				.mvpracename4$ = "Plant";
+				goto OnReloardTest;
+			case 5:
+				.mvprace = 4;
+				.mvpracename4$ = "Insect";
+				goto OnReloardTest;
+			case 6:
+				.mvprace = 5;
+				.mvpracename4$ = "Fish";
+				goto OnReloardTest;
+			case 7:
+				.mvprace = 6;
+				.mvpracename4$ = "Demon";
+				goto OnReloardTest;
+			case 8:
+				.mvprace = 7;
+				.mvpracename4$ = "Demi-Human";
+				goto OnReloardTest;
+			case 9:
+				.mvprace = 8;
+				.mvpracename4$ = "Angel";
+				goto OnReloardTest;
+			case 10:
+				.mvprace = 9;
+				.mvpracename4$ = "Dragon";
+				goto OnReloardTest;
+		}
+	case 3:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Small:- Medium:- Large")) {
+			case 1:
+				.mvpsize = 0;
+				.mvpsizename4$ = "Small";
+				goto OnReloardTest;
+			case 2:
+				.mvpsize = 1;
+				.mvpsizename4$ = "Medium";
+				goto OnReloardTest;
+			case 3:
+				.mvpsize = 2;
+				.mvpsizename4$ = "Large";
+				goto OnReloardTest;
+		}
+	case 4:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure o TAMANHO!";
+		switch(select("- Normal:- MvP")) {
+			case 1:
+				.mvptipo = 0;
+				.mvptiponame4$ = "Normal";
+				goto OnReloardTest;
+			case 2:
+				.mvptipo = 1;
+				.mvptiponame4$ = "MvP";
+				goto OnReloardTest;
+		}
+	case 5:
+		next;
+		mes "[^FF9900===^000000 ^FF0000"+StrNpcInfo(1)+"^000000 ^FF9900===^000000]";
+		mes "Configure a AURA VERDE!";
+		switch(select("- 2%:- 10%:- Sem Aura")) {
+			case 1:
+				.mvpgreen = 2;
+				goto OnReloardTest;
+			case 2:
+				.mvpgreen = 10;
+				goto OnReloardTest;
+			case 3:
+				.mvpgreen = 100;
+				goto OnReloardTest;
+		}	
+	case 6:
+		close;
+	}
+	
+OnReloardTest:
+	killmonster strnpcinfo(4),strnpcinfo(0)+"::OnMyMobDead";
+	stopnpctimer;
+	goto OnMyMobDead;
+	mes "Configurado!";
+	close;
+	
+OnMyMobDead:
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname4$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnInit:
+	.mvpelemental = 0;
+	.mvptestname4$ = "Dummy [Neutral]";
+	.mvprace = 0;
+	.mvpracename4$ = "Formless";
+	.mvpelename$ = "Neutral";
+	.mvpsize = 1;
+	.mvpsizename4$ = "Medium";
+	.mvptipo = 0;
+	.mvptiponame4$ = "Normal";
+	.mvpgreen = 100;
+	getunitdata(getnpcid(0), .@d);
+	monster strnpcinfo(4),.@d[UNPC_X]+2,.@d[UNPC_Y],.mvptestname4$,2035,1,strnpcinfo(0)+"::OnMyMobDead";
+	.@dupid = atoi(strnpcinfo(2));
+	.gid[.@dupid] = $@mobid[0];
+	.mhp[.@dupid] = strmobinfo(4,2035);
+	setunitdata .gid[.@dupid],UMOB_ELETYPE,.mvpelemental;
+	setunitdata .gid[.@dupid],UMOB_RACE,.mvprace;
+	setunitdata .gid[.@dupid],UMOB_SIZE,.mvpsize;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "Mode: " + .@d[UMOB_MODE];
+		npctalk "Old Taken: " + .@d[UMOB_DAMAGETAKEN];
+	if ( .mvptipo == 1 )
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE|MD_DETECTOR); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
+	else
+		setunitdata .gid[.@dupid],UMOB_MODE,(.@d[UMOB_MODE]|MD_STATUSIMMUNE|MD_KNOCKBACKIMMUNE); // Set MD_STATUSIMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.		getunitdata(.gid[.@dupid], .@d);
+		setunitdata .gid[.@dupid],UMOB_DAMAGETAKEN,.mvpgreen;
+		getunitdata(.gid[.@dupid], .@d);
+		npctalk "New Mode: " + .@d[UMOB_MODE];
+		npctalk "New Taken: " + .@d[UMOB_DAMAGETAKEN];
+		
+	initnpctimer;
+	end;
+	
+OnTimer5000:
+	.@dupid = atoi(strnpcinfo(2));
+	if(unitexists(.gid[.@dupid])){
+		getunitdata(.gid[.@dupid],.@d);
+		.@diff = (.mhp[.@dupid] - .@d[UMOB_HP]);
+		if(.@diff > 0){
+			npctalk "Dummy : Você teve um total de " + ((.@diff/5)/1000) + "K DPS nos últimos 5 segundos.";
+			setunitdata .gid[.@dupid],UMOB_HP,.mhp[.@dupid];
+			specialeffect EF_HEAL;
+		}
+	}
+	initnpctimer;
+}

@@ -1,0 +1,17 @@
+//====================================================================================
+//= Fun??o de adi??o do tempo correto da dura??o do evento
+//====================================================================================
+function	script	HRO_Event_Updater	{
+
+	set .@Time,86400;
+	set .@day,getarg(0);
+	
+	if( #HROEVENT_1 > gettimetick(2) ) set #HROEVENT_1, #HROEVENT_1 + (.@Time*.@day);
+	else set #HROEVENT_1, gettimetick(2) + (.@Time*.@day);
+
+	dispbottom "[ KillerRO ] : Um novo evento está em andamento e permace ativo por mais " + callfunc("Time2Str",#HROEVENT_1) + ".";
+	close3;
+}
+//====================================================================================
+//= Ativa o Icone de evento do servidor assim que for ativo
+//====================================================================================

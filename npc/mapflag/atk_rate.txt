@@ -1,0 +1,23 @@
+//===== rAthena Script =======================================
+//= Mapflag: Damage Adjustment
+//===== By: ==================================================
+//= [Cydh]
+//===== Description: =========================================
+// <mapname>	mapflag	atk_rate	<AttackerType>,<ShortDamageRate>,<LongDamageRate>,<WeaponDamageRate>,<MagicDamageRate>,<MiscDamageRate>
+//
+// 'AttackerType' is bitmask value of
+//     1: Players
+//     2: Monsters
+//     4: Pets
+//     8: Homunculus
+//    16: Mercenaries
+//    32: Elementals
+// If only 'ShortDamageRate' that has the given value, the rest of rates will be same with its value.
+//============================================================
+// Example:
+//niflheim	mapflag	atk_rate	1,200,200,200,200,200	// All players damage will be 200%
+//nif_fild01	mapflag	atk_rate	3,800,80,500,75,120	// Short: 70%, Long: 80%, Physical Skill: 60%, Magic Skill: 75%, Misc: 120%
+pvp_mob	mapflag	atk_rate	1,145,75,90,80,90	// All players damage will be 100%
+pvp_anti	mapflag	atk_rate	1,145,75,90,80,90	// All players damage will be 100%
+pvp_n_1-5	mapflag	atk_rate	1,145,100,100,100,100	// All players damage will be 100%
+prontera	mapflag	atk_rate	1,145,100,100,100,100	// All players damage will be 100%

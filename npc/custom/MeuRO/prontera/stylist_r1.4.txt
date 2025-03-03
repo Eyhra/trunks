@@ -1,0 +1,94 @@
+//===== rAthena Script =======================================
+//= Stylist npc
+//===== By: ==================================================
+//= AnnieRuru
+//= original by Euphy
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena 2019-02-23
+//===== Description: =========================================
+//= stylist npc
+//===== Topic ================================================
+//= https://rathena.org/board/topic/118030-help-restriction-stylist-npc/
+//===== Additional Comments: =================================  
+//= add 3rd job body style
+//============================================================
+
+prontera,135,187,7	script	Estilista	4_GEFFEN_10,{
+	.@choose = select( "^3CB371[»]^000000 Estilos de Cabelo", "^3CB371[»]^000000 Cor de Cabelo", "^3CB371[»]^000000 Cor de Roupa", ( !(eaclass() & EAJL_THIRD) || BaseJob == Job_SuperNovice )? "": "Body Style" ) -1;
+	.@lookpart = .@part = .look[.@choose];
+	if ( BaseClass == Job_Summoner )
+		.@part += Job_Summoner;
+	.@revert = .@i = inarray( getd(".list"+ .@part), getlook( .@lookpart ) );
+	while ( true ) {
+		setlook .@lookpart, getd(".list"+ .@part +"["+ .@i +"]");
+		showscript "Seu estilo  #"+ getd(".list"+ .@part +"["+ .@i +"]") +".";
+		.@next = ( .@i == .maxindex[.@part] )? 0 : .@i+1;
+		.@previous = ( .@i == 0 )? .maxindex[.@part] : .@i-1;	
+		switch ( select(
+			"^3CB371[»]^000000 Próximo (^0055FF"+ getd(".list"+ .@part +"["+ .@next +"]") +"^000000)",
+			"^3CB371[»]^000000 Voltar (^0055FF"+ getd(".list"+ .@part +"["+ .@previous +"]") +"^000000)",
+			"^3CB371[»]^000000 Pular para...",
+			"^3CB371[»]^000000 Voltar ao original (^0055FF"+ getd(".list"+ .@part +"["+ .@revert +"]") +"^000000)" ) ) {
+		case 1:
+			.@i = .@next;
+			break;
+		case 2:
+			.@i = .@previous;
+			break;
+		case 3:
+			message strcharinfo(0), "Escolha um estilo entre "+ .minstyles[.@part] +" - "+ .maxstyles[.@part] +".";
+			input .@num;
+			.@j = inarray( getd(".list"+ .@part), .@num );
+			if ( .@j == -1 )
+				message strcharinfo(0), "Esse estilo não está disponível";
+			else
+				.@i = .@j;
+			break;
+		case 4:
+			.@i = .@revert;
+		}
+	}
+	end;
+OnInit:
+//	.list$[LOOK_HAIR] = "0-5,11-18,20-23";
+	.list$[LOOK_HAIR] = getbattleflag("min_hair_style") +"-"+ getbattleflag("max_hair_style");
+	.list$[LOOK_HAIR_COLOR] = getbattleflag("min_hair_color") +"-"+ getbattleflag("max_hair_color");
+	.list$[LOOK_CLOTHES_COLOR] = getbattleflag("min_cloth_color") +"-"+ getbattleflag("max_cloth_color");
+//	.list$[LOOK_BODY2] = getbattleflag("min_body_style") +"-"+ getbattleflag("max_body_style");
+//	.list$[LOOK_BODY2] = "0-1";
+
+	.list$[Job_Summoner + LOOK_HAIR] = getbattleflag("min_hair_style") +"-"+ getbattleflag("max_hair_style");
+	.list$[Job_Summoner + LOOK_HAIR_COLOR] = getbattleflag("min_hair_color") +"-"+ getbattleflag("max_hair_color");
+	.list$[Job_Summoner + LOOK_CLOTHES_COLOR] = getbattleflag("min_cloth_color") +"-1";
+
+	freeloop true;
+	setarray .look[0], LOOK_HAIR, LOOK_HAIR_COLOR, LOOK_CLOTHES_COLOR,
+		Job_Summoner + LOOK_HAIR, Job_Summoner + LOOK_HAIR_COLOR, Job_Summoner + LOOK_CLOTHES_COLOR;
+	for ( .@i = 0; .@i < 7; ++.@i ) {
+		deletearray .@array$;
+		.@index = 0;
+		explode( .@array$, .list$[.look[.@i]], "," );
+		.@size = getarraysize(.@array$);
+		for ( .@j = 0; .@j < .@size; ++.@j ) {
+			if ( compare( .@array$[.@j], "-" ) ) {
+				explode( .@range$, .@array$[.@j], "-" );
+				.@min = atoi(.@range$[0]);
+				.@max = atoi(.@range$[1]);
+				.@range = .@max - .@min +1;
+				for ( .@k = 0; .@k < .@range; ++.@k )
+					setd ".list"+ .look[.@i] +"["+( .@index++ )+"]", .@min + .@k;
+			}
+			else
+				setd ".list"+ .look[.@i] +"["+( .@index++ )+"]", atoi( .@array$[.@j] );
+		}
+		.maxindex[.look[.@i]] = .@index -1;
+		.minstyles[.look[.@i]] = getd(".list"+ .look[.@i]);
+		.maxstyles[.look[.@i]] = getd(".list"+ .look[.@i] +"["+( .@index -1 )+"]");
+	}
+	.@UID = getnpcid(0);
+	setunittitle(.@UID, "Amy");
+	setunitdata .@UID, UNPC_GROUP_ID, 7;
+	end;
+}

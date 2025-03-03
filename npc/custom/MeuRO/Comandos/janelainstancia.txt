@@ -1,0 +1,18 @@
+-	script	janelainstancia	-1,{
+
+OnInit:
+		unbindatcmd "janelainstancia";
+		bindatcmd("janelainstancia","janelainstancia::OnAtcommand",4,4);
+    end;
+
+OnAtcommand:
+	switch(select("^FF0000[»]^000000 Desativar Janela da Instância:^3CB371[»]^000000 Ativar Janela da Instância")) {
+		case 1:
+			instancewindow 1; // Ativar
+			end;
+		case 2:
+			instancewindow 0; // Desativar
+			end;
+	}
+	end;
+}

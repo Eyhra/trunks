@@ -1,0 +1,917 @@
+-	script	paytowinbuffs	FAKE_NPC,{
+OnInit:
+	.delay  = 5 ; // 5 = 5 seconds *1 = 5 seconds
+	set .buff_duration,600000;
+	bindatcmd "buff","paytowinbuffs::OnBuff",0,99;
+end;
+
+OnBuff:
+	if (gettimetick(2) < delay_buffer) {
+		dispbottom( "Você deve esperar "+Time2Str(delay_buffer)+" para usar o comando novamente.", 0xFF0000 );
+		end;
+	}	
+	if(getgroupid() >= 5 ){  // para membros Vip
+	setarray @Suprimento[0],607,606,610,12016,12020,12028,12029,12030,12031,12033,12114,12115,12116,12117,12118,12119,12120,12121;
+	for(.@i = 0; .@i < getarraysize(@Suprimento); .@i++){
+		set @qtd, 30000-countitem(@Suprimento[.@i]);
+			if(@qtd != 0){
+			getitem @Suprimento[.@i],@qtd;
+		}
+	}
+//====================================================
+// Checa se não está com nenhum food +20
+//====================================================
+	if(!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com algum dos food+20 ativo
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	} else if (getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	} else if (getstatus(SC_MINOR_BBQ) && !getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	} else if (getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	} else if (getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	} else if (getstatus(SC_PUTTI_TAILS_NOODLES) && !getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT		
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e VIT
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e DEX
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e DEX
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e VIT e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e VIT e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e VIT e DEX
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e DEX e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e DEX e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e AGI e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";		
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e DEX
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e DEX e AGI
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e DEX e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e VIT e AGI e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e INT e DEX e AGI e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de STR e VIT e DEX e AGI e LUK
+//====================================================
+	} else if (getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e VIT
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e DEX
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e AGI
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e VIT e DEX
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e VIT e AGI
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e VIT e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e AGI e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e AGI e DEX
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de INT e DEX e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_VITFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de VIT e DEX
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de VIT e AGI
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de VIT e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de VIT e DEX e AGI
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de VIT e DEX e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de DEX e AGI
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && !getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_LUKFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de DEX e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && !getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_AGIFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+//====================================================
+// Checa se está com food +20 de AGI e LUK
+//====================================================
+	} else if (!getstatus(SC_SAVAGE_STEAK) && !getstatus(SC_COCKTAIL_WARG_BLOOD) && !getstatus(SC_MINOR_BBQ) && !getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		sc_start SC_STRFOOD,.buff_duration,1+9;
+		sc_start SC_INTFOOD,.buff_duration,10;
+		sc_start SC_DEXFOOD,.buff_duration,10;
+		sc_start SC_VITFOOD,.buff_duration,10;
+	
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";		
+//====================================================
+// Checa se está com todos foods +20 ativos
+//====================================================
+	} else if(getstatus(SC_SAVAGE_STEAK) && getstatus(SC_COCKTAIL_WARG_BLOOD) && getstatus(SC_MINOR_BBQ) && getstatus(SC_SIROMA_ICE_TEA) && getstatus(SC_DROCERA_HERB_STEAMED) && getstatus(SC_PUTTI_TAILS_NOODLES)) {
+		//sc_start SC_ATKPOTION,.buff_duration,10;
+		//sc_start SC_MATKPOTION,.buff_duration,10;
+		sc_start SC_BLESSING,.buff_duration,10;
+		sc_start SC_INCREASEAGI,.buff_duration,10;
+		
+		percentheal 100,100;
+		specialeffect2 805;
+		specialeffect2 312;
+		specialeffect2 42;
+		specialeffect2 37;
+		atcommand "@repairall";
+	}	
+}
+//====================================================
+// Buff para player não vip
+//====================================================
+	if(getgroupid() < 5 ){ // para membros Normais
+
+	percentheal 100,100;
+	specialeffect2 312;
+	specialeffect2 42;
+	specialeffect2 37;
+	atcommand "@repairall";
+	}
+	delay_buffer = gettimetick(2) + .delay;
+	end;
+}

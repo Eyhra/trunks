@@ -1,0 +1,269 @@
+izlude,99,158,2	script	Jogo do 5	57,{
+	goto OnJogar;
+end;
+Oninit:
+	//======================================================================================
+	// Configurações Básicas
+	//======================================================================================
+	set .itemid, 607;	//Id do item requisito para jogar
+	set .ApostaMax,25;	//Valor que o jogador pode apostar - Opção Esolhá você mesmo
+	setarray .dice[1], et_dice1,  et_dice2, et_dice3, et_dice4, et_dice5, et_dice6; // efeitos dos dados
+	setarray .recompensa, 501;	// Poção Vermelha com 1% de chance na aposta igual a 5
+	//======================================================================================
+	// Anunciar ao pegar um prêmio raro? (1: sim / 0: não)
+	.anuncio = 1;
+	.@UID = getnpcid(0);
+	setunittitle(.@UID, "Apostador");
+	setunitdata .@UID, UNPC_GROUP_ID, 2;
+	.@npc$ = strnpcinfo(0);
+		while (1) {
+			showscript .@npc$ +"";
+			sleep 100;
+		}
+	//======================================================================================
+end;
+
+OnJogar:
+	mes "[Apostador]";
+	mes "Olá, agora escolha faça sua escolha de aposta menor que 5, igual a 5 ou maior que 5!";
+	mes "Vale lembrar que o valor máximo da aposta é de 25 Ticket.";
+	mes " ";
+	mes "Caso queira saber mais sobre o jogo escolha Informações para saber mais sobre o jogo!";
+	goto JogoInicio1;
+	close;
+
+JogoInicio1:
+	switch(prompt("^3CB371[»]^000000Menor","^3CB371[»]^000000igual",	"^3CB371[»]^000000Maior","^ff0000[»]^000000Informações")) {
+		case 1: 
+			set .@menor,rand(1,4);
+			break;
+		case 2: 
+			set .@igual,rand(5,5);
+			break;
+		case 3: 
+			set .@maior,rand(6,9);
+			break;
+		case 4:
+			next;
+			mes "Olá, vou explicar como o jogo funciona Ok..";
+			mes " ";
+			mes "Você ira escolher entre apostar em Menor que 5, Igual á 5 ou Maior que 5!";
+			mes "E eu irei rolar um número de 1 á 9.";
+			next;
+			mes "Se você escolher menor e o número rolado for menor que 5 você ganha 2x o valor da aposta!";
+			mes "Se você escolher menor e o número rolado for maior ou igual a 5 você perde..Risos...";
+			next;
+			mes "Se você escolher igual e o número rolado for igual que 5 Ganha 4x o valor da aposta!!! E ainda tem a chance de conseguir um item extra como recompensa.";
+			mes "Se você escolher menor e o número rolado for maior ou menor a 5 você perde..Risos...";
+			next;
+			mes "Se você escolher maior e o número rolado for maior que 5 você ganha 2x o valor da aposta!";
+			mes "Se você escolher maior e o número rolado for menor ou igual a 5 você perde..Risos...";
+			next;
+			goto JogoInicio1;
+			break;
+		default: 
+			mes "[Apostador]"; 
+			mes "Por favor, volte quando quiser apostar!";
+			close;
+	}
+	goto JogoInicio2;
+close;
+
+JogoInicio2:
+	next;
+	mes "[Apostador]";
+	mes "Quantos Ticket Aposta você gostaria de apostar?";
+	switch(prompt("^3CB371[»]^0000002 Ticket Aposta","^3CB371[»]^0000005 Ticket Aposta","^3CB371[»]^00000010 Ticket Aposta","^ff0000[»]^000000Você mesmo escolhe")) {
+		case 1: 
+			set .@ValorAposta,2;  //10x ticket Aposta
+			break;
+		case 2: 
+			set .@ValorAposta,5;   //25xticket Aposta
+			break;
+		case 3: 
+			set .@ValorAposta,10;   //50x ticket Aposta
+			break;
+		case 4: 
+			input .@CustomAposta;    // Setup para o player escolher o valor da aposta até o valor máximo setado por ApostaMax
+			if(.@CustomAposta < 1 || .@CustomAposta > .ApostaMax) { 
+				next; 
+				mes "[Apostador]"; 
+				mes "Você deve inserir um número entre ^FF00001^000000 e ^FF0000"+.ApostaMax+" Ticket Aposta^000000."; 
+				goto JogoInicio2; 
+				close; 
+			}
+			set .@ValorAposta,.@CustomAposta;
+			next;
+			mes "[Apostador]";
+			mes "Você escolheu apostar ^008800"+.@ValorAposta+" Ticket Aposta^000000!";
+			break;
+		default:
+		case 255: 
+			mes "[Apostador]"; 
+			mes "Por favor, volte quando quiser apostar!"; 
+			close;
+	}
+	next;
+	mes "[Apostador]";
+	if(countitem(.itemid) < .@ValorAposta) {
+		mes "Você você não tem a quantidade de Ticket Aposta necessária para fazer essa aposta!"; 
+		close; 
+	}
+	delitem .itemid, .@ValorAposta;	//Faz o dell dos ticket aposta
+	mes "Os dados foram lançados...";
+	next;
+	mes "Rolando Dados... Rolando... Tá sentindo a energia?";
+	next;
+	mes "[Apostador]";
+	set .@Rolar,rand(1,9);	//Aqui ele jogara um número entre 1 á 9
+	if(.@menor) {
+		if(rand(10000) < 1000) {          // 70% de chance
+			set .@Rolar,rand(5,9);	//Aqui ele jogara um número entre 1 á 9
+			} else if(rand(10000) < 9000) {          // 30% de chance
+				set .@Rolar,rand(1,4);	//Aqui ele jogara um número entre 1 á 9
+			}
+		}	
+	if(.@igual) {
+		if(rand(10000) < 4500) {          // 45% de chance
+			set .@Rolar,rand(1,4);	//Aqui ele jogara um número entre 1 á 9
+			} else if(rand(10000) < 4500) {          // 45% de chance
+				set .@Rolar,rand(6,9);	//Aqui ele jogara um número entre 1 á 9
+			} else if(rand(10000) < 1000) {          // 10% de chance
+				set .@Rolar,rand(5,5);	//Aqui ele jogara um número entre 1 á 9
+			}
+		}	
+	if(.@maior) {
+		if(rand(10000) < 7500) {          // 75% de chance
+			set .@Rolar,rand(1,5);	//Aqui ele jogara um número entre 1 á 9
+			} else if(rand(10000) < 2500) {          // 25% de chance
+				set .@Rolar,rand(5,9);	//Aqui ele jogara um número entre 1 á 9
+			}
+		}	
+		
+//======================================================================================
+// Configurações para escolha menor que 5
+//======================================================================================
+if(.@menor) {
+	if(.@Rolar > 6){
+		if(.@Rolar == 7){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[1], strcharinfo(0);
+		}else if(.@Rolar == 8){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[2], strcharinfo(0);
+		}else if(.@Rolar == 9){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[3], strcharinfo(0);
+		}
+	}else{
+		emotion .dice[.@Rolar], getnpcid(0);
+	}
+	if(.@Rolar >= 5) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000!";
+		sleep2 500;
+		specialeffect 155;
+		next; 
+		mes "[Apostador]"; 
+		mes "Seus, ^008800"+.@ValorAposta+"Ticket Aposta^000000 são meus!";
+	} else if(.@Rolar <= 4) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000"; 
+		sleep2 500;
+		specialeffect 154;
+		getitem .itemid, (.@ValorAposta * 2); 
+		next; 
+		mes "[Apostador]"; 
+		mes "Você ganhou ^008800"+(.@ValorAposta)+"Ticket Aposta^000000. ná próxima vez eu ganho HaHaHa!"; 
+	}
+}
+//======================================================================================
+// Configurações para escolha igual á 5
+//======================================================================================
+if(.@igual) {
+	if(.@Rolar > 6){
+		if(.@Rolar == 7){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[1], strcharinfo(0);
+		}else if(.@Rolar == 8){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[2], strcharinfo(0);
+		}else if(.@Rolar == 9){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[3], strcharinfo(0);
+		}
+	}else{
+		emotion .dice[.@Rolar], getnpcid(0);
+	}
+	if(.@Rolar <= 4) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000!"; 
+		sleep2 500;
+		specialeffect 155;
+		next; 
+		mes "[Apostador]"; 
+		mes "Seus, ^008800"+.@ValorAposta+"Ticket Aposta^000000 são meus!"; 
+	} else if(.@Rolar >= 6) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000!"; 
+		sleep2 500;
+		specialeffect 155;
+		next; 
+		mes "[Apostador]"; 
+		mes "Seus, ^008800"+.@ValorAposta+"Ticket Aposta^000000 são meus!"; 
+	} else if(.@Rolar == 5) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000";
+		sleep2 500;
+		specialeffect 154;
+		getitem .itemid, (.@ValorAposta * 4);
+		if (.ApostaMax) {
+			if(rand(10000) < 100) {          // 1% de chance
+				getitem getd(".recompensa"), 1;
+				if (.anuncio) announce strcharinfo(0)+" ganhou um "+getitemname(getd(".recompensa"))+" em sua aposta igual a 5...com 1% de chance!",0;
+			}
+			next; 
+			mes "[Apostador]"; 
+			mes "Você ganhou ^008800"+(.@ValorAposta)+"Ticket Aposta^000000. ná próxima vez eu ganho HaHaHa!"; 
+		}
+	}	
+}
+//======================================================================================
+// Configurações para escolha maior que 5
+//======================================================================================
+if(.@maior) {
+	if(.@Rolar > 6){
+		if(.@Rolar == 7){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[1], strcharinfo(0);
+		}else if(.@Rolar == 8){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[2], strcharinfo(0);
+		}else if(.@Rolar == 9){
+			emotion .dice[6], getnpcid(0);
+			emotion .dice[3], strcharinfo(0);
+		}
+	}else{
+		emotion .dice[.@Rolar], getnpcid(0);
+	}
+	if(.@Rolar <= 5) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000!";
+		sleep2 500;
+		specialeffect 155;
+		next; 
+		mes "[Apostador]"; 
+		mes "Seus, ^008800"+.@ValorAposta+"Ticket Aposta^000000 são meus!";
+	} else if(.@Rolar >= 6) {
+		sleep2 500;
+		mes "O número rolado foi ^0000FF"+.@Rolar+"^000000";
+		sleep2 500;
+		specialeffect 154;
+		getitem .itemid, (.@ValorAposta * 2); 
+		next; 
+		mes "[Apostador]"; 
+		mes "Você ganhou ^008800"+(.@ValorAposta)+"Ticket Aposta^000000. ná próxima vez eu ganho HaHaHa!";
+	}
+}
+end;
+}

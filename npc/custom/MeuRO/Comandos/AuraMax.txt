@@ -1,0 +1,26 @@
+-	script	AuraSet	HIDDEN_NPC,{
+
+OnInit:
+	bindatcmd("aura", strnpcinfo(3)+"::OnAura");
+	bindatcmd("auraoff", strnpcinfo(3)+"::OnAuraoff");
+	end;
+
+OnAura:
+	if (BaseLevel >= 120) {
+		atcommand "@aura 1068"+strcharinfo(0);
+		message strcharinfo(0), "Aura de Nivel maximo está ativa.";
+	} else if (BaseLevel <= 119) {
+		message strcharinfo(0), "Você não tem nivel suficiente para isso.";
+	}	
+	end;
+	
+OnAuraoff:
+	if (BaseLevel >= 120) {
+	atcommand "@aura 0"+strcharinfo(0);
+	message strcharinfo(0), "Aura de Nivel maximo está desativada.";
+	} else if (BaseLevel <= 119) {
+		message strcharinfo(0), "Você não tem nivel suficiente para isso.";
+	}	
+	
+end;
+}

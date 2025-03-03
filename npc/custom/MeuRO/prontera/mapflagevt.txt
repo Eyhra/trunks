@@ -1,0 +1,21 @@
+//==================================================
+// Mapflags da Cidade dos Chefes
+//==================================================
+in_sphinx4	mapflag	nowarpto
+in_sphinx4	mapflag	nomemo
+in_sphinx4	mapflag	nobranch
+in_sphinx4	mapflag	noloot
+in_sphinx4	mapflag	nomobloot
+in_sphinx4	mapflag	nomvploot
+in_sphinx4	mapflag	noexp
+in_sphinx4	mapflag	nobaseexp
+in_sphinx4	mapflag	nojobexp
+in_sphinx4	mapflag	nopenalty
+in_sphinx4	mapflag	noexppenalty
+in_sphinx4	mapflag	nozenypenalty
+in_sphinx4	mapflag	noicewall
+in_sphinx4	mapflag	noreturn
+in_sphinx4	mapflag	pvp
+in_sphinx4	mapflag	pvp_noguild
+in_sphinx4	mapflag	pvp_noparty
+in_sphinx4	mapflag	nosave	SavePoint

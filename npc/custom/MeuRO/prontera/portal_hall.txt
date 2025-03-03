@@ -1,0 +1,135 @@
+//prontera,171,167,0	warp	hall001	1,1,s_room,32,49
+//s_room,28,50,0	warp	hall002	1,1,prontera,168,167
+//s_room,28,49,0	warp	hall003	1,1,prontera,168,167
+
+//s_room,49,29,0	warp	hall004	1,1,lib_in,58,215
+//s_room,50,29,0	warp	hall005	1,1,lib_in,58,215
+//lib_in,62,213,0	warp	hall006	1,1,s_room,50,33
+//lib_in,62,216,0	warp	hall007	1,1,s_room,50,33
+
+s_room,34,69,5	script	Faxineira#hall	1737,5,5,{
+OnTouch:
+	switch(rand(0,6)) {
+		case 1:
+			npctalk "Tenha um ótimo jogo "+strcharinfo(0)+"!", "Faxineira#hall", bc_self;
+			end;
+		case 2:
+			npctalk "Hey "+strcharinfo(0)+", cuidado pra não pisar na sujeira!", "Faxineira#hall", bc_self;
+			end;
+		case 3:
+			npctalk "Deveria ter uma placa de limpe os pés ao entrar", "Faxineira#hall", bc_self;
+			end;
+		case 4:
+			npctalk "Será que eu recebo FGTS?", "Faxineira#hall", bc_self;
+			end;
+		case 5:
+			npctalk "Opa "+strcharinfo(0)+", quais as novidades?", "Faxineira#hall", bc_self;
+			end;
+		case 6:
+			npctalk "Vish "+strcharinfo(0)+", agora pouco eu vi outro jogador se assustando com os fantasmas ali do canto, cuidado!", "Faxineira#hall", bc_self;
+			end;
+		default:
+			end;
+	}
+
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	startnpctimer;
+	npcspeed 350;
+	end;
+
+OnTimer15000:
+	npcwalkto 37,60;
+	end;
+
+OnTimer85000:
+	npcwalkto 63,61;
+	end;
+
+OnTimer155000:
+	npcwalkto 64,42;
+	end;
+
+OnTimer220000:
+	npcwalkto 50,40;
+	end;
+
+OnTimer300000:
+	npcwalkto 35,41;
+	end;
+
+OnTimer360000:
+	npcwalkto 37,60;
+	end;
+
+OnTimer440000:
+	stopnpctimer;
+	initnpctimer;
+	end;
+}
+
+
+s_room,41,71,5	script	Faxineira#hall1	1737,5,5,{
+OnTouch:
+	switch(rand(0,6)) {
+		case 1:
+			npctalk "Tenha um ótimo jogo "+strcharinfo(0)+"!", "Faxineira#hall1", bc_self;
+			end;
+		case 2:
+			npctalk "Hey "+strcharinfo(0)+", cuidado pra não pisar na sujeira!", "Faxineira#hall1", bc_self;
+			end;
+		case 3:
+			npctalk "Deveria ter uma placa de limpe os pés ao entrar", "Faxineira#hall1", bc_self;
+			end;
+		case 4:
+			npctalk "Será que eu recebo FGTS?", "Faxineira#hall1", bc_self;
+			end;
+		case 5:
+			npctalk "Opa "+strcharinfo(0)+", quais as novidades?", "Faxineira#hall1", bc_self;
+			end;
+		case 6:
+			npctalk "Vish "+strcharinfo(0)+", agora pouco eu vi outro jogador se assustando com os fantasmas ali do canto, cuidado!", "Faxineira#hall1", bc_self;
+			end;
+		default:
+			end;
+	}
+
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	startnpctimer;
+	npcspeed 350;
+	end;
+
+OnTimer25000:
+	npcwalkto 57,73;
+	end;
+
+OnTimer65000:
+	npcwalkto 50,57;
+	end;
+
+OnTimer175000:
+	npcwalkto 63,75;
+	end;
+
+OnTimer200000:
+	npcwalkto 61,51;
+	end;
+
+OnTimer320000:
+	npcwalkto 57,35;
+	end;
+
+OnTimer390000:
+	npcwalkto 34,46;
+	end;
+
+OnTimer440000:
+	npcwalkto 57,73;
+	end;
+
+OnTimer500000:
+	stopnpctimer;
+	initnpctimer;
+	end;
+}

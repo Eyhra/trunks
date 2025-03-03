@@ -1,0 +1,24 @@
+//==================================================
+//==============Warp Teste de Dano===================
+//==================================================
+prontera,171,182,1	script	Teste seu dano	666,{
+	cutin"h_iris02",2;
+	mes "^DC143C[Irís!]^000000";
+	//Script:
+	mes "Você deseja ir a zona de teste?";
+	menu "^2988CD[»]^000000Sim",-,"^FF0000[»]^000000Não",cla;
+	warp "prontera",228,77;
+	close3;
+
+	cla:
+	mes "Ok, volte quando quiser !";
+	close3;
+	
+OnInit:
+//waitingroom "Curandeira",0;
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Iris");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+	}
+

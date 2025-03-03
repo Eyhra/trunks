@@ -1,0 +1,149 @@
+//===== rAthena Script =======================================
+//= Acolyte Warpers
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Warpers to various towns.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//=     Unsure if this is on kRO, so disabled for now.
+//= 1.1 Added iRO VIP features. [Euphy]
+//=     The function is located in re/quests/eden/eden_vip.txt.
+//============================================================
+
+// Warpers :: acolyte_warp
+//============================================================
+prontera,98,121,4	script	Noviço#Prtclear	90,{
+	mes "[Keiki]";
+	mes "Olá, aventureiro.";
+	mes "Eu tenho estudado magia de todo Rune-Midgard para atualizar o que eu acredito ser uma das maiores habilidades disponíveis para a classe de noviços.";
+	next;
+
+	if (is_function("VIP_iRO_Acolyte"))
+		callfunc "VIP_iRO_Acolyte","[Keiki]","Juno";
+
+	mes "[Keiki]";
+	mes "Eu sou o primeiro e único Acólito que alcançou a habilidade do Portal Nível 10!";
+	emotion ET_THINK, playerattached();
+	next;
+	mes "[Keiki]";
+	mes "Isso mesmo! E ...";
+	mes "Eu prometo a você que eu não esqueço lugares que eu já memorizei.";
+	mes "Um dia eu vou aumentar minhas habilidades para me inclinar para onde eu quiser ~";
+	Próximo;
+	mes "[Keiki]";
+	mes "Estou disposto a te deformar para os muitos locais que eu memorizei por uma pequena taxa.";
+	mes "Você gostaria de usar este serviço?";
+	next;
+	switch(select("Sim:Não")) {
+	case 1:
+		mes "[Keiki]";
+		mes "Onde você gostaria de ir?";
+		mes "Desejo-lhe boa sorte em sua jornada.";
+		next;
+
+		setarray .@towns$[0], "Izlude", "Geffen", "Payon", "Morroc", "Alberta", "Al De Baran", "Comodo", "Umbala", "Juno";
+		setarray .@cost[0],        600,     1200,    1200,     1200,      1800,          2200,     2200,     2200,   1800;
+
+		set .@size, getarraysize(.@towns$);
+		for(set .@i,0; .@i<.@size; set .@i,.@i+1)
+			set .@menu$, .@menu$+.@towns$[.@i]+" -> "+.@cost[.@i]+"z:";
+		set .@i, select(.@menu$+"Cancel")-1;
+		if (.@i == .@size)
+			close;
+		if (Zeny < .@cost[.@i]) {
+			mes "[Keiki]";
+			mes "Sinto muito, mas você não tem";
+			mes "zeny suficiente para o Serviço";
+			mes "de Teleporte. A taxa para se teletransportar";
+			mes "para "+.@towns$[.@i]+" é "+.@cost[.@i]+" zeny.";
+			close;
+		}
+		specialeffect2 EF_READYPORTAL;
+		specialeffect2 EF_TELEPORTATION;
+		specialeffect2 EF_PORTAL;
+		next;
+		set Zeny, Zeny - .@cost[.@i];
+		switch(.@i) {
+			case 0: if (checkre(0)) warp "izlude",128,98; else warp "izlude",91,105; break;
+			case 1: warp "geffen",120,39; break;
+			case 2: warp "payon",161,58; break;
+			case 3: warp "morocc",156,46; break;
+			case 4: warp "alberta",117,56; break;
+			case 5: warp "aldebaran",168,112; break;
+			case 6: warp "comodo",209,143; break;
+			case 7: warp "umbala",100,154; break;
+			case 8: warp "yuno",158,125; break;
+		}
+		close;
+	case 2:
+		close;
+	}
+}
+
+yuno,142,184,6	script	Noviço#Junoclear	90,{
+	mes "[Isalei]";
+	mes "Olá, aventureiro.";
+	mes "Meu companheiro Keiki e eu descobrimos uma maneira de aumentar nossas habilidades no portal.";
+	next;
+
+	if (is_function("VIP_iRO_Acolyte"))
+		callfunc "VIP_iRO_Acolyte","[Isalei]","Prontera";
+
+	mes "[Isalei]";
+	mes "Embora eu não tenha dominado o nível que ela tem, eu consegui atingir o Nível 5.";
+	emotion ET_THINK, playerattached();
+	next;
+	mes "[Isalei]";
+	mes "Talvez um dia eu possa melhorar minhas habilidades o suficiente para que eu possa usar o portal Warp para locais mais salvos.";
+	next;
+	mes "[Isalei]";
+	mes "Estou disposto a te deformar para os muitos locais que eu memorizei por uma pequena taxa.";
+	mes "Você gostaria de usar este serviço?";
+	next;
+	switch(select("Sim:Não")) {
+	case 1:
+		mes "[Isalei]";
+		mes "Onde você gostaria de ir?";
+		mes "Desejo-lhe boa sorte em sua jornada.";
+		next;
+
+		setarray .@towns$[0], "Einbroch", "Lighthalzen", "Hugel", "Rachel", "Prontera";
+		setarray .@cost[0],         2200,          2200,    2200,     2200,       1800;
+
+		set .@size, getarraysize(.@towns$);
+		for(set .@i,0; .@i<.@size; set .@i,.@i+1)
+			set .@menu$, .@menu$+.@towns$[.@i]+" -> "+.@cost[.@i]+"z:";
+		set .@i, select(.@menu$+"Cancel")-1;
+		if (.@i == .@size)
+			close;
+		if (Zeny < .@cost[.@i]) {
+			mes "[Isalei]";
+			mes "Sinto muito, mas você não tem";
+			mes "zeny suficiente para o Serviço";
+			mes "de Teleporte. A taxa para se teletransportar";
+			mes "para "+.@towns$[.@i]+" é "+.@cost[.@i]+" zeny.";
+			close;
+		}
+		specialeffect2 EF_READYPORTAL;
+		specialeffect2 EF_TELEPORTATION;
+		specialeffect2 EF_PORTAL;
+		next;
+		set Zeny, Zeny - .@cost[.@i];
+		switch(.@i) {
+			case 0: warp "einbroch",67,195; break;
+			case 1: warp "lighthalzen",159,90; break;
+			case 2: warp "hugel",98,150; break;
+			case 3: warp "rachel",119,135; break;
+			case 4: warp "prontera",116,72; break;
+		}
+		close;
+	case 2:
+		close;
+	}
+}

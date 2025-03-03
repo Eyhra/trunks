@@ -1,0 +1,161 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Restock =================================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//===============================================================================
+
+-	script	Restock	-1,{
+  function get_restock;
+  function get_restock_size;
+  function get_item_fullname;
+
+ OnInit:
+  bindatcmd "restock",strnpcinfo(3)+"::OnRestock";
+  end;
+
+ OnRestock:
+  .@size=getarraysize(getd("RestockId"+RestockActive));
+    getinventorylist();
+
+  if(RestockAggressive){
+    freeloop(1);
+    for(.@j = @inventorylist_count - 1; .@j >= 0; .@j--){
+      if(@inventorylist_id[.@j] <= 0 || @inventorylist_id[.@j] >=40000 || (@inventorylist_tradable[.@j]==0) || @inventorylist_favorite)continue;
+      .@i = 0;
+      for(; .@i < .@size; ++.@i){
+	.@id=get_restock("Id",RestockActive,.@i);
+	.@amount=get_restock("Amount",RestockActive,.@i);
+	.@card1=get_restock("Card",RestockActive,.@i,0);
+	.@card2=get_restock("Card",RestockActive,.@i,1);
+	.@card3=get_restock("Card",RestockActive,.@i,2);
+	.@card4=get_restock("Card",RestockActive,.@i,3);
+	.@equip=get_restock("Equip",RestockActive,.@i);
+	.@refine=get_restock("Refine",RestockActive,.@i);
+	if((@inventorylist_id[.@j]==.@id) && (@inventorylist_card1[.@j]==.@card1) && (@inventorylist_card2[.@j]==.@card2)&& (@inventorylist_card3[.@j]==.@card3) && (@inventorylist_card4[.@j]==.@card4) && (@inventorylist_refine[.@j]==.@refine)){
+	  break;
+	}
+      }
+      if(.@i == .@size){
+	storeindex @inventorylist_idx[.@j],@inventorylist_amount[.@j]; // Item not registered in current restock
+	dispbottom "Hard restock : stored foreign item :  " +getitemname(@inventorylist_id[.@j]) + " x" + @inventorylist_amount[.@j];
+      }
+    }
+    freeloop(0);
+  }
+  freeloop(1);
+  for(.@i = 0; .@i < .@size; ++.@i){
+
+    .@id=get_restock("Id",RestockActive,.@i);
+    .@amount=get_restock("Amount",RestockActive,.@i);
+    .@card1=get_restock("Card",RestockActive,.@i,0);
+    .@card2=get_restock("Card",RestockActive,.@i,1);
+    .@card3=get_restock("Card",RestockActive,.@i,2);
+    .@card4=get_restock("Card",RestockActive,.@i,3);
+    .@equip=get_restock("Equip",RestockActive,.@i);
+    .@refine=get_restock("Refine",RestockActive,.@i);
+
+    if(.@id <= 0 || .@id >=40000)continue;
+    .@storage=storagecountitem2(.@id,1,.@refine,0,.@card1,.@card2,.@card3,.@card4);
+    if(.@storage == -1){ //storage is open
+      freeloop(0);
+      dispbottom "Please close storage before restocking";
+      end;
+    }
+    .@j=0;
+    getinventorylist();
+    while(.@j < @inventorylist_count){
+      if((@inventorylist_id[.@j]==.@id) && (@inventorylist_card1[.@j]==.@card1) && (@inventorylist_card2[.@j]==.@card2)&& (@inventorylist_card3[.@j]==.@card3) && (@inventorylist_card4[.@j]==.@card4) && (@inventorylist_refine[.@j]==.@refine)){
+	break;
+      }
+      .@j++;
+    }
+    if(.@j == @inventorylist_count){
+      .@diff=min(.@amount,.@storage);
+    }else
+      .@diff=.@amount-@inventorylist_amount[.@j];
+    if(.@diff>0){
+      if(.@diff > .@storage)
+	.@diff = .@storage;
+      storagedelitem2 .@id,.@diff,1,.@refine,0,.@card1,.@card2,.@card3,.@card4;
+      getitem2 .@id,.@diff,1,.@refine,0,.@card1,.@card2,.@card3,.@card4;
+
+      if(.@equip)
+	equip .@id;
+    }
+    else if(.@diff < 0){
+      storeindex @inventorylist_idx[.@j],-.@diff;
+    }
+  }
+  freeloop(0);
+
+
+  end;
+  function get_restock{
+    .@type$ = getarg(0);
+    .@restockid = getarg(1);
+    .@itemindex=getarg(2);
+    if(.@type$ == "Card"){
+      .@card=getarg(3);
+      return getd("Restock"+.@type$ +.@restockid+"_"+.@card+"["+.@itemindex+"]");
+    }
+    else
+      return getd("Restock"+.@type$+.@restockid+"["+.@itemindex+"]");
+  }
+  function get_restock_size{
+    .@restockid = getarg(0);
+    return getarraysize(getd("RestockId"+.@restockid));
+  }
+  function get_item_fullname{
+    .@restockid=getarg(0);
+    .@itemindex=getarg(1);
+    .@itemid=get_restock("Id",.@restockid,.@itemindex);
+    .@equip=get_restock("Equip",.@restockid,.@itemindex);
+    if(.@equip>0)
+      .@name$="(E)";
+    .@name$+=getitemname(.@itemid);
+    .@slots=getitemslots(.@itemid);
+
+
+    if(.@slots>0){
+      .@card=get_restock("Card",.@restockid,.@itemindex,0);
+      if(.@card){
+	for(.@j = 0; .@j < .@slots; ++.@j){
+	  .@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	  if(.@card)
+	    .@name$+="["+getitemname(.@card)+"]";
+	  else
+	    .@name$+="[]";
+	}
+	for(.@j = .@slots; .@j < 4; ++.@j){ // For enchants
+	  .@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	  if(.@card)
+	    .@name$+="["+getitemname(.@card)+"]";
+	}
+      }else
+	.@name$+="["+.@slots+"]";
+    }
+    else{ // For any other socketed things on non socketed items
+      for(.@j = 0; .@j < 4; ++.@j){
+	.@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	if(.@card)
+	  .@name$+="["+getitemname(.@card)+"]";
+      }
+    }
+    return .@name$;
+  }
+
+}

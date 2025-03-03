@@ -1,0 +1,218 @@
+//===== rAthena Script =======================================
+//= Eden Group Quests - Mission [91 - 99]
+//===== By: ==================================================
+//= Chilly
+//===== Current Version: =====================================
+//= 1.5
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Repetable Quests for Players between Baselevel 91 - 99.
+//===== Additional Comments: =================================
+//= 1.0 First Version. [Chilly]
+//= 1.1 Some little improvements here and there. [Masao]
+//= 1.2 Optimized. [Euphy]
+//= 1.3 Updated to match the official script. [Euphy]
+//= 1.4 Added support to Para_Team_Mark_ in Eden Group. [Ragno]
+//= 1.5 Added use of F_HasEdenGroupMark function. [Ragno]
+//============================================================
+
+moc_para01,48,177,3	script	91-99 Mission Board	857,{
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Espere um minuto!";
+		mes "-Precisa de ter um-";
+		mes "-^4d4dff'Marca do Grupo Eden'^000000-";
+		mes "-para receber estas missoes.-";
+		next;
+		switch(select("Basta ir embora.:^0000FFGrupo Eden^000000 missoes?:Como posso ser um membro do ^0000FFGrupo Eden^000000?")) {
+		case 1:
+			close;
+		case 2:
+			mes "::As Missoes do Grupo Eden";
+			mes "::sao basicamente missoes";
+			mes "::solicitadas por";
+			mes "::pessoas de todo o reino";
+			mes "::apenas as categorizamos";
+			next;
+			mes "::no Grupo do Eden,";
+			mes "::classificamos as missoes";
+			mes "::de acordo com o nivel de dificuldade";
+			mes "::de acordo com este nivel,";
+			mes "::pode encontrar";
+			mes "::missoes que";
+			mes "::que lhe convem";
+			next;
+			mes "::Quando tiveres terminado,";
+			mes "::podes voltar";
+			mes "::para a direccao da missao";
+			next;
+			mes "::Entao, estara";
+			mes ":::recompensado!";
+			mes "::simples, nao e!!";
+			mes "::Nao e necessaria comissao!!";
+			close;
+		case 3:
+			mes "::Pode tornar-se um membro";
+			mes "::do Grupo do Eden";
+			mes "::to ^0000FFLaime Evenor^000000,";
+			mes "::quem esta a espera no 1º andar";
+			next;
+			mes "::Se se tornar membro,";
+			mes "::teras um";
+			mes "::\"^006400Marca do Grupo Eden^000000\".";
+			mes "::Entao sera capaz";
+			mes "::ver o quadro da missao";
+			close;
+		}
+	}
+	if (BaseLevel < 91 || BaseLevel > 99) {
+		// Quest IDs: 4181-4196
+		// Quest cooldown IDs: 4212-4227
+		setarray .@names$[0],
+			"Soldado", "Congelador", "Aquecedor",
+			"Injustica", "Rybio", "Sacerdote das Trevas",
+			"Stapo", "Roween", "Siroma",
+			"Shinobi", "Ninfa Malefica",
+			"Deviruchi", "Mineral", "Kaho", "Neraid", "Disfarce";
+		setarray .@exp[0],
+			90000,94000,114000,
+			96000,96000,146000,
+			96000,102000,110000,
+			102000,108000,
+			110000,138000,118000,96000,134000;
+		mes "Tem de estar dentro do nivel 91-99 para aceitar estas missoes";
+		for(set .@quest,4181; .@quest<=4196; set .@quest,.@quest+1) {
+			set .@hunting, checkquest(.@quest,HUNTING);
+			if (.@hunting == 0 || .@hunting == 1) {
+				next;
+				mes ":: Nao pode prosseguir em";
+				mes ":: ^0000FF"+.@names$[.@quest-4181]+" A caca^000000.";
+				mes ":: O registo para a missao";
+				mes ":: e cancelado.";
+				erasequest .@quest;
+				close;
+			} else if (.@hunting == 2) {
+				next;
+				mes ":: Acrescentou informacoes";
+				mes ":: sobre a missao";
+				mes ":: ^0000FF"+.@names$[.@quest-4181]+" A caca^000000";
+				mes ":: no quadro da missao";
+				mes ":: Tens um";
+				mes ":: experiencia salutar";
+				erasequest .@quest;
+				getexp .@exp[.@quest-4181],0;
+				close;
+			}
+		}
+		close;
+	}
+	mes "[91-99 Conselho de Missao]";
+	mes "Ha varios pedidos neste quadro.";
+	next;
+	switch(select("^8B4513Ilha das Tartarugas^000000:^8B4513Glast Heim^000000:^8B4513Rachel / Veins^000000:^8B4513Cidades de Expansao^000000:^8B4513Oas regioes^000000")) {
+	case 1:
+		mes "^8B4513Ilha das Tartarugas^000000.";
+		mes "Que monstro cacaras ou teras acabado de cacar?";
+		next;
+		switch(select("^0000FFSoldado^000000:^0000FFCongelador^000000:^0000FFAquecedor^000000")) {
+			case 1: callsub L_Quest,4181,"Soldado",90000,"솔리더카드","Ha um monstro que so pode ser encontrado em ^8B4513Ilha das Tartarugas^000000.";
+			case 2: callsub L_Quest,4182,"Congelador",94000,"프리저카드","Ha um monstro que so pode ser encontrado em ^8B4513Ilha das Tartarugas^000000.";
+			case 3: callsub L_Quest,4183,"Aquecedor",114000,"히터카드","Ha um monstro que so pode ser encontrado em ^8B4513Ilha das Tartarugas^000000.";
+		}
+	case 2:
+		mes "^8B4513Glast Heim^000000.";
+		mes "Que monstro cacaras ou teras acabado de cacar?";
+		next;
+		switch(select("^0000FFInjustice^000000:^0000FFRybio^000000:^0000FFSacerdote das Trevas^000000")) {
+			case 1: callsub L_Quest,4184,"Injustice",96000,"인저스티스카드","Ha um monstro que so se encontra em ^8B4513Prisao Glast Heim^000000.";
+			case 2: callsub L_Quest,4185,"Rybio",96000,"리비오카드","Ha um monstro que so se encontra em ^8B4513Prisao Glast Heim^000000.";
+			case 3: callsub L_Quest,4186,"Sacerdote das Trevas",146000,"다크프리스트카드","Ha um monstro que so se encontra em ^8B4513Prisao Glast Heim^000000.";
+		}
+	case 3:
+		mes "^8B4513Rachel / Veins^000000.";
+		mes "Que monstro cacaras ou teras acabado de cacar?";
+		next;
+		switch(select("^0000FFStapo^000000:^0000FFRoween^000000:^0000FFSiroma^000000")) {
+			case 1: callsub L_Quest,4187,"Stapo",96000,"스태포카드","Ha um monstro que so se encontra em ^8B4513Veins^000000.";
+			case 2: callsub L_Quest,4188,"Roween",102000,"로우윈카드","Ha um monstro que so se encontra em ^8B4513Rachel^000000.";
+			case 3: callsub L_Quest,4189,"Siroma",110000,"시로마카드","Ha um monstro que so se encontra em ^8B4513Caverna de Gelo^000000.";
+		}
+	case 4:
+		mes "^8B4513Cidades de Expansao^000000.";
+		mes "Que monstro cacaras ou teras acabado de cacar?";
+		next;
+		switch(select("^0000FFShinobi^000000:^0000FFEvil Nymph^000000")) {
+			case 1: callsub L_Quest,4190,"Shinobi",102000,"시노비카드","Ha um monstro que so se encontra em ^8B4513Caverna Amatsu^000000.";
+			case 2: callsub L_Quest,4191,"Evil Nymph",108000,"요선녀카드","Ha um monstro que so se encontra em ^8B4513Caverna Kunlun^000000.";
+		}
+	case 5:
+		mes "Outras Regioes.";
+		mes "Que monstro cacaras ou teras acabado de cacar?";
+		next;
+		switch(select("^0000FFDeviruchi^000000:^0000FFMineral^000000:^0000FFKaho^000000:^0000FFNeraid^000000:^0000FFDisguise^000000")) {
+			case 1: callsub L_Quest,4192,"Deviruchi",110000,"데비루치카드","Ha um monstro que so se encontra em ^8B4513Caverna Geffen^000000.";
+			case 2: callsub L_Quest,4193,"Mineral",138000,"미네랄","Ha um monstro que so se encontra em ^8B4513Caverna Einbech^000000.";
+			case 3: callsub L_Quest,4194,"Kaho",118000,"카호카드","Ha um monstro que so se encontra em ^8B4513Nogg Road Magma 1^000000.";
+			case 4: callsub L_Quest,4195,"Neraid",96000,"네레이드카드","Ha um monstro que so se encontra em ^8B4513Caverna de Comodo^000000.";
+			case 5: callsub L_Quest,4196,"Disguise",134000,"디스가이즈카드","Ha um monstro que so se encontra em ^8B4513Niflheim^000000.";
+		}
+	}
+	end;
+
+//callsub L_Quest,<quest ID>,"<monster name>",<reward EXP>,"<cutin image>","<description>"{,"s"};
+L_Quest:
+	set .@quest1, getarg(0);
+	set .@quest2, .@quest1+31;
+	.@cutin$ = getarg(3);
+	set .@playtime, checkquest(.@quest2,PLAYTIME);
+	if (.@playtime == 0 || .@playtime == 1) {
+		mes "[91-99 Conselho de Missao]";
+		mes "Tem de esperar 3 horas antes de poder assumir novamente esta missao";
+		close;
+	}
+	set .@hunting, checkquest(.@quest1,HUNTING);
+	if (.@hunting == 0 || .@hunting == 1) {
+		mes "[91-99 Conselho de Missao]";
+		mes "Ja terminou a caca aos 30 "+getarg(1)+getarg(5,"")+" ainda?";
+		close;
+	} else if (.@hunting == 2) {
+		mes "[91-99 Conselho de Missao]";
+		mes "Concluiu a caca";
+		mes "Por favor, aceite esta recompensa como compensacao";
+		erasequest .@quest1;
+		if (.@playtime > -1) erasequest .@quest2;
+		setquest .@quest2;
+
+		// Job Experience calculation.
+		if (JobLevel > 50 && JobLevel < 56) set .@jexp,67000;
+		else if (JobLevel > 55 && JobLevel < 61) set .@jexp,94000;
+		else if (JobLevel > 60 && JobLevel < 66) set .@jexp,141000;
+		else if (JobLevel > 65 && JobLevel < 69) set .@jexp,212000;
+		else if (JobLevel == 69) set .@jexp,311000;
+
+		getexp getarg(2),.@jexp;
+		close;
+	}/* else if (.@hunting == 3) {
+//		recall_completequest .@quest1
+		erasequest .@quest1;
+		mes "[91-99 Mission Board]";
+		mes "You have re-accepted the "+getarg(1)+" Hunting mission.";
+		close;
+	}*/ else {
+		mes "[91-99 Conselho de Missao]";
+		mes getarg(4);
+		next;
+		if (.@cutin$ != "") cutin .@cutin$,3;
+		mes "[91-99 Conselho de Missao]";
+		mes "Caca 30 "+getarg(1)+" monstros ali e afixar o seu sucesso neste quadro.";
+		next;
+		if (.@cutin$ != "") cutin .@cutin$,255;
+		if(select("I'll hunt them.:No thanks.") == 1) {
+			mes "[91-99 Conselho de Missao]";
+			mes "Quando tiveres concluido a missao, afixa-o neste quadro e recolhe a tua recompensa";
+			if (.@playtime > -1) erasequest .@quest2;
+			setquest .@quest1;
+		}
+		close;
+	}
+}

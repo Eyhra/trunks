@@ -1,0 +1,26 @@
+-	script	test_script	-1,{
+
+OnInit:
+bindatcmd "antimob","test_script::OnAtcommand", 0,99;
+end;
+
+
+OnAtcommand:
+if( strcharinfo(3) == "pvp_mob" ) {
+        dispbottom "Que isso jovem? Isso é uma arena vale tudo!!";
+        end;
+    }
+	
+if( strcharinfo(3) == "in_sphinx4" ) {
+        dispbottom "Que isso jovem? Isso é um evento vale tudo!!";
+        end;
+    }	
+
+if( strcharinfo(3) == "guild_vs1" ) {
+        dispbottom "Que isso jovem? Isso é uma arena vale tudo!!";
+        end;
+    }	
+atcommand "@antimob";
+end;
+
+}

@@ -1,0 +1,21 @@
+prontera,155,164,5	script	AllSkills	4_m_se_star,{
+
+mes "."+strnpcinfo(1)+".";
+mes "Deseja receber todas skill?";
+switch(select("Sim:Nao")) {
+	case 1: next;
+	mes "."+strnpcinfo(1)+".";
+	atcommand "@allskill";
+	close;
+		case 2: next;
+		mes "."+strnpcinfo(1)+".";
+		mes "Volte sempre.";
+		close;
+		}
+
+Oninit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Allskills");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}

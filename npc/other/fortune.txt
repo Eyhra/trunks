@@ -1,0 +1,2651 @@
+//===== rAthena Script =======================================
+//= Fortune Teller
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.1
+//= Traduzido por ElinhoPP
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Cartomante NPC. Exibe a imagem da carta aleatório.
+//===== Additional Comments: =================================
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.1 Little clean-up. [Capuche]
+
+payon_in03,117,128,5	script	Cartomante	4_M_BIBI,{
+	mes "[Lhimetorra]";
+	mes "Você é um aventureiro deste mundo... " +strcharinfo(0)+ ", certo? Então, o que uma pessoa como eu pode fazer por você?";
+	next;
+	if (select("Eu gostaria de uma leitura de tarô.:O que é uma leitura de tarô?") == 2) {
+		mes "[Lhimetorra]";
+		mes "A leitura de cartas de monstros usa as cartas de monstros familiares ao nosso redor para obter conselhos sobre o nosso futuro, amor e muitas outras coisas.";
+		mes "Um adivinho como eu tira uma pergunta de uma pessoa e pergunta as Cartas. A Carta responde e eu digo à pessoa.";
+		next;
+		mes "[Lhimetorra]";
+		mes "Você não deve ler mais do que uma Carta por dia, e não recebe uma com freqüência, pois a Carta pode ficar irritado ou confuso.";
+		mes "Além disso, pode ter uma má influência em sua vida também!";
+		next;
+		mes "[Lhimetorra]";
+		mes "E... mais uma coisa.";
+		mes "Uma leitura de cartas é apenas uma leitura... Não importa quão extraordinário o resultado possa ser, não fique muito envolvido com isso. Tenha isso em mente.";
+		close;
+	}
+	mes "[Lhimetorra]";
+	mes "Isso é tão...?";
+	mes "Bem, se você quer uma leitura de carta de monstro, primeiro você deve me mostrar sua fé. Caso contrário, os espíritos monstros vão ficar bravos e colocar uma maldição em você.";
+	next;
+	mes "[Lhimetorra]";
+	mes "Então, você gostaria de ler uma carta de monstro?";
+	next;
+	if (select("Sim:Eu gostaria de pensar mais uma vez.") == 2) {
+		mes "[Lhimetorra]";
+		mes "Ok então. Jovem aventureiro, que a sorte esteja com você...";
+		close;
+	}
+	mes "[Lhimetorra]";
+	mes "Então...";
+	mes "Por favor, pague sua taxa com toda a sua sinceridade.";
+	next;
+	input .@input;
+	if (.@input == 0) {
+		mes "[Lhimetorra]";
+		mes "Ah...?";
+		mes "Você enfureceu os espíritos dos monstros!";
+		close;
+	}
+	else if (.@input > Zeny) {
+		mes "[Lhimetorra]";
+		mes "Não há necessidade de exagerar. Basta dar com todo o seu coração... *Tsk tsk*";
+		close;
+	}
+	else {
+		mes "[Lhimetorra]";
+		mes "Eu aceito seu coração e sua devoção com minha gratidão. Os pensamentos são mais importantes que a quantia quando se paga uma cartomante.";
+		Zeny = Zeny-.@input;
+	}
+	next;
+	mes "[Lhimetorra]";
+	mes "Então, eu vou começar a contar a sorte do seu desejo. Concentre-se em você...";
+	next;
+	mes "[Lhimetorra]";
+	mes "...";
+	mes "Limpe sua mente...";
+	next;
+	mes "[Lhimetorra]";
+	mes "...";
+	mes "Depois de ter esvaziado sua mente, pense na coisa que você mais deseja saber.";
+	next;
+	switch(select("(Quero saber minha sorte amorosa.)","(Quão rico serei eu?)","(Preciso de conselhos sobre o meu futuro.)", "(Aviso de qualquer perigos à espera?) ")) {
+	case 1:
+		mes "[Lhimetorra]";
+		mes "Eu vejo... vejo um sinal de amor...";
+		next;
+		.@card_1_love = rand(1,74);
+		if (.@card_1_love < 5) cutin "°¡ÀÌ¾Æ½ºÄ«µå",4;			// Carta Giearth
+		else if (.@card_1_love < 10) cutin "´õ½ºÆ¼³×½ºÄ«µå",4;	// Carta Poeira
+		else if (.@card_1_love < 18) cutin "µå¶óÅ¥¶óÄ«µå",4;	// Carta Drácula
+		else if (.@card_1_love < 26) cutin "¸¶¸®³ªÄ«µå",4;		// Carta Marina
+		else if (.@card_1_love < 30) cutin "¸ÞµÎ»çÄ«µå",4;		// Carta Medusa
+		else if (.@card_1_love < 35) cutin "¹ÙÆ÷¸ÞÆ®Ä«µå",4;	// Carta Bafomé
+		else if (.@card_1_love < 39) cutin "»÷µå¸ÇÄ«µå",4;		// Carta Arenoso
+		else if (.@card_1_love < 43) cutin "¼ÒÈñÄ«µå",4;		// Carta Sohee
+		else if (.@card_1_love < 51) cutin "½ºÄÌ¿öÄ¿Ä«µå",4;	// Carta Esqueleto Operário
+		else if (.@card_1_love < 55) cutin "¾Æ´©ºñ½ºÄ«µå",4;	// Carta Anubis
+		else if (.@card_1_love < 59) cutin "¿ÀÅ©·ÎµåÄ«µå",4;	// Carta Senhor dos Orcs
+		else if (.@card_1_love < 63) cutin "ÀèÄ«µå",4;			// Carta Jakk
+		else if (.@card_1_love < 67) cutin "Á¶Ä¿Ä«µå",4;		// Carta Coringa
+		else if (.@card_1_love < 71) cutin "È£µåÄ«µå",4;		// Carta Hode
+		else cutin "È²¼ÒÄ«µå",4;								// Carta Minorous
+		
+		mes "[Lhimetorra]";
+		switch(.@card_1_love) {
+		case 1:
+			mes "Você está com medo de se mostrar trabalhando para o seu amado..";
+			mes "Mas isso não é amor. Não tenha medo de mostrar diferentes lados de si mesmo ao seu amado..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então não se preocupe e siga em frente.";
+			break;
+		case 2:
+			mes "Talvez você esteja usando o amor como uma desculpa para trabalhar? a Carta está dizendo para tentar observar o amor de uma perspectiva diferente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Pá requer habilidades também.";
+			break;
+		case 3:
+			mes "Que tal dar um tempo do amor e se dar tempo para relaxar? Eu concordo com o que a Carta está dizendo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor não deve ser tão difícil.";
+			break;
+		case 4:
+			mes "Uma pá...?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Estranho que isso venha a acontecer sobre o amor.. bizarro.. Você não está usando essa pá para se vingar de alguém, você está?";
+			mes "Não tenha pensamentos maliciosos. Mantenha um coração gentil.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal dar um tempo do amor e se dar tempo para relaxar? Eu concordo com este Carta.";
+			break;
+		case 5:// Carta Poeira
+			mes "Seus olhos puros olham para um ente querido, mas não podem reconhecê-los, as asas voam para o ente querido, mas ele fica impotente em um lugar,";
+			mes "chama o seu amado, mas eles não podem ouvir..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que triste sorte..";
+			mes "De fato, é um amor triste... pode ser difícil de superar.";
+			break;
+		case 6:
+			mes "A paixão do amor como uma onda furiosa... Você não pode nem esconder isso.";
+			mes "Com amor tão apaixonado, não há apenas um caminho...?";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor apaixonado está próximo. É um bom sinal.";
+			break;
+		case 7:
+			mes "Os dentes da poeira são muito fortes. Isso significa.. use seus dentes para a vitória ?!";
+			break;
+		case 8:
+			mes "A Carta está me dizendo: 'Voe para sua amada como você era uma borboleta e atire nela como se você fosse uma estrela'. ";
+			mes ".. mesmo que não pareça algo que uma traça diria.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A paixão do amor como uma onda furiosa. Você não pode nem esconder isso.";
+			break;
+		case 9:
+			mes "Talvez a pessoa que você acredita ser uma borboleta é na verdade uma mariposa. Esta sorte está aguardando um julgamento prudente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor é de fato um assunto a ser tratado com prudência. Tenha isso em mente jovem.";
+			break;
+		case 10:// Carta Drácula
+			mes "Aquele que você ama vai te dar um beijo da morte.";
+			mes "O beijo irresistível. Cabe a você decidir se deve evitá-lo ou não.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Carisma... é o veneno mais doce.";
+			break;
+		case 11:
+			mes "Você está olhando para uma pessoa maravilhosa, mas seus olhos estão fixos na escuridão.";
+			mes "Que tal tentar agarrar a atenção deles?";
+			next;
+			mes "[Lhimetorra]";
+			mes "então, você precisa tentar algo diferente de carisma.";
+			break;
+		case 12:
+			mes "Seu amor precisa de sangue fresco. Exercícios saudáveis ??e hábitos alimentares são necessários!";
+			mes "Você deve mudar seu padrão de vida primeiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A saúde é a melhor.";
+			break;
+		case 13:
+			mes "Você não acha que está apaixonado pela aparência exterior e jogando com amor? Você pode ter que ser mais cuidadoso com isso desta vez.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A beleza é apenas superficial.";
+			break;
+		case 14:
+			mes "Torne-se um pirata do amor! É uma sorte simples, mas forte!";
+			break;
+		case 15:
+			mes "Não importa o quão romântico e bonito o amor seja, isso não é legítimo, é indesejável..";
+			mes "é o que esta carta significa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Espero que você não esteja desapontado com a moral desta sorte.";
+			break;
+		case 16:
+			mes "No mar agitado chamado mundo, apenas os piratas, os fora-da-lei do amor, são a lei.";
+			mes "Este Carta suporta um amor forte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve superá-lo - não importa o quão forte seja a onda.";
+			break;
+		case 17:
+			mes "É um aviso para não se envolver em falso amor como edições piratas!";
+			mes "Você pode ter que reconsiderar seu amor agora.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Cópia ilegal não é amor!";
+			break;
+		case 18:// Carta Marina
+			mes "Isso é elogiar o tipo de amor que sempre está lá, mas ainda tem uma forma, pois não existe.";
+			mes "Você está envolvido com esse tipo de amor?";
+			next;
+			mes "[Lhimetorra]";
+			mes "A forma do amor é obscura.";
+			break;
+		case 19:
+			mes "Você deve ter cuidado. O amor está silenciosamente se aproximando e espalhando veneno. Tenha cuidado com o veneno do amor.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não há cura para esse veneno!";
+			break;
+		case 20:
+			mes "Você já não é pego de amor que você não pode fugir? Olhe ao seu redor.";
+			mes "Você pode ser capturado dentro de paredes invisíveis.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você foi cegado pelo amor e se tornou um prisioneiro! Você não deveria escapar?";
+			break;
+		case 21:
+			mes "Esta sorte está dizendo que o amor está se aproximando vacilante e suavemente~ e então bam~ abraçando-o.";
+			mes "Muito romântico. Hehe.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Romance é a melhor parte do amor~";
+			break;
+		case 22:
+			mes "Este Carta está te avisando para não tratar o seu amado como um fantoche.";
+			mes "Você não está fazendo isso, está?";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor não deveria ser sobre controlar e restringir~ mm~";
+			break;
+		case 23:
+			mes "As bonecas entendem o coração de um humano mais do que um humano. Tente tratar o seu amado como se ele fosse uma boneca.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seu amado não pode ser pior que uma boneca, eles podem?";
+			break;
+		case 24:
+			mes "você tem medo de olhar nos olhos de uma boneca, porque há uma sombra escura cobrindo o seu amor.";
+			mes "Livre-se dessa sombra. Então a boneca vai sorrir também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É isso que o amor é.";
+			break;
+		case 25:
+			mes "Bonecas se acostumam com o dono quanto mais elas são manuseadas. Dê mais atenção à sua boneca.";
+			mes "A boneca está precisando de atenção. Muita atenção.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tratamento e atenção delicados são os melhores no amor.";
+			break;
+		case 26:// Carta Medusa
+			mes "Você tem medo do cabelo de cobra de uma Medusa? No entanto, o amor não pode ser alcançado com medo.";
+			mes "Você deve seguir em frente!";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor deve ser empurrado para frente!";
+			break;
+		case 27:
+			mes "Guerreiros que rapidamente atacaram a Medusa falharam, mas o único herói que usou um espelho teve sucesso.";
+			mes "Você não pode ter sucesso com a força bruta. Você deve usar a sabedoria.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você entende o que eu quero dizer, jovem?";
+			break;
+		case 28:
+			mes "Você deve amar aquele que tem cabelo de cobra? Reconsidere esse amor e pense nisso seriamente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que você acha? Não é uma ótima oportunidade para refletir sobre o relacionamento.";
+			break;
+		case 29:
+			mes "É uma dica dizendo que um penteado forte é a chave para mudar a situação. Mude seu penteado!";
+			next;
+			mes "[Lhimetorra]";
+			mes "A moda está nas mãos daqueles que estão à frente!";
+			break;
+		case 30:// Carta Bafomé
+			mes "O amor deve ter duas coisas: grande força e vontade de viver. Você já pensou se pode ou não superar isso com seu eu atual?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Conheça o amor e conheça a si mesmo!";
+			break;
+		case 31:
+			mes "Uma foice pode parecer pesada, mas um forte Bafomé pode usá-la livremente.";
+			mes "É o mesmo conceito. você está pronto, qualquer tipo de amor é possível. Não existe algo impossível.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O amor requer preparação também!";
+			break;
+		case 32:
+			mes "O amor deve ter duas coisas: grande força e vontade de viver. Você já pensou se pode ou não superar isso com seu eu atual?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Conheça o amor e conheça a si mesmo!";
+			break;
+		case 33:
+			mes "Há aqueles que nascem, destinados a correr para esta parede, um obstáculo. Seu amor parece ter atingido aquela parede. Deve ser difícil.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que pena.";
+			break;
+		case 34:
+			mes "Este Bafomé parece estar com dificuldades. A pessoa deve estar exausta mesmo que não pareça.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aproxime-se então com carinho.";
+			break;
+		case 35:// Carta Arenoso
+			mes "Você não consegue ouvir o grito da Carta? É sofrimento. O amor é assim...";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então não fique chateado com isso!";
+			break;
+		case 36:
+			mes "Seu amor agora está tão entediado que está bocejando. Que tal tentar algo novo e fresco?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tente mudar seu estilo de namoro.";
+			break;
+		case 37:
+			mes "O sono profundo traz felicidade e sonhos. Eu acho que o que você precisa agora é de sono.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Durma um pouco.";
+			break;
+		case 38:
+			mes "Eu sinto algum tipo de vazio.. Talvez haja uma lacuna em seu amor?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Dê uma olhada de perto.";
+			break;
+		case 39:// Carta Sohee
+			mes "Mesmo uma beleza tradicional pode parecer fria para os outros. Tente olhar para o seu amado de um ponto de vista diferente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Olhe para o amor de uma perspectiva diferente. Você nunca sabe quando será capaz de descobrir alguma coisa.";
+			break;
+		case 40:
+			mes "Eles podem parecer tristes e sinistros, mas seu traje é impecável. Eles mostram devoção ao outro.";
+			mes "Mesmo que você não esteja satisfeito com o seu amor agora, dê uma olhada no traje deles.";
+			next;
+			mes "[Lhimetorra]";
+			mes "é cuidadosamente usado, o coração deles para você pode ser visto também...";
+			break;
+		case 41:
+			mes "Há uma pessoa com quem você não deve lidar impensadamente por perto. Não diga ou faça qualquer coisa descuidadamente. Você deve ter cuidado ao lidar com essa pessoa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tenha isso em mente.";
+			break;
+		case 42:
+			mes "Mesmo o vento sopra e o rastro de suas roupas vibra, sua postura nunca muda. Amar uma pessoa com esse tipo de coração trará boa vontade e felicidade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mantenha um coração e mente justos.";
+			break;
+		case 43:// Carta Esqueleto Operário
+			mes "Isso clareia e ataca com uma picareta! Você deve avançar agressivamente. O que você acha? Sua sorte é boa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seu coração está pronto, jovem?";
+			break;
+		case 44:
+			mes "A Carta só mostra ossos magros, mas perceba como ele tem todas as ferramentas necessárias?";
+			mes "Mesmo que seu amor agora possa parecer que não há nada nisso, ele tem tudo que você precisa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não fique muito ganancioso com as coisas.";
+			break;
+		case 45:
+			mes "Tem uma lanterna nas costas e até na mão... ela acredita que uma luz é insuficiente.";
+			mes "você está apenas brilhando um tipo de luz para o seu amado, brilhar outro pode ajudar.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eles podem estar sentindo que não é suficiente.";
+			break;
+		case 46:
+			mes "Você conhece o sorriso de Mona Lisa.. Talvez a pessoa que você está olhando tenha a mesma expressão?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não tente olhar diretamente para eles. Faça um esforço para se aproximar deles.";
+			break;
+		case 47:
+			mes "Um cavaleiro em um cavalo é uma fantasia no coração de cada pessoa. Faça com que essa fantasia se torne real.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então certamente haverá progresso.";
+			break;
+		case 48:
+			mes "Aquele soldado está esperando para atacar? Eu posso sentir grande tensão entre o cavalo e o cavaleiro.";
+			mes "Não corra para frente sem cuidado. Levante sua espada e espere sua chance.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isso significa que agora é hora de esperar. Que tal, você gostaria de esperar um pouco?";
+			break;
+		case 49:
+			mes "Ele está adormecendo à espera de uma batalha. É porque ele é descontraído, ou simplesmente patético? Depende da situação que eu suponho.";
+			mes "Mas você tem que dar crédito a ele por sua ousadia.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal se tornar um bravo guerreiro na batalha do amor?";
+			break;
+		case 50:
+			mes "Muito favorável. É a um ponto que eu posso sentir a energia forte da Carta. Eu vou dar um pouco dessa energia para você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Dedique essa energia para amar..!";
+			break;
+		case 51:// Carta Anubis
+			mes "O que o deus da morte tem a dizer sobre o amor? É algo sinistro com certeza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu acho que está tentando dar um aviso. Tenha cuidado.";
+			break;
+		case 52:
+			mes "Hmm. Que tal dar um cachorrinho fofo como presente? Um com um nariz redondo. Então eles certamente ficarão felizes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas não posso evitar eles não gostam de filhotes.";
+			break;
+		case 53:
+			mes "Eu posso dizer o que estava fazendo do jeito que está chorando enquanto segura um machado com sangue. Ele está profundamente ferido pelo amor.";
+			next;
+			mes "[Lhimetorra]";
+			mes "que a ferida não seja curada em breve, ela se tornará como Anúbis queria.";
+			break;
+		case 54:
+			mes "O padrão da roupa simboliza um aviso. Está dizendo para ter cuidado com o amor.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seja cauteloso.";
+			break;
+		case 55:// Carta Senhor dos Orcs
+			mes "Ele é um aviso para você não babar em cima de outra pessoa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isso é ruim! Você será punido!";
+			break;
+		case 56:
+			mes "Quem é ele tão ferozmente olhando com aqueles grandes músculos? Ele está olhando para outra pessoa com certeza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não se desvie e procure outro lugar! Você será amaldiçoado!";
+			break;
+		case 57:
+			mes "Fortaleça seu corpo e observe o alvo. Esse é o passo para o sucesso.";
+			next;
+			mes "[Lhimetorra]";
+			mes "você também quer amor, por que você não aceita o conselho da Carta e se prepara primeiro?";
+			break;
+		case 58:
+			mes "Seu umbigo é muito bonito. Você tem que encontrar alguém com esse tipo de umbigo para ser feliz.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Ok? Tenha isso em mente~";
+			break;
+		case 59:// Carta Jakk
+			mes "Você vai se machucar e mexer em você. Este Carta está te dando um conselho.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você fez algo errado com sua amada, não fez? Faça um esforço para compensar isso~!";
+			break;
+		case 60:
+			mes "Do jeito que ele está massageando suas costas por causa de uma cãibra no ombro, talvez o seu amor esteja procurando alguém para massageá-los. O amor começa com pequenos pensamentos.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Da próxima vez que você encontrá-los, dê-lhes uma massagem. Comece com as pequenas coisas.";
+			break;
+		case 61:
+			mes "Sua expressão está impressionada. Ao encontrar um incidente absurdo, seu rosto e expressão tornam-se peculiarmente distorcidos.";
+			mes "Eu acho que o que você está procurando tem esse tipo de expressão.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você fez algo absurdo para essa pessoa? Você tem certeza? Pense nisso~";
+			break;
+		case 62:
+			mes "o amante faz algo errado, ele os cutuca com uma agulha. Que assustador...";
+			break;
+		case 63:// Carta Coringa
+			mes "O coração de uma pessoa é como este Carta. você vira tudo e ninguém pode dizer o que está por trás. Tente virar a Carta da pessoa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve se aproximar de seu verdadeiro coração. Entenda?";
+			break;
+		case 64:
+			mes "Os palhaços são astutos, mas isso é apenas porque é o hábito deles.";
+			mes "A razão pela qual a pessoa pode parecer caprichosa ou astuta é parcialmente porque eles nascem assim.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você será capaz de abordá-los independentemente? Para fazer isso, você deve preparar seu coração.. mm..";
+			break;
+		case 65:
+			mes "O coringa não pode usar nenhuma de suas forças porque ele está amarrado a uma Carta. Talvez a pessoa esteja presa em algo e não possa mostrar seu verdadeiro mérito?";
+			next;
+			mes "[Lhimetorra]";
+			mes "você os ama, liberta-os das correntes que os amarram. Isso é consideração... e amor";
+			break;
+		case 66:
+			mes "Não se deixe enganar por truques. Eles são uma pessoa também. Eles sabem mentir de vez em quando. Procure o truque com calma e cuidado.";
+			next;
+			mes "[Lhimetorra]";
+			mes "E então procure por um caminho diferente. Essa é a decisão sábia.";
+			break;
+		case 67:// Carta Hode
+			mes "Está dizendo que ação ousada é necessária, como a do Hode que surge da areia.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Talvez você esteja um pouco desanimado agora. Seja corajoso e ousado jovem.";
+			break;
+		case 68:
+			mes "Vendo que o Hode cospe areia para aqueles que os incomodam, você deve ter feito algo para incomodar a pessoa de alguma forma.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Talvez você esteja sendo problemático? Faça um esforço para relaxar um pouco mais.";
+			break;
+		case 69:
+			mes "O Hode tem uma vontade muito forte de viver. É sobreviver na floresta. É sugerir namorar com esse tipo de vontade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Hmm, tente amar com mais espírito. Você obterá bons resultados.";
+			break;
+		case 70:
+			mes "Ah.. há uma pessoa nobre no norte. O norte é. Essa direção nunca vai mudar.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Confie em mim e vá em frente.";
+			break;
+		case 71:// Carta Minorous
+			mes "Um touro andando é raro. A pessoa que você está olhando é rara. Não solte-a. Você pode nunca mais vê-la..";
+			next;
+			mes "[Lhimetorra]";
+			mes "A Carta está dizendo isso.";
+			break;
+		case 72:
+			mes "Você pode ver os músculos fortes que nem as flechas podem perfurar? A pessoa é assim também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Para atacar com amor.. você vai precisar de um ataque mais forte.. Mmm..";
+			break;
+		case 73:
+			mes "A coisa mais assustadora não é o martelo nem o chifre. São as pernas massivas que suportam seu peso pesado. Ninguém pode sobreviver ao impacto dessas pernas. A pessoa provavelmente também está escondendo a parte mais perigosa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve amar, mas tenha cuidado ao mesmo tempo. Você nunca sabe quando será atingido pelas patas traseiras.";
+			break;
+		case 74:
+			mes "Não importa quão medroso o touro esteja, ele tem um piercing no nariz, já foi domesticado por humanos. Não importa o quão surpreendente essa pessoa possa ser, domar é de sua responsabilidade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aproxime-se deles com mais sinceridade e consideração.";
+			break;
+		}
+		next;
+		mes "[Lhimetorra]";
+		mes "Você pediu conselhos sobre o amor.";
+		mes "Mesmo se você não estiver satisfeito com isso, considere isso com calma e faça um esforço para encontrar a verdadeira felicidade.";
+		cutin "",255;
+		next;
+		mes "[Lhimetorra]";
+		mes "Então...";
+		close;
+	//================================================================= Recursos? ===
+	case 2:
+		mes "[Lhimetorra]";
+		mes "Ooh... alguma coisa sobre sua sorte está começando a mostrar...";
+		next;
+		.@card_1_money = rand(1,73);
+		if (.@card_1_money < 5) cutin "°¡ÀÌ¾Æ½ºÄ«µå",4;			// Carta Giearth
+		else if (.@card_1_money < 10) cutin "´õ½ºÆ¼³×½ºÄ«µå",4;	// Carta Poeira
+		else if (.@card_1_money < 13) cutin "µå¶óÅ¥¶óÄ«µå",4;	// Carta Drácula
+		else if (.@card_1_money < 16) cutin "µå·¹ÀÌÅ©Ä«µå",4;	// Carta Drake
+		else if (.@card_1_money < 20) cutin "¸¶¸®³ªÄ«µå",4;		// Carta Marina
+		else if (.@card_1_money < 24) cutin "¸¶¸®¿À³×Æ®Ä«µå",4;	// Carta Marionete
+		else if (.@card_1_money < 29) cutin "¸ÞµÎ»çÄ«µå",4;		// Carta Medusa
+		else if (.@card_1_money < 33) cutin "¹ÙÆ÷¸ÞÆ®Ä«µå",4;	// Carta Bafomé
+		else if (.@card_1_money < 37) cutin "»÷µå¸ÇÄ«µå",4;		// Carta Arenoso
+		else if (.@card_1_money < 41) cutin "¼ÒÈñÄ«µå",4;		// Carta Sohee
+		else if (.@card_1_money < 45) cutin "½ºÄÌ¿öÄ¿Ä«µå",4;	// Carta Esqueleto Operário
+		else if (.@card_1_money < 50) cutin "½ºÄÌ³ªÀÌÆ®Ä«µå",4;	// Carta Khalitzburg
+		else if (.@card_1_money < 54) cutin "¾Æ´©ºñ½ºÄ«µå",4;	// Carta Anubis
+		else if (.@card_1_money < 58) cutin "¿ÀÅ©·ÎµåÄ«µå",4;	// Carta Senhor dos Orcs
+		else if (.@card_1_money < 62) cutin "ÀèÄ«µå",4;			// Carta Jakk
+		else if (.@card_1_money < 66) cutin "Á¶Ä¿Ä«µå",4;		// Carta Coringa
+		else if (.@card_1_money < 70) cutin "È£µåÄ«µå",4;		// Carta Hode
+		else cutin "È²¼ÒÄ«µå",4; 								// Carta Minorous
+		
+		mes "[Lhimetorra]";
+		switch(.@card_1_money) {
+		case 1:
+			mes "Você deve trabalhar duro para se tornar rico. Não pense em outras coisas. Concentre-se e faça esforços para alcançar seus objetivos.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então boa sorte e tente o seu melhor.";
+			break;
+		case 2:
+			mes "Algo muito raro pode vir em sua direção. Uma mina de ouro tem sido o sonho de muitos desde os tempos antigos. Você tem uma mina de ouro bem na sua frente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Ao todo, uma grande sorte está bem na frente dos seus olhos. Eu estarei esperando ansiosamente por isso.";
+			break;
+		case 3:
+			mes "No bolso do estômago, deve haver um tesouro secreto. Pode haver algo no seu bolso também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você está escondendo coisas de outras pessoas? Você deve se livrar delas. Elas podem trazer má sorte.";
+			break;
+		case 4:
+			mes "A Carta diz que você não deve ser muito ganancioso, pois isso pode fazer com que você cave seu próprio túmulo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você pode não se sentir bem com isso, mas você deve aceitar o conselho da Carta...!";
+			break;
+		case 5:// Carta Poeira
+			mes "Você sabia que as asas de uma mariposa tem infinitas quantidades de pó? Uma mariposa simboliza a riqueza no sentido de que pode reunir riqueza como o pó de suas asas.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Jovem, você vai reunir muita riqueza.";
+			break;
+		case 6:
+			mes "Você deve trabalhar duro para se tornar rico. Não pense em outras coisas. Simplesmente se concentrar em seus objetivos colocando esforço nisso ajudará.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Boa sorte e tente o seu melhor.";
+			break;
+		case 7:
+			mes "Há um ditado comum que diz que quando uma mariposa bate as asas, a riqueza também vai embora. Não é um bom sinal.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tenha cuidado para não perder seus ativos. Cuide bem da sua carteira.";
+			break;
+		case 8:
+			mes "Poeira são muito fortes. Isso significa..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seu dente vai se tornar um dente de ouro ?!";
+			break;
+		case 9:
+			mes "Quando uma poeira voa, uma grande despesa aparece. Você pode precisar gastar algum dinheiro em breve.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você pode querer configurar um orçamento para se preparar para essa despesa.";
+			break;
+		case 10:// Carta Drácula
+			mes "Drácula traz dinheiro. Talvez seja a influência moral de quando era uma contagem. É caro ser um vampiro, mas eu nunca vi um pobre antes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você não precisa se preocupar com dinheiro.";
+			break;
+		case 11:
+			mes "Para Drácula, o dinheiro não é importante. O sangue é mais valioso. Para você, o dinheiro não deve ser tão importante. Você não precisa se preocupar com dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal? Tente ser um pouco mais casual sobre dinheiro.";
+			break;
+		case 12:
+			mes "Drácula zomba do dinheiro humano. Para ele, é inútil.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você não deveria estar tão preocupado com dinheiro e ativos também.";
+			break;
+		case 13:// Carta Drake
+			mes "Não importa o que, roubar é errado! Até um Drake te abençoa em nome de piratas! Roubar é proibido!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Nãoooooooo roubar!";
+			break;
+		case 14:
+			mes "Você irá reunir boa sorte de uma maneira secreta e peculiar. Embora, pareça haver sombras sobre algumas partes de sua vida.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É uma sorte desconfortável. Você está pronto?";
+			break;
+		case 15:
+			mes "A razão pela qual os piratas se entregam a outros ativos no vasto oceano, é porque é a única maneira de deixar as pessoas da terra saberem de sua existência.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas aqueles que vivem em terra não precisam fazê-lo. Não olhe os pertences de outras pessoas. É o conselho de um pirata.";
+			break;
+		case 16:// Carta Marina
+			mes "Marina prefere fundos limpos. Ele odeia dinheiro suspeito. Suas posses devem estar limpas também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Por quê? A Marina pode se livrar de tudo.";
+			break;
+		case 17:
+			mes "A Marina reúne dinheiro silenciosamente, pouco a pouco, e vagando livremente ao mesmo tempo. Essa é a maneira real de ganhar dinheiro. A Marina está sugerindo esse método para você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deveria tentar. Você não tem nada a perder.";
+			break;
+		case 18:
+			mes "A Marina não está interessada em dinheiro. A Carta sugere que você vai se assemelhar a esses traços também. Você aproveitará a vida além do dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Essa é a sorte de uma Carta da Marina.";
+			break;
+		case 19:
+			mes "Você vai juntar dinheiro rapidamente e silenciosamente, então boom~ explodir tudo de uma vez.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Muito espirituoso, hoho.";
+			break;
+		case 20:// Carta Marionete
+			mes "A Marionete valoriza a arte sobre a riqueza. Tenha isso em mente. Honre sobre os ativos.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que lição importante... Mmm...";
+			break;
+		case 21:
+			mes "A Marionete gosta de dinheiro brilhante. Não dinheiro chato, mas o tipo brilhante.";
+			next;
+			mes "[Lhimetorra]";
+			mes "De qualquer forma, procure por esse tipo de dinheiro.";
+			break;
+		case 22:
+			mes "A Marionete requer muito dinheiro. Suas despesas são enormes. Você deve ter muitos gastos antes de você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Uma sorte sombria. Que tal ser cauteloso?";
+			break;
+		case 23:
+			mes "A Marionete usa muito dinheiro. Há alguém ao seu redor que é assim também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Há uma pessoa assim com certeza. Você deve tomar cuidado.";
+			break;
+		case 24:// Carta Medusa
+			mes "O cabelo da Medusa simboliza a quantidade de riqueza. Parece que algo de bom vai acontecer com você, jovem.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você pode esperar por isso.";
+			break;
+		case 25:
+			mes "Os cabelos da Medusa são todos cobras. As cobras simbolizam ganância e astúcia. Quando coleciona coisas, parece que uma força astuta se juntará a você. Não é exatamente um sinal luminoso..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas você certamente vai conseguir dinheiro. Hmm..";
+			break;
+		case 26:
+			mes "A Medusa está recomendando fortemente a poupança. Este Carta está lhe dizendo para salvar. Diz para colocar muitas contas de poupança em seu cabelo e fazer com que você se pareça com a forma da cabeça.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isso é o que acredita ser riqueza. Oooh!";
+			break;
+		case 28:
+			mes "A Medusa não gosta de brincar com dinheiro. você está tentando usar dinheiro diferente do que deveria ser usado, você deveria parar. Por quê?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Porque pode haver uma maldição da Medusa.";
+			break;
+		case 29:// Carta Bafomé
+			mes "A grande força do Bafomé traz sorte. Parece que você será capaz de reunir muita riqueza com a ajuda da força do Baphomet!";
+			next;
+			mes "[Lhimetorra]";
+			mes "É um bom sinal! Parabéns!";
+			break;
+		case 30:
+			mes "A foice do Bafomé significa uma ferramenta forte para reunir riqueza. você tem uma ferramenta forte como a dele, deve ser fácil reunir riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que o Bafomé está tentando dizer é, encontre um meio que possa ajudá-lo a gostar de sua ferramenta.";
+			break;
+		case 31:
+			mes "Que tal se envolver em criar gado? Parece que você pode reunir muita riqueza através dele.";
+			break;
+		case 32:
+			mes "O Bafomé gostaria de um tributo. Ele está dizendo que você faz, ele retornará grandes benefícios.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então tente oferecer uma parte de seus ativos para o Bafomé.";
+			break;
+		case 33:// Carta Arenoso
+			mes "O Arenoso chora de tristeza quando o dinheiro aparece. É triste porque o dinheiro não possui amor ou afeição.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu me pergunto se o significado do dinheiro irá desaparecer lentamente da sua vida também.";
+			break;
+		case 34:
+			mes "O Arenoso está gritando porque viu muito dinheiro. Ele viu o dinheiro nas mãos do seu futuro. Eu me pergunto o que todo esse dinheiro é?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu me pergunto.. Você não está curioso?";
+			break;
+		case 35:
+			mes "O corpo do Arenoso está vazio por dentro. Sua carteira também parece vazia. Você deve economizar algum dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O Arenoso gosta de salvar também. Até um monstro gosta de salvar, mas quando um humano não...";
+			break;
+		case 36:
+			mes "O dinheiro é como areia. Mesmo que você o salve, uma vez que o vento sopra, ele desaparece. Esta carta mostra o vazio do dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "De fato, o dinheiro é fútil.";
+			break;
+		case 37:// Carta Sohee
+			mes "Sohee está usando um belo artigo. Para usar algo assim, você precisaria de muito dinheiro. Você sabe qual é o segredo? Sohee salvou muito quando ela já esteve viva.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então você deve começar a economizar também.";
+			break;
+		case 38:
+			mes "Sohee odeia misers. Ela acredita que ela se tornou assim por causa de um avarento. Não seja mesquinho na frente de Sohee!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Esse tipo de mesquinhez vai irritar outras pessoas. Use dinheiro quando for necessário.";
+			break;
+		case 39:
+			mes "Sohee não gosta dos ricos. Eles tentam juntar dinheiro, mas nunca os usam para os outros. você não quer ser amaldiçoado por Sohee, você precisa aprender a ser generoso com o dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então você tem desejos maliciosos, esqueça-os. Um coração doente facilmente acumula desgraça.";
+			break;
+		case 40:
+			mes "Sohee gosta de dinheiro estrangeiro. Eles são fofos e bonitos. você tem moeda estrangeira, Sohee vai amar você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Fique de olho em moeda estrangeira. Isso lhe trará sorte.";
+			break;
+		case 41:// Carta Esqueleto Operário
+			mes "Aqueles que trabalham arduamente irão reunir grande sorte. O Esqueleto diz que o trabalho diligente ajudará grandemente na coleta de riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Hmm~ um fantasma está dizendo coisas estranhas.";
+			break;
+		case 42:
+			mes "Sua juventude se foi depois de uma vida de perseguir o ouro. Tornou-se um monstro com apenas ossos sobrando. Não importa o quanto você goste de dinheiro e seu trabalho, cuide da sua vida também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Há muito mais na vida do que riqueza.";
+			break;
+		case 43:
+			mes "Para ficar rico, você deve trabalhar duro enquanto você se torna um esqueleto. O Esqueleto está dizendo para trabalhar duro até você se tornar um esqueleto.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então não apenas o Esqueleto, mas muitas pessoas vão recompensá-lo muito.";
+			break;
+		case 44:
+			mes "O Esqueleto diz que você pode ganhar dinheiro indo para o norte. Vá para o norte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Deve haver muita sorte nessa direção.";
+			break;
+		case 45:// Carta Khalitzburg
+			mes "Um cavaleiro é um trabalho que requer muito dinheiro. Uma sugestão de uma grande despesa. Você pode querer apertar seu cinto.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isto é, você não quer ir à falência.";
+			break;
+		case 46:
+			mes "Cavaleiros não lutam por dinheiro. eles fizeram, eles seriam um mercenário. Um cavaleiro pega algo maior. O que o cavaleiro quer lhe dizer é o caminho para viver.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Estabeleça um objetivo maior que dinheiro e riqueza. Você entende, jovem?";
+			break;
+		case 47:
+			mes "Um cavaleiro valoriza mais honra do que sorte. Eles consideram discutir a própria riqueza suja e não merecedora. Como você seria capaz de pedir a um cavaleiro uma sorte sobre riqueza?";
+			next;
+			mes "[Lhimetorra]";
+			mes "O cavaleiro diz que uma nova estrada da vida se abrirá quando você desviar o olhar da sorte.";
+			break;
+		case 48:
+			mes "Você precisa pensar em um ideal mais nobre do que dinheiro. A sorte que o cavaleiro sugere é esta: Cavaleiros nunca falam de maneiras de ganhar dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Em comparação com a vida, eles acreditam que o dinheiro é tolo. O cavaleiro gostaria de entender essas idéias da vida.";
+			break;
+		case 49:
+			mes "Trabalhar duro é a única maneira de reunir riqueza; não se distrair e colocar esforço em trabalhar ajudará sua sorte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então faça o seu melhor.";
+			break;
+		case 50:// Carta Anubis
+			mes "O que o deus da morte tem a dizer sobre riqueza? É certamente um mau presságio. Está tentando avisar alguma coisa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tenha cuidado. É a palavra do deus da morte.";
+			break;
+		case 51:
+			mes "O Anubis está muito interessado nos sacrifícios oferecidos. As ofertas que ele gosta são de juventude e esforço.";
+			next;
+			mes "[Lhimetorra]";
+			mes "você oferece estas duas coisas, o Anubis diz que ele lhe trará riqueza.";
+			break;
+		case 52:
+			mes "O Anubis está dando um aviso do oeste. Há um ser lá que pode romper sua riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "você quer proteger seus ativos, cuidado com o oeste.";
+			break;
+		case 53:
+			mes "O Anúbis odeia aqueles que tentam juntar dinheiro para a sua morte. Ele acredita que é um desperdício de dinheiro. Não cometa o erro de juntar dinheiro para a morte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Este é o verdadeiro conselho de um Anúbis.";
+			break;
+		case 54:// Carta Senhor dos Orcs
+			mes "O Senhor dos Orcs possui muita riqueza. É por causa da ganância. A ganância é essencial para coletar dinheiro. O desejo e a ganância de ganhar dinheiro não é algo para se envergonhar. Seja diligente e vá fazer dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas, muita ganância é proibida.";
+			break;
+		case 55:
+			mes "O Lorde Orc começa a babar por qualquer coisa envolvendo dinheiro. Ele tem como alvo alguém com dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Portanto, não fale de dinheiro para o Senhor dos Orcs.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O mesmo vale para os humanos. Seja cauteloso com aqueles que são avarentos como o Senhor dos Orcs.";
+			break;
+		case 56:
+			mes "Deve haver muita riqueza esperando na direção que a buzina do Orc está apontando. A carta está direcionando para..";
+			next;
+			mes "[Lhimetorra]";
+			mes "O noroeste? Você gostaria de tentar a sua sorte nessa direção?";
+			break;
+		case 57:
+			mes "O Senhor dos Orcs gosta de ouro. De todos os tesouros, o ouro é o melhor. Observe de perto o ouro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O ouro é bastante peculiar comparado a outros ativos.";
+			break;
+		case 58:// Carta Jakk
+			mes "Jack ganha dinheiro através de piadas. A felicidade dos outros é a chave para sua riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Por que você não aprende como fazer os outros felizes? Deve ser de grande ajuda.";
+			break;
+		case 59:
+			mes "Jack gosta de dinheiro divertido. Ele detesta dinheiro triste e penoso.";
+			mes "Ele sempre diz isso. Dinheiro leve e fácil não é perigoso, até mesmo se acumula.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Como o conselho de Jack diz, fique mais perto do dinheiro leve. É mais seguro e melhor.";
+			break;
+		case 60:
+			mes "Jack pensa no dinheiro como um item tolo. Mas de alguma forma ele ganha esse dinheiro.";
+			mes "É por isso que aqueles que são controlados por tolos consideram o outro um tolo também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "você não quer ser considerado um tolo por Jack, não seja controlado por dinheiro.";
+			mes "Ou então, Jack irá atacar.";
+			break;
+		case 61:
+			mes "Jack está pedindo dinheiro. Não seja mesquinho em pagar aqueles que trazem entretenimento e diversão.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então, Jack irá recompensá-lo em troca.";
+			break;
+		case 62:// Carta Coringa
+			mes "Você sabe qual é a especialidade de um curinga? Ele está enganando os outros e fazendo dinheiro. Desconfie do coringa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Coringas não existem em uma forma. Eles vão apontar para o seu dinheiro de várias maneiras diferentes.";
+			break;
+		case 63:
+			mes "O Coringa diz que você deixou ele emprestar dinheiro, ele vai te pagar mais. Você vai recusar, certo? Mas a tentação do Coringa não termina depois de uma tentativa.";
+			mes "Ele vai ficar perto de você como um vizinho, ou um item raro e pedir dinheiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aja com sabedoria! Você terá problemas e será enganado facilmente!";
+			break;
+		case 64:
+			mes "Até mesmo um curinga pede mudança, nunca dê nada a ele. Ele pedirá a mudança, e depois pedirá uma grande soma de dinheiro.";
+			mes "Os palhaços são assim. Eles têm a capacidade de transformar um pequeno erro em uma grande calamidade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É por isso que você deve ter mais cuidado com isso.";
+			break;
+		case 65:
+			mes "Há apenas uma razão para um Coringa solicitar dinheiro... para pegar o seu.";
+			mes "Seu objetivo não é ficar rico. Um verdadeiro e sujo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas perder dinheiro não é uma piada agora, é? Você deve ter cuidado.";
+			break;
+		case 66:// Carta Hode
+			mes "Hodes não sabem sobre dinheiro. Eles simplesmente engolem tudo. Mas isso pode ser o atalho para ganhar uma grande riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não se concentre muito em dinheiro. Apenas trabalhe nisso. Está dizendo que é o melhor método.";
+			break;
+		case 67:
+			mes "Hodes não sabem nada sobre dinheiro. Mas eles não perdoam aqueles que estão de olho em suas coisas.";
+			mes "Não ser ganancioso e cuidar da sua parte é a maneira mais sábia de administrar sua riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "De fato, o Hode está certo. Você também entende?";
+			break;
+		case 68:
+			mes "O Hode não sabe nada sobre dinheiro. Mas um item muito raro cai do corpo de um Hode.";
+			mes "Tem um tesouro sem saber.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Dê uma olhada cuidadosa ao seu redor. Tesouros estão escondidos em todo lugar.";
+			break;
+		case 69:
+			mes "Hodes são fortes mesmo que eles vivam no deserto. Só porque o ambiente é pobre, não significa que você não pode reunir riqueza.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não culpe o ambiente. Essa desculpa é apenas para whiners.";
+			break;
+		case 70:// Carta Minorous
+			mes "Você conhece o ditado que diz que aqueles que trabalham como touros ficam ricos? Trabalhar duro é o melhor caminho.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Assim como um touro.";
+			break;
+		case 71:
+			mes "Os touros só sabem como trabalhar, mas o próprio touro tem muito a oferecer. Carne, couro, chifre..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você também deve cuidar de si mesmo e não apenas do trabalho. Você tem muitos valores ocultos.";
+			break;
+		case 72:
+			mes "Os touros continuam a trabalhar mesmo em dias sombrios. Então eles podem reunir muitas coisas.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não seja exigente com os dias que você trabalha. Você será capaz de ganhar mais dinheiro.";
+			break;
+		case 73:
+			mes "Os touros não gostam de trabalhar por dinheiro. Eles estão descontentes quando outros consideram o trabalho como dinheiro.";
+			mes "Você não deveria reconsiderar trabalhar contra sua vontade apenas por dinheiro?";
+			next;
+			mes "[Lhimetorra]";
+			mes "É um problema sério. É a sua vida, então pondere sobre isso jovem.";
+			break;
+		}
+		next;
+		mes "[Lhimetorra]";
+		mes "A maioria das pessoas está curiosa sobre dinheiro.";
+		mes "É uma curiosidade muito humana e comum. Cartas são muito mesquinhos sobre sortes em relação à riqueza.";
+		next;
+		cutin "",255;
+		mes "[Lhimetorra]";
+		mes "Portanto, obter uma sorte como essa é considerado uma sorte. Use essa sorte para prosperar.";
+		close;
+	//================================================================= Futuro ===
+	case 3:
+		mes "[Lhimetorra]";
+		mes "Futuro... a Carta que vê o futuro está começando a falar...... Prepare-se...";
+		next;
+		.@card_1_future = rand(1,67);
+		if (.@card_1_future < 5) cutin "°¡ÀÌ¾Æ½ºÄ«µå",4;		// Carta Giearth
+		else if (.@card_1_future < 10) cutin "´õ½ºÆ¼³×½ºÄ«µå",4;// Carta Poeira
+		else if (.@card_1_future < 13) cutin "µå¶óÅ¥¶óÄ«µå",4;	// Carta Drácula
+		else if (.@card_1_future < 16) cutin "µå·¹ÀÌÅ©Ä«µå",4;	// Carta Drake
+		else if (.@card_1_future < 19) cutin "¸¶¸®³ªÄ«µå",4;	// Carta Marina
+		else if (.@card_1_future < 23) cutin "¸¶¸®¿À³×Æ®Ä«µå",4;// Carta Marionete
+		else if (.@card_1_future < 27) cutin "¸ÞµÎ»çÄ«µå",4;	// Carta Medusa
+		else if (.@card_1_future < 31) cutin "¹ÙÆ÷¸ÞÆ®Ä«µå",4;	// Carta Bafomé
+		else if (.@card_1_future < 35) cutin "»÷µå¸ÇÄ«µå",4;	// Carta Arenoso
+		else if (.@card_1_future == 35) cutin "¼ÒÈñÄ«µå",4;		// Carta Sohee
+		else if (.@card_1_future < 40) cutin "½ºÄÌ¿öÄ¿Ä«µå",4;	// Carta Esqueleto Operário
+		else if (.@card_1_future < 44) cutin "½ºÄÌ³ªÀÌÆ®Ä«µå",4;// Carta Khalitzburg
+		else if (.@card_1_future < 48) cutin "¾Æ´©ºñ½ºÄ«µå",4;	// Carta Anubis
+		else if (.@card_1_future < 52) cutin "¿ÀÅ©·ÎµåÄ«µå",4;	// Carta Senhor dos Orcs
+		else if (.@card_1_future < 57) cutin "ÀèÄ«µå",4;		// Carta Jakk
+		else if (.@card_1_future < 61) cutin "Á¶Ä¿Ä«µå",4;		// Carta Coringa
+		else if (.@card_1_future < 63 || .@card_1_future == 67) cutin "È£µåÄ«µå",4;// Carta Hode
+		else cutin "È²¼ÒÄ«µå",4; 								// Carta Minorous
+
+		mes "[Lhimetorra]";
+		switch(.@card_1_future) {
+		case 1:
+			mes "Juventude não é eterna. Em um ponto quando você acorda, você percebe que já é um trabalhador de meia-idade.";
+			mes "Mesmo relembrando o passado sobre uma xícara de café não pode trazer de volta o tempo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aprecie o presente.. é o que a Carta está dizendo.";
+			break;
+		case 2:
+			mes "Esta sorte é prenúncio de que você se tornará um trabalhador forte e saudável no futuro.";
+			mes "Não é um trabalhador normal, mas tem uma grande força e pode...";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve se preparar para o seu futuro.";
+			break;
+		case 3:
+			mes "Fumar em uma mina é uma coisa imprudente, com risco de vida. Você está desperdiçando sua preciosa vida com esse tipo de comportamento.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aja com um pouco mais de sabedoria para o seu futuro.";
+			break;
+		case 4:
+			mes "Você pode estar cavando no futuro. Em um lugar escuro e escuro, pá que requer muita força. Você deve ser cuidadoso com um jovem.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Esse tipo de sorte nunca está errado.";
+			break;
+		case 5:// Carta Poeira
+			mes "A mariposa é usada quando é uma lagarta e ignorada depois que se torna uma mariposa, por humanos.";
+			mes "Qual é melhor?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Verifique se há algum aspecto da sua vida que seja como a mariposa.";
+			break;
+		case 6:
+			mes "A mariposa voa sem se preocupar com o futuro. Está dizendo para você voar livremente ao invés de ficar ansioso sobre o futuro..";
+			next;
+			mes "[Lhimetorra]";
+			mes "Esta é a sorte desta carta.";
+			break;
+		case 7:
+			mes "Os dentes de poeira são muito fortes. Isso significa...";
+			next;
+			mes "[Lhimetorra]";
+			mes "Viver o futuro com dentes fortes ?!";
+			break;
+		case 8:
+			mes "A traça diz que este não é um momento para pensar em riqueza e prosperidade. Diz que alguém importante apareceu perto de você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Alguma idéia de quem pode ser?";
+			break;
+		case 9:
+			mes "Poeira simboliza um futuro nebuloso. É semelhante à sua mente agora. Diz que é óbvio.";
+			mes "Diz que não há um caminho definido no futuro. Não é um alívio de alguma forma?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não é bom nem ruim, então sempre há espaço para novas possibilidades.";
+			break;
+		case 10:// Carta Drácula
+			mes "Em algum momento do seu futuro, um futuro como o Drácula espera por você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você espera por esse tipo de futuro, não há problema, mas você deve ter cuidado mesmo assim.";
+			break;
+		case 11:
+			mes "Se a condição é perfeita, os vampiros podem viver para sempre. Mas, quando essa condição perfeita é interrompida, eles encontram um fim trágico.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isso significa que se você for atrás da fama e da vida eterna, a tragédia o aguarda no final. Eles não são as coisas importantes da vida.";
+			break;
+		case 12:
+			mes "O Drácula diz ser verdadeiro para o presente. De fato, pensar e ser fiel ao presente é muito mais importante do que tentar descobrir o seu futuro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Infelizmente, eu concordo com isso jovem.";
+			break;
+		case 13:// Carta Drake
+			mes "Piratas não têm futuro. Isso não significa que você não tenha um. Mas.. você simplesmente precisa tomar decisões mais prudentes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal mudar seu estilo de vida? Isso é o que isso significa.";
+			break;
+		case 14:
+			mes "Neste mundo, ser um pirata no mar agitado é muito perigoso. Mas eles não se arrependem de suas decisões.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Porque eles encontram o significado da vida no processo. Jovem, que tal procurar o significado da sua vida?";
+			break;
+		case 15:
+			mes "Os piratas são lembrados como piratas mesmo depois que eles morrem. O nome de uma pessoa está além da vida e da morte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deveria viver com esse aspecto em mente.";
+			break;
+		case 16:// Carta Marina
+			mes "A Marina não pensa em seu futuro. Mas eu posso lhe dizer uma coisa. Sobrevivência. A Marina só pensa em sobrevivência e vida.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você.. não, todos nós devemos aprender e fazer o mesmo.";
+			break;
+		case 17:
+			mes "A Marina não pensa em seu futuro... mas eu posso te dizer uma coisa. Liberdade. A Marina nada livremente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal viver assim também?";
+			break;
+		case 18:
+			mes "Deixe seu futuro para a Marina. A Marina valoriza seu precioso oceano. O mar será de grande importância em seu futuro também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Um pescador? Oceanógrafo? Pirata? Embora eu não saiba qual trabalho é...";
+			break;
+		case 19:// Carta Marionete
+			mes "Uma Marionete é uma Marionete para sempre. Seu passado e futuro nunca mudam. Seu presente é o seu futuro. Você não acha que é triste?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas isso também pode ser uma coisa boa. Esse é o significado de uma Marionete.";
+			break;
+		case 20:
+			mes "Uma Marionete é contida, mas tem esperança de que ela seja libertada um dia.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Muito bom. Esta sorte significa 'esperança'.";
+			break;
+		case 21:
+			mes "Os olhos de uma Marionete simbolizam 'desafio'. Desafio significará muito em seu futuro. ";
+			next;
+			mes "[Lhimetorra]";
+			mes "... até o ponto em que esse desafio vai mudar sua vida.";
+			break;
+		case 22:
+			mes "A Marionete acredita que o presente é mais importante que o futuro. Basicamente, perguntar sobre o futuro é inútil.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A Marionete dedica tudo ao presente. Também sugere esse tipo de atitude para você.";
+			break;
+		case 23:// Carta Medusa
+			mes "A Medusa simboliza o absoluto que aceita o desafio de todos. Seu futuro estará em uma posição que é desafiada por muitos.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Pode ser bom e ruim. Também é uma posição muito cansativa.";
+			break;
+		case 24:
+			mes "A Medusa simboliza o absoluto que aceita o desafio de todos. Seu futuro deve ser cheio de desafios!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Sempre desafie os outros! Está tudo bem falhar, já que o desafio em si se tornará vida.";
+			break;
+		case 25:
+			mes "A Medusa diz que haverá um grande caos no futuro. Caos... Eu não tenho certeza do tipo de caos que isso significa, mas é definitivamente algo que nunca aconteceu antes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Há algo que você deve lutar... e vencer, no seu futuro.";
+			break;
+		case 26:
+			mes "O cabelo da Medusa está furado. Está nervoso com a grande mudança que vai acontecer. Uma mudança que até deixa preocupada a Medusa.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que tal se preparar também?";
+			break;
+		case 27:// Carta Bafomé
+			mes "O Bafomé não se importa com o futuro de um humano. Eles simplesmente observam quietamente. Hmm... Parece que não tem nada a dizer sobre o seu futuro também...";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tem uma expressão despreocupada.";
+			break;
+		case 28:
+			mes "A foice que o Bafomé está segurando significa a forte vontade de conquistar o futuro.";
+			mes "O que você precisa não é da ajuda ou sabedoria de outra pessoa, mas forte força de vontade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Depois de ter esse tipo de força de vontade, o caminho para o futuro será muito amplo e promissor.";
+			break;
+		case 29:
+			mes "O Bafomé diz que os humanos não têm futuro. Diz que sua ganância e egoísmo não mostram esperança.";
+			mes "O futuro só será aberto para aqueles que vão além da cobiça humana.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A Carta espera algo assim de você.";
+			break;
+		case 30:
+			mes "O Bafomé está encarando o futuro. Não importa quanto esforço você coloque, sem um olho que olha para o futuro, é inútil.";
+			mes "O Bafomé está lhe dizendo para olhar para o futuro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Conhecer sua posição agora e onde mirar no futuro.";
+			break;
+		case 31:// Carta Arenoso
+			mes "O futuro de uma areia é simplesmente areia. Nem uma rocha, nem lama. Algumas coisas simplesmente não mudam a jovem.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que a Carta do Arenoso está tentando dizer é valorizar o seu eu atual.";
+			break;
+		case 32:
+			mes "Uma duna de areia muda de forma mesmo depois de um dia. O card de Arenoso está falando de um futuro com muitas mudanças.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Diz para não ser muito envolvido com o presente, porque o futuro está sempre mudando.";
+			break;
+		case 33:
+			mes "Você terá um filho no futuro. Hmm? O que você disse? Nenhum plano para um bebê?";
+			next;
+			mes "[Lhimetorra]";
+			mes "É por isso que é o futuro. Coisas inesperadas acontecem de vez em quando no futuro. Lala~";
+			break;
+		case 34:
+			mes "Há tesouros raros e preciosos na areia. O Arenoso diz que na vasta areia do mundo, um tesouro será descoberto. Esse tesouro é você jovem.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Hmm... Esperando muito. Hehe~";
+			break;
+		case 35:// Carta Sohee
+			mes "Você sabe o que uma Sohee acha que é a coisa mais lamentável? O futuro. É porque ela não foi capaz de viver seu futuro.";
+			mes "É por isso que você não pode trazer o assunto do futuro na frente de Sohee. Eu sinto muito não poder ajudar.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mas não é melhor que uma maldição. Apenas pense nisso e esqueça.";
+			break;
+		case 36:// Carta Esqueleto Operário
+			mes "Mesmo na escuridão você vai brilhar para o seu objetivo.";
+			mes "O Esqueleto está encorajando você a não perder sua luz mesmo em uma vida em lugares escuros e úmidos.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve se sentir bem, recebendo uma palavra de encorajamento do Esqueleto. Lala~";
+			break;
+		case 37:
+			mes "A história que eu ouvi do esqueleto é assim. Eu sou o rei do futuro. O que no mundo é que isso quer dizer?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu não sei. Talvez esteja dizendo que uma pessoa magricela fará algo grandioso no futuro?";
+			break;
+		case 38:
+			mes "Se você quiser fazer algo grandioso no futuro, você deve expressar sua gratidão ao Esqueleto.";
+			mes "Então o Esqueleto vai te ajudar. Como você expressa sua gratidão?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você ver alguém que se parece com o Esqueleto, ajude-os.";
+			mes "Então o Esqueleto vai pensar que você se ajudou e será feliz. Que monstro bobo. Haha.";
+			break;
+		case 39:
+			mes "O Esqueleto tem a capacidade de cavar onde sente o futuro, ao invés de olhar para ele.";
+			mes "Está cavando no leste agora. Que tal, você não vai tentar ir lá?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Quem sabe, a chave para o futuro pode estar no leste.";
+			break;
+		case 40:// Carta Khalitzburg
+			mes "O futuro de um cavaleiro leva à morte. Uma morte honrosa no campo de batalha.";
+			mes "Não se pode viver como cavaleiro sem ter orgulho desse tipo de futuro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O cavaleiro quer que você fique orgulhoso de si mesmo.";
+			mes "Diz que você precisa de orgulho. Não honra, riqueza ou amor... mas orgulho.";
+			break;
+		case 41:
+			mes "Um cavaleiro comentando sobre o futuro de uma pessoa é muito raro.";
+			mes "Não diz nada para você em particular. Nada ameaçador.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É uma coisa muito boa. Significa um futuro brilhante e claro. Hohoho~";
+			break;
+		case 42:
+			mes "Um cavaleiro comentando sobre o futuro de uma pessoa é muito raro.";
+			mes "Diz que vai dizer uma coisa para você. Nuvens negras podem ser vistas além do céu limpo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você deve descobrir por si mesmo o que essas nuvens significam. De qualquer forma, você deve ser cuidadoso.";
+			break;
+		case 43:
+			mes "É necessário refletir sobre o passado e o presente para olhar para o futuro. Este Carta diz para olhar cuidadosamente para o seu passado.";
+			next;
+			mes "[Lhimetorra]";
+			mes "... com a atitude de refletir sobre si mesmo. O que você acha? Você não acha que viveu muito olhando para o futuro?";
+			break;
+		case 44:
+			mes "O que o deus da morte quer dizer sobre o futuro? É definitivamente um sinal ameaçador.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Está tentando avisar algo sobre o futuro. Tenha cuidado.";
+			break;
+		case 45:
+			mes "O Anúbis gosta de comédia apesar das expectativas das pessoas. Aguarda com expectativa a comédia. A comédia deve ser importante no futuro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "No seu caso, seria sensato aumentar seu senso de humor.";
+			break;
+		case 46:
+			mes "O Anubis é o deus da morte, mas expressa mais interesse no futuro que a morte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mesmo o Anúbis não pensa na morte, então por que você deveria estar pensando sobre isso? Espere um bom futuro jovem.";
+			break;
+		case 47:
+			mes "O Anubis diz que não tem interesse em você. É um bom sinal.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que pode ser melhor do que ser ignorado pelo deus da morte?";
+			break;
+		case 48:// Carta Senhor dos Orcs
+			mes "O Lorde Orc diz que a produção leiteira irá se desenvolver no futuro. Por que você não investe também?";
+			next;
+			mes "[Lhimetorra]";
+			mes "Um negócio olhando para o futuro?";
+			break;
+		case 49:
+			mes "O Lorde Orc diz que você precisa de grande força no futuro. Força que é três, quatro vezes maior que agora.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Torne-se mais forte em qualquer forma. No futuro, você precisará disso.";
+			break;
+		case 50:
+			mes "O Senhor Orc diz que o amor por seus companheiros se tornará uma grande força no futuro.";
+			mes "Sua força não é suficiente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Para se tornar um Senhor, você precisará de colegas. Você deve seguir o conselho do Senhor dos Orcs!";
+			break;
+		case 51:
+			mes "O Lorde Orc está expressando oposição em ser muito curioso sobre o futuro.";
+			mes "Preste um pouco mais de atenção ao presente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Respeite a opinião dele, jovem. Você não tem nada a perder.";
+			break;
+		case 52:// Carta Jakk
+			mes "Jack diz que algo interessante acontecerá no futuro. Segundo ele, o futuro será mais divertido que o presente.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você está ansioso por isso?";
+			break;
+		case 53:
+			mes "Jack diz, para se preparar para o futuro, uma preparação deliciosa é necessária.";
+			mes "Deliciosa preparação? Eu não entendo.. eu suponho que eu seja muito velho. Talvez os jovens entendam isso..";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que você acha? Alguma suposição?";
+			break;
+		case 54:
+			mes "Jack está com ciúmes porque uma pessoa esplêndida está seguindo seu caminho no futuro.";
+			mes "Eu me pergunto que tipo de pessoa é fazer com que Jack fique com ciúmes!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Uma coisa é certa: você será muito feliz! Parabéns jovem!";
+			break;
+		case 56:
+			mes "Jack diz que você pode estar frustrado no futuro.";
+			mes "Ele diz que para superar a frustração, é necessário pensar em pensamentos felizes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Significando que seu futuro se tornará uma batalha entre felicidade e frustração..";
+			break;
+		case 57:// Carta Coringa
+			mes "O Coringa está tentando enganar você. Esta carta tem todos os tipos diferentes de sortes ameaçadoras.";
+			mes "Ele quer se divertir vendo você tremer de ansiedade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tristeza, fracasso, escuridão, solidão... você pode sentir todas essas emoções, mas elas não são fatais. Não se preocupe.";
+			break;
+		case 58:
+			mes "Coringas não aparecem e vão embora. Eles voltam no futuro.";
+			mes "Eles vão te seduzir várias vezes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então, treine-se para não ser tentado.";
+			mes "Ou então você enfrentará frustração ou cometer um erro.";
+			break;
+		case 59:
+			mes "Você vê a coisa que parece uma folha voando ao redor do Coringa? Essa é a marca da espada.";
+			mes "Espadas significa morte. Coringas deixam esses tipos de marcas de propósito.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não se perturbe com a marca da morte. É apenas uma brincadeira do Coringa.";
+			break;
+		case 60:
+			mes "Coringa oferece um bom seguro e diz para se preparar para o futuro, mas a maior parte é uma perda de tempo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não se prepare para o futuro de forma descuidada. Uma medida solta é pior do que uma aventura preparada.";
+			break;
+		case 61:// Carta Hode
+			mes "Hodes não sabem sobre o amanhã. Mas apesar de serem silenciosos, eles colocam em risco outras coisas vivas.";
+			mes "O esforço em si coloca grande poder na mera existência de um.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não se esqueça de que você deve pensar mais em si mesmo.";
+			break;
+		case 62:
+			mes "Hodes não sabe sobre o amanhã, mas eles ainda sabem sobre a morte.";
+			mes "Mesmo que você seja honesto e simples, em um momento de crise, você deve estar alerta.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Ou então você será realmente um tolo simples e honesto. Isso pode ser problemático.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Hodes não refletem sobre a vida, mas sua vontade de viver é muito forte.";
+			mes "Você pode ganhar muito simplesmente através da vontade de manter a vida.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seja grato que você está vivo. A própria gratidão deve ajudar muito.";
+			break;
+		case 63:
+			mes "Hodes tem medo de crises. Você deve tentar não ter medo de crises também.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não pense muito neles. Uma crise é simplesmente uma crise.";
+			break;
+		case 64:// Carta Minorous
+			mes "Antes, os touros costumavam ser considerados trabalhadores tolamente honestos, mas atualmente os touros são grandes lutadores fortes.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Encontrar diferentes lados de si mesmo é o caminho para melhorar. Estude sobre você.";
+			break;
+		case 65:
+			mes "Os touros deixam couro quando eles morrem? Ou foi o tigre?";
+			mes "De qualquer forma, ele tem ciúmes dos humanos que deixam seu nome na história.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você não deixar seu nome, ele pode suportar ódio contra você por desperdiçar sua vida.";
+			mes "Então, para não ser amaldiçoado, esforce-se para deixar seu nome na história.";
+			break;
+		case 66:
+			mes "Pode parecer engraçado que um touro olhe para o futuro, mas o touro está olhando para o seu futuro agora.";
+			mes "Ele diz que seu futuro está misturado com tempestades e tempo de outono.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Pode ser difícil se você for pego com uma situação. Nos bons tempos, prepare-se para os maus, e em tempos ruins aguarde a boa sorte.";
+			break;
+		case 67:// Carta Hode
+			mes "O touro pensa na felicidade que está esperando no futuro, mas não gosta de eficiência reduzida por causa dessa felicidade.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Mesmo que a felicidade esteja a caminho, não deixe que isso afete seu trabalho agora.";
+			mes "Este é o pensamento do touro e sua sorte.";
+			break;
+		}
+		next;
+		mes "[Lhimetorra]";
+		mes "Falar do futuro é um ato tão perigoso.";
+		mes "Os humanos podem enfrentar o desastre se falarem do futuro de forma descuidada. É por isso que pedimos cartas sobre o futuro.";
+		next;
+		cutin "",255;
+		mes "[Lhimetorra]";
+		mes " Sua sorte é muito boa. Há alguns neste mundo que têm sortes mais horríveis.";
+		mes "Use esta sorte como suporte em sua vida. Ok?";
+		close;
+	//================================================================= Aviso ===
+	case 4:
+		mes "[Lhimetorra]";
+		mes "Alguém que saiba dos perigos que não conhece, irá avisá-lo em forma de ... então ouça atentamente!";
+		next;
+		.@card_1_warning = rand(1,70);
+		if (.@card_1_warning < 5) cutin "°¡ÀÌ¾Æ½ºÄ«µå",4;		// Carta Giearth
+		else if (.@card_1_warning < 9) cutin "´õ½ºÆ¼³×½ºÄ«µå",4;// Carta Poeira
+		else if (.@card_1_warning < 13) cutin "µå¶óÅ¥¶óÄ«µå",4;	// Carta Drácula
+		else if (.@card_1_warning < 16) cutin "µå·¹ÀÌÅ©Ä«µå",4;	// Carta Drake
+		else if (.@card_1_warning < 20) cutin "¸¶¸®³ªÄ«µå",4;	// Carta Marina
+		else if (.@card_1_warning < 24) cutin "¸¶¸®¿À³×Æ®Ä«µå",4;// Carta Marionete
+		else if (.@card_1_warning < 28) cutin "¸ÞµÎ»çÄ«µå",4;	// Carta Medusa
+		else if (.@card_1_warning < 32) cutin "¹ÙÆ÷¸ÞÆ®Ä«µå",4;	// Carta Bafomé
+		else if (.@card_1_warning < 36) cutin "»÷µå¸ÇÄ«µå",4;	// Carta Arenoso
+		else if (.@card_1_warning < 40) cutin "¼ÒÈñÄ«µå",4;		// Carta Sohee
+		else if (.@card_1_warning < 44) cutin "½ºÄÌ¿öÄ¿Ä«µå",4;	// Carta Esqueleto Operário
+		else if (.@card_1_warning < 48) cutin "½ºÄÌ³ªÀÌÆ®Ä«µå",4;// Carta Khalitzburg
+		else if (.@card_1_warning < 52) cutin "¾Æ´©ºñ½ºÄ«µå",4;	// Carta Anubis
+		else if (.@card_1_warning < 56) cutin "¿ÀÅ©·ÎµåÄ«µå",4;	// Carta Senhor dos Orcs
+		else if (.@card_1_warning < 59) cutin "ÀèÄ«µå",4;		// Carta Jakk
+		else if (.@card_1_warning < 63) cutin "Á¶Ä¿Ä«µå",4;		// Carta Coringa
+		else if (.@card_1_warning < 68) cutin "È£µåÄ«µå",4;		// Carta Hode
+		else cutin "È²¼ÒÄ«µå",4; 								// Carta Minorous
+
+		mes "[Lhimetorra]";
+		switch(.@card_1_warning) {
+		case 1:
+			mes "Você vê a marca proibida em seu ombro? Está lhe dizendo para não fazer algo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você está pensando em algo agora, pare seu movimento. Ou então o desastre pode estar vindo em sua direção.";
+			break;
+		case 2:
+			mes "Alguém está atrás de você. A pessoa é muito forte como a foto. Eles podem estar guardando rancor contra você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Olhe ao seu redor. Claro, procure por alguém que você possa ter cuspido..";
+			break;
+		case 3:
+			mes "Está dizendo para ter cuidado para não queimar seu bigode com um cigarro. Quando você faz algo, alguma coisa está sempre em risco. Provavelmente está alertando sobre isso.";
+			break;
+		case 4:
+			mes "'Tenha cuidado com a pá'... Você pode ser atingido por uma pá. Você deve ter cuidado ao redor de um canteiro de obras?";
+			break;
+		case 5:// Carta Poeira
+			mes "O som das asas de uma mariposa tremulando significa caos. Um evento caótico pode ocorrer ao seu redor.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A traça está te avisando disso. Você deve ter cuidado.";
+			break;
+		case 6:
+			mes "Esteja ciente das asas. Asas simbolizam vôo, aventura e inconstância de um jogador.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se uma palavra bater em você, tenha cuidado com isso. Talvez... um jogador?";
+			break;
+		case 7:
+			mes "Os dentes Poeira são muito fortes. Isso significa... Alguém pode tentar te morder com os dentes ?!";
+			break;
+		case 8:
+			mes "O aviso da mariposa: 'Perigoso!'. Um aviso muito simples, mas óbvio.";
+			break;
+		case 9:// Carta Drácula
+			mes "Drácula diz: 'Tenha cuidado nas ruas à noite.' ";
+			break;
+		case 10:
+			mes "Drácula diz: 'Não seja muito exigente.' ";
+			break;
+		case 11:
+			mes "Drácula diz: 'Escove seus dentes 3 vezes ao dia.' Certifique-se de escovar os dentes! ";
+			break;
+		case 12:
+			mes "Drácula diz: 'Estude os pontos importantes primeiro.' Encruzilhada não funcionará! ";
+			break;
+		case 13:// Carta Drake
+			mes "Se você ver a bandeira de um pirata, corra ou faça o que eles dizem. Piratas não dão mais do que um aviso.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É o mesmo na vida.";
+			break;
+		case 14:
+			mes "Piratas dão avisos sobre muitas coisas. Mas agora, esta carta está falando de traição.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Para piratas, traição significa morte trágica. Tenha cuidado com as traições.";
+			break;
+		case 15:
+			mes "O pirata está te avisando da sua beleza. Não mostre sua beleza demais. Os piratas também são muito ciumentos da aparência.";
+			break;
+		case 16:// Carta Marina
+			mes "A Marina está avisando sobre um veneno quente. Tenha cuidado com veneno.";
+			break;
+		case 17:
+			mes "A Marina está alertando sobre um estilo de vida preguiçoso. Diz que esse estilo de vida levará a algo parecido com ele.";
+			break;
+		case 18:
+			mes "A Marina realmente não pensa em mais nada. Mas vai dizer uma coisa. Comida. A Marina adora comida.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Comer é felicidade. O mesmo vale para os humanos também. Valorize a comida e divirta-se comendo.";
+			break;
+		case 19:
+			mes "A Marina está avisando sobre uma barriga grande. Não está feliz porque se parece... Que tal perder peso?";
+			break;
+		case 20:// Carta Marionete
+			mes "A Marionete diz que você não deve confiar na violência e usar um método diferente.";
+			mes "Eu não tenho certeza, mas pode se tornar uma importante palavra para você..?";
+			break;
+		case 21:
+			mes "A Marionete está alertando sobre atividades ameaçadoras. Se você fez algo recentemente, você deve resolver isso em breve.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Um resultado ruim pode aparecer em seu caminho.";
+			break;
+		case 22:
+			mes "Os olhos da Marionete estão alertando sobre sua falsidade. Mentiras, enganos, cálculos e ações falsas. A Marionete está alertando sobre todos eles.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isto é tudo para você jovem. Portanto, siga esta sorte e se livre da falsidade.";
+			break;
+		case 23:
+			mes "A Marionete está enfatizando uma dieta adequada. Não confie demais em carne.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aceite o conselho da Marionete. Ela nunca diz nada de errado. Hoho...";
+			break;
+		case 24:// Carta Medusa
+			mes "A Medusa pune aqueles que desafiam isso sem aviso. Punição inesperada.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Isso é uma Medusa. Você deve ter cuidado. O aviso terminou há muito tempo.";
+			break;
+		case 25:
+			mes "A Medusa está te avisando para ser gentil com os outros, ou então ela vai te transformar em pedra.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Que Medusa de direito. Hmm...";
+			break;
+		case 26:
+			mes "A Medusa está te avisando para devolver qualquer coisa que você pegar emprestado na hora.";
+			mes "Dizendo que não vai perdoar aqueles que usam coisas de outras pessoas como um buraco negro... emprestando e nunca retornando";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tem certeza que você devolveu tudo o que você pediu? É melhor cuidar de tudo antes de ser punido.";
+			break;
+		case 27:
+			mes "A Medusa está avisando sobre uma pessoa perto de você. Da existência deles... e do relacionamento,";
+			next;
+			mes "[Lhimetorra]";
+			mes "O aviso da Medusa é muito severo. Dê uma boa olhada ao seu redor.";
+			break;
+		case 28:// Carta Bafomé
+			mes "O Bafomé diz para tomar cuidado ao intervir com os problemas dos outros.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Ele está muito bravo por se intrometer nos espaços dos outros. Aceite o aviso do Bafomé.";
+			break;
+		case 29:
+			mes "O Bafomé está alertando sobre a arrogância. Mesmo um guerreiro forte e sábio deve mostrar respeito por um Bafomé,";
+			mes "A arrogância tira esse respeito. O Bafomé odeia esse tipo de arrogância.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Talvez isso significa que ele vê esse tipo de arrogância em você? Desde que o Bafomé está te avisando..";
+			break;
+		case 30:
+			mes "O Bafomé está alertando sobre a preguiça que impede alguém de afiar a foice.";
+			mes "Essa preguiça fará com que você perca a sua vida em um instante.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A preguiça é mais perigosa do que o monstro na sua frente. Não se esqueça deste aviso.";
+			break;
+		case 31:
+			mes "O Bafomé diz que não tem nada a dizer. Eu me pergunto por quê? Não é um sinal muito bom?!!";
+			break;
+		case 32:// Carta Arenoso
+			mes "A areia é uma cura instantânea do pé de atleta. Ele diz para ter cuidado com o pé de atleta e que ele odeia aqueles esfregando seus pés infectados em seu corpo.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O aviso de um Arenoso é muito severo. Lave seus pés regularmente, jovem.";
+			break;
+		case 33:
+			mes "Uma galinha coloca areia na boca para ajudar no sistema de digestão insuficiente.";
+			mes "O Arenoso diz para tomar cuidado antes de você se tornar como uma galinha.";
+			next;
+			mes "[Lhimetorra]";
+			mes "E não coma muita comida picante e salgada, álcool, etc. Que Arenoso pensativo.";
+			break;
+		case 34:
+			mes "O Arenoso diz que quem dormiu demais será punido pela sociedade!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Oooh, um aviso severo sobre o futuro! Jovem, tenha isso em mente.";
+			break;
+		case 35:
+			mes "Um aviso do Arenoso, respeite seus pais.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você não fizer isso, você vai acabar como ele. Ouça o Arenoso.";
+			break;
+		case 36:// Carta Sohee
+			mes "Sohee não gosta de pés fedidos. Não se esqueça de lavar os pés.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Bah, não ria disso! Esta é uma advertência solene.";
+			break;
+		case 37:
+			mes "Sohee fica na ponta dos pés. É porque os dedos são muito fortes.";
+			mes "Não importa o que uma pessoa faça, a força física é a mais importante. Exercite-se e fique mais forte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você ficar sentado o dia todo, até mesmo as coisas que estão indo para o trabalho não vão. Entendeu? Exercício, exercício!";
+			break;
+		case 38:
+			mes "Olhe o penteado de Sohee. Não é esplêndido.";
+			mes "Sohee gosta de cuidar de sua aparência. Se você não fizer isso, Sohee vai ficar bravo com você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tornar-se apresentável é tão importante quanto manter um bom coração.";
+			mes "Cuide da sua aparência. E tire essa pimenta de entre os dentes!";
+			break;
+		case 39:
+			mes "Uma vez, Sohee não conseguiu que ela mudasse de volta quando ela pediu a um bebê fantasma para fazer uma incumbência.";
+			mes "Não pode fazer! Sempre devolva a mudança.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não importa quão pequena seja a quantidade, você não deve apenas mantê-la. Sohee não gosta muito dela.";
+			break;
+		case 40:// Carta Esqueleto Operário
+			mes "Mesmo sendo um esqueleto com apenas ossos, ele tem todo o equipamento de segurança necessário.";
+			next;
+			mes "[Lhimetorra]";
+			mes "O que o esqueleto quer dizer é, esteja ciente de 'segurança'. Ser ignorante sobre segurança é perigoso.";
+			break;
+		case 41:
+			mes "A carta do esqueleto tem um tom de cinza. Se você ler o cinza, você pode ver a escuridão.";
+			mes "Parece que a escuridão está a caminho. Tenha cuidado, essa escuridão não é comum.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Hmm.. você gostaria de um amuleto?";
+			break;
+		case 42:
+			mes "O esqueleto está te avisando sobre um padrão de alimentação irregular.";
+			mes "Diz que se tornou assim por causa de um mau hábito alimentar.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Coma a comida certa na hora certa. Essa é a única maneira de seu corpo sobreviver. Você não pode se dar ao luxo de se tornar um esqueleto.";
+			break;
+		case 43:
+			mes "A picareta do esqueleto é muito forte. Mesmo que seu corpo pareça fraco, com as ferramentas certas, ele pode fazer grandes coisas.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então não culpe seu corpo agora e vá procurar as ferramentas certas. Então você terá um bom resultado.";
+			break;
+		case 44:// Carta Khalitzburg
+			mes "O cavaleiro está te avisando de direção imprudente. Você monta um Pecopeco por acaso?";
+			mes "De qualquer forma, você deve evitar a direção imprudente. Se um cavaleiro está dizendo isso, é um grande problema.";
+			break;
+		case 45:
+			mes "O cavaleiro está te avisando de crueldade. Pode ser seu ou de alguém ao seu redor.";
+			next;
+			mes "[Lhimetorra]";
+			mes "De qualquer forma, a crueldade irá prejudicá-lo com certeza. Seja cauteloso com isso.";
+			break;
+		case 46:
+			mes "A desgraça mostrada na Carta do cavaleiro é a pressa. Isso também é o que tira a vida de um cavaleiro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Este cavaleiro está te avisando do fundo do seu coração";
+			mes "para que você não repita o erro dele. Seja loucura.";
+			break;
+		case 47:
+			mes "Este cavaleiro está te avisando da solidão. Ele não tem uma pessoa para ajudar seu cavalo";
+			mes "nem um amante esperando por ele, então a solidão o atinge no coração.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A solidão não é simplesmente tristeza. É um demônio sem forma comendo sua vida. Fique longe da solidão.";
+			break;
+		case 48:// Carta Anubis
+			mes "O aviso do deus da morte é a própria morte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Seja cauteloso com a morte.. morte que pode ser a sua vez, ou talvez outra pessoa.";
+			break;
+		case 49:
+			mes "O Anubis diz para ter cuidado com as trevas. Na escuridão, a morte permanece no escuro.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Siga o conselho do Anúbis e evite o escuro. Essa é a escolha mais sábia.";
+			break;
+		case 50:
+			mes "O Anúbis não gosta de linguagem chula. Você não tem uma boca suja, não é?";
+			mes "Cuidado com a boca. O Anúbis está atrás daqueles que dizem linguagem chula.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Os humanos têm um problema com suas bocas. Mmm~ Agh. Eu também ?!";
+			break;
+		case 51:
+			mes "O Anubis está te avisando de ódio. O ódio só traz a morte.";
+			mes "O Anúbis não deve gostar de estar ocupado nos dias de hoje.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Vendo que ele está alertando sobre o ódio. Você não acha que é uma boa idéia evitar os olhos dele em um momento como esse?";
+			break;
+		case 52:// Carta Senhor dos Orcs
+			mes "O Senhor dos Orcs está te avisando de auto-justiça. É o inseto nocivo mais perigoso que se alimentará de você.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Aprenda a aceitar as opiniões dos outros. Que tal começar aceitando o Senhor dos Orcs's?";
+			break;
+		case 53:
+			mes "O Senhor dos Orcs está te avisando sobre liberdade. A liberdade não é uma coisa boa?";
+			mes "Nem sempre! Muita liberdade pode levar a auto-indulgência!";
+			next;
+			mes "[Lhimetorra]";
+			mes "Ele sabe sobre o perigo da liberdade como um senhor.";
+			break;
+		case 54:
+			mes "O Senhor Orc te avisando do sexo oposto. Sim. Eles são venenosos. Mantenha distância.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Especialmente um jovem como você... Você está muito perto de um. Tossir.";
+			break;
+		case 55:
+			mes "O Senhor dos Orcs está alertando sobre a destruição. Ele conhece muito bem a destruição porque ele é um mestre da destruição.";
+			next;
+			mes "[Lhimetorra]";
+			mes "É por isso que ele sabe sobre o perigo e a infelicidade que a destruição traz. Não destrua impensadamente. Você acabará se destruindo também.";
+			break;
+		case 56:// Carta Jakk
+			mes "Jack está te avisando de piadas idiotas. Quando ele encontra um deles, ele tende a acertá-los com seu bastão.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se você não quer ser atingido, pare com suas piadas!";
+			break;
+		case 57:
+			mes "Jack está avisando sobre a raiva dos outros e essa raiva tira a felicidade e mata uma piada.";
+			next;
+			mes "[Lhimetorra]";
+			mes "A raiva só te exaure. Mantenha distância da raiva e faça amizade com piadas. A palavra de Jack.";
+			break;
+		case 58:
+			mes "Parece que Jack está preocupado com piadas excessivas.";
+			mes "Piadas são divertidas, mas muito vai te transformar em um fantasma como ele.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tenha cuidado. Quando Jack fala assim, ele brincadeira se foi.";
+			break;
+		case 59:// Carta Coringa
+			mes "Coringas gostam de dar avisos opostos. Ele diz para gostar de dormir.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu acho que você deveria acordar cedo.";
+			break;
+		case 60:
+			mes "Coringas gostam de dar avisos opostos. Ele diz para aproveitar um lanche da meia-noite.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Não coma nada à noite. Seu estômago vai doer.";
+			break;
+		case 61:
+			mes "Coringas gostam de dar avisos opostos.";
+			mes "Ele diz que se alguém tem algo que você quer, torne-o seu.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Preciso dizer mais? Esse é um pensamento perigoso !!";
+			break;
+		case 62:
+			mes "Coringa gosta de dar avisos opostos.";
+			mes "O que ele está dizendo a você é não temer a morte.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Se um Coringa estiver dizendo isso, tenha cuidado. Não há cura para tolos impensados.";
+			break;
+		case 63:// Carta Hode
+			mes "O Hode pode perdoar os outros, mas não aqueles que o machucam.";
+			mes "Você também não deve perdoar apenas aqueles que te machucaram.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Um pequeno território irá garantir uma grande felicidade.";
+			break;
+		case 64:
+			mes "O Hode está te avisando de uma alimentação voraz que a torna lenta.";
+			mes "Comer é bom, mas o selvagem é um lugar perigoso. Deixe seu estômago parcialmente vazio.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então você pode responder rapidamente às crises.";
+			break;
+		case 65:
+			mes "O Hode está te avisando de uma alimentação voraz que a torna lenta.";
+			mes "Comer é bom, mas o selvagem é um lugar perigoso. Deixe seu estômago parcialmente vazio.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Então você pode responder rapidamente às crises.";
+			break;
+		case 66:
+			mes "Se você está a ponto de ser avisado por um Hode... você deve ser uma pessoa considerável.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Diz para fazer melhor.. Eu não tenho idéia do que isso significa.";
+			break;
+		case 67:
+			mes "O Touro adverte de corrupção. Um hedonista preguiçoso que não é diligente.";
+			mes "Ele acredita que é como uma célula cancerosa que não pode ser removida.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Tenha cuidado para não ter esse tipo de célula presa em você.";
+			break;
+		case 68:// Carta Minorous
+			mes "O touro está alertando sobre a ignorância sobre uma crise.";
+			mes "Não saber que uma crise é uma crise é a mais perigosa de todas.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Você precisará aprender a ler o perigo. Aceite o conselho do touro.";
+			break;
+		case 69:
+			mes "O touro está avisando de algo que vai deixar a vida triste.";
+			mes "Tristeza é um sentimento natural, mas não deixe isso te derrubar.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Um touro é um trabalhador honesto que chora até mesmo quando funciona. Ele sabe que não deve ser preguiçoso sobre o que precisa fazer, mesmo quando expressando tristeza.";
+			mes "Parece que ele quer te dizer isso.";
+			break;
+		case 70:
+			mes "O touro está avisando sobre carne de vacas molhadas.";
+			mes "Dizendo isso, esse tipo de comportamento certamente trará as maldições dos monstros.";
+			next;
+			mes "[Lhimetorra]";
+			mes "Eu não sei por que ele iria avisá-lo sobre isso... Você cria gado por acaso?";
+			break;
+		}
+		next;
+		mes "[Lhimetorra]";
+		mes "Um aviso é sempre uma sorte útil. Você nunca pode perder nada.";
+		next;
+		cutin "",255;
+		mes "[Lhimetorra]";
+		mes "Espero que você seja capaz de evitar o infortúnio com este aviso. Então...";
+		close;
+	}
+}
+
+payon_in03,75,129,5	script	Poring Vidente	4_M_BIBI,{
+	mes "[Chocarle]";
+	mes "Bem vindo, bem-vindo~!!" +strcharinfo(0)+ "~!";
+	mes "O que te traz aqui hoje !?";
+	next;
+	if (select("Eu gostaria de ler uma Carta Poring.:O que é uma leitura de Carta Poring?") == 2) {
+		mes "[Chocarle]";
+		mes "As leituras dos cartas focam nas cartas com Porings fofos..!";
+		mes "Puxão~ puxão~ eles te dizem sua sorte! Não é tradicional, mas a vivacidade é a melhor!";
+		next;
+		mes "[Chocarle]";
+		mes "As sortes são simples e refrescantes. É perfeito quando você quer que sua sorte seja contada com um coração leve e não seja pesado!";
+		close;
+	}
+	mes "[Chocarle]";
+	mes "Ah~ é isso mesmo!";
+	mes "Resolvendo as maravilhas do futuro com esses cartas fofos e adoráveis ??de Poring!";
+	mes "É 1000z para cada sorte! Vamos começar?";
+	next;
+	if (select("Sim.:Eu gostaria de pensar sobre isso mais uma vez.") == 2) {
+		mes "[Chocarle]";
+		mes "Ok então! Volte na próxima vez! Vamos fazer um bom trabalho! Tchau-tchau~!";
+		close;
+	}
+	if (Zeny < 1000) {
+		mes "[Chocarle]";
+		mes "Você nem tem 1000 Zeny!";
+		mes "Não, eu posso ler cartas para você!";
+		mes "Não!";
+		close;
+	}
+	Zeny = Zeny -1000;
+	mes "[Chocarle]";
+	mes "Obrigado~! Então vamos olhar para sua sorte!";
+	mes "Primeiro, limpe sua mente! Assim como lavar quando você lava a louça!";
+	next;
+	mes "[Chocarle]";
+	mes "Então~ gentilmente pense no seu desejo!";
+	next;
+	switch(select("(Estou curioso sobre o amor!):(Eu gostaria de me sair bem na escola!):(Minha amizade estará intacta?):(Eu quero saber sobre o meu eu futuro!):Eu ganho muito dinheiro?) ")) {
+	case 1:
+		mes "[Chocarle]";
+		mes "Ohh! Fofo, sorte no amor! Heh! Vamos olhar as cartas!";
+		next;
+		.@card_2_love = rand(1,33);
+		callsub L_displaycutin, .@card_2_love;
+
+		mes "[Chocarle]";
+		switch(.@cart_2_love) {
+		case 1:
+			mes "Oh! Sua amante está prestes a sair do seu lado! Segure firme!";
+			break;
+		case 2:
+			mes "Agh! Você está prestes a dar sua alma ao seu amado! Desça um pouco!";
+			break;
+		case 3:
+			mes "Não! Seu coração está prestes a deixar seu amor! Pegue!";
+			break;
+		case 4:// Carta Drops Card
+			mes "O amor é como suco na floresta! É refrescante! Cuide do seu amado!";
+			break;
+		case 5:
+			mes "Uh! Você não compartilhou seu suco com sua amada! Que pena! Cuide da sua amada!";
+			break;
+		case 6:
+			mes "Por que não compartilhar com seu amado? Não seja muito ganancioso e tente manter tudo!";
+			break;
+		case 7:// Carta Louva-a-Deus
+			mes "Seu amor vai ter uma crise! Proteja seu amor!";
+			break;
+		case 8:
+			mes "Hee! Vá atrás do seu amor como uma toupeira! Puhahaha!";
+			break;
+		case 9:
+			mes "Oh não! Seu amor está em perigo! Fuja da ameaça!";
+			break;
+		case 10:// Carta Munak
+			mes "Oh não! Você perdeu seu amado. E, ninguém similar em torno de você. Anime-se!";
+			break;
+		case 11:
+			mes "Ah! Um rival sexy apareceu! Não fique distraído!";
+			break;
+		case 12:
+			mes "Você está desesperadamente procurando por amor! Se você for além deste deserto, você pode encontrar o amor!";
+			break;
+		case 13:// Carta Santa Poring
+			mes "Prepare um evento de amor! Eles estarão voando com felicidade!";
+			break;
+		case 14:
+			mes "O amor é doce! Cuidado para não ter cáries!";
+			break;
+		case 15:
+			mes "Prepare um presente para o seu amor! Eles podem sofrer um ataque cardíaco porque serão dominados pela felicidade!";
+			break;
+		case 16:// Carta Soldado Esqueleto
+			mes "Não seja tímido na frente do seu amado! O amor transcende tudo!";
+			break;
+		case 17:
+			mes "Abrace todos os aspectos do seu amado! Isso é amor verdadeiro!";
+			break;
+		case 18:
+			mes "O amor florescerá com uma pessoa totalmente diferente! Uau, tão legal!";
+			break;
+		case 19:// Carta Esqueleto
+			mes "Não importa o que as outras pessoas digam, corra para o seu amado! Um amor de uma faixa!";
+			break;
+		case 20:
+			mes "Vá ao seu amado com um presente! Eles ficarão muito felizes!";
+			break;
+		case 21:
+			mes "O amor requer saúde e força! Exercite-se para se tornar mais forte! Poder e amor!";
+			break;
+		case 22:// Carta Eddga
+			mes "Mesmo se você quiser se aproximar do seu amado, seu corpo está desconfortável! Faça uma pausa e descanse!";
+			break;
+		case 23:
+			mes "O amor está se domando por alguém! Serviço! Sacrifício!";
+			break;
+		case 24:
+			mes "Você vai conhecer os pais do seu amante! Prepare-se bem!";
+			break;
+		case 25:// Carta Angeling
+			mes "Seu relacionamento deve ser muito feliz, pois parece que vocês dois estão voando entre as nuvens! Muito ciumento!";
+			break;
+		case 26:
+			mes "Faça uma oportunidade de ficar só um com o outro! Isso trará muita felicidade!";
+			break;
+		case 27:
+			mes "Uh oh! Alguém está espiando seu amor! Vá repreendê-los!";
+			break;
+		case 28:// Carta Poring
+			mes "O amor floresce desde a fundação! Seja fiel ao básico!";
+			break;
+		case 29:
+			mes "Quando sua amada se machucar, seja por eles! Eles serão muito felizes!";
+			break;
+		case 30:
+			mes "Um dia, quando você acordar, sua amada deixará um presente! Seja feliz!";
+			break;
+		case 31:// Carta Poporing
+			mes "Dê muitos presentes aos seus entes queridos! Então você experimentará muitas coisas boas!";
+			break;
+		case 32:
+			mes "Incline-se contra a parede e aguarde seu amor! * Boom * O amor aparecerá!";
+			break;
+		case 33:
+			mes "Você deve estar solitário! Tudo bem, anime-se!";
+			break;
+		}
+		next;
+		mes "[Chocarle]";
+		mes "Uma sorte de amor foi dita! O que você acha! Você gosta disso?";
+		mes "Mesmo que você não tenha conseguido a sorte que deseja, não fique chateado e simplesmente escolha seu amor!";
+		cutin "",255;
+		next;
+		mes "[Chocarle]";
+		mes "Então, até a próxima vez~~~~~";
+		close;
+	case 2:// Carta Study
+		mes "[Chocarle]";
+		mes "Questões sobre estudar é um assunto sério! Vamos dar uma olhada! Yap!";
+		next;
+		.@card_2_study = rand(1,33);
+		callsub L_displaycutin, .@card_2_study;
+
+		mes "[Chocarle]";
+		switch(.@card_2_study) {
+		case 1:
+			mes "Agh! Não morra de estudar! Faça pausas enquanto você está nisso! Você precisa descansar um pouco!";
+			break;
+		case 2:
+			mes "Oh, não! Você está perdendo os pontos principais! Descobrir o essencial!";
+			break;
+		case 3:
+			mes "Mmph! Você está morrendo de vontade de estudar! Em momentos assim, uma pausa é a melhor!";
+			break;
+		case 4:// Carta Drops
+			mes "Estudar é como caçar um monstro no deserto. Descansar um pouco é o melhor. Entender?";
+			break;
+		case 5:
+			mes "Uma boa xícara de suco frio sob o sol quente! Estudar deve ser feito assim também!";
+			break;
+		case 6:
+			mes "Mesmo que seja o deserto, você parece ter um sorriso relaxado! Talvez você precise relaxar assim quando estudar também!";
+			break;
+		case 7:// Carta Louva-a-Deus
+			mes "Suas notas estão em perigo! Você deve estudar mais!";
+			break;
+		case 8:
+			mes "Pode haver uma grande crise! Não fique muito estressado só porque você não pode estudar!";
+			break;
+		case 9:
+			mes "Está dizendo que estudar na noite escura pode ser perigoso! Cuidado ao estudar à noite!";
+			break;
+		case 10:// Carta Munak
+			mes "Estudar veio para um lugar estranho! Ele precisa encontrar o caminho original! Você pode fazer isso!";
+			break;
+		case 11:
+			mes "Você está olhando para um amigo esperto com os olhos de um Poring! Heehee! Fazendo o bem!";
+			break;
+		case 12:
+			mes "Eh? Você é muito inteligente! Você está em um nível muito mais alto do que seus amigos! Faça uma pausa!";
+			break;
+		case 13:// Carta Santa Poring
+			mes "Você será recompensado por suas realizações! Valeu a pena o esforço!";
+			break;
+		case 14:
+			mes "Esqueça de estudar por um momento e aproveite a festa! Deve ser refrescante~!";
+			break;
+		case 15:
+			mes "Estude algo que fará as pessoas felizes! Futuro!";
+			break;
+		case 16:// Carta Soldado Esqueleto
+			mes "Se você não tem certeza de alguma coisa, pergunte a um amigo! Não é algo para se envergonhar! Você pode fazer isso!";
+			break;
+		case 17:
+			mes "Não pense que sua cabeça está vazia! Porque você é inteligente! Você pode fazer isso!";
+			break;
+		case 18:
+			mes "Há um fenômeno que você não entende! Pesquise um pouco mais! Você será capaz de descobrir isso em breve!";
+			break;
+		case 19:// Carta Esqueleto
+			mes "Não fique com preguiça de estudar onde quer que vá! Procure o caminho da verdade e desça para encontrar a resposta!";
+			break;
+		case 20:
+			mes "Você precisa de força para estudar! Fique mais forte! Correr é um começo!";
+			break;
+		case 21:
+			mes "Você vai se tornar uma pessoa admirável por causa de todo o esforço colocado em estudar! Você deve se sentir muito valor!";
+			break;
+		case 22:// Carta Eddga
+			mes "Tente estudar a história do nosso país! Desde quando o tigre começou a fumar!";
+			break;
+		case 23:
+			mes "Você deve estar tendo dificuldade em estudar por causa de toda a pressão! Saia e tome um pouco de ar fresco!";
+			break;
+		case 24:
+			mes "Sua cabeça parece estar pesada por causa de estudar! Você precisa de uma diversão! Ponha a estudar de lado por um momento!";
+			break;
+		case 25:// Carta Angeling
+			mes "Tente estudar aeroespacial ou meteorologia! Você não acha que seria divertido?";
+			break;
+		case 26:
+			mes "Que tal estudar teologia? Você até estuda sobre anjos!";
+			break;
+		case 27:
+			mes "Estude aos poucos e sinta-se mais leve! Você não pode estudar se estiver sobrecarregado de palavras!";
+			break;
+		case 28:// Carta Poring
+			mes "Ao estudar, você deveria fazer um lanche! Pode parecer trivial, mas é importante!";
+			break;
+		case 29:
+			mes "Mesmo quando você está doente, não se esqueça de estudar! Onde houver esforço, certamente haverá bons resultados!";
+			break;
+		case 30:
+			mes "Newton descobriu a gravidade através de uma maçã caindo! Seja cauteloso até com as pequenas coisas ao seu redor!";
+			break;
+		case 31:// Carta Poporing
+			mes "O verde é bom para estudar! Dê cor às suas paredes verdes ou beba uma bebida verde! A cor da sorte! Verde!";
+			break;
+		case 32:
+			mes "Há uma jóia em sua mente! Você precisa trazer toda a sabedoria para a vida! Não estude coisas ruins!";
+			break;
+		case 33:
+			mes "Você receberá bons resultados de estudar! Você pode se concentrar em seus estudos atuais!";
+			break;
+		}
+		next;
+		mes "[Chocarle]";
+		mes "Você foi informada da sorte de seu estudo! Foi uma boa?";
+		mes "Mas, estudando, o esforço é mais importante que qualquer tipo de sorte!";
+		next;
+		cutin "",255;
+		mes "[Chocarle]";
+		mes "Tente o seu melhor. Então, te vejo de novo! Tchaaaaaauuuuuuuuu~~ Tchaaaauuuuuu~";
+		close;
+	case 3:// Carta Friends// Carta mes "[Chocarle]";
+		mes "Relacionamentos entre amigos são mais difíceis do que as pessoas pensam! Vamos usar os cartas para tentar resolver esse complicado quebra-cabeça de amizade!";
+		next;
+		.@card_2_buddy = rand(1,33);
+		callsub L_displaycutin, .@card_2_buddy;
+
+		mes "[Chocarle]";
+		switch(.@card_2_buddy) {
+		case 1:
+			mes "Ah! Seu amigo ficou louco! Eles precisam da cura da amizade!";
+			break;
+		case 2:
+			mes "Mmm! Vocês dois ficaram loucos. Você deve superá-lo através de conversas!";
+			break;
+		case 3:
+			mes "Agh! Você está sofrendo por causa do seu amigo! Tente abrir seu coração e seja mais tolerante!";
+			break;
+		case 4:// Carta Drops
+			mes "Você até dividiu uma ervilha entre amigos! Não seja tão cruel. Reflita sobre você e peça desculpas!";
+			break;
+		case 5:
+			mes "Oh não! Seu amigo está te ignorando! Ofereça uma garrafa de suco ao seu amigo! Sua amizade pode voltar?";
+			break;
+		case 6:
+			mes "Eh !? Que tipo de amizade é essa ?! Apresse-se e faça as pazes!";
+			break;
+		case 7:// Carta Louva-a-Deus
+			mes "Oh não ?! Essa pessoa não é sua amiga, mas inimiga! Você deve ter cuidado!";
+			break;
+		case 8:
+			mes "Seu amigo está em perigo! Você deve ajudar seu amigo!";
+			break;
+		case 9:
+			mes "Sua amizade está à beira de desmoronar! Jogue um escudo em torno de sua amizade!";
+			break;
+		case 10:// Carta Munak
+			mes "Uma pessoa é deixada de fora entre seus amigos! Seja mais amigável!";
+			break;
+		case 11:
+			mes "Seu amigo bateu em você! Não chore, mesmo que possa doer! Depressa e maquie!";
+			break;
+		case 12:
+			mes "Você deve estar sozinho! Deve ser difícil fazer amigos! Tente colocar um rosto mais brilhante!";
+			break;
+		case 13:// Carta Santa Poring
+			mes "Dê aos seus amigos um presente! Sua amizade se tornará mais profunda!";
+			break;
+		case 14:
+			mes "Prepare um chapéu para cobrir a cabeça grande do seu amigo! Eles serão movidos pelos seus cuidados!";
+			break;
+		case 15:
+			mes "Um amigo está esperando por você! Seja legal com seu amigo!";
+			break;
+		case 16:// Carta Soldado Esqueleto
+			mes "Ser amigos íntimos, apesar das diferenças, é amizade verdadeira! Abram as diferenças um do outro!";
+			break;
+		case 17:
+			mes "Seus mal-entendidos serão removidos se você tiver tempo para conversar! Vá ter uma conversa com seu amigo!";
+			break;
+		case 18:
+			mes "Quando um amigo estiver doente, visite-o! Eles ficarão felizes! Com certeza!";
+			break;
+		case 19:// Carta Esqueleto
+			mes "Saia e divirta-se com seu amigo! Sua amizade certamente ficará mais forte!";
+			break;
+		case 20:
+			mes "Dê ao seu amigo um presente! Eles vão se gabar pela cidade ?!";
+			break;
+		case 21:
+			mes "Compartilhe seu osso com seu amigo! Sacrifícios na amizade são lindos!";
+			break;
+		case 22:// Carta Eddga
+			mes "Faça qualquer coisa pelo seu amigo! De todo seu coração e alma! Seu amigo ficará encantado!";
+			break;
+		case 23:
+			mes "Não fumar, mesmo com um amigo! Pare de fumar para sua saúde!";
+			break;
+		case 24:
+			mes "Você e seu amigo encontrarão dificuldades! Combine seus poderes e supere isso!";
+			break;
+		case 25:// Carta Angeling
+			mes "Faça uma viagem com sua amiga! A amizade pode ficar mais forte em novos ambientes!";
+			break;
+		case 26:
+			mes "Dê ao seu amigo uma carona em um avião! Eles provavelmente voarão com alegria !?";
+			break;
+		case 27:
+			mes "Não esqueça seu amigo no céu! A amizade é eterna!";
+			break;
+		case 28:// Carta Poring
+			mes "Ajude a cicatriz de seu amigo. Seu amigo agradeceria muito!";
+			break;
+		case 29:
+			mes "Você até dividiu uma fatia de uma maçã entre amigos! Compartilhe mais coisas com seu amigo! Algo de bom vai acontecer!";
+			break;
+		case 30:
+			mes "Quando seu amigo estiver dormindo, pense neles! Então haverá progresso em sua amizade! O que você acha~ isso significa~?!";
+			break;
+		case 31:// Carta de Poporing
+			mes "Não meça amizade com dinheiro! Se você fizer isso, tome cuidado para que haja uma brecha na sua amizade!";
+			break;
+		case 32:
+			mes "Parece que seu amigo lhe dará muitos presentes! Aguarde!";
+			break;
+		case 33:
+			mes "Você deve estar sozinho sem um amigo! Um bom amigo virá em breve!";
+			break;
+		}
+		next;
+		mes "[Chocarle]";
+		mes "Por adivinhação funciona muito bem quando se trata de amizade!";
+		mes "É o coração da Carta que espera sinceramente por boas amizades!";
+		next;
+		cutin "",255;
+		mes "[Chocarle]";
+		mes "Você gostou? Da próxima vez, convide seu amigo! Então, byebye !!";
+		close;
+	case 4:// Carta Future
+		mes "[Chocarle]";
+		mes "Se você diz adivinhação! Claro que é sobre o futuro! Vamos tentar descobrir isso!";
+		next;
+		.@card_2_future = rand(1,33);
+		callsub L_displaycutin, .@card_2_future;
+
+		mes "[Chocarle]";
+		switch(.@card_2_future) {
+		case 1:
+			mes "Oh não! Você não está confiante sobre o futuro! Confie em você um pouco mais! Espero!";
+			break;
+		case 2:
+			mes "Oh! Você continua pensando em sua morte no futuro! Primeiro, esqueça a morte e viva a sua vida!";
+			break;
+		case 3:
+			mes "Corta! Você está cheio de incertezas sobre o futuro! Vamos nos livrar disso! Wee! Ele se foi!";
+			break;
+		case 4:// Carta Drops
+			mes "A vida pode parecer um deserto quente e seco, mas no futuro, um delicioso suco e descanso espera por você!";
+				break;
+		case 5:
+			mes "Mesmo em um deserto quente e seco, o futuro não é mais feliz, já que você pode encontrar um suco doce? Estenda suas forças!";
+			break;
+		case 6:
+			mes "Seus problemas não desaparecem assistindo a um sorriso? Seu futuro deve ser cheio de coisas boas!";
+			break;
+		case 7:// Carta Louva-a-Deus
+			mes "Há perigo esperando por você! Você deve evitá-lo por enquanto! Cuide-se!";
+			break;
+		case 8:
+			mes "Você deve estar com medo do seu futuro !? Não se preocupe muito! Pense em pensamentos felizes!";
+			break;
+		case 9:
+			mes "Você pode colocar alguém em perigo no futuro! Não se torne uma pessoa má~!";
+			break;
+		case 10:// Carta Munak
+			mes "Você pode ter que ficar sozinho no futuro! Prepare-se agora mesmo!";
+			break;
+		case 11:
+			mes "Muitas dificuldades esperam por você no futuro! Mas você pode superá-las!";
+			break;
+		case 12:
+			mes "Você pode até não ser capaz de comprar roupas de verão no futuro! Não desperdice seu dinheiro!";
+			break;
+		case 13:// Carta Santa Poring
+			mes "Algo excitante pode acontecer! O que pode ser? Divertido! Diversão!";
+			break;
+		case 14:
+			mes "Alguma coisa boa pode acontecer neste belo dia! Você pode esperar por isso! Yay!";
+			break;
+		case 15:
+			mes "Um evento esplêndido será realizado! Vá se preparar! Aguarde!";
+			break;
+		case 16:// Carta Soldado Esqueleto
+			mes "Você conhecerá alguém novo! Será muito interessante!";
+			break;
+		case 17:
+			mes "Se você for aos poucos, algo de bom vai acontecer! Sente-se e dê uma olhada ao seu redor!";
+			break;
+		case 18:
+			mes "Você fica com dor de cabeça pensando no futuro? Esvazie sua mente! Você se sentirá revigorado!";
+			break;
+		case 19:// Carta Esqueleto
+			mes "Você vai se tornar uma pessoa respeitável no futuro! Bom trabalho!";
+			break;
+		case 20:
+			mes "Eu posso ver você trabalhando duro no futuro! Que futuro vivo!";
+			break;
+		case 21:
+			mes "Você tem um futuro muito ocupado! Cuide da sua saúde!";
+			break;
+		case 22:// Carta Eddga
+			mes "Escolha um emprego onde você possa trabalhar com outras pessoas! Será muito gratificante, certo?";
+			break;
+		case 23:
+			mes "Tente fazer algum trabalho voluntário! Vale a pena e você vai se sentir bem com isso também!";
+			break;
+		case 24:
+			mes "Você pode se tornar um comandante! Mmm~! Meio assustador!";
+			break;
+		case 25:// Carta Angeling
+			mes "Escolha um trabalho que envolva voar! Você mostra potencial!";
+			break;
+		case 26:
+			mes "Sorvete delicioso que pode até ser comido no céu! Desafie-se e envolva-se em um trabalho fazendo coisas desse tipo!";
+			break;
+		case 27:
+			mes "No futuro, coisas que não podem ser feitas agora serão realizadas! Você pode esperar por isso!";
+			break;
+		case 28:// Carta Poring
+			mes "Pequenas coisas na vida lhe trarão felicidade e alegria no futuro! Ainda mais do que agora!";
+			break;
+		case 29:
+			mes "Faça o que você tem que fazer. Viva a vida ao máximo, mesmo que o mundo termine amanhã!";
+			break;
+		case 30:
+			mes "Você vai lidar com frutas no futuro! Que tal se preparar?";
+			break;
+		case 31:// Carta Poporing
+			mes "Seu futuro vai encontrar um muro alto! Embora, eu não tenha certeza de que tipo de prédio ele possa ser!";
+			break;
+		case 32:
+			mes "O verde simboliza a paz! Seu futuro parece ser muito pacífico! É uma coisa boa, certo?";
+			break;
+		case 33:
+			mes "Romance está à frente no seu futuro! Relaxe e prepare-se!";
+			break;
+		}
+		next;
+		mes "[Chocarle]";
+		mes "O que você acha? Sua ansiedade foi aliviada depois de ouvir sua sorte?";
+		mes "Esta é apenas uma pequena parte do seu futuro! Você deve descobrir o resto!";
+		next;
+		cutin "",255;
+		mes "[Chocarle]";
+		mes "Eu sou brega? Eu sou assim! Então, tchau~~~~uu ~~~uu~~~~!!";
+		close;
+	case 5:// Carta Fortune
+		mes "[Chocarle]";
+		mes "Mmm! A hora tão esperada chegou! Fazendo uma pergunta sobre dinheiro para o bonitinho Poring!";
+		mes "Ok! Vamos tentar!";
+		next;
+		.@card_2_fortune = rand(1,33);
+		callsub L_displaycutin, .@card_2_fortune;
+
+		mes "[Chocarle]";
+		switch(.@card_2_fortune) {
+		case 1:
+			mes "Uh oh! Você está prestes a ser roubado! Você deve salvar um pouco primeiro!";
+			break;
+		case 2:
+			mes "Kek! Sua mente fica em branco quando você pensa em dinheiro! Pense em outros pensamentos! Esqueça o dinheiro por um tempo!";
+			break;
+		case 3:
+			mes "Bah! Este não é um momento para pensar em dinheiro. Acalme-se e coloque sua mente à vontade!";
+			break;
+		case 4:// Carta Drops
+			mes "Se você olhar com cuidado, não é beber suco, mas água subterrânea através de um canudo no chão! O dinheiro está escondido onde ninguém espera! Boa sorte procurando!";
+			break;
+		case 5:
+			mes "Como você pode saciar sua sede no deserto seco, você pode juntar dinheiro mesmo neste mundo difícil!";
+			break;
+		case 6:
+			mes "Assim como o suco dentro das agulhas de um cacto, você ainda pode reunir riquezas, embora você possa estar angustiado. Você pode fazer isso!";
+			break;
+		case 7:// Carta Louva-a-Deus
+			mes "Agh! Alguém está atrás de suas posses! Tenha cuidado!";
+			break;
+		case 8:
+			mes "Uh oh! Alguém está atrás do seu dinheiro! Cuide bem dele!";
+			break;
+		case 9:
+			mes "Diz que você pode ficar tentado a fazer algo ruim para ganhar dinheiro! Não se esqueça de um bom coração!";
+			break;
+		case 10:// Carta Munak
+			mes "Você escondeu dinheiro em suas roupas! Escondido rico! Tenha cuidado para não ser pego!";
+			break;
+		case 11:
+			mes "No futuro, parece que você estará chutando dinheiro com seus pés como aqueles Porings! Parabéns!";
+			break;
+		case 12:
+			mes "Você deve estar exausto! Ganhar dinheiro não é a coisa mais fácil de fazer! Mas será muito mais valioso!";
+			break;
+		case 13:// Carta Santa Poring
+			mes "Sua tendência para gastar dinheiro está crescendo! Tenha cuidado! Não fique de mãos vazias!";
+			break;
+		case 14:
+			mes "Use seu dinheiro para comprar algo divertido! Então, boa sorte estará indo na sua direção!";
+			break;
+		case 15:
+			mes "Use seu dinheiro em algo excitante! Parece que a boa sorte está indo na sua direção!";
+			break;
+		case 16:// Carta Soldado Esqueleto
+			mes "Parece que você terá duas sortudas ofertas! Não perca essas duas oportunidades!";
+			break;
+		case 17:
+			mes "Não parece que deveria haver dinheiro na pequena carteira? Você terá uma pequena renda! Economize dinheiro com sabedoria!";
+			break;
+		case 18:
+			mes "Então~ abra. Perturbador, mas não se preocupe muito com dinheiro! Algo melhor deveria acontecer!";
+			break;
+		case 19:// Carta Esqueleto
+			mes "Alguém vai devolver algo que você perdeu! Que alívio!";
+			break;
+		case 20:
+			mes "Não precisa se preocupar com osteoporose! Não foi bom comer tanto cálcio? Opa! Isso não é sobre dinheiro ?!";
+			break;
+		case 21:
+			mes "Vendo que você trabalha tão duro, parece que você vai ganhar muito dinheiro! Congratz~!";
+			break;
+		case 22:// Carta Eddga
+			mes "Mesmo se você economizar dinheiro, ele desaparece como fumaça. Não fique muito envolvido com isso!";
+			break;
+		case 23:
+			mes "É difícil ganhar dinheiro, não é? Mas não se esqueça das boas ações da vida!";
+			break;
+		case 24:
+			mes "Andar por aí para coletar dinheiro pode levar você a uma pessoa assustadora! Tenha muito cuidado!";
+			break;
+		case 25:// Carta Angeling
+			mes "Esqueça o dinheiro e voe! Voe! Você se sentirá muito revigorado!";
+			break;
+		case 26:
+			mes "Dinheiro é como nuvens! Em vez de dinheiro, pense em uma vida feliz!";
+			break;
+		case 27:
+			mes "Mesmo que pareça inútil, se persistir, você poderá ganhar muito dinheiro! Você pode fazer isso!";
+			break;
+		case 28:// Carta Poring
+			mes "Não negligencie as coisas triviais no chão! Se você mantiver um coração aberto assim, você será capaz de coletar dinheiro!";
+			break;
+		case 29:
+			mes "Se você trabalha com algo que está relacionado a cogumelos ou maçãs, uma boa sorte espera por você! Que tipo de trabalho seria esse?";
+			break;
+		case 30:
+			mes "Como você pode pensar em dinheiro olhando para uma Carta tão pacífico! Isso não é legal! Fungar... abertamente! De qualquer forma, parece que você vai ganhar muita sorte!";
+			break;
+		case 31:// Carta Poporing
+			mes "Você tem muitas pedras finas! Você prosperará se você estiver envolvido nesta indústria!";
+			break;
+		case 32:
+			mes "É uma indicação de que você irá prosperar! Não precisa se preocupar agora!";
+			break;
+		case 33:
+			mes "Você irá coletar muitos tesouros! Mas o problema é proteger tudo isso!";
+			break;
+		}
+		next;
+		mes "[Chocarle]";
+		mes "Há algo que você precisa ter em mente depois de receber uma sorte sobre a riqueza!";
+		mes "O dinheiro não vem automaticamente para um sem esforço! Não importa quão boa seja a sorte, você deve trabalhar diligentemente!";
+		next;
+		cutin "",255;
+		mes "[Chocarle]";
+		mes "Tenha isso em mente! Então, até nos encontrarmos novamente... * poof *!";
+		close;
+	}
+
+L_displaycutin:
+	.@arg = getarg(0);
+	if (.@arg < 4) cutin "°í½ºÆ®¸µÄ«µå",4;		// Carta Ghostring
+	else if (.@arg < 7) cutin "µå·ÓÇÁ½ºÄ«µå",4;	// Carta Drops
+	else if (.@arg < 10) cutin "¸ÇÆ¼½ºÄ«µå",4;	// Carta Louva-a-Deus
+	else if (.@arg < 13) cutin "¹«³«Ä«µå",4;	// Carta Munak
+	else if (.@arg < 16) cutin "»êÅ¸Æ÷¸µÄ«µå",4;// Carta Santa Poring
+	else if (.@arg < 19) cutin "¼ÖÁ®½ºÄÌÅæÄ«µå",4;// Carta Soldado Esqueleto
+	else if (.@arg < 22) cutin "½ºÄÌ·¹ÅæÄ«µå",4;// Carta Esqueleto
+	else if (.@arg < 25) cutin "¿¡µå°¡Ä«µå",4;	// Carta Eddga
+	else if (.@arg < 28) cutin "¿£Á©¸µÄ«µå",4;	// Carta Angeling
+	else if (.@arg < 31) cutin "Æ÷¸µÄ«µå",4;	// Carta Poring
+	else cutin "Æ÷Æ÷¸µÄ«µå",4;					// Carta Poporing
+	return;
+}
+	
+payon_in03,118,119,1	script	Ascético	4W_F_01,2,2,{
+	mes "[Kissy-Kissy]";
+	mes "NyangNyangNyang~";
+	mes "NyaNyangNyaNyag~";
+	next;
+	mes "[Kissy-Kissy]";
+	mes "Eu decidi me tornar uma cartomante";
+	mes "quando eu era jovem e vim para a cidade";
+	mes "e me dediquei ao treinamento.";
+	mes "Eu estava em agonia por causa do meu progresso lento.";
+	next;
+	mes "[Kissy-Kissy]";
+	mes "Eu vim porque ouvi muitos";
+	mes "adivinhos se reúnirem aqui em Payon,";
+	mes "mas ninguém vai me dizer nada~";
+	mes "Queee~ triste~";
+	next;
+	mes "[Kissy-Kissy]";
+	mes "NyangNyangNyang~";
+	mes "NyaNyangNyaNyang~";
+	next;
+	mes "[Kissy-Kissy]";
+	mes "Beije-me~~";
+	close;
+
+OnTouch_:
+	mes "[Kissy-Kissy]";
+	mes "NyangNyangNyang~";
+	mes "NyaNyangNyaNyang~";
+	mes "Me beije~";
+	close;
+}

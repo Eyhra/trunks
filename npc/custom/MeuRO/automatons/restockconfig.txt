@@ -1,0 +1,292 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Restock Configurator  ===================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Restock Configurator	-1,{
+  function get_restock;
+  function get_item_fullname;
+  function get_restock_size;
+  function returnmsg;
+  function set_restock;
+  function set_restock_name;
+
+ OnInit:
+  bindatcmd "restockconfig",strnpcinfo(3)+"::OnAtCommand";
+  end;
+ OnAtCommand:
+   if(getstatus(SC_AUTORESTOCK,0)){
+      autorestock RestockId[0],RestockAmount[0],getarraysize(RestockId[0]);
+   }
+  while(1){
+    .@menu$ = "Add/Modify:";
+    if(RestockAggressive)
+      .@menu$+="Switch to Soft Restock (don't store unregistered items)";
+    else
+      .@menu$+="Switch to Hard Restock (store unregistered items)";
+    .@menu$+=":Fill storage";
+    .@menu$+=":Run @autorestock";
+    .@menu = select(.@menu$);
+    if(.@menu==1)
+      callsub S_SelectRestock;
+    else
+    if(.@menu==2){
+      RestockAggressive = (RestockAggressive+1)%2;
+    }else
+    if(.@menu==3){
+      fillstorage $@storage_fill_id,getarraysize($@storage_fill_id);
+    }else
+    if(.@menu==4){
+      useatcmd "@autorestock";
+      mes "Executing @autorestock...";
+      close;
+    }
+
+  }
+  end;
+
+ S_SelectRestock:
+  while(1){
+    .@menu$="";
+    //.@i is the restock entry index
+    .@restocklistsize = getarraysize(RestockName$);
+    for(.@i=0; .@i < .@restocklistsize; .@i++){
+      if(RestockName$[.@i]!=""){
+	if(RestockActive==.@i)
+	  .@menu$+=RestockName$[.@i] + " [ON]";
+	else
+	  .@menu$+=RestockName$[.@i];
+      }
+      .@menu$+=":";
+    }
+    .@menu$+="Add new restock:";.@newrestock=.@i++;
+    .@menu$+=returnmsg();.@returnmsg=.@i++;
+    .@r=select(.@menu$)-1;
+    if(.@r==.@returnmsg)
+      break;
+    .@menu$="";  //now menu will contain items
+    if(.@r < .@restocklistsize){
+      switch(select("Set Active:Rename:See item list:Delete "+RestockName$[.@r]+":"+returnmsg())){
+      case 1:
+	RestockActive=.@r;
+	break;
+      case 2:
+	input .@rename$;
+	set_restock_name(.@r,.@rename$);
+	break;
+      case 3:
+	callsub S_DisplayItem,.@r;
+	break;
+      case 4:
+	callsub S_ClearRestock,.@r;
+	break;
+      case 5:
+	continue;
+      }
+    }
+    if(.@r == .@newrestock){
+      .@i=0;
+      for(; .@i < .@restocklistsize; .@i++){
+	if(RestockName$[.@i]==""){
+	  RestockName$[.@i]="Restock "+(.@i + 1);
+	  callsub S_SaveItem,.@i;
+	  break;
+	}
+      }
+      if(.@i==.@restocklistsize){
+	RestockName$[.@r]="Restock "+(.@r + 1);
+	callsub S_SaveItem,.@r;
+      }
+    }
+  }
+  return;
+
+ S_DisplayItem:
+  .@r=getarg(0);
+
+  while(1){
+    .@r_item_size=get_restock_size(.@r);
+    .@menu$="";
+
+    .@i=0;
+    freeloop(1);
+    for(; .@i < .@r_item_size;.@i++){
+      .@id = get_restock("Id",.@r,.@i);
+      if(.@id){
+	.@menu$+=get_item_fullname(.@r,.@i);
+	.@location = getiteminfo(.@id,ITEMINFO_LOCATIONS);
+	if(.@location == 0 || .@location == EQP_AMMO)
+	  .@menu$+=" x" + get_restock("Amount",.@r,.@i);
+      }
+      .@menu$+=":";
+    }
+    freeloop(0);
+    .@menu$+=returnmsg()+":";.@return=.@i++;
+    .@select=select(.@menu$)-1;
+    if(.@select == .@return){
+      break;
+    }
+    .@location = getiteminfo(get_restock("Id",.@r,.@select),ITEMINFO_LOCATIONS);
+    if(.@location == 0 || .@location == EQP_AMMO)
+      input .@newamount;
+    else
+      .@newamount = 0;
+    if(.@newamount > 0){
+      set_restock "Amount",.@r,.@select,.@newamount;
+      dispbottom get_item_fullname(.@r,.@select) + " set to "+.@newamount;
+    }
+    else if(select("Confirm remove "+get_item_fullname(.@r,.@select)+":"+returnmsg())==1)
+      callsub S_ClearItem,.@r,.@select;
+
+  }
+  return;
+
+ S_SaveItem:
+  .@r = getarg(0);
+  getinventorylist();
+  freeloop(1);
+  for(.@i=0;.@i < @inventorylist_count; .@i++){
+
+    .@itemid=@inventorylist_id[.@i];
+    if(.@itemid <= 0 || .@itemid >= 40000|| @inventorylist_tradable[.@i] == 0)
+      continue;
+    set_restock("Id",.@r,.@i,.@itemid);
+    set_restock("Amount",.@r,.@i,@inventorylist_amount[.@i]);
+    set_restock("Equip",.@r,.@i,@inventorylist_equip[.@i]);
+    set_restock("Refine",.@r,.@i,@inventorylist_refine[.@i]);
+    for(.@c = 0; .@c < 4; ++.@c){
+      .@carddbid=getd("@inventorylist_card"+(.@c+1)+"["+.@i+"]");
+      if(.@carddbid)
+	set_restock("Card",.@r,.@i,.@c,.@carddbid);
+    }
+
+  }
+  freeloop(0);
+  return;
+
+ S_ClearItem:
+  .@r = getarg(0);
+  .@i = getarg(1);
+  .@display=getarg(2,1);
+  .@name$=get_item_fullname(.@r,.@i);
+  set_restock("Id",.@r,.@i,0);
+  set_restock("Amount",.@r,.@i,0);
+  set_restock("Equip",.@r,.@i,0);
+  for(.@j = 0; .@j < 4; ++.@j)
+    set_restock("Card",.@r,.@i,.@j,0);
+  if(.@display)
+    dispbottom "Cleared item "+.@name$;
+  return;
+
+ S_ClearRestock:
+  .@r = getarg(0);
+  .@size = get_restock_size(.@r);
+  .@name$=RestockName$[.@r];
+  RestockName$[.@r]="";
+  freeloop(1);
+  for(.@i = 0; .@i < .@size;.@i++){
+    callsub S_ClearItem,.@r,.@i,0;
+  }
+  freeloop(0);
+  if(RestockActive==.@r)
+    RestockActive=0;
+  dispbottom "Cleared "+ .@name$;
+  return;
+
+end;
+
+  function get_restock{
+    .@type$ = getarg(0);
+    .@restockid = getarg(1);
+    .@itemindex=getarg(2);
+    if(.@type$ == "Card"){
+      .@card=getarg(3);
+      return getd("Restock"+.@type$ +.@restockid+"_"+.@card+"["+.@itemindex+"]");
+    }
+    else
+      return getd("Restock"+.@type$+.@restockid+"["+.@itemindex+"]");
+  }
+  function set_restock{
+    .@type$ = getarg(0);
+    .@restockid = getarg(1);
+    .@itemindex=getarg(2);
+    if(.@type$ == "Card"){
+      .@card=getarg(3,0);
+      .@value=getarg(4,0);
+      setd "Restock"+.@type$+.@restockid+"_"+.@card+"["+.@itemindex+"]",.@value;
+    }else{
+      .@value=getarg(3,0);
+      setd "Restock"+.@type$+.@restockid+"["+.@itemindex+"]", .@value;
+    }
+  }
+
+
+  function set_restock_name{
+    .@r = getarg(0);
+    .@name$=getarg(1);
+    RestockName$[.@r]=.@name$;
+  }
+  function get_restock_size{
+    .@restockid = getarg(0);
+    return getarraysize(getd("RestockId"+.@restockid));
+  }
+  function get_item_fullname{
+    .@restockid=getarg(0);
+    .@itemindex=getarg(1);
+    .@itemid=get_restock("Id",.@restockid,.@itemindex);
+    .@equip=get_restock("Equip",.@restockid,.@itemindex);
+    if(.@equip>0)
+      .@name$="(E)";
+    .@name$+=getitemname(.@itemid);
+    .@slots=getitemslots(.@itemid);
+
+
+    if(.@slots>0){
+      .@card=get_restock("Card",.@restockid,.@itemindex,0);
+      if(.@card){
+	for(.@j = 0; .@j < .@slots; ++.@j){
+	  .@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	  if(.@card)
+	    .@name$+="["+getitemname(.@card)+"]";
+	  else
+	    .@name$+="[]";
+	}
+	for(.@j = .@slots; .@j < 4; ++.@j){ // For enchants
+	  .@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	  if(.@card)
+	    .@name$+="["+getitemname(.@card)+"]";
+	}
+      }else
+	.@name$+="["+.@slots+"]";
+    }
+    else{ // For any other socketed things on non socketed items
+      for(.@j = 0; .@j < 4; ++.@j){
+	  .@card=get_restock("Card",.@restockid,.@itemindex,.@j);
+	  if(.@card)
+	    .@name$+="["+getitemname(.@card)+"]";
+	}
+    }
+    return .@name$;
+  }
+
+  function returnmsg{
+    return "<-- Previous menu";
+
+  }
+
+}

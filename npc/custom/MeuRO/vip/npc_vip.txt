@@ -1,0 +1,127 @@
+prontera,149,185,5	script	Central VIP	4_exjob_gerhold,{
+	cutin "ex_nw_gerhold",2;
+OnTalk:
+	mes .npc$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000 !";
+	mes "Bem-vindo a Central VIP.";
+	if (vip_status(1)) {
+		mes "^008affSeu acesso VIP expira em " + callfunc("Time2Str",vip_status(2)) + ".^000000";
+		mes " ";		
+	}
+	mes "Em que posso ajudar?";
+	next;
+	switch (select(.bcor$+"Desejo ir a Central VIP.",""+((vip_status(1))?""+.bcor$+"Desejo extender meu tempo ^008affVIP^000000.":""+.bcor$+"Desejo me tornar um jogador ^008affVIP^000000."),""+.rcor$+"Não quero nada.")){
+		case 1:
+			if (!vip_status(1) ) {
+				mes .npc$;
+				mes "Desculpe! O Acesso a Central VIP é permitido somente a jogadores ^008affVIP^000000.";
+				mes "-----------------------------------";
+				mes "Visite nosso site e saiba como se tornar um jogador ^008affVIP^000000.";
+				mes "-----------------------------------";
+				close3;
+			}
+			warp .map$,.cord[0],.cord[1];
+			end;
+		case 2:
+			mes .npc$;
+			mes "Quantos dias de acesso ^008affVIP^000000 você deseja adquirir?";
+			next;
+			.@i = select(
+				.bcor$+""+.vip_day[0] + " Dias."
+				,.bcor$+""+.vip_day[1] + " Dias."
+				,.bcor$+""+.vip_day[2] + " Dias."
+				) - 1;
+				
+			mes .npc$;
+			mes "Você escolheu o plano de:";
+			mes "^4527A0VIP:^000000 "+.vip_day[.@i]+" Dias VIP.";
+			mes "^4527A0Preço:^000000 "+F_InsertComma(.vip_cashpoint[.@i])+" #CASHPOINTS.";
+			sleep2 2000;
+			mes " ";
+			mes " ";
+			mes "O que deseja fazer?";
+			next;
+			switch(select(.bcor$+"Comprar:"+.rcor$+"Cancelar")){
+				case 1:
+					if ( #CASHPOINTS < .vip_cashpoint[.@i] ) {
+					mes .npc$;
+					mes "Você não possui a quantidade de ^008aff"+F_InsertComma(.vip_cashpoint[.@i])+" #CASHPOINTS^000000.";
+					close3;
+				}
+				else {
+					#CASHPOINTS -= .vip_cashpoint[.@i];
+					vip_time (.vip_day[.@i] * 1440);
+					mes .npc$;
+					mes "Parabéns você acaba de adquirir "+.vip_day[.@i]+" dias VIP.";
+					close3;
+				}
+				end;
+				case 2:
+					mes .npc$;
+					mes "Tudo bem, volte sempre que quiser.";
+					close3;
+			}
+
+		case 3:
+			close3;
+	}
+
+OnInit:
+	.@UID = getnpcid(0);
+	setunittitle(.@UID, "Van");
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	.npc$ = "^FF7F00[ Central VIP ]^000000";						// Nome do NPC;
+	.bcor$ = "^008aff[»]^000000 ";									// Simbolo do botão de opções;
+	.rcor$ = "^ff0000[»]^000000 ";									// Simbolo do botão de Cancelar;
+	setarray .vip_day,7,14,30;										// Quantidade de dias que poderá ser comprado;
+	setarray .vip_cashpoint,8000,15000,25000;						// Preço em #CASHPOINTS;
+	.map$ = "mall_aretno";											// Mapa da Sala Vip
+	setarray .cord,99,78;											// Coordenada X e Y;
+	end;
+}
+
+function	script	f_vip_ticket	{
+	set .@f, getarg(0);
+	set .@v, getarg(1);
+	set .@charname$, getarg(2);
+	set .@type, .@v < 0;
+	setarray .@formats$[0], "y", "m", "d", "h", "n", "s";
+	setarray .@ntype$[0], "anos", "meses", "dias", "horas", "minutos", "segundos";
+	atcommand "@vip " + (.@type?"-":"+") +.@v+ .@formats$[.@f]+" " + .@charname$;
+	return;
+}
+
+// Duplicates entrada
+morocc,154,90,5	duplicate(Central VIP)	Central VIP#moc	4_exjob_gerhold
+geffen,113,64,5	duplicate(Central VIP)	Central VIP#gef	4_exjob_gerhold
+payon,183,100,4	duplicate(Central VIP)	Central VIP#pay	4_exjob_gerhold
+alberta,195,137,4	duplicate(Central VIP)	Central VIP#alb	4_exjob_gerhold
+izlude,123,142,5	duplicate(Central VIP)	Central VIP#izl	4_exjob_gerhold
+aldebaran,145,114,4	duplicate(Central VIP)	Central VIP#ald	4_exjob_gerhold
+//lutie,144,131,5	duplicate(Central VIP)	Central VIP#lut	4_exjob_gerhold
+comodo,193,145,5	duplicate(Central VIP)	Central VIP#com	4_exjob_gerhold
+yuno,151,87,5	duplicate(Central VIP)	Central VIP#yun	4_exjob_gerhold
+amatsu,195,95,5	duplicate(Central VIP)	Central VIP#ama	4_exjob_gerhold
+gonryun,154,117,5	duplicate(Central VIP)	Central VIP#gon	4_exjob_gerhold
+umbala,95,159,4	duplicate(Central VIP)	Central VIP#umb	4_exjob_gerhold
+niflheim,29,162,4	duplicate(Central VIP)	Central VIP#nif	4_exjob_gerhold
+louyang,212,64,5	duplicate(Central VIP)	Central VIP#lou	4_exjob_gerhold
+jawaii,243,144,4	duplicate(Central VIP)	Central VIP#jaw	4_exjob_gerhold
+ayothaya,144,121,4	duplicate(Central VIP)	Central VIP#ayo	4_exjob_gerhold
+einbroch,57,198,4	duplicate(Central VIP)	Central VIP#ein	4_exjob_gerhold
+lighthalzen,166,101,4	duplicate(Central VIP)	Central VIP#lhz	4_exjob_gerhold
+einbech,67,98,4	duplicate(Central VIP)	Central VIP#ech	4_exjob_gerhold
+hugel,102,147,4	duplicate(Central VIP)	Central VIP#hug	4_exjob_gerhold
+rachel,124,116,4	duplicate(Central VIP)	Central VIP#rac	4_exjob_gerhold
+veins,224,128,4	duplicate(Central VIP)	Central VIP#vei	4_exjob_gerhold
+moscovia,218,189,4	duplicate(Central VIP)	Central VIP#mos	4_exjob_gerhold
+mid_camp,187,247,4	duplicate(Central VIP)	Central VIP#mid	4_exjob_gerhold
+manuk,270,142,4	duplicate(Central VIP)	Central VIP#man	4_exjob_gerhold
+splendide,192,182,4	duplicate(Central VIP)	Central VIP#spl	4_exjob_gerhold
+brasilis,179,243,4	duplicate(Central VIP)	Central VIP#bra	4_exjob_gerhold
+
+// Portais saída
+mall_aretno,95,70,0	warp	vip001	1,1,prontera,151,186
+mall_aretno,98,70,0	warp	vip002	1,1,prontera,151,186
+mall_aretno,101,70,0	warp	vip003	1,1,prontera,151,186
+mall_aretno,104,70,0	warp	vip004	1,1,prontera,151,186

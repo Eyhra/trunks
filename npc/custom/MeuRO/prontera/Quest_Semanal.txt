@@ -1,0 +1,268 @@
+//=================== Loki Scripts ========================================
+//=     _           _    _     _____           _       _       
+//=    | |         | |  (_)   / ____|         (_)     | |      
+//=    | |     ___ | | ___   | (___   ___ _ __ _ _ __ | |_ ___ 
+//=    | |    / _ \| |/ / |   \___ \ / __| '__| | '_ \| __/ __|
+//=    | |___| (_) |   <| |   ____) | (__| |  | | |_) | |_\__ \
+//=    |______\___/|_|\_\_|  |_____/ \___|_|  |_| .__/ \__|___/
+//=                                             | |            
+//=                                             |_|            
+//================= Licença ===============================================
+//= Não venda ou repasse esse arquivo sem autorização.
+//=========================================================================
+// Quest Semanal
+//=========================================================================
+
+// NPC Principal
+prontera,156,170,4	script	Quest Semanal#1	2_SLOT_MACHINE,{
+
+callfunc "qsshop";
+
+OnInit:
+.ChatSemanal = 1; 			// mostrar ou não o chat em cima do npc [0 Desligado - 1 Ligado]
+	if (.ChatSemanal)
+		waitingroom "Quest Semanal",0,"",0;               // Balão com nome do NPC.
+	end;
+}	
+//============================================================
+
+
+// Script Core - DO NOT DUPLICATE THIS NPC !!!!!!!!!!!!!
+//============================================================
+-	script	qsemanal_shop	-1,{
+function qsAdd; function qsChk; function qsSlot;
+OnInit:
+	freeloop(1);
+
+// -----------------------------------------------------------
+//  Basic shop settings.
+// -----------------------------------------------------------
+
+	set .Announce,1;	// Announce quest completion? (1: yes / 0: no)
+	set .ShowqsSlot,1;	// Show item slots? (2: all equipment / 1: if slots > 0 / 0: never)
+	set .ShowID,1;  	// Show item IDs? (1: yes / 0: no)
+	set .ShowZeny,1;	// Show Zeny cost, if any? (1: yes / 0: no)
+	set .MaxStack,100;	// Max number of quest items purchased at one time.
+    set .EasyMode, 5000; // Valor de Cash para comprar o modo fácil
+
+// -----------------------------------------------------------
+//  Points variable -- optional quest requirement.
+//	setarray .Points$[0],"<variable name>","<display name>";
+// -----------------------------------------------------------
+
+	setarray .Points$[0],
+		"#CASHPOINTS", "Cash Points";
+
+    setarray .Shops$[1],
+		"Quest Semana 1",
+		"Quest Semana 2",
+		"Quest Semana 3",
+        "Quest Semana 4",
+        "Comprar modo fácil";
+
+// -----------------------------------------------------------
+//  Quest items -- do NOT use a reward item more than once!
+//	qsAdd(<shop ID>,<reward ID>,<reward amount>,
+//	    <Zeny cost>,<point cost>,
+//	    <required item ID>,<required item amount>{,...});
+// -----------------------------------------------------------
+
+// Semana 1
+	qsAdd(1,5022,1,1000,0,7086,1,969,10,999,40,1003,50,984,2);
+// Semana 1 modo fácil
+	qsAdd(5,5022,1,0,0,7086,1,969,1,999,1,1003,1,984,1);
+
+// Semana 2
+	qsAdd(2,5032,1,1000,0,1059,250,2221,1,2227,1,7063,600);
+// Semana 2 modo fácil
+	qsAdd(6,5032,1,0,0,1059,1,2221,1,2227,1,7063,1);
+
+// Semana 3
+    qsAdd(3,5027,1,1000,0,2252,1,1036,400,7001,50,4052,1);
+// Semana 3 modo fácil
+    qsAdd(7,5027,1,0,0,2252,1,1036,1,7001,1,4052,1);
+
+// Semana 4
+    qsAdd(4,5045,1,1000,0,2252,1,1054,450,943,1200);
+// Semana 4 modo fácil
+    qsAdd(8,5045,1,0,0,2252,1,1054,1,943,1);
+
+// -----------------------------------------------------------
+
+	freeloop(0);
+	for(set .@i,1; .@i<=(getarraysize(.Shops$)*2); set .@i,.@i+1) {
+		npcshopdelitem "qsshop"+.@i,909;
+	}
+	end;
+
+OnMenu:
+    .@dia = gettime(DT_DAYOFMONTH);
+    if(.@dia <= 7){
+        .semana = 1;
+    }else if(.@dia > 7 && .@dia <= 14){
+        .semana = 2;
+    }else if(.@dia > 14 && .@dia <= 21){
+        .semana = 3;
+    }else if(.@dia > 21){
+        .semana = 4;
+    }
+    mes "[Quest Semanal]";
+    mes "Hoje é dia "+.@dia+".";
+    mes "Estamos atualmente na semana "+.semana+".";
+    if(@qs_easy[.semana] == 1)
+        mes "Modo fácil: ^28bf00ativado^000000";
+    else
+        mes "Modo fácil: ^ff0000desativado^000000";
+    next;
+	.@s = select(.Shops$[.semana]+":"+.Shops$[5]);
+    if(.@s == 2){
+        mes "[Quest Semanal]";
+        mes "Você pode ativar o modo fácil pagando ^0000ff"+.EasyMode+"^000000 Cash, para deixar as quests da semana mais fáceis, o que me diz?";
+        next;
+        if(select("Sim:Não") == 2)close;
+        mes "[Quest Semanal]";
+        if(#CASHPOINTS < .EasyMode){
+            mes "Você não possui ^0000ff"+.EasyMode+"^000000 Cash.";
+            close;
+        }
+        #CASHPOINTS -= .EasyMode;
+        mes "Modo fácil ativado.";
+        @qs_easy[.semana] = 1;
+        close;
+    }
+    if(@qs_easy[.semana] == 1)
+        @shop_index = .semana + 4;
+    else{
+        @shop_index = .semana;
+        if(.semana == 1)
+            .@ultimo = 4;
+        else
+            .@ultimo = .semana - 1;
+        @qs_easy[.@ultimo] = 0;
+    }
+	deletearray @i[0],getarraysize(@i);
+	dispbottom "Selecione um item por vez.";
+	callshop "qsshop"+@shop_index,1;
+	npcshopattach "qsshop"+@shop_index;
+	end;
+
+OnBuyItem:
+	// .@q[] : RewardID, BoughtAmt, RewardAmt, BaseAmt, ReqZeny, ReqPts, { ReqItem, ReqAmt, ... }
+	setarray .@q[0],@bought_nameid[0],((@bought_quantity[0] > .MaxStack)?.MaxStack:@bought_quantity[0]);
+	copyarray .@q[3],getd(".q_"+@shop_index+"_"+.@q[0]+"[0]"),getarraysize(getd(".q_"+@shop_index+"_"+.@q[0]));
+	set .@q[2],.@q[1]*.@q[3];
+	if (!.@q[2] || .@q[2] > 30000) {
+		message strcharinfo(0),"Você não pode comprar tantos "+getitemname(.@q[0])+".";
+		end;
+	}
+	mes "[Quest Semanal]";
+	mes "Recompensa: ^0055FF"+((.@q[2] > 1)?.@q[2]+"x ":"")+qsSlot(.@q[0])+"^000000";
+	mes "Requisitos:";
+	disable_items;
+	if (.@q[4]) mes "> "+qsChk(Zeny,.@q[4]*.@q[1])+(.@q[4]*.@q[1])+" Zeny^000000";
+    if (.@q[5]) mes "> "+qsChk(getd(.Points$[0]),.@q[5]*.@q[1])+(.@q[5]*.@q[1])+" "+.Points$[1]+" ("+getd(.Points$[0])+"/"+(.@q[5]*.@q[1])+")^000000";
+    if (.@q[6]) for(set .@i,6; .@i<getarraysize(.@q); set .@i,.@i+2)
+        mes "> "+qsChk(countitem(.@q[.@i]),.@q[.@i+1]*.@q[1])+((.ShowID)?"{"+.@q[.@i]+"} ":"")+qsSlot(.@q[.@i])+" ("+countitem(.@q[.@i])+"/"+(.@q[.@i+1]*.@q[1])+")^000000";
+	next;
+	setarray @qe[1], getiteminfo(.@q[0], ITEMINFO_LOCATIONS), getiteminfo(.@q[0], ITEMINFO_VIEW);
+	if (@qe[2] > 0 && ((@qe[1] & EQP_HEAD_LOW) || (@qe[1] & EQP_HEAD_TOP) || (@qe[1] & EQP_HEAD_MID) || (@qe[1] & EQP_COSTUME_HEAD_TOP) || (@qe[1] & EQP_COSTUME_HEAD_MID) || (@qe[1] & EQP_COSTUME_HEAD_LOW) || (@qe[1] & EQP_GARMENT) || (@qe[1] & EQP_COSTUME_GARMENT)))
+		set .@preview,1;
+	addtimer 1000, strnpcinfo(0)+"::OnEnd";
+	while(1) {
+		switch(select(" ~ Criar ^0055FF"+getitemname(.@q[0])+"^000000:"+((.@preview && !@qe[7])?" ~ Prever...":"")+": ~ ^777777Cancelar^000000")) {
+		case 1:
+			if (@qe[0]) {
+				mes "[Quest Semanal]";
+				mes "Está faltando um ou mais requisitos dessa missão.";
+				close;
+			}
+			if (!checkweight(.@q[0],.@q[2])) {
+				mes "[Quest Semanal]";
+				mes "^FF0000Você precisa de "+(((.@q[2]*getiteminfo(.@q[0], ITEMINFO_WEIGHT))+Weight-MaxWeight)/10)+" capacidade de carga adicional para completar esta quest.^000000";
+				close;
+			}
+			if (.@q[4]) set Zeny, Zeny-(.@q[4]*.@q[1]);
+			if (.@q[5]) setd .Points$[0], getd(.Points$[0])-(.@q[5]*.@q[1]);
+			if (.@q[6]) for(set .@i,6; .@i<getarraysize(.@q); set .@i,.@i+2)
+				delitem .@q[.@i],.@q[.@i+1]*.@q[1];
+			getitem .@q[0],.@q[2];
+			if (.Announce) announce strcharinfo(0)+" criou "+((.@q[2] > 1)?.@q[2]+"x "+getitemname(.@q[0]):callfunc("F_InsertArticle",getitemname(.@q[0])))+"!",0;
+			specialeffect2 EF_FLOWERLEAF;
+			close;
+		case 2:
+			setarray @qe[3], getlook(LOOK_HEAD_BOTTOM), getlook(LOOK_HEAD_TOP), getlook(LOOK_HEAD_MID), getlook(LOOK_ROBE), 1;
+			if ((@qe[1] & 1) || (@qe[1] & 4096)) changelook LOOK_HEAD_BOTTOM, @qe[2];
+			else if ((@qe[1] & 256) || (@qe[1] & 1024)) changelook LOOK_HEAD_TOP, @qe[2];
+			else if ((@qe[1] & 512) || (@qe[1] & 2048)) changelook LOOK_HEAD_MID, @qe[2];
+			else if ((@qe[1] & 4) || (@qe[1] & 8192)) changelook LOOK_ROBE, @qe[2];
+			break;
+		case 3:
+			close;
+		}
+	}
+
+OnEnd:
+	if (@qe[7]) {
+		changelook LOOK_HEAD_BOTTOM, @qe[3];
+		changelook LOOK_HEAD_TOP, @qe[4];
+		changelook LOOK_HEAD_MID, @qe[5];
+		changelook LOOK_ROBE, @qe[6];
+	}
+	deletearray @qe[0],8;
+	end;
+
+function qsAdd {
+	if (getitemname(getarg(1)) == "null") {
+		debugmes "Quest reward #"+getarg(1)+" invalid (skipped).";
+		return;
+	}
+	setarray .@j[0],getarg(2),getarg(3),getarg(4);
+	for(set .@i,5; .@i<getargcount(); set .@i,.@i+2) {
+		if (getitemname(getarg(.@i)) == "null") {
+			debugmes "Quest requirement #"+getarg(.@i)+" invalid (skipped).";
+			return;
+		} else
+			setarray .@j[.@i-2],getarg(.@i),getarg(.@i+1);
+	}
+	copyarray getd(".q_"+getarg(0)+"_"+getarg(1)+"[0]"),.@j[0],getarraysize(.@j);
+	npcshopadditem "qsshop"+getarg(0),getarg(1),((.ShowZeny)?getarg(3):0);
+	return;
+}
+
+function qsChk {
+	if (getarg(0) < getarg(1)) {
+		set @qe[0],1;
+		return "^FF0000";
+	} else
+		return "^28bf00";
+}
+
+function qsSlot {
+	set .@s$,getitemname(getarg(0));
+	switch(.ShowqsSlot) {
+		case 1: if (!getitemslots(getarg(0))) return .@s$;
+		case 2: if (getiteminfo(getarg(0), ITEMINFO_TYPE) == 4 || getiteminfo(getarg(0), ITEMINFO_TYPE) == 5) return .@s$+" ["+getitemslots(getarg(0))+"]";
+		default: return .@s$;
+	}
+}
+}
+
+function	script	qsshop	{
+	deletearray @i[0],getarraysize(@i);
+	for(set .@i,0; .@i<getargcount(); set .@i,.@i+1)
+		set @i[.@i],getarg(.@i);
+	doevent "qsemanal_shop::OnMenu";
+	end;
+}
+
+
+// Dummy shop data -- copy as needed.
+//============================================================
+-	shop	qsshop1	-1,909:-1
+-	shop	qsshop2	-1,909:-1
+-	shop	qsshop3	-1,909:-1
+-	shop	qsshop4	-1,909:-1
+-	shop	qsshop5	-1,909:-1
+-	shop	qsshop6	-1,909:-1
+-	shop	qsshop7	-1,909:-1
+-	shop	qsshop8	-1,909:-1

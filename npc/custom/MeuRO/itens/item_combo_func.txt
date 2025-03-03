@@ -1,0 +1,8 @@
+function	script	f_elmo_satanico	{
+
+	.@arme = getiteminfo(getequipid(EQI_HAND_R),	ITEMINFO_VIEW);
+	
+	if(.@arme == W_DAGGER || .@arme == W_1HSWORD || .@arme == W_1HAXE )	{
+	   bonus bInt,99;
+	}
+}

@@ -1,0 +1,126 @@
+###########################################################################
+# Job bonus Database
+###########################################################################
+#
+# Job bonus Settings
+#
+###########################################################################
+# - Job : Use constant JOB_* from src/map/script_constants.hpp
+#   Script : Script like used for items
+#
+#   OR
+#
+# - Char : Put a char ID to give him specials bonus
+#   Script : Script like used for items
+#
+#   OR
+#
+# - Account : Put an account ID to give to all his chars specials bonus
+#   Script : Script like used for items
+###########################################################################
+
+Header:
+  Type: JOB_BONUS
+  Version: 1
+
+Body:
+#   For all jobs
+  - Id: 0
+    Job: All
+    Script: |
+      bonus bSpeedRate,25;
+#   For choosen jobs
+  - Id: 1
+    Job: JOB_SUPER_NOVICE
+    Script: |
+      bonus bMaxHP,30000;
+      bonus bMaxHPrate,20;
+      skill "PF_DOUBLECASTING",5;
+  - Id: 2
+    Job: JOB_LORD_KNIGHT
+    Script: |
+      bonus bSpeedRate,2;
+      skill "RK_DRAGONTRAINING",5;
+      bonus2 bSkillAtk,"KN_BRANDISHSPEAR",200;
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",-25;
+      bonus2 bSkillAtk,"LK_SPIRALPIERCE",175;
+  - Id: 3
+    Job: JOB_SNIPER
+    Script: |
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_BOW) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+  - Id: 4
+    Job: JOB_STALKER
+    Script: |
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_BOW) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+  - Id: 5
+    Job: JOB_ASSASSIN_CROSS
+    Script: |
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_DAGGER) {
+          bonus2 bSubRace,RC_DemiHuman,25;
+          bonus2 bSubRace,RC_Player_Human,25;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_1HSWORD) {
+          bonus2 bSubRace,RC_DemiHuman,25;
+          bonus2 bSubRace,RC_Player_Human,25;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_1HAXE) {
+          bonus2 bSubRace,RC_DemiHuman,25;
+          bonus2 bSubRace,RC_Player_Human,25;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_KATAR) {
+          bonus2 bSubRace,RC_DemiHuman,25;
+          bonus2 bSubRace,RC_Player_Human,25;
+      }
+  - Id: 6
+    Job: JOB_HIGH_PRIEST
+    Script: |
+      skill "AB_CLEMENTIA",3;
+      skill "AB_CANTO",3;
+      skill "AB_CHEAL",3;
+  - Id: 7
+    Job: JOB_GUNSLINGER
+    Script: |
+      bonus bMaxHPrate,20;
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_REVOLVER) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_RIFLE) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_SHOTGUN) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+      if (getiteminfo(getequipid(EQI_HAND_L), ITEMINFO_VIEW) == W_GATLING) {
+          bonus2 bSubRace,RC_DemiHuman,30;
+          bonus2 bSubRace,RC_Player_Human,30;
+      }
+  - Id: 8
+    Job: JOB_CHAMPION
+    Script: |
+      skill "SR_FLASHCOMBO",5;
+  - Id: 9
+    Job: JOB_HIGH_WIZARD
+    Script: |
+      bonus bMaxHPrate,30;
+  - Id: 10
+    Job: JOB_NINJA
+    Script: |
+      bonus bMaxHPrate,20;
+  - Id: 11
+    Job: JOB_STAR_GLADIATOR
+    Script: |
+      bonus bMaxHPrate,20;
+  - Id: 12
+    Job: JOB_SOUL_LINKER
+    Script: |
+      bonus bMaxHPrate,20;
+      

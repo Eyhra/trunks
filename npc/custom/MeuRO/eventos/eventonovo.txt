@@ -1,0 +1,60 @@
+prontera,1,1,4	script	#1	 HIDDEN_WARP_NPC,{
+end;
+	
+OnTouch:
+
+	set @randeffect,rand(5);
+		if(@randeffect==0){
+			sc_start SC_FREEZE,5000,0;
+			end;
+		}
+		if(@randeffect==1){
+			sc_start SC_SLEEP,5000,0;
+			sc_start SC_CONFUSION,5000,0;
+			end;
+		}
+		if(@randeffect==2){
+			sc_start SC_STONE,5000,0;
+			end;
+		}
+		if(@randeffect==3){
+			sc_start SC_SPEEDUP1,5000,50;
+			end;
+		}
+		if(@randeffect==4){
+			sc_start SC_DECREASEAGI,5000,50;
+			end;
+		}
+end;
+
+OnInit:
+setunitdata getnpcid(0),UNPC_AURA,1068;
+
+	while(1) {
+		//set .@posxmin, 112;
+		//set .@posxmax, 127;
+		//set .@posymin, 114;
+		//set .@posymax, 121;
+		//set .@posxmin, 192;
+		//set .@posxmax, 200;
+		//set .@posymin, 130;
+		//set .@posymax, 140;
+	npcspeed 80;
+	npcwalkto 119,121;
+	//npcwalkto rand(.@posxmin, .@posxmax), rand(.@posymin, .@posymax);
+	sleep 2000;
+	npcwalkto 127,114;
+	sleep 2000;
+	npcwalkto 135,121;
+	sleep 2000;
+	npcwalkto 127,114;
+	sleep 2000;
+	npcwalkto 119,121;
+	sleep 2000;
+	npcwalkto 112,114;
+	sleep 2000;
+	}
+end;
+}
+
+prontera,112,114,0	duplicate(#1)	#2	HIDDEN_NPC,1,1

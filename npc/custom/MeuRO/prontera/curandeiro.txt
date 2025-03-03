@@ -1,0 +1,63 @@
+//////////////////////////////////////////
+//Script by Unna
+//29/05/2022
+//Curandeiro + Buff Aproximação
+//////////////////////////////////////////
+
+prontera,153,190,4	script	Curandeira#prt	4_EP18_MARK,5,5,{
+goto OnTouch;
+
+OnTouch:
+set .Delay,3; //define tempo de delay
+
+if ( Curandeira > gettimetick(2) ) {
+        dispbottom "[ Curandeira ] : Aguarde "+ callfunc("Time2Str",Curandeira)+" para acessar a Curandeira Novamente novamente.";
+        end;
+}
+while( .@i < .sc_size ){
+	sc_end .sc_status[.@i];
+	set .@i,.@i + 1;
+}
+if(getgroupid() >= 5 ){  // para membros Vip
+sc_start SC_BLESSING,.buff_duration,7;
+sc_start SC_INCREASEAGI,.buff_duration,7;
+//sc_start SC_ATKPOTION,.buff_duration,10;
+//sc_start SC_MATKPOTION,.buff_duration,10;
+//sc_start SC_STRFOOD,.buff_duration,10;
+//sc_start SC_AGIFOOD,.buff_duration,10;
+//sc_start SC_INTFOOD,.buff_duration,10;
+//sc_start SC_DEXFOOD,.buff_duration,10;
+//sc_start SC_LUKFOOD,.buff_duration,10;
+//sc_start SC_VITFOOD,.buff_duration,10;
+
+percentheal 100,100;
+specialeffect2 805;
+specialeffect2 312;
+specialeffect2 42;
+specialeffect2 37;
+if(.Delay) set Curandeira,gettimetick(2)+.Delay;
+}
+if(getgroupid() <= 5 ){ // para membros Normais
+//sc_start SC_BLESSING,.buff_duration,10;
+//sc_start SC_INCREASEAGI,.buff_duration,10;
+
+percentheal 100,100;
+specialeffect2 312;
+specialeffect2 42;
+specialeffect2 37;
+if(.Delay) set Curandeira,gettimetick(2)+.Delay;
+}
+while( getbrokenid(1) )
+	// repair getbrokenid(1);
+	repairall;
+	 // atcommand "@repairall";
+OnInit:
+set .buff_duration,600000;
+setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+setarray .sc_status,
+	SC_STONE,SC_FREEZE,SC_STUN,SC_SLEEP,SC_POISON,SC_CURSE,SC_SILENCE,SC_CONFUSION,SC_BLIND,SC_BLEEDING,
+	SC_QUAGMIRE,SC_AETERNA,SC_HALLUCINATION,SC_SLOWDOWN,SC_BERSERK,SC_CHANGEUNDEAD,
+	SC_STRIPWEAPON,SC_STRIPSHIELD,SC_STRIPARMOR,SC_STRIPHELM;	
+set .sc_size,getarraysize( .sc_status );
+end;
+}

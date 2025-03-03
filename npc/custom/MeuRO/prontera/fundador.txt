@@ -1,0 +1,111 @@
+function	script	F_HELM	{
+	set .np$,"^00B2EE[ Anfitrião Hawkiano ]^000000";
+	cutin "16jur_nor",2;
+	setarray .@helm_f, itemselectmenu(750588,750589,750590);
+	next;
+	mes .np$;
+	mes "Você escolheu o item ^3CB371"+getitemname(.@helm_f)+"^000000, está certo disso?";
+	sleep2 200;
+	switch(select("^3CB371[»]^000000 Sim, tenho certeza:^ff0000[»]^000000 Não, me deixe escolher novamente")) {
+		case 1:
+			next;
+			mes .np$;
+			mes "Aqui está o seu ^3CB371"+getitemname(.@helm_f)+"^000000!";
+			if ( .@helm_f == 750588) {
+			delitem 750585,1;
+			getitem .@helm_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@helm_f == 750589) {
+			delitem 750585,1;
+			getitem .@helm_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@helm_f == 750590) {
+			delitem 750585,1;
+			getitem .@helm_f,1;
+			sleep2 200;
+			close3;
+			}
+			next;
+			callfunc "F_HELM";
+		case 2:
+			next;
+			callfunc "F_HELM";
+	}
+	end;
+}
+function	script	F_MOUT	{
+	set .np$,"^00B2EE[ Anfitrião Hawkiano ]^000000";
+	cutin "16jur_nor",2;
+	setarray .@mout_f, itemselectmenu(31625,750134,750193);
+	next;
+	mes .np$;
+	mes "Você escolheu o item ^3CB371"+getitemname(.@mout_f)+"^000000, está certo disso?";
+	sleep2 200;
+	switch(select("^3CB371[»]^000000 Sim, tenho certeza:^ff0000[»]^000000 Não, me deixe escolher novamente")) {
+		case 1:
+			next;
+			mes .np$;
+			mes "Aqui está o seu ^3CB371"+getitemname(.@mout_f)+"^000000!";
+			if ( .@mout_f == 31625) {
+			delitem 50033,1;
+			getitem .@mout_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@mout_f == 750134) {
+			delitem 50033,1;
+			getitem .@mout_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@mout_f == 750193) {
+			delitem 50033,1;
+			getitem .@mout_f,1;
+			sleep2 200;
+			close3;
+			}
+			next;
+			callfunc "F_MOUT";
+		case 2:
+			next;
+			callfunc "F_MOUT";
+	}
+	end;
+}
+function	script	F_HOOD	{
+	set .np$,"^00B2EE[ Anfitrião Hawkiano ]^000000";
+	cutin "16jur_nor",2;
+	setarray .@hood_f, itemselectmenu(480056,480058,480069);
+	next;
+	mes .np$;
+	mes "Você escolheu o item ^3CB371"+getitemname(.@hood_f)+"^000000, está certo disso?";
+	sleep2 200;
+	switch(select("^3CB371[»]^000000 Sim, tenho certeza:^ff0000[»]^000000 Não, me deixe escolher novamente")) {
+		case 1:
+			next;
+			mes .np$;
+			mes "Aqui está o seu ^3CB371"+getitemname(.@hood_f)+"^000000!";
+			if ( .@hood_f == 480056) {
+			delitem 50034,1;
+			getitem .@hood_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@hood_f == 480058) {
+			delitem 50034,1;
+			getitem .@hood_f,1;
+			sleep2 200;
+			close3;
+			} else if ( .@hood_f == 480069) {
+			delitem 50034,1;
+			getitem .@hood_f,1;
+			sleep2 200;
+			close3;
+			}
+			next;
+			callfunc "F_HOOD";
+		case 2:
+			next;
+			callfunc "F_HOOD";
+	}
+	end;
+}

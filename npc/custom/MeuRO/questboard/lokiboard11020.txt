@@ -1,0 +1,161 @@
+// Quest board, baseado nas missões do Eden
+//=========================================================================
+
+s_room,62,66,6	script	Quest [110 - 120]#Tuto6	4_BOARD3,{
+    mes .nome$;
+    mes "Selecione a Categoria:";
+    next;
+	switch(select("^3CB371[»]^000000 Pegar missões:^3CB371[»]^000000 Completar missões:^ff0000[»]^000000 Cancelar")){
+    case 1:
+        for ( .@i = 90306; .@i < 90326; .@i++ )
+            if (checkquest(.@i,PLAYTIME) == 2) erasequest .@i;
+        for( .@i = 90286; .@i < 90306; .@i++ ) {
+            .@j = checkquest(.@i,HUNTING);
+            if (.@j == 2) {
+                mes .nome$;
+                mes "- Você deve coletar sua - ";
+                mes "- recompensa antes de começar - ";
+                mes "- uma nova missão. - ";
+                close;
+            }
+        }
+        if (BaseLevel < 110) {
+            mes .nome$;
+            mes "- Não há tarefas - ";
+            mes "- para você agora. - ";
+            close;
+        }
+        if (BaseLevel > 120) {
+            mes .nome$;
+            mes "- Essas missões são fáceis - ";
+            mes "- demais para o seu nível - ";
+            mes "- procurar por uma missão - ";
+            mes "- de nível apropriado. - ";
+            close;
+        }
+        //next;
+        .@msg$ = "";
+        for(.@i = 0; .@i < getarraysize(.quest_id); .@i++){
+            .@msg$ += .quest_nome$[.@i]+":";
+        }
+        .@s = select(.@msg$+"^3CB371[»]^000000 Pegar todas as missões:^ff0000[»]^000000 Cancelar") - 1;
+        if(.@s < getarraysize(.quest_id)){
+            callsub L_GetQuest,.quest_id[.@s],.quest_nome$[.@s],"- Caçar "+.quest_mqt[.@s]+" ^4d4dff"+strmobinfo(1,.quest_mob[.@s])+"^000000 - ";
+        }else if(.@s == getarraysize(.quest_id)){
+            mes .nome$;
+            mes "- Pegando todas as missões: - ";
+            for(.@i = 0; .@i < getarraysize(.quest_id); .@i++){
+                .@quest_status = checkquest(.quest_id[.@i]+getarraysize(.quest_id),PLAYTIME);
+                if(checkquest(.quest_id[.@i]) == -1 && .@quest_status == -1){
+                    setquest .quest_id[.@i];
+                    mes "- "+.quest_nome$[.@i]+" - ";
+                }
+            }
+            close;
+        }else{
+            mes .nome$;
+            mes "- Pare de ler o quadro de avisos. - ";
+            close;
+        }
+    case 2:
+        .@f = -1;
+        for(.@i = 0; .@i < getarraysize(.quest_id); .@i++){
+            if(.@f < checkquest(.quest_id[.@i],HUNTING))
+                .@f = checkquest(.quest_id[.@i],HUNTING);
+        }
+        if(.@f == 2){
+            mes .nome$;
+            mes "hum...deixa eu ver~";
+           for(.@i = 0; .@i < getarraysize(.quest_id); .@i++){
+                .@j = checkquest(.quest_id[.@i],HUNTING);
+                if (.@j == 2) {
+                    mes "Você completou '"+ .quest_nome$[.@i] +"'.";
+                    erasequest .quest_id[.@i];
+                    setquest .quest_id[.@i]+getarraysize(.quest_id);
+                    getexp .quest_base[.@i],.quest_job[.@i];
+                    getitem .quest_item[.@i],.quest_iqt[.@i];
+                    // Pontos de reputação
+                    if(getreputpoint(4) >= 10000) end;
+                        setreputpoint(4, 10);
+                }
+            }
+            next;
+            mes .nome$;
+            mes "Bom trabalho~!!";
+            mes "Nosso cliente está muito feliz com seu trabalho. Ele vai apreciar o que você fez.";
+            mes "Por favor, ajude-nos novamente. Obrigado!";
+            close;
+        }else if(.@f >= 0){
+            mes .nome$;
+			mes "Você ainda não terminou sua missão.";
+			mes "Mantenha o bom trabalho. Você está quase pronto.";
+			close;
+        }else{
+            mes .nome$;
+            mes "Você está procurando trabalho?";
+            mes "Sempre temos muito trabalho a fazer.";
+            next;
+            mes .nome$;
+            mes "Por que você não olha em volta e encontra algumas tarefas interessantes?";
+            close;
+        }
+    case 3:
+        close;
+    }
+
+L_GetQuest:
+    mes .nome$;
+    if (checkquest(getarg(0),HUNTING) >= 0) {
+        mes "- Você só pode solicitar - ";
+        mes "- uma missão de cada vez. - ";
+        close;
+    }
+	.@quest_status = checkquest(getarg(0)+getarraysize(.quest_id),PLAYTIME);
+	if (.@quest_status == 0 || .@quest_status == 1) {
+		mes "- Missão ^4d4dff"+ getarg(1) +"^000000 - ";
+		mes "- Somente daqui a 12 horas. - ";
+		//mes "";
+		//mes "- Manager : Spike - ";
+		close;
+	}
+	mes "- Missão '"+ getarg(1) +"' - ";
+	for ( .@i = 2; .@i < getargcount(); .@i++ )
+		mes getarg(.@i);
+	//mes "";
+	//mes "- Manager : Spike - ";
+	next;
+	if (select("^3CB371[»]^000000 Eu farei esta missão.:^3CB371[»]^000000 Procure outras missões.") == 2) {
+        mes .nome$;
+		mes "- vamos procurar -";
+		mes "- outras missões. - ";
+		close;
+	}
+    mes .nome$;
+	for ( .@i = 2; .@i < getargcount(); .@i++ )
+		mes getarg(.@i);
+	setquest getarg(0);
+	close;
+
+// Configurações
+OnInit:
+    .nome$ = "[^FF7700Quadro de Missões^000000]";
+	.@UID = getnpcid(0);
+    setunitdata .@UID, UNPC_GROUP_ID, 7;
+    // Id das quests no quest_db
+    setarray .quest_id[0], 90286, 90287, 90288, 90289, 90290, 90291, 90292, 90293, 90294, 90295, 90296, 90297, 90298, 90299, 90300, 90301, 90302, 90303, 90304, 90305;
+    // Nome das missões
+    setarray .quest_nome$[0], "Eliminar Byorgue","Eliminar Salamandra","Eliminar Arqueiro Guardião","Eliminar Espadachim Guardião","Eliminar Eremes Guile","Eliminar Margaretha Sorin","Eliminar Cecil Damon","Eliminar Kathryne Keyron","Eliminar Harword Alteisen","Eliminar Randel Lawrence","Eliminar Flamer Emul","Eliminar Celia Alde","Eliminar Chen Liu","Eliminar Gertie We","Eliminar Alphoccio Basil","Eliminar Trentini","Eliminar Scaraba Chifre Dourado","Eliminar Scaraba Scaraba Chifres Duplos Dourado","Eliminar Scaraba Galhado Dourado","Eliminar Scaraba Ancinho Dourado";
+    // Id dos mobs
+    setarray .quest_mob[0], 1839, 1831, 1830, 1829, 1635, 1637, 1638, 1639, 1636, 2221, 2222, 2223,	2224, 2225, 2226, 2227, 2161, 2162, 2163, 2164;
+    // Quantidade dos mobs
+    setarray .quest_mqt[0], 40, 100, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 50, 50, 50, 50;
+    // Exp de base ganha
+    setarray .quest_base[0], 315000, 325000, 325000, 340000, 350000, 350000, 350000, 350000, 350000, 350000, 425000, 425000, 425000, 425000, 425000, 425000, 500000, 500000, 500000, 500000;
+    // Exp de classe ganha
+    setarray .quest_job[0], 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 250000, 250000, 250000, 250000, 250000, 250000, 275000, 275000, 275000, 275000;
+    // Item ganho
+    setarray .quest_item[0], 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607, 607;
+    // Quantidade dos itens
+    setarray .quest_iqt[0], 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50;
+    end;
+}

@@ -1,0 +1,4685 @@
+//===== rAthena Script ======================================= 
+//= Warper
+//===== Description: ========================================= 
+//= A complete - but very condensed - warper script.
+//===== Additional Comments: =================================
+//= 1.0 Initial script By [Euphy].
+//= 1.1 Added missing duplicates and fixed coordinates.
+//=     Some coordinates written by [Tekno-Kanix] and [ToastOfDoom].
+//= 1.2 Added new episodes and simplified functions.
+//= 1.3 Added Renewal checks and Instances menu.
+//=     Aligned coordinates with @go.
+//= 1.4 Added new Guild Dungeons.
+//= 1.4a Slight edits.
+//= 1.4b Added Wolfchev's Laboratory warp.
+//= 1.5 Added Lasagna ,Para Market ,WOE TE ,Instances and settings [sader1992].
+//= 1.5a Fix Bifrost Tower
+//============================================================
+
+-	script	Warper	-1,{
+
+function Go {
+	set lastwarp$, getarg(0);
+	set lastwarpx, getarg(1,0);
+	set lastwarpy, getarg(2,0);
+	warp getarg(0),getarg(1,0),getarg(2,0);
+	end;
+}
+
+// --------------------------------------------------
+//	Main Menu:
+// --------------------------------------------------
+	cutin "4job_maura_02",2;
+	//OnTalk:
+	L_menu:
+	mes .npc$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+	mes "Fique a vontade para Teleportar por onde desejar ! ";
+	next;
+	switch(select("^00BFFF[»]^000000 Último mapa ^777777["+lastwarp$+"]^000000:^3CB371[»]^000000 Cidades:^00FF7F[»]^000000 Campos:^D2691E[»]^000000 Cavernas:^FFD700[»]^000000 Castelos:^FF7F50[»]^000000 Instãncias:^E9967A[»]^000000 Áreas especiais:^ff0000[»]^000000 Sair")) {
+//------------------------------------------------------------------------------- Ultimo Mapa -------------------------------------------------------------------------------		
+		case 1:
+			if (lastwarp$ == "")
+				message strcharinfo(0),"Voc» ainda n»o teleportou para nenhum lugar.";
+			else
+				warp lastwarp$,lastwarpx,lastwarpy;
+			close3;	
+//------------------------------------------------------------------------------- Cidades -------------------------------------------------------------------------------
+		case 2:
+			switch(select("^3CB371[»]^000000 Prontera:^3CB371[»]^000000 Alberta:^3CB371[»]^000000 Aldebaran:^3CB371[»]^000000 Amatsu:^3CB371[»]^000000 Ayothaya:^3CB371[»]^000000 Base Militar:^3CB371[»]^000000 Brasilis:^3CB371[»]^000000 Campo de expedi»»o Midgard:^3CB371[»]^000000 Comodo:^3CB371[»]^000000 Dewata:^3CB371[»]^000000 Eclage:^3CB371[»]^000000 Einbech:^3CB371[»]^000000 Einbroch:^3CB371[»]^000000 El Dicastes:^3CB371[»]^000000 Geffen:^3CB371[»]^000000 Hugel:^3CB371[»]^000000 Izlude:^3CB371[»]^000000 Jawaii:^3CB371[»]^000000 Juno:^3CB371[»]^000000 Kunlun:^3CB371[»]^000000 Lighthalzen:^3CB371[»]^000000 Luoyang:^3CB371[»]^000000 Lutie:^3CB371[»]^000000 Malangdo:^3CB371[»]^000000 Manuk:^3CB371[»]^000000 Mora:^3CB371[»]^000000 Morroc:^3CB371[»]^000000 Moscovia:^3CB371[»]^000000 Nameless Island:^3CB371[»]^000000 Niflheim:^3CB371[»]^000000 Payon:^3CB371[»]^000000 Rachel:^3CB371[»]^000000 Splendide:^3CB371[»]^000000 Umbala:^3CB371[»]^000000 Veins:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes .np$;
+				mes "Boa viagem!";
+				next;
+				Go("prontera",155,183);
+				close3;
+			case 2:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("alberta",28,234);
+				close3;
+			case 3:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("aldebaran",140,131);
+				close3;
+			case 4:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("amatsu",198,84);
+				close3;
+			case 5:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("ayothaya",208,166);
+				close3;
+			case 6:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("thor_camp",246,68);
+				close3;
+			case 7:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("brasilis",196,217);
+				close3;
+			case 8:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("mid_camp",210,288);
+				close3;
+			case 9:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("comodo",209,143);
+				close3;
+			case 10:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("dewata",200,180);
+				close3;
+			case 11:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("ecl_in01",48,53);
+				close3;
+			case 12:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("einbech",63,35);
+				close3;
+			case 13:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("einbroch",64,200);
+				close3;
+			case 14:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("dicastes01",198,187);
+				close3;
+			case 15:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("geffen",119,59);
+				close3;
+			case 16:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("hugel",96,145);
+				close3;
+			case 17:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("izlude",128,(checkre(3)?146:114));
+				close3;
+			case 18:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("jawaii",251,132);
+				close3;
+			case 19:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("yuno",157,51);
+				close3;
+			case 20:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("gonryun",160,120);
+				close3;
+			case 21:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("lighthalzen",158,92);
+				close3;
+			case 22:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("louyang",217,100);
+				close3;
+			case 23:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("xmas",147,134);
+				close3;
+			case 24:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("malangdo",140,114);
+				close3;
+			case 25:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("manuk",282,138);
+				close3;
+			case 26:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("mora",55,146);
+				close3;
+			case 27:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("morocc",156,93);
+				close3;
+			case 28:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("moscovia",223,184);
+				close3;
+			case 29:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("nameless_n",256,215);
+				close3;
+			case 30:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("niflheim",202,174);
+				close3;
+			case 31:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("payon",179,100);
+				close3;
+			case 32:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("rachel",130,110);
+				close3;
+			case 33:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("splendide",201,147);
+				close3;
+			case 34:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("umbala",97,153);
+				close3;
+			case 35:
+				next;
+				mes .np$;
+				mes "Boa viagem!";
+				Go("veins",216,123);
+				close3;
+			case 36:
+				next;
+				mes .np$;
+				mes "Tudo Bem!";
+				next;
+				goto L_menu;
+				close3;
+			case 37:
+				next;
+				mes .np$;
+				mes "Tudo bem, me procure quando precisar.";
+				close3;
+		}
+//------------------------------------------------------------------------------- Campos -------------------------------------------------------------------------------		
+		case 3:
+			mes .npc$;
+			mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+			mes "Fique a vontade para Teleportar por onde desejar ! ";
+			next;
+			switch(select("^3CB371[»]^000000 Campos de Amatsu:^3CB371[»]^000000 Campos de Ayothaya:^3CB371[»]^000000 Campos de Brasilis:^3CB371[»]^000000 Campos de Comodo:^3CB371[»]^000000 Campos de Dewata:^3CB371[»]^000000 Campos de Eclage:^3CB371[»]^000000 Campos de Einbroch:^3CB371[»]^000000 Campos de Geffen:^3CB371[»]^000000 Campos de Kunlun:^3CB371[»]^000000 Campos de Hugel:^3CB371[»]^000000 Campos de Lasagna:^3CB371[»]^000000 Campos de Lighthalzen:^3CB371[»]^000000 Campos de Luoyang:^3CB371[»]^000000 Campos de Lutie:^3CB371[»]^000000 Campos de Manuk:^3CB371[»]^000000 Campos de Mjolnir:^3CB371[»]^000000 Campos de Moscovia:^3CB371[»]^000000 Campos de Niflheim:^3CB371[»]^000000 Floresta de Payon:^3CB371[»]^000000 Campos de Prontera:^3CB371[»]^000000 Campos de Rachel:^3CB371[»]^000000 Deserto de Sograt:^3CB371[»]^000000 Campos de Splendide:^3CB371[»]^000000 Campos de Umbala:^3CB371[»]^000000 Campos de Veins:^3CB371[»]^000000 Campos de Juno:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Amatsu 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ama_fild01",190,197);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}	
+			case 2:	
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Ayothaya 1:^3CB371[»]^000000 Campos de Ayothaya 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ayo_fild01",173,134);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("ayo_fild02",212,150);
+					close3;	
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}	
+			case 3:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Brasilis 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("bra_fild01",74,32);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}	
+			case 4:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Comodo 1:^3CB371[»]^000000 Campos de Comodo 2:^3CB371[»]^000000 Campos de Comodo 3:^3CB371[»]^000000 Campos de Comodo 4:^3CB371[»]^000000 Campos de Comodo 5:^3CB371[»]^000000 Campos de Comodo 6:^3CB371[»]^000000 Campos de Comodo 7:^3CB371[»]^000000 Campos de Comodo 8:^3CB371[»]^000000 Campos de Comodo 9:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild01",180,178);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild02",231,160);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild03",191,172);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild04",228,194);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild05",224,203);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild06",190,223);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild07",234,177);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild08",194,175);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("cmd_fild09",172,172);
+					close3;
+				case 10:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 11:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 5:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Dewata 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("dew_fild01",371,212);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}	
+			case 6:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Eclage 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ecl_fild01",97,314);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}	
+			case 7:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Einbroch 1:^3CB371[»]^000000 Campos de Einbroch 2:^3CB371[»]^000000 Campos de Einbroch 3:^3CB371[»]^000000 Campos de Einbroch 4:^3CB371[»]^000000 Campos de Einbroch 5:^3CB371[»]^000000 Campos de Einbroch 6:^3CB371[»]^000000 Campos de Einbroch 7:^3CB371[»]^000000 Campos de Einbroch 8:^3CB371[»]^000000 Campos de Einbroch 9:^3CB371[»]^000000 Campos de Einbroch 10:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild01",142,225);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild02",182,141);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild03",187,228);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild04",185,173);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild05",216,173);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild06",195,148);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild07",272,220);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild08",173,214);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild09",207,174);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("ein_fild10",196,200);
+					close3;
+				case 11:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 12:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 8:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Geffen 0:^3CB371[»]^000000 Campos de Geffen 1:^3CB371[»]^000000 Campos de Geffen 2:^3CB371[»]^000000 Campos de Geffen 3:^3CB371[»]^000000 Campos de Geffen 4:^3CB371[»]^000000 Campos de Geffen 5:^3CB371[»]^000000 Campos de Geffen 6:^3CB371[»]^000000 Campos de Geffen 7:^3CB371[»]^000000 Campos de Geffen 8:^3CB371[»]^000000 Campos de Geffen 9:^3CB371[»]^000000 Campos de Geffen 10:^3CB371[»]^000000 Campos de Geffen 11:^3CB371[»]^000000 Campos de Geffen 12:^3CB371[»]^000000 Campos de Geffen 14:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild00",61,203);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild01",206,106);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild02",213,204);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild03",56,304);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild04",191,187);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild05",105,133);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild06",110,210);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild07",160,190);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild08",195,191);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild09",152,90);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild10",221,117);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild11",178,218);
+					close3;
+				case 13:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild12",340,60);
+					close3;
+				case 14:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild14",235,211);
+					close3;	
+				case 15:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 16:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 9:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Kunlun 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gon_fild01",220,227);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 10:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Hugel 1:^3CB371[»]^000000 Campos de Hugel 2:^3CB371[»]^000000 Campos de Hugel 3:^3CB371[»]^000000 Campos de Hugel 4:^3CB371[»]^000000 Campos de Hugel 5:^3CB371[»]^000000 Campos de Hugel 6:^3CB371[»]^000000 Campos de Hugel 7:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild01",268,101);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild02",222,193);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild03",232,185);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild04",252,189);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild05",196,106);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild06",216,220);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("hu_fild07",227,197);
+					close3;
+				case 8:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 9:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 11:
+				next;
+				mes .np$;
+				mes "Os gatinhos est»o de f»rias!";
+				close3;
+			case 12:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Lighthalzen 1:^3CB371[»]^000000 Campos de Lighthalzen 2:^3CB371[»]^000000 Campos de Lighthalzen 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("lhz_fild01",240,179);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("lhz_fild02",185,235);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("lhz_fild03",240,226);
+					close3;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 13:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Luoyang 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("lou_fild01",229,187);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 14:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Lutie 1:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("xmas_fild01",115,145);
+					close3;
+				case 2:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 15:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Manuk 1:^3CB371[»]^000000 Campos de Manuk 2:^3CB371[»]^000000 Campos de Manuk 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("man_fild01",35,236);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("man_fild02",35,262);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("man_fild03",84,365);
+					close3;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 16:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Mjolnir 1:^3CB371[»]^000000 Campos de Mjolnir 2:^3CB371[»]^000000 Campos de Mjolnir 3:^3CB371[»]^000000 Campos de Mjolnir 4:^3CB371[»]^000000 Campos de Mjolnir 5:^3CB371[»]^000000 Campos de Mjolnir 6:^3CB371[»]^000000 Campos de Mjolnir 7:^3CB371[»]^000000 Campos de Mjolnir 8:^3CB371[»]^000000 Campos de Mjolnir 9:^3CB371[»]^000000 Campos de Mjolnir 10:^3CB371[»]^000000 Campos de Mjolnir 11:^3CB371[»]^000000 Campos de Mjolnir 12:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_01",204,120);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_02",175,193);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_03",208,213);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_04",179,180);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_05",181,240);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_06",195,270);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_07",235,202);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_08",188,215);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_09",205,144);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_10",245,223);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_11",180,206);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("mjolnir_12",196,208);
+					close3;	
+				case 13:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 14:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 17:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Moscovia 1:^3CB371[»]^000000 Campos de Moscovia 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("mosk_fild01",82,104);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("mosk_fild02",131,147);
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 18:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Niflheim 1:^3CB371[»]^000000 Campos de Niflheim 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("nif_fild01",215,229);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("nif_fild02",167,234);
+					close3;
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 19:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Floresta de Payon 1:^3CB371[»]^000000 Floresta de Payon 2:^3CB371[»]^000000 Floresta de Payon 3:^3CB371[»]^000000 Floresta de Payon 4:^3CB371[»]^000000 Floresta de Payon 5:^3CB371[»]^000000 Floresta de Payon 6:^3CB371[»]^000000 Floresta de Payon 7:^3CB371[»]^000000 Floresta de Payon 8:^3CB371[»]^000000 Floresta de Payon 9:^3CB371[»]^000000 Floresta de Payon 10:^3CB371[»]^000000 Floresta de Payon 11:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild01",158,206);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild02",151,219);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild03",205,148);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild04",186,247);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild05",134,204);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild06",193,235);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild07",200,177);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild08",137,189);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild09",201,224);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild10",160,205);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("pay_fild11",194,150);
+					close3;
+				case 12:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 13:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 20:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Prontera 0:^3CB371[»]^000000 Campos de Prontera 1:^3CB371[»]^000000 Campos de Prontera 2:^3CB371[»]^000000 Campos de Prontera 3:^3CB371[»]^000000 Campos de Prontera 4:^3CB371[»]^000000 Campos de Prontera 5:^3CB371[»]^000000 Campos de Prontera 6:^3CB371[»]^000000 Campos de Prontera 7:^3CB371[»]^000000 Campos de Prontera 8:^3CB371[»]^000000 Campos de Prontera 9:^3CB371[»]^000000 Campos de Prontera 10:^3CB371[»]^000000 Campos de Prontera 11:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild00",208,227);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild01",190,206);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild02",240,206);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild03",190,143);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild04",307,252);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild05",239,213);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild06",185,188);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild07",193,194);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild08",226,206);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild09",210,183);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild10",195,149);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("prt_fild11",198,164);
+					close3;	
+				case 13:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 14:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 21:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Rachel 1:^3CB371[»]^000000 Campos de Rachel 2:^3CB371[»]^000000 Campos de Rachel 3:^3CB371[»]^000000 Campos de Rachel 4:^3CB371[»]^000000 Campos de Rachel 5:^3CB371[»]^000000 Campos de Rachel 6:^3CB371[»]^000000 Campos de Rachel 7:^3CB371[»]^000000 Campos de Rachel 8:^3CB371[»]^000000 Campos de Rachel 9:^3CB371[»]^000000 Campos de Rachel 10:^3CB371[»]^000000 Campos de Rachel 11:^3CB371[»]^000000 Campos de Rachel 12:^3CB371[»]^000000 Campos de Rachel 13:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild01",192,162);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild02",235,166);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild03",202,206);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild04",202,208);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild05",225,202);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild06",202,214);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild07",263,196);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild08",217,201);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild09",87,121);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild10",277,181);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild11",221,185);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild12",175,200);
+					close3;	
+				case 13:
+					mes "Boa viagem!";
+					next;
+					Go("ra_fild13",174,197);
+					close3;		
+				case 14:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 15:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 22:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Deserto de Sograt 1:^3CB371[»]^000000 Deserto de Sograt 2:^3CB371[»]^000000 Deserto de Sograt 3:^3CB371[»]^000000 Deserto de Sograt 7:^3CB371[»]^000000 Deserto de Sograt 11:^3CB371[»]^000000 Deserto de Sograt 12:^3CB371[»]^000000 Deserto de Sograt 13:^3CB371[»]^000000 Deserto de Sograt 16:^3CB371[»]^000000 Deserto de Sograt 17:^3CB371[»]^000000 Deserto de Sograt 18:^3CB371[»]^000000 Deserto de Sograt 19:^3CB371[»]^000000 Deserto de Sograt 20:^3CB371[»]^000000 Deserto de Sograt 21:^3CB371[»]^000000 Deserto de Sograt 22:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild01",219,205);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild02",177,206);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild03",194,182);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild07",224,170);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild11",198,216);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild12",156,187);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild13",185,263);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild16",206,228);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild17",208,238);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild18",209,223);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild19",85,97);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild20",207,202);
+					close3;	
+				case 13:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild21",31,195);
+					close3;
+				case 14:
+					mes "Boa viagem!";
+					next;
+					Go("moc_fild22",47,196);
+					close3;
+				case 15:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 16:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 23:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Splendide 1:^3CB371[»]^000000 Campos de Splendide 2:^3CB371[»]^000000 Campos de Splendide 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("spl_fild01",175,186);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("spl_fild02",236,184);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("spl_fild03",188,204);
+					close3;	
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 24:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Umbala 1:^3CB371[»]^000000 Campos de Umbala 2:^3CB371[»]^000000 Campos de Umbala 3:^3CB371[»]^000000 Campos de Umbala 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("um_fild01",217,206);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("um_fild02",223,221);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("um_fild03",237,215);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("um_fild04",202,197);
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 25:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Veins 1:^3CB371[»]^000000 Campos de Veins 2:^3CB371[»]^000000 Campos de Veins 3:^3CB371[»]^000000 Campos de Veins 4:^3CB371[»]^000000 Campos de Veins 5:^3CB371[»]^000000 Campos de Veins 6:^3CB371[»]^000000 Campos de Veins 7:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild01",186,175);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild02",196,370);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild03",222,45);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild04",51,250);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild05",202,324);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild06",150,223);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("ve_fild07",149,307);
+					close3;
+				case 8:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 9:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 26:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Campos de Juno 1:^3CB371[»]^000000 Campos de Juno 2:^3CB371[»]^000000 Campos de Juno 3:^3CB371[»]^000000 Campos de Juno 4:^3CB371[»]^000000 Campos de Juno 5:^3CB371[»]^000000 Campos de Juno 6:^3CB371[»]^000000 Campos de Juno 7:^3CB371[»]^000000 Campos de Juno 8:^3CB371[»]^000000 Campos de Juno 9:^3CB371[»]^000000 Campos de Juno 10:^3CB371[»]^000000 Campos de Juno 11:^3CB371[»]^000000 Campos de Juno 12:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild01",189,224);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild02",192,207);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild03",221,157);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild04",226,199);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild05",223,177);
+					close3;
+				case 6:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild06",187,232);
+					close3;
+				case 7:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild07",231,174);
+					close3;
+				case 8:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild08",196,203);
+					close3;
+				case 9:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild09",183,214);
+					close3;
+				case 10:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild10",200,124);
+					close3;
+				case 11:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild11",195,226);
+					close3;
+				case 12:
+					mes "Boa viagem!";
+					next;
+					Go("yuno_fild12",210,304);
+					close3;
+				case 13:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 14:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 27:
+				next;
+				mes .np$;
+				mes "Tudo Bem!";
+				next;
+				goto L_menu;
+				close3;
+			case 28:
+				next;
+				mes .np$;
+				mes "Tudo bem, me procure quando precisar.";
+				close3;
+		}
+//------------------------------------------------------------------------------- Cavernas -------------------------------------------------------------------------------		
+		case 4:
+			mes .npc$;
+			mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+			mes "Fique a vontade para Teleportar por onde desejar ! ";
+			next;
+			switch(select("^3CB371[»]^000000 Academia de Kiel:^3CB371[»]^000000 Calabouço da Mina:^3CB371[»]^000000 Calabouço de Dewata:^3CB371[»]^000000 Calabouço de Geffen:^3CB371[»]^000000 Calabouço de Moscovia:^3CB371[»]^000000 Calabouços de Gonryun:^3CB371[»]^000000 Caverna Scaraba:^3CB371[»]^000000 Caverna das Cataratas:^3CB371[»]^000000 Caverna de Comodo:^3CB371[»]^000000 Caverna de Gelo:^3CB371[»]^000000 Caverna de Luoyang:^3CB371[»]^000000 Caverna de Magma:^3CB371[»]^000000 Caverna de Payon:^3CB371[»]^000000 Caverna de Umbala:^3CB371[»]^000000 Caverna dos Orcs:^3CB371[»]^000000 Esfinge:^3CB371[»]^000000 Esgoto de Prontera:^3CB371[»]^000000 Fabrica de Brinquedos:^3CB371[»]^000000 Floresta Encantada:^3CB371[»]^000000 Formigueiro Infernal:^3CB371[»]^000000 Gefenia:^3CB371[»]^000000 Glast Heim:^3CB371[»]^000000 Ilha das Tartarugas:^3CB371[»]^000000 Juperos:^3CB371[»]^000000 Labirinto da Floresta:^3CB371[»]^000000 Labirinto dos Tatames:^3CB371[»]^000000 Laboratório de Somatologia:^3CB371[»]^000000 Lago do Abismo:^3CB371[»]^000000 Minas Abandonadas de Mjolnir:^3CB371[»]^000000 Monastério Maldito:^3CB371[»]^000000 Navio Fantasma:^3CB371[»]^000000 Pirãmide:^3CB371[»]^000000 Santuário Ancestral:^3CB371[»]^000000 Santuário de Rachel:^3CB371[»]^000000 Templo de Odin:^3CB371[»]^000000 Torre de Bifrost:^3CB371[»]^000000 Torre de Thanatos:^3CB371[»]^000000 Torre do Relógio:^3CB371[»]^000000 Túnel Submarrino:^3CB371[»]^000000 Vulcão de Thor:^3CB371[»]^000000 Caverna de Niflheim:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Academia de Kiel 1:^3CB371[»]^000000 Academia de Kiel 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("kh_dun01",256,244);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {	
+					mes "Boa viagem!";
+					next;
+					Go("kh_dun02",176,80);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 2:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Calabouço da Mina 1:^3CB371[»]^000000 Calabouço da Mina 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ein_dun01",22,14);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {	
+					mes "Boa viagem!";
+					next;
+					Go("ein_dun02",292,290);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 3:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Calabouço de Dewata 1:^3CB371[»]^000000 Calabouço de Dewata 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("dew_dun01",285,160);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("dew_dun02",299,29);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 4:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Calabouço de Geffen 1:^3CB371[»]^000000 Calabouço de Geffen 2:^3CB371[»]^000000 Calabouço de Geffen 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gef_dun01",114,229);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gef_dun02",115,236);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gef_dun03",106,132);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 5:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Calabouço de Moscovia 1:^3CB371[»]^000000 Calabouço de Moscovia 2:^3CB371[»]^000000 Calabouço de Moscovia 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("mosk_dun01",189,48);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("mosk_dun02",165,30);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("mosk_dun03",32,135);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 6:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Calabouços de Gonryun 1:^3CB371[»]^000000 Calabouços de Gonryun 2:^3CB371[»]^000000 Calabouços de Gonryun 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gon_dun01",153,53);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gon_dun02",28,113);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gon_dun03",68,16);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 7:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Túnel Kamidal:^3CB371[»]^000000 Caverma Scaraba:^3CB371[»]^000000 Caverma Scaraba Pesadelo:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("dic_dun01",364,44);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("dic_dun02",101,141);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("dic_dun03",67,157);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 8:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna das Cataratas:^3CB371[»]^000000 Profundeza das Cataratas 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("bra_dun01",87,47);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("bra_dun02",262,262);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 9:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna Oeste Karu:^3CB371[»]^000000 Caverna Norte Luanda:^3CB371[»]^000000 Caverna Leste Mao:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("beach_dun",266,67);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("beach_dun2",255,244);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("beach_dun3",23,260);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 10:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna de Gelo 1:^3CB371[»]^000000 Caverna de Gelo 2:^3CB371[»]^000000 Caverna de Gelo 3:^3CB371[»]^000000 Caverna de Gelo 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ice_dun01",157,14);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ice_dun02",151,155);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ice_dun03",149,22);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ice_dun04",33,158);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 11:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Tumba Real:^3CB371[»]^000000 Interior da Tumba Real:^3CB371[»]^000000 Suei Long Gon:^3CB371[»]^000000 Caverna de Gelo 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("lou_dun01",218,196);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("lou_dun02",282,20);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("lou_dun03",165,38);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 12:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna de Magma 1:^3CB371[»]^000000 Caverna de Magma 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("mag_dun01",126,68);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("mag_dun02",47,30);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 13:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna de Payon 1:^3CB371[»]^000000 Caverna de Payon 2:^3CB371[»]^000000 Caverna de Payon 3:^3CB371[»]^000000 Caverna de Payon 4:^3CB371[»]^000000 Caverna de Payon 5:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("pay_dun00",21,183);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("pay_dun01",19,33);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("pay_dun02",19,63);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("pay_dun03",155,159);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("pay_dun04",201,204);
+					close3;
+					}
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 14:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Loja de Carpintaria:^3CB371[»]^000000 Passagem para o Além:^3CB371[»]^000000 Fonte de Hvergermil:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("um_dun01",42,31);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("um_dun02",48,30);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("yggdrasil01",204,78);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 15:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna dos Orcs 1:^3CB371[»]^000000 Caverna dos Orcs 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("orcsdun01",32,170);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("orcsdun02",21,185);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 16:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Esfinge 1:^3CB371[»]^000000 Esfinge 2:^3CB371[»]^000000 Esfinge 3:^3CB371[»]^000000 Esfinge 4:^3CB371[»]^000000 Esfinge 5:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("in_sphinx1",288,9);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("in_sphinx2",149,81);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("in_sphinx3",210,54);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("in_sphinx4",10,222);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("in_sphinx5",100,99);
+					close3;
+					}
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 17:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Esgoto de Prontera 1:^3CB371[»]^000000 Esgoto de Prontera 2:^3CB371[»]^000000 Esgoto de Prontera 3:^3CB371[»]^000000 Esgoto de Prontera 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("prt_sewb1",131,247);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("prt_sewb2",19,19);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("prt_sewb3",180,169);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("prt_sewb4",100,92);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 18:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Fabrica de Brinquedos 1:^3CB371[»]^000000 Fabrica de Brinquedos 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("xmas_dun01",205,15);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("xmas_dun02",129,133);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 19:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Floresta Encantada 1:^3CB371[»]^000000 Floresta Encantada 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("nyd_dun01",61,239);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("nyd_dun02",60,271);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 20:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Formigueiro Infernal 1:^3CB371[»]^000000 Formigueiro Infernal 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("anthell01",35,262);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("anthell02",168,170);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 21:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Gefenia 1:^3CB371[»]^000000 Gefenia 2:^3CB371[»]^000000 Gefenia 3:^3CB371[»]^000000 Gefenia 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gefenia01",40,103);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gefenia02",203,34);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gefenia03",266,168);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gefenia04",130,272);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 22:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Abismo:^3CB371[»]^000000 Entrada:^3CB371[»]^000000 Castelo 1º andar:^3CB371[»]^000000 Castelo 2º andar:^3CB371[»]^000000 Cavalaria 1º andar:^3CB371[»]^000000 Cavalaria 2º andar:^3CB371[»]^000000 Cemitério:^3CB371[»]^000000 Esgoto 1º andar:^3CB371[»]^000000 Esgoto 2º andar:^3CB371[»]^000000 Esgoto 3º andar:^3CB371[»]^000000 Esgoto 4º andar:^3CB371[»]^000000 Abadia:^3CB371[»]^000000 Escadaria:^3CB371[»]^000000 Caverna Profunda 1º andar:^3CB371[»]^000000 Caverna Profunda 2º andar:^3CB371[»]^000000 Prisão Subterrânea 1º andar:^3CB371[»]^000000 Prisão Subterrânea 2º andar:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_cas01_",200,26);
+					close3;
+					}
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("glast_01",370,304);
+					close3;
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_cas01",199,29);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_cas02",104,25);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_knt01",150,15);
+					close3;
+					}
+				case 6:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_knt02",157,287);
+					close3;
+					}
+				case 7:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_chyard",147,15);
+					close3;
+					}
+				case 8:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_sew01",258,255);
+					close3;
+					}
+				case 9:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_sew02",108,291);
+					close3;
+					}
+				case 10:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_sew03",171,283);
+					close3;
+					}
+				case 11:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_sew04",68,277);
+					close3;
+					}
+				case 12:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_church",156,7);
+					close3;
+					}
+				case 13:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_step",12,7);
+					close3;
+					}
+				case 14:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_dun01",133,271);
+					close3;
+					}
+				case 15:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_dun02",224,274);
+					close3;
+					}
+				case 16:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_prison",14,70);
+					close3;
+					}
+				case 17:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("gl_prison1",150,14);
+					close3;
+					}
+				case 18:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 19:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 23:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Entrada:^3CB371[»]^000000 Caverna 1º andar:^3CB371[»]^000000 Caverna 2º andar:^3CB371[»]^000000 Caverna 3º andar:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("tur_dun01",154,49);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tur_dun02",148,261);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tur_dun03",132,189);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tur_dun04",100,192);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 24:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Entrada:^3CB371[»]^000000 Juperos 1º andar:^3CB371[»]^000000 Juperos 2º andar:^3CB371[»]^000000 Core:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("jupe_cave",140,51);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("juperos_01",53,247);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("juperos_02",37,63);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("jupe_core",150,285);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 25:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Labirinto da Floresta 1:^3CB371[»]^000000 Labirinto da Floresta 2:^3CB371[»]^000000 Labirinto da Floresta 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("prt_maze01",176,7);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("prt_maze02",93,20);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("prt_maze03",23,8);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 26:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Labirinto dos Tatames 1:^3CB371[»]^000000 Labirinto dos Tatames 2:^3CB371[»]^000000 Labirinto dos Tatames 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ama_dun01",228,11);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ama_dun02",34,41);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ama_dun03",119,14);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 27:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Laboratório de Somatologia 1:^3CB371[»]^000000 Laboratório de Somatologia 2:^3CB371[»]^000000 Laboratório de Somatologia 3:^3CB371[»]^000000 Laboratório de Somatologia 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("lhz_dun01",150,288);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("lhz_dun02",150,18);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("lhz_dun03",140,134);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("lhz_dun04",244,52);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 28:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Lago do Abismo 1:^3CB371[»]^000000 Lago do Abismo 2:^3CB371[»]^000000 Lago do Abismo 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("abyss_01",261,272);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("abyss_02",275,270);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("abyss_03",116,27);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 29:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Minas Abandonadas 1:^3CB371[»]^000000 Minas Abandonadas 2:^3CB371[»]^000000 Minas Abandonadas 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("mjo_dun01",52,17);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("mjo_dun02",381,343);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("mjo_dun03",302,262);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 30:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Monastério Maldito 1:^3CB371[»]^000000 Monastério Maldito 2:^3CB371[»]^000000 Monastério Maldito 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("abbey01",51,14);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("abbey02",150,11);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("abbey03",120,10);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 31:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Navio Fantasma 1:^3CB371[»]^000000 Navio Fantasma 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("treasure01",69,24);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("treasure02",102,27);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 32:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Pirâmide 1º andar:^3CB371[»]^000000 Pirâmide 2º andar:^3CB371[»]^000000 Pirâmide 3º andar:^3CB371[»]^000000 Pirâmide 4º andar:^3CB371[»]^000000 Sub-Solo 1º andar:^3CB371[»]^000000 Sub-Solo 2º andar:^3CB371[»]^000000 Sub-Solo 1º andar - Pesadelo:^3CB371[»]^000000 Sub-Solo 2º andar - Pesadelo:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd01",192,9);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd02",10,192);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd03",100,92);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd04",181,11);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd05",94,96);
+					close3;
+					}
+				case 6:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("moc_pryd06",192,8);
+					close3;
+					}
+				case 7:
+					mes .npc$;
+					mes "Ainda temos muitos enigmas para resolver, e quem sabe algum dia algum deles lhe dará o acesso a este mapa!";
+					//Go("moc_prydn1",94,96);
+					close3;
+				case 8:
+					mes .npc$;
+					mes "Ainda temos muitos enigmas para resolver, e quem sabe algum dia algum deles lhe dará o acesso a este mapa!";
+					//Go("moc_prydn2",192,8);
+					close3;
+				case 9:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 10:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 33:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Labirinto  Ancestral:^3CB371[»]^000000 Interior do Santuário:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ayo_dun01",275,19);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ayo_dun02",24,26);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 34:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Santuário de Rachel 1:^3CB371[»]^000000 Santuário de Rachel 2:^3CB371[»]^000000 Santuário de Rachel 3:^3CB371[»]^000000 Santuário de Rachel 4:^3CB371[»]^000000 Santuário de Rachel 5:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ra_san01",140,11);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ra_san02",32,21);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ra_san03",8,149);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ra_san04",204,218);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ra_san05",150,9);
+					close3;
+					}
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 35:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Templo de Odin 1:^3CB371[»]^000000 Templo de Odin 2:^3CB371[»]^000000 Templo de Odin 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("odin_tem01",298,167);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("odin_tem02",224,149);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("odin_tem03",266,280);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 36:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Torre de Bifröst 1:^3CB371[»]^000000 Torre de Bifröst 2:^3CB371[»]^000000 Torre de Bifröst 3:^3CB371[»]^000000 Torre de Bifröst 4:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("ecl_tdun01",57,13);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ecl_tdun02",64,88);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ecl_tdun03",45,14);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("ecl_tdun04",26,23);
+					close3;
+					}
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 37:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Torre de Thanatos 1:^3CB371[»]^000000 Torre de Thanatos 2:^3CB371[»]^000000 Torre de Thanatos 3:^3CB371[»]^000000 Torre de Thanatos 4:^3CB371[»]^000000 Torre de Thanatos 5:^3CB371[»]^000000 Torre de Thanatos 6:^3CB371[»]^000000 Torre de Thanatos 7:^3CB371[»]^000000 Torre de Thanatos 8:^3CB371[»]^000000 Torre de Thanatos 9:^3CB371[»]^000000 Torre de Thanatos 10:^3CB371[»]^000000 Torre de Thanatos 11:^3CB371[»]^000000 Torre de Thanatos 12:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("tha_t01",150,39);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t02",150,136);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t03",220,158);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t04",59,143);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t05",62,11);
+					close3;
+					}
+				case 6:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t06",89,221);
+					close3;
+					}
+				case 7:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t07",35,166);
+					close3;
+					}
+				case 8:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t08",93,148);
+					close3;
+					}
+				case 9:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t09",29,107);
+					close3;
+					}
+				case 10:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t10",159,138);
+					close3;
+					}
+				case 11:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t11",19,20);
+					close3;
+					}
+				case 12:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("tha_t12",130,52);
+					close3;
+					}
+				case 13:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 14:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 38:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Torre 1º andar:^3CB371[»]^000000 Torre 2º andar:^3CB371[»]^000000 Torre 3º andar:^3CB371[»]^000000 Torre 4º andar:^3CB371[»]^000000 Sub-Solo 1º andar:^3CB371[»]^000000 Sub-Solo 2º andar:^3CB371[»]^000000 Sub-Solo 3º andar:^3CB371[»]^000000 Sub-Solo 4º andar:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("c_tower1",199,159);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("c_tower2",148,283);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("c_tower3",65,147);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("c_tower4",56,155);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("alde_dun01",297,25);
+					close3;
+					}
+				case 6:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("alde_dun02",127,169);
+					close3;
+					}
+				case 7:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("alde_dun03",277,178);
+					close3;
+					}
+				case 8:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("alde_dun04",268,74);
+					close3;
+					}
+				case 9:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 10:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 39:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Tunel Submarino 1:^3CB371[»]^000000 Tunel Submarino 2:^3CB371[»]^000000 Tunel Submarino 3:^3CB371[»]^000000 Tunel Submarino 4:^3CB371[»]^000000 Tunel Submarino 5:^3CB371[»]^000000 Tunel Submarino 6:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun00",168,168);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun01",253,252);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun02",236,204);
+					close3;
+					}
+				case 4:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun03",32,63);
+					close3;
+					}
+				case 5:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun04",26,27);
+					close3;
+					}
+				case 6:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("iz_dun05",141,187);
+					close3;
+					}
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 8:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 40:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Vulcão de Thor 1:^3CB371[»]^000000 Vulcão de Thor 2:^3CB371[»]^000000 Vulcão de Thor 3:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("thor_v01",21,228);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("thor_v02",75,205);
+					close3;
+					}
+				case 3:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("thor_v03",34,272);
+					close3;
+					}
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 5:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 41:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Caverna de Niflheim 1:^3CB371[»]^000000 Caverna de Niflheim 2:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("nif_dun01",145,38);
+					close3;
+				case 2:
+					if(getreputpoint(3) <= 4999) {
+						mes .npc$;
+						mes "Deculpe Mas...";
+						mes "";
+						mes "Você não tem reputação suficiente para isso!";
+						close3;
+					}
+					if(getreputpoint(3) >= 5000) {
+					mes "Boa viagem!";
+					next;
+					Go("nif_dun02",150,23);
+					close3;
+					}
+				case 3:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 4:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 42:
+				next;
+				mes .np$;
+				mes "Tudo Bem!";
+				next;
+				goto L_menu;
+				close3;
+			case 43:
+				next;
+				mes .np$;
+				mes "Tudo bem, me procure quando precisar.";
+				close3;		
+			}		
+//------------------------------------------------------------------------------- Castelos -------------------------------------------------------------------------------		
+		case 5:
+			mes .npc$;
+			mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+			mes "Fique a vontade para Teleportar por onde desejar ! ";
+			next;
+			switch(select("^3CB371[»]^000000 [FE] Aldebaran:^3CB371[»]^000000 [FE] Geffen:^3CB371[»]^000000 [FE] Payon:^3CB371[»]^000000 [FE] Prontera:^3CB371[»]^000000 [SE] Arunafeltz:^3CB371[»]^000000 [SE] Schwarzwald:^3CB371[»]^000000 [TE] Aldebaran:^3CB371[»]^000000 [TE] Prontera:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Neuschwanstein:^3CB371[»]^000000 Hohenschwangau:^3CB371[»]^000000 Nuenberg:^3CB371[»]^000000 Wuerzburg:^3CB371[»]^000000 Rothenburg:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("alde_gld",48,83);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("alde_gld",95,249);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("alde_gld",142,85);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("alde_gld",239,242);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("alde_gld",264,90);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 2:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Repherion:^3CB371[»]^000000 Eeyolbriggar:^3CB371[»]^000000 Yesnelph:^3CB371[»]^000000 Bergel:^3CB371[»]^000000 Mersetzdeitz:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild13",214,75);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild13",308,240);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild13",143,240);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild13",193,278);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("gef_fild13",305,87);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 3:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Bright Arbor:^3CB371[»]^000000 Scarlet Palace:^3CB371[»]^000000 Holy Shadow:^3CB371[»]^000000 Sacred Altar:^3CB371[»]^000000 Bamboo Grove Hill:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("pay_gld",121,233);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("pay_gld",295,116);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("pay_gld",317,293);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("pay_gld",140,160);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("pay_gld",204,266);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 4:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Kriemhild:^3CB371[»]^000000 Swanhild:^3CB371[»]^000000 Fadhgridh:^3CB371[»]^000000 Skoegul:^3CB371[»]^000000 Gondul:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("prt_gld",134,65);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("prt_gld",240,128);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("prt_gld",153,137);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("prt_gld",111,240);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("prt_gld",208,240);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 5:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Mardol:^3CB371[»]^000000 Cyr:^3CB371[»]^000000 Horn:^3CB371[»]^000000 Gefn:^3CB371[»]^000000 Banadis:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("aru_gld",158,272);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("aru_gld",83,47);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("aru_gld",68,155);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("aru_gld",299,345);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("aru_gld",292,107);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 6:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Himinn:^3CB371[»]^000000 Andlangr:^3CB371[»]^000000 Viblainn:^3CB371[»]^000000 Hljod:^3CB371[»]^000000 Skidbladnir:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("sch_gld",293,100);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("sch_gld",288,252);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("sch_gld",97,196);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("sch_gld",137,90);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("sch_gld",71,315);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 7:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Kafragarten 1:^3CB371[»]^000000 Kafragarten 2:^3CB371[»]^000000 Kafragarten 3:^3CB371[»]^000000 Kafragarten 4:^3CB371[»]^000000 Kafragarten 5:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("te_alde_gld",48,83);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("te_alde_gld",95,249);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("te_alde_gld",142,85);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("te_alde_gld",239,242);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("te_alde_gld",264,90);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+			case 8:
+				mes .npc$;
+				mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+				mes "Fique a vontade para Teleportar por onde desejar ! ";
+				next;
+				switch(select("^3CB371[»]^000000 Gloria 1:^3CB371[»]^000000 Gloria 2:^3CB371[»]^000000 Gloria 3:^3CB371[»]^000000 Gloria 4:^3CB371[»]^000000 Gloria 5:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+				case 1:
+					mes "Boa viagem!";
+					next;
+					Go("te_prt_gld",134,65);
+					close3;
+				case 2:
+					mes "Boa viagem!";
+					next;
+					Go("te_prt_gld",240,128);
+					close3;
+				case 3:
+					mes "Boa viagem!";
+					next;
+					Go("te_prt_gld",153,137);
+					close3;
+				case 4:
+					mes "Boa viagem!";
+					next;
+					Go("te_prt_gld",111,240);
+					close3;
+				case 5:
+					mes "Boa viagem!";
+					next;
+					Go("te_prt_gld",208,240);
+					close3;	
+				case 6:
+					next;
+					mes .np$;
+					mes "Tudo Bem!";
+					next;
+					goto L_menu;
+					close3;
+				case 7:
+					next;
+					mes .np$;
+					mes "Tudo bem, me procure quando precisar.";
+					close3;
+				}
+		}	
+		case 6:
+			mes .npc$;
+			mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+			mes "Fique a vontade para Teleportar por onde desejar ! ";
+			next;
+			switch(select("^3CB371[»]^000000 Vila dos Porings ^3CB371[30-60]^000000:^3CB371[»]^000000 Torre Sem Fim ^3CB371[50+]^000000:^3CB371[»]^000000 Memórias Orc ^3CB371[60+]^000000:^3CB371[»]^000000 Ninho de Nidhoggur ^3CB371[70+]^000000:^3CB371[»]^000000 Santuário Selado ^3CB371[75+]^000000:^3CB371[»]^000000 Memorias de Sara ^3CB371[99+]^000000:^3CB371[»]^000000 Palácio das Mágoas ^3CB371[99+]^000000:^3CB371[»]^000000 Velha Glast Heim ^3CB371[99+]^000000:^3CB371[»]^000000 Assalto do Dirijivel ^3CB371[99+]^000000:^3CB371[»]^000000 Thanatos Revamp ^3CB371[99+]^000000:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes "Boa viagem!";
+				next;
+				Go("prt_fild05",144,238);
+				close3;
+			case 2:
+				mes "Boa viagem!";
+				next;
+				Go("e_tower",72,112);
+				close3;
+			case 3:
+				mes "Boa viagem!";
+				next;
+				Go("gef_fild10",240,198);
+				close3;
+			case 4:
+				mes "Boa viagem!";
+				next;
+				Go("nyd_dun02",95,193);
+				close3;
+			case 5:
+				mes "Boa viagem!";
+				next;
+				Go("monk_test",306,143);
+				close3;
+			case 6:
+				mes "Boa viagem!";
+				next;
+				Go("dali",133,108);
+				close3;
+			case 7:
+				mes "Boa viagem!";
+				next;
+				Go("dali02",44,130);
+				close3;
+			case 8:
+				mes "Boa viagem!";
+				next;
+				Go("glast_01",202,269);
+				close3;
+			case 9:
+				mes "Boa viagem!";
+				next;
+				 Go("dali02",136,82);
+				close3;
+			case 10:
+				mes "Boa viagem!";
+				next;
+				 Go("thana_step",153,371);
+				close3;	
+			case 11:
+				next;
+				mes .np$;
+				mes "Tudo Bem!";
+				next;
+				goto L_menu;
+				close3;
+			case 12:
+				next;
+				mes .np$;
+				mes "Tudo bem, me procure quando precisar.";
+				close3;
+			}
+		case 7:
+			mes .npc$;
+			mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+			mes "Fique a vontade para Teleportar por onde desejar ! ";
+			next;
+			switch(select("^3CB371[»]^000000 Battlegrounds:^3CB371[»]^000000 Grupo Eden:^982fc4[»]^000000 Voltar:^ff0000[»]^000000 Sair")) {
+			case 1:
+				mes "Boa viagem!";
+				next;
+				Go("bat_room",154,150);
+				close3;
+			case 2:
+				mes "Boa viagem!";
+				next;
+				Go("moc_para01",30,24);
+				close3;
+			case 3:
+				next;
+				mes .np$;
+				mes "Tudo Bem!";
+				next;
+				goto L_menu;
+				close3;
+			case 4:
+				next;
+				mes .np$;
+				mes "Tudo bem, me procure quando precisar.";
+				close3;
+			}
+		case 8:
+			next;
+			mes .np$;
+			mes "Tudo bem, me procure quando precisar.";
+			close3;
+	}
+
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	.npc$ = "^FF7F00[ Teletransportadora ]^000000";						// Nome do NPC;
+	end;
+}
+
+// --------------------------------------------------
+//	Duplicates:
+// --------------------------------------------------
+alb2trea,57,70,6	duplicate(Warper)	Teletransportadora#tre	4_4job_maura
+alberta,28,240,4	duplicate(Warper)	Teletransportadora#alb	4_4job_maura
+aldebaran,145,118,4	duplicate(Warper)	Teletransportadora#alde	4_4job_maura
+amatsu,203,87,4	duplicate(Warper)	Teletransportadora#ama	4_4job_maura
+ayothaya,209,169,6	duplicate(Warper)	Teletransportadora#ayo	4_4job_maura
+comodo,194,158,4	duplicate(Warper)	Teletransportadora#com	4_4job_maura
+einbech,59,38,6	duplicate(Warper)	Teletransportadora#einbe	4_4job_maura
+einbroch,69,202,4	duplicate(Warper)	Teletransportadora#einbr	4_4job_maura
+gef_fild10,71,339,4	duplicate(Warper)	Teletransportadora#orc	4_4job_maura
+geffen,124,72,4	duplicate(Warper)	Teletransportadora#gef	4_4job_maura
+glast_01,372,308,4	duplicate(Warper)	Teletransportadora#glh	4_4job_maura
+gonryun,162,122,4	duplicate(Warper)	Teletransportadora#gon	4_4job_maura
+hugel,101,151,4	duplicate(Warper)	Teletransportadora#hug	4_4job_maura
+izlu2dun,110,92,4	duplicate(Warper)	Teletransportadora#izd	4_4job_maura
+izlude,134,150,4	duplicate(Warper)	Teletransportadora#izl	4_4job_maura	//Pre-RE: (132,120)
+jawaii,253,138,4	duplicate(Warper)	Teletransportadora#jaw	4_4job_maura
+lighthalzen,162,102,4	duplicate(Warper)	Teletransportadora#lhz	4_4job_maura
+louyang,208,103,6	duplicate(Warper)	Teletransportadora#lou	4_4job_maura
+manuk,274,146,6	duplicate(Warper)	Teletransportadora#man	4_4job_maura
+mid_camp,216,288,4	duplicate(Warper)	Teletransportadora#mid	4_4job_maura
+mjolnir_02,85,364,4	duplicate(Warper)	Teletransportadora#mjo	4_4job_maura
+moc_ruins,64,164,4	duplicate(Warper)	Teletransportadora#moc	4_4job_maura
+morocc,163,95,4	duplicate(Warper)	Teletransportadora#mor	4_4job_maura
+moscovia,229,191,4	duplicate(Warper)	Teletransportadora#mos	4_4job_maura
+nameless_n,259,213,4	duplicate(Warper)	Teletransportadora#nam	4_4job_maura
+niflheim,205,179,4	duplicate(Warper)	Teletransportadora#nif	4_4job_maura
+pay_arche,42,134,4	duplicate(Warper)	Teletransportadora#arc	4_4job_maura
+payon,182,108,4	duplicate(Warper)	Teletransportadora#pay	4_4job_maura
+//poblacion,152,180,4	duplicate(Warper)	Teletransportadora#ppob	4_4job_maura
+prontera,159,190,4	duplicate(Warper)	Teletransportadora#prt	4_4job_maura
+prt_fild05,279,223,6	duplicate(Warper)	Teletransportadora#cul	4_4job_maura
+rachel,135,116,4	duplicate(Warper)	Teletransportadora#rac	4_4job_maura
+splendide,205,153,4	duplicate(Warper)	Teletransportadora#spl	4_4job_maura
+thor_camp,249,76,4	duplicate(Warper)	Teletransportadora#thor	4_4job_maura
+umbala,106,150,3	duplicate(Warper)	Teletransportadora#umb	4_4job_maura
+veins,214,123,4	duplicate(Warper)	Teletransportadora#ve	4_4job_maura
+xmas,150,136,6	duplicate(Warper)	Teletransportadora#xmas	4_4job_maura
+yuno,162,47,4	duplicate(Warper)	Teletransportadora#yuno	4_4job_maura
+
+// --------------------------------------------------
+//	Duplicates (Renewal):
+// --------------------------------------------------
+brasilis,201,222,4	duplicate(Warper)	Teletransportadora#bra	4_4job_maura
+dewata,204,186,6	duplicate(Warper)	Teletransportadora#dew	4_4job_maura
+dicastes01,194,194,6	duplicate(Warper)	Teletransportadora#dic	4_4job_maura
+ecl_in01,51,60,4	duplicate(Warper)	Teletransportadora#ecl	4_4job_maura
+lasagna,196,187,4	duplicate(Warper)	Teletransportadora#las	4_4job_maura
+malangdo,134,117,6	duplicate(Warper)	Teletransportadora#mal	4_4job_maura
+malaya,231,204,4	duplicate(Warper)	Teletransportadora#ma	4_4job_maura
+mora,57,152,4	duplicate(Warper)	Teletransportadora#mora	4_4job_maura

@@ -1,0 +1,22 @@
+prontera,146,167,6	script	Teleporte Mercado-Negro	4_M_BOSSCAT,{
+
+//Configuracoes:
+set .server$,"KillerRo";
+
+//Script:
+mes "[ ^0000FFMercado negro^000000 ]";
+mes "Você deseja ir ao mercado negro?";
+menu "^3CB371[»]^000000Sim",-,"^ff0000[»]^000000Não",cla;
+warp "s_room",35,50;
+close;
+
+cla:
+mes "Ok, volte quando quiser !";
+close;
+
+Oninit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Miau");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}

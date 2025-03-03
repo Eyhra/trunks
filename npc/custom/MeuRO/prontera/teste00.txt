@@ -1,0 +1,8 @@
+-	script	SM_BASH_NPC	-1,{
+	//end;
+
+On10Seconds:
+	@SM_BASH_TIMER = 0;
+	@SM_BASH_BONUS = 0;
+	end;
+}

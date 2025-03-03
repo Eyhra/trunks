@@ -1,0 +1,34 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Storage Filler ==========================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Storage Filler	-1,{
+
+  //"[504]White Potion","[505]Blue Potion","[506]Green Potion","[522]Mastela Fruit","[523]Holy Water","[525]Panacea","[526]Royal Jelly","[547]Condensed White Potion","[605]Anodyne","[606]Aloevera","[607]Yggdrasil Berry","[608]Yggdrasil Seed","[645]Concentration Potion","[656]Awakening Potion","[657]Berserk Potion","[662]Authoritative Badge","[11501]Light White Potion","[11502]Light Blue Potion","[11503]WoE White Potion","[11504]WoE Blue Potion","[12020]Cursed Water","[12029]Box of Gloom","[12030]Box of Resentment","[12031]Box of Drowsiness","[12114]Elemental Converter Fire","[12115]Elemental Converter Water","[12116]Elemental Converter Earth","[12117]Elemental Converter Wind","[12118]Fireproof Potion","[12119]Coldproof Potion","[12120]Earthproof Potion","[12121]Thunderproof Potion","[12262]Authoritative Badge","[14509]Light Concentration Potion","[14510]Light Awakening Potion","[14511]Light Berserk Potion","[14536]Abrasive","[678]Poison Bottle","[715]Yellow Gemstone","[716]Red Gemstone","[717]Blue Gemstone","[905]Stem","[1025]Spiderweb","[7135]Fire Bottle","[7136]Acid Bottle","[7137]Plant Bottle","[7139]Coating Bottle","[7321]Fragment Of Crystal","[12016]Speed Up Potion","Foods+10...",
+ OnInit:
+  setarray $@storage_fill_id[0],504,505,506,517,522,523,525,526,536,547,605,606,607,608,645,656,657,662,678,715,716,717,905,1750,1751,1752,1753,1754,1755,1756,1757,1758,1759,1760,1761,1762,1763,1764,1765,1767,1768,1769,1770,1771,1772,7135,7136,7137,7138,7139,7321,11501,11502,11503,11504,12016,12020,12027,12029,12030,12031,12033,12072,12077,12082,12087,12092,12097,12114,12115,12116,12117,12118,12119,12120,12121,12122,12202,12203,12204,12205,12206,12207,12214,12262,12299,12319,12320,12321,12414,13200,13201,13202,13203,13204,13205,13206,13207,13250,13251,13252,13253,13254,13255,13256,13257,13258,13259,13294,14509,14510,14511,14536;
+  bindatcmd "fillstorage",strnpcinfo(3)+"::OnAtCommand";
+  end;
+
+
+ OnAtCommand:
+  fillstorage $@storage_fill_id,getarraysize($@storage_fill_id);
+  end;
+
+}

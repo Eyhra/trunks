@@ -1,0 +1,8 @@
+//==================================================
+// iz_dun05 - Undersea Tunnel F6
+//==================================================
+iz_dun05,0,0	monster	Sropho	2201,50,5000
+iz_dun05,0,0	monster	Sedora	2204,60,5000
+iz_dun05,0,0	monster	Dofle	2203,30,5000
+iz_dun05,0,0	monster	Dramoh Rei	2198,25,5000
+iz_dun05,0,0,0,0	boss_monster	Kraken	2202,1,7200000,1800000,0

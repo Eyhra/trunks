@@ -1,0 +1,55 @@
+//==============================================================================
+//==== Copyright(C) 2022 Singe Horizontal ======================================
+//==== Ambrosia Tools ==========================================================
+//==== Version 1.0 =============================================================
+//==== https://github.com/Singe-Horizontal =====================================
+//==============================================================================
+//==== This program is free software: you can redistribute it and/or modify 
+//==== it under the terms of the GNU General Public License as published by
+//==== the Free Software Foundation, either version 3 of the License, or
+//==== (at your option) any later version.
+//
+//==== This program is distributed in the hope that it will be useful,
+//==== but WITHOUT ANY WARRANTY; without even the implied warranty of
+//==== MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//==== GNU General Public License for more details.
+//
+//==== You should have received a copy of the GNU General Public License
+//==== along with this program. If not, see <http://www.gnu.org/licenses/>.
+//==============================================================================
+
+-	script	Ambrosia Tools	-1,{
+
+  callsub OnAtCommand;
+  end;
+
+ OnInit:
+  bindatcmd "autoconfig",strnpcinfo(3)+"::OnAtCommand";
+  end;
+
+
+ OnAtCommand:
+  switch(select("Autopot Configurator:Autobuff Configurator:Restock Configurator:Macro Configurator")){
+  case 1:
+	doevent "Autopot Configurator::OnAtCommand";
+    break;
+  case 2:
+	doevent "Autobuff Configurator::OnAtCommand";
+    break;
+  case 3:
+	doevent "Restock Configurator::OnAtCommand";
+    break;
+  case 4:
+	doevent "Macro Configurator::OnAtCommand";
+    break;    
+  }
+  end;
+
+
+
+}
+
+
+dali,50,117,6	duplicate(Ambrosia Tools)	Ambrosia Tools#dali	2_monemus
+pvp_n_1-1,81,88,6	duplicate(Ambrosia Tools)	Ambrosia Tools#pvp_n_1-1	2_monemus
+prontera,146,172,6	duplicate(Ambrosia Tools)	Ambrosia Tools#prontera	2_monemus

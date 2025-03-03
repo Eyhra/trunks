@@ -1,0 +1,96 @@
+prontera,165,164,3	script	Eventos KillerRO	4_M_CHAOS,{
+	cutin "h_chaos01",2;
+     mes "Olá bem vindo, vou lhe listar os eventos do servidor.";
+     next;
+	switch(select("^3CB371[»]^000000 Ver Lista de eventos:^3CB371[»]^000000 Loja de eventos:^ff0000[»]^000000 Sair")) {
+    case 1:
+    mes "[ Event Status ]";
+	mes "Event are as follows : ";
+	next;
+	switch(select(
+		"Bombring Event - "+ ((getvariableofnpc(.start,"Event_Bombring") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_Bombring") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Dice Event - "+ ((getvariableofnpc(.start,"Event_Dice") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_Dice") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Last Man Standing - "+ ((getvariableofnpc(.start,"Event_LMS") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_LMS") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Poring Catcher - "+ ((getvariableofnpc(.start,"Poring_Catcher") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Poring_Catcher") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Novice v Zombie Event - "+ ((getvariableofnpc(.start,"Event_NvZ") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_NvZ") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000", 
+		"Poring Hunter Event - "+ ((getvariableofnpc(.start,"Poring_Hunter") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Poring_Hunter") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000" 
+	)) {
+	case 1:
+		.@start = getvariableofnpc(.start,"Event_Bombring");
+		.@map$ = "quiz_02"; .@x = 59; .@y = 345;
+		break;
+		
+	case 2:
+		.@start = getvariableofnpc(.start,"Event_Dice");
+		.@map$ = "quiz_02"; .@x = 55; .@y = 87;
+		break;
+		
+	case 3:
+		.@start = getvariableofnpc(.start,"Event_LMS");
+		.@map$ = "06guild_01"; .@x = 0; .@y = 0;
+		break;
+		
+	case 4:
+		.@start = getvariableofnpc(.start,"Poring_Catcher");
+		.@map$ = "poring_w01"; .@x = 100; .@y = 100;
+		break;
+		
+	case 5:
+		.@start = getvariableofnpc(.start,"Event_NvZ");
+		if ( BaseLevel > 1 || Class != 0 ) {
+			mes "Apenas Novato de nível 1 pode entrar.";
+			close;
+		}
+		getinventorylist;
+		if ( @inventorylist_amount ) {
+			mes "Você deve armazena todos os seus itens primeiro.";
+			close2;
+			@inventorylist_amount = false;
+			end;
+		}
+		sc_start SC_DECREASEAGI,600000,10;
+		.@map$ = "quiz_01"; .@x = 42; .@y = 369;
+		break;
+		
+	case 6:
+		.@start = getvariableofnpc(.start,"Poring_Hunter");
+		getinventorylist;
+		if ( @inventorylist_count ) {
+			mes "Certifique-se de não ter nada em seu inventário.";
+			close;
+		}
+		.@map$ = "pvp_n_1-2"; .@x = 0; .@y = 0;
+		@phunter_points = 0;
+		break;
+	}
+	if ( !.@start ) {
+		mes "O evento não está disponível.";
+		close;
+	} else if ( .@start == 2 ) {
+		mes "Evento em andamento";
+		close;
+	}
+	sc_end SC_ALL;
+	percentheal 100,100;
+	warp .@map$, .@x, .@y;
+	end;
+    case 2:
+        next;
+		mes .np$;
+		mes "Aqui está.";
+		callshop "EventoExchanger",0;
+		break;
+	case 3:
+        next;
+        mes .np$;
+        mes "Volte sempre.";
+        close3;
+    }
+	 OnInit:
+	 .@UID = getnpcid(0);
+	 setunittitle(.@UID, "Chaos");
+	 setunitdata .@UID, UNPC_GROUP_ID, 33;
+	 end;
+}
+
+prontera,1,1,3	itemshop	EventoExchanger	4_M_CHAOS,55008,51742:500,51743:500,51744:500,51751:500,51752:500,51753:500,51759:500,51760:500,51765:500,51766:500,51770:500,51773:500,51776:500,51779:500,51782:500,51785:500,51788:500,51791:500,51794:500,51797:500,51800:500,51803:500,51806:500,51809:500,51812:500,51815:500,51818:500,51821:500,51824:500,51827:500,51830:500,51833:500

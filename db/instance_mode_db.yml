@@ -1,0 +1,135 @@
+###########################################################################
+# Instance Mode Database
+###########################################################################
+#
+# Instance Mode Settings
+#
+###########################################################################
+# - Mode              Instance Mode ID.
+#   Exp Rate          Experience rate percentage setting for Instance. (Default: 100)
+#   Drop Rate         Drop rate percentage setting for Instance. (Default: 100)
+#   HP                Mob's Max HP percentage. (Default: 100)
+#   Speed             Mob's Movement Speed percentage. Set it lower to increase speed. (Default: 100)
+#   STR               Mob's STR percentage. (Default: 100)
+#   AGI               Mob's AGI percentage. (Default: 100)
+#   VIT               Mob's VIT percentage. (Default: 100)
+#   INT               Mob's INT percentage. (Default: 100)
+#   DEX               Mob's DEX percentage. (Default: 100)
+#   LUK               Mob's LUK percentage. (Default: 100)
+#   ATK               Mob's ATK percentage. (Default: 100)
+#   ATK2              Mob's ATK2 percentage. (Default: 100)
+#   MATK              Mob's MATK percentage. (Default: 100)
+#   MATK2             Mob's MATK2 percentage. (Default: 100)
+#   DEF               Mob's DEF percentage. (Default: 100)
+#   MDEF              Mob's MDEF percentage. (Default: 100)
+#   HIT               Mob's HIT percentage. (Default: 100)
+#   FLEE              Mob's FLEE percentage. (Default: 100)
+#   FLEE2             Mob's FLEE2 percentage. (Default: 100)
+#   CRI               Mob's CRI percentage. (Default: 100)
+#   AMOTION           Mob's AMOTION percentage. Set it lower to increase speed. (Default: 100)
+#   ADELAY            Mob's ADELAY percentage. Set it lower to increase speed. (Default: 100)
+#   DMOTION           Mob's DMOTION percentage. Set it lower to increase speed. (Default: 100)
+###########################################################################
+
+Header:
+  Type: INSTANCE_MODE_DB
+  Version: 1
+
+Body:
+ - Mode: ID_EASY
+   Exp Rate: 80 #Lowered EXP
+   Drop Rate: 80 #Lowered Drop
+   HP: 80
+   Speed: 120
+   STR: 80
+   AGI: 80
+   VIT: 80
+   INT: 80
+   DEX: 80
+   LUK: 80
+   ATK: 80
+   ATK2: 80
+   MATK: 80
+   MATK2: 80
+   DEF: 80
+   MDEF: 80
+   HIT: 80
+   FLEE: 80
+   FLEE2: 80
+   CRI: 80
+   AMOTION: 80
+   ADELAY: 80
+   DMOTION: 80
+ - Mode: ID_NORMAL #DEFAULT
+   Exp Rate: 100
+   Drop Rate: 100
+   HP: 100
+   Speed: 100
+   STR: 100
+   AGI: 100
+   VIT: 100
+   INT: 100
+   DEX: 100
+   LUK: 100
+   ATK: 100
+   ATK2: 100
+   MATK: 100
+   MATK2: 100
+   DEF: 100
+   MDEF: 100
+   HIT: 100
+   FLEE: 100
+   FLEE2: 100
+   CRI: 100
+   AMOTION: 100
+   ADELAY: 100
+   DMOTION: 100
+ - Mode: ID_HARD
+   Exp Rate: 120
+   Drop Rate: 120
+   HP: 150
+   Speed: 80
+   STR: 150
+   AGI: 150
+   VIT: 150
+   INT: 150
+   DEX: 150
+   LUK: 150
+   ATK: 150
+   ATK2: 150
+   MATK: 150
+   MATK2: 150
+   DEF: 150
+   MDEF: 150
+   HIT: 150
+   FLEE: 150
+   FLEE2: 150
+   CRI: 150
+   AMOTION: 150
+   ADELAY: 150
+   DMOTION: 150
+ - Mode: ID_INSANE
+   Exp Rate: 150
+   Drop Rate: 1500
+   HP: 200
+   Speed: 50
+   STR: 200
+   AGI: 200
+   VIT: 200
+   INT: 200
+   DEX: 200
+   LUK: 200
+   ATK: 200
+   ATK2: 200
+   MATK: 200
+   MATK2: 200
+   DEF: 200
+   MDEF: 200
+   HIT: 200
+   FLEE: 200
+   FLEE2: 200
+   CRI: 200
+   AMOTION: 50
+   ADELAY: 50
+   DMOTION: 50
+# - Mode: ID_CUSTOM

@@ -1,0 +1,96 @@
+//===== rAthena Script ======================================= 
+//= Passe Antigravitacional Cash Item NPC
+//===== By: ================================================== 
+//= Kisuka
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Exchange Passe Antigravitacionales to learn "Enlarge Weight Limit"
+//= iRO NPC situated in Payon beside Kafra Shop.
+//===== Additional Comments: ================================= 
+//= 1.0 First version [L0ne_W0lf]
+//= 1.1 Fixed the NPC saying you "00" [L0ne_W0lf]
+//= 1.2 Replaced effect numerics with constants. [Samuray22]
+//= 1.3 Updated script, and fixed potential errors. [L0ne_W0lf]
+//============================================================ 
+
+payon,173,141,4	script	Ripped Cabus#GymPass	899,{
+	mes "[Ripped]"; 
+	mes "Olá. As pessoas não são tão ativas fisicamente quanto costumavam ser. Mesmo que você lute pela vida, seu corpo pode ser fraco e flácido em algumas áreas. Sabe o que eu quero dizer?";
+	next;
+	mes "[Ripped]"; 
+	mes "Ei, treine comigo, e posso garantir que você será capaz de levantar e transportar mais de suas coisas. Apenas me dê o seu ^FF0000Passe Antigravitacional^000000 a cada vez, e nós estaremos prontos.";
+	next;
+	mes "[Ripped]"; 
+	mes "But don't get too excited: no matter how much training I take you through, you can overdo it. You ever hear of anyone that got too buff? That's cuz they're dead. See?";
+	next;
+	mes "[Ripped]"; 
+	mes "Eu diria que seria seguro para você treinar seriamente comigo e aumentar sua capacidade de carga de itens ^FF000010 vezes^000000. Então... Você está pronto para suar?";
+	next;
+	switch(select("Sim:Não:Hum, meus exercícios esgotaram.")) {
+	case 1:
+		if (gympassmemory < 10) {
+			set .@add_carry,gympassmemory + 1;
+			set .@remain_carry,10 - .@add_carry;
+			if (countitem(7776) > 0) {
+				mes "[Ripped]"; 
+				mes "Ah, incrível, vejo que você trouxe o seu Passe Antigravitacional. Tudo bem, apenas faça o que eu faço, e tente sentir a queimadura. Pronto? Vamos fazer isso.";
+				next;
+				specialeffect2 EF_EARTHSPIKE;
+				next;
+				specialeffect2 EF_DEVIL;
+				next;
+				specialeffect2 EF_COIN;
+				next;
+				specialeffect2 EF_SIGHTRASHER;
+				next;
+				mes "[Ripped]"; 
+				mes "Lá, você deveria poder levar mais coisas com você. Vamos ver, podemos aumentar sua capacidade de carga de itens ^FF00000" + .@remain_carry + "^000000 vezes mais se continuarmos treinando juntos assim.";
+				delitem 7776,1; //Max_Weight_Up_Scroll
+				set gympassmemory,.@add_carry;
+				skill "ALL_INCCARRY",.@add_carry,SKILL_PERM_GRANT;
+				close;
+			}
+			else {
+				mes "[Ripped]"; 
+				mes "Cara, o que eu te disse? Você tem que me trazer o seu ^FF0000Passe Antigravitacional^000000 se você quiser se exercitar, e construir o seu item carregando músculos.";
+				close;
+			}
+		}
+		else {
+			mes "[Ripped]"; 
+			mes "Cara, eu não acho que podemos construir seu item carregando músculos mais do que isso. É muito perigoso para o seu corpo se nós tentássemos! Vamos lá, eu te falei sobre os limites, se você quer se exercitar e construir o seu item carregando músculos.";
+			close;
+		}
+	case 2:
+		mes "[Ripped]"; 
+		mes "Ah, isso é muito ruim. Bem, volte se você mudar de ideia. Diga aos seus amigos sobre mim: se eles são fracos, eu vou ajudá-los a ficar em forma.";
+		close;
+	case 3:
+		if (gympassmemory > 0) {
+			mes "[Ripped]"; 
+			mes "O que aconteceu? Você deixa o seu item carregando os músculos apenas atrofiados? Para sua sorte, existe uma memória muscular. Não vai demorar tanto tempo para construir de volta...";
+			next;
+			specialeffect2 EF_EARTHSPIKE;
+			next;
+			specialeffect2 EF_DEVIL;
+			next;
+			specialeffect2 EF_COIN;
+			next;
+			specialeffect2 EF_SIGHTRASHER;
+			next;
+			mes "[Ripped]"; 
+			mes "Que tal isso? Seu item carregando músculos cresceu de volta, assim mesmo! Tente não cagar de novo, ok?";
+			skill "ALL_INCCARRY",gympassmemory,SKILL_PERM_GRANT;
+			close;
+		}
+		else {
+			mes "[Ripped]"; 
+			mes "Huhh... Nós não trabalhamos juntos antes. Eu tenho certeza sobre isso.";
+			close;
+		}
+	}
+}

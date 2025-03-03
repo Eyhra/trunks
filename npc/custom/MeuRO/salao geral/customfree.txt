@@ -1,0 +1,166 @@
+s_room,40,50,4	script	Custom Free	4_ep16_nihil,{
+
+	set .np$,"^00B2EE[ Fee ]^000000";
+	
+	mes .np$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+	mes "Tenho ótimos itens a venda!";
+	mes "quer dar uma olhada?";
+	next;
+	switch(select("^3CB371[»]^000000 Algoz:^3CB371[»]^000000 Mestre:^3CB371[»]^000000 Lorde:^3CB371[»]^000000 Sacerdote:^3CB371[»]^000000 Mago:^3CB371[»]^000000 Professor:^3CB371[»]^000000 Mestre-Ferreiro:^3CB371[»]^000000 Justiceiro:^3CB371[»]^000000 Ninja:^3CB371[»]^000000 SoulLinker:^3CB371[»]^000000 MestreTaekon:^3CB371[»]^000000 SuperAprendiz:^3CB371[»]^000000 BardDancer:^3CB371[»]^000000 Criador:^3CB371[»]^000000 Sniper:^3CB371[»]^000000 Paladino:^3CB371[»]^000000 Stalker:^3CB371[»]^000000 Acessórios:^ff0000[»]^000000 Sair")) {
+		case 1:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "algoz",1;
+			end;
+		case 2:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "mestre",1;
+			end;
+		case 3:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "lorde",1;
+			end;
+		case 4:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "sacer",1;
+			end;
+		case 5:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "mago",1;
+			end;
+		case 6:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "proff",1;
+			end;
+		case 7:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "ferreiro",1;
+			end;
+		case 8:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "justiceiro",1;
+			end;
+		case 9:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "ninja",1;
+			end;
+		case 10:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "soulink",1;
+			end;
+		case 11:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "taekown",1;
+			end;
+		case 12:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "superaprendiz",1;
+			end;
+		case 13:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "barddancer",1;
+			end;
+		case 14:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "criador",1;
+			end;
+		case 15:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "sniper",1;
+			end;
+		case 16:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "pala",1;
+			end;
+		case 17:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "stalker",1;
+			end;
+		case 18:
+			next;
+			mes .np$;
+			mes "Feche esta janela para abrir a loja.";
+			close2;
+			callshop "acess",1;
+			end;	
+		case 19:
+			next;
+			mes .np$;
+			mes "Tudo bem, me procure quando precisar.";
+			close3;
+	}
+    OnInit:
+	.@UID = getnpcid(0);
+    setunittitle(.@UID, "Fee");
+    setunitdata .@UID, UNPC_GROUP_ID,7;
+}
+
+-	shop	algoz	-1,50297:50000,50298:50000,50299:50000,51919:50000,51920:50000,51921:50000,51951:50000,51952:50000,51953:50000
+-	shop	mestre	-1,50300:50000,50301:50000,50302:50000,51922:50000,51923:50000,51924:50000,51954:50000,51955:50000,51956:50000
+-	shop	lorde	-1,50303:50000,50304:50000,51925:50000,51926:50000,51957:50000,51958:50000
+-	shop	sacer	-1,50305:50000,50306:50000,51927:50000,51928:50000,51959:50000,51960:50000
+-	shop	mago	-1,50307:50000,51929:50000,51961:50000
+-	shop	proff	-1,50308:50000,51930:50000,51962:50000
+-	shop	ferreiro	-1,50309:50000,51931:50000,51963:50000
+-	shop	justiceiro	-1,50310:50000,51932:50000,51964:50000
+-	shop	ninja	-1,50517:50000,50518:50000,51933:50000,51934:50000,51965:50000,51966:50000
+-	shop	soulink	-1,50508:50000,51935:50000,51967:50000
+-	shop	taekown	-1,50509:50000,51936:50000,51968:50000
+-	shop	superaprendiz	-1,50510:50000,50511:50000,51937:50000,51938:50000,51969:50000,51970:50000
+-	shop	barddancer	-1,50512:50000,51939:50000,51971:50000
+-	shop	criador	-1,50513:50000,50514:50000,51940:50000,51941:50000,51972:50000,51973:50000
+-	shop	sniper	-1,50515:50000,50516:50000,51942:50000,51943:50000,51974:50000,51975:50000
+-	shop	pala	-1,50519:50000,50520:50000,50521:50000,51944:50000,51945:50000,51946:50000,51976:50000,51977:50000,51978:50000
+-	shop	stalker	-1,50522:50000,50523:50000,50524:50000,50440:50000,51947:50000,51948:50000,51949:50000,51950:50000,51979:50000,51980:50000,51981:50000,51982:50000
+-	shop	acess	-1,51983:50000,51984:50000,51985:50000,51986:50000,51987:50000,51988:50000

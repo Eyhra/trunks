@@ -1,0 +1,1151 @@
+//===== rAthena Script =======================================
+//= Eden Group Quests - Mission [111-120]
+//===== By: ==================================================
+//= Capuche
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Repeatable quests for players between BaseLevel 111 - 120.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Added support to Para_Team_Mark_ in Eden Group. [Ragno]
+//= 1.2 Added use of F_HasEdenGroupMark function. [Ragno]
+//============================================================
+
+moc_para01,17,95,5	script	Mingmin#1	4_F_GENETIC,{
+	mes "[Mingmin]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		cutin "min02",0;
+		mes "Um estranho. Este lugar deveria ser apenas para os Membros do Grupo Eden";
+		mes "Estou precisando do nivel base ^FF0000111 - 120^000000 aventureiros para ajudar na minha pesquisa";
+	}
+	else if (para_110lv01 == 0) {
+		cutin "min02",0;
+		mes "......";
+		emotion ET_THINK;
+		next;
+		mes "[Mingmin]";
+		mes "(Wow...)";
+		next;
+		mes "A Geneticista esta murmurando para si mesma";
+		next;
+		mes "[Mingmin]";
+		mes "...";
+		next;
+		mes "[Mingmin]";
+		mes "......";
+		next;
+		mes "[Mingmin]";
+		mes "^0000ffA pergunta: Es tu meu servo?^000000";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "(Do que esta senhora esta falando?)";
+		emotion ET_THINK, playerattached();
+		next;
+		mes "[Mingmin]";
+		mes "Responda-me!";
+		mes "Es tu meu servo?";
+		emotion ET_THINK;
+		next;
+		select( "Eu nao sou.", "Voce esta tropecando?" );
+		mes "[Mingmin]";
+		mes "Voce nao e? Esplendido... porque eu me dignei que qualquer servo meu tivesse mais dignidade";
+		emotion ET_OHNO;
+		next;
+		mes "[Mingmin]";
+		mes "Bem, nao escravo... O que voce esta procurando aqui?";
+		next;
+		if (select( "Nada em particular.", "Missoes! Quem sao voces?" ) == 1) {
+			mes "[Mingmin]";
+			mes "Isso e aceitavel, espero que voce encontre o que voce procura.";
+			emotion ET_OK;
+		}
+		else {
+			mes "[Mingmin]";
+			mes "Oh eu? Eu sou ^E51BD8Busaner Mingmin^000000 e estou pesquisando monstros a pedido do Grupo Eden";
+			next;
+			mes "[Mingmin]";
+			mes "Eu costumava coletar fungos e mofo sozinho em meu laboratorio de montanha. Desde entao, entrei para um grupo a procura de novos monstros...";
+			next;
+			mes "[Mingmin]";
+			mes "Com toda a minha experiencia, eles realmente me fizeram um professor aqui no Grupo Eden";
+			next;
+			mes "[Mingmin]";
+			mes "De qualquer forma, ha uma tarefa urgente que devo concluir, por favor, me deem licenca por um momento";
+			para_110lv01 = 1;
+		}
+	}
+	else if (para_110lv01 == 1) {
+		cutin "min02",0;
+		mes "^0C0C0CF2Pop quiz hot shot: Es tu meu servo?^000000";
+		next;
+		select("No~ I'm "+ strcharinfo(0) +" remember?");
+		mes "[Mingmin]";
+		mes "Oh, ja te conheci antes, viver em uma casa cheia de fungos parece causar perda de memoria";
+		emotion ET_SURPRISE;
+		next;
+		mes "[Mingmin]";
+		mes "Quem era voce de novo?";
+		emotion ET_QUESTION;
+		next;
+		select("Pedidos e pesquisas do Grupo Eden");
+		mes "[Mingmin]";
+		mes "Ah, que eu me lembro";
+		next;
+		mes "[Mingmin]";
+		mes "Estou coletando informacoes sobre a flora e a fauna de Midgard para o Grupo Eden";
+		next;
+		mes "[Mingmin]";
+		mes "A intencao e catalogar cientificamente e discriminar os perigos do mundo. Eu nao gosto desta ideia pessoalmente";
+		next;
+		mes "[Mingmin]";
+		mes "A teoria so o levara tao longe neste mundo";
+		next;
+		mes "[Mingmin]";
+		mes "Morever, um aventureiro que viajou para fora de Rune-Midgarts deve ter experiencia suficiente para conhecer a si mesmo";
+		next;
+		mes "[Mingmin]";
+		mes "Esta e a minha opiniao ^ff000000 somente assim nao te preocupes";
+		next;
+		mes "[Mingmin]";
+		mes "Bem, depois de toda essa conversa eu preciso descansar. Meus pes estao bastante cansados";
+		emotion ET_SLEEPY;
+		para_110lv01 = 2;
+	}
+	else if (para_110lv01 == 2) {
+		cutin "min02",0;
+		mes "Oh, "+ strcharinfo(0) +" e voce... e bom voce ter ed, eu estava entediado";
+		next;
+		mes "[Mingmin]";
+		mes "Onde eu estava? Acabei de falar sobre o dever do Grupo Eden de proteger os outros contra o perigo";
+		next;
+		mes "[Mingmin]";
+		mes "Para proteger mais pessoas, acho que elas precisam de aventureiros que tenham experimentado as coisas em primeira mao";
+		next;
+		mes "[Mingmin]";
+		mes "Portanto, precisamos daqueles corajosos ou imprudentes o suficiente para se aventurarem a reunir informacoes no campo";
+		next;
+		select("Parece perigoso... quando posso comecar?");
+		mes "[Mingmin]";
+		mes "Fale comigo em um segundo e nos vamos andando..";
+		emotion ET_SLEEPY;
+		para_110lv01 = 3;
+	}
+	else if (para_110lv01 == 3) {
+		cutin "min02",0;
+		mes "Pergunta "+ strcharinfo(0) +"! Estava praticando porque um novo criado esta chegando em breve";
+		next;
+		select("Waddya significa novo criado?");
+		mes "[Mingmin]";
+		mes "Oh...desculpe, eu quis dizer escudeiro...";
+		mes "Refiro-me ao aventureiro...";
+		emotion ET_SURPRISE;
+		next;
+		mes "[Mingmin]";
+		mes "Desculpe, o fungo em minha casa esta ficando bastante galopante";
+		next;
+		mes "[Mingmin]";
+		mes "Descobri que Rohtert estava trabalhando aqui quando cheguei com um pedido do Grupo Eden";
+		next;
+		if (para_100lv02 > 100) {
+			mes "[Mingmin]";
+			mes "Voce o conheceu antes de agora? Eu tenho uma historia com ele";
+		}
+		else {
+			mes "[Mingmin]";
+			mes "O cara de cabelo branco ao lado da entrada. Se voce estiver interessado, ele esta gerenciando aventureiros de nivel 100-110";
+		}
+		next;
+		mes "[Mingmin]";
+		mes "De qualquer forma, ele tinha trabalhado aqui, entao ele sabe melhor que eu. Eu so passei por aqui para obter conselhos";
+		next;
+		mes "[Mingmin]";
+		mes "Isso nao foi tao dificil assim...";
+		next;
+		cutin "min01",0;
+		mes "[Mingmin]";
+		mes "Tolos aventureiros virao perguntar-me, ^ff0000'Minha rainha, trata-me como um servo malandro!'^000000";
+		next;
+		select("......Uh......");
+		cutin "min02",0;
+		mes "[Mingmin]";
+		mes "Por alguma razao, ainda nao ha muitas pessoas fazendo fila para me ajudar";
+		emotion ET_THINK, playerattached();
+		next;
+		mes "[Mingmin]";
+		mes "Acho que e preciso ^ff0000bravery^000000 para aceitar um novo pedido";
+		next;
+		mes "[Mingmin]";
+		mes "Chega de conversa fiada, quero fazer um contrato com alguem que realmente anseia por aventura";
+		next;
+		mes "[Mingmin]";
+		mes "Maybe "+ strcharinfo(0) +" Eu o deixarei ser meu servidor se estiver interessado em fazer este pedido do Grupo Eden para minha pesquisa";
+		para_110lv01 = 4;
+	}
+	else if (para_110lv01 > 3) {
+		cutin "min01",0;
+		if (para_110lv01 == 5)
+			mes "Bem-vindo! "+ strcharinfo(0) +"...";
+		else
+			mes "Ola "+ strcharinfo(0) +".";
+			next;
+		switch( select( "Pedido de pesquisa de monstros", "Fazer conversa fiada" ) ) {
+			mes "[Mingmin]";
+		case 1:
+			if (BaseLevel < 111) {
+				cutin "min02",0;
+				mes "Acho que ja lhes disse que estou procurando um aventureiro com mais experiencia para a minha pesquisa de monstros.";
+				next;
+				mes "[Mingmin]";
+				mes "E porque esta missao tem pedidos muito perigosos";
+				next;
+				mes "[Mingmin]";
+				mes "Vamos ver. Se voce puder atender a todos os pedidos da rohtert ali parada, entao eu reconsiderarei";
+				next;
+				mes "[Mingmin]";
+				mes "Reconsiderarei se voce se voltar para o nivel base 111";
+			}
+			else if (BaseLevel < 121) {
+				if (para_110lv01 == 4) {
+					cutin "min02",0;
+					mes "Oh, voce quer me ajudar com minha pesquisa?";
+					next;
+					mes "Ela parece estar esperando por um sinal especial ^FF0000. ^000000 O que voce quer fazer?";
+					next;
+					while(select( "Fazer um coracao com duas maos.", "Dancar como uma pessoa louca", "Pestanejar para ela", "Assobiar para ela." ) != 2) {
+						mes "[Mingmin]";
+						mes "Para que e isso?";
+						emotion ET_SCRATCH;
+						next;
+						mes "Hmm, ela nao foi por isso";
+						next;
+					}
+					mes "[Mingmin]";
+					mes "Este sinal!?";
+					emotion ET_SPARK;
+					next;
+					cutin "min01",0;
+					mes "[Mingmin]";
+					mes "^FF0000..................agora?^000000";
+					emotion ET_SPARK;
+					next;
+					select("Nao diga nada e acene com a cabeca...");
+					mes "[Mingmin]";
+					mes "......";
+					next;
+					mes "[Mingmin]";
+					mes "Pergunta...! Es tu meu servo?";
+					next;
+					select("Sim, meu leige...");
+					cutin "min02",0;
+					mes "[Mingmin]";
+					mes "............";
+					next;
+					cutin "min01",0;
+					mes "[Mingmin]";
+					mes "Bem, entao esta tudo resolvido! Voce assinara este formulario";
+					next;
+					mes "[Contract]";
+					mes "A - o aventureiro nao voltara a falar com Busaner Mingmin e nao reclamara em nenhuma circunstancia";
+					next;
+					mes "[Contract]";
+					mes "B - O aventureiro deve proceder para completar o pedido de Busaner Mingmin o mais rapido humanamente possivel";
+					next;
+					mes "[Contract]";
+					mes "C - Este contrato e rescindido no dia em que um pedido do aventureiro e completado";
+					next;
+					cutin "min02",0;
+					mes "[Contract]";
+					mes "D - este contrato sera confidencial, exceto entre o aventureiro e Mingmin sob ^FF0000penalty of death.^000000";
+					next;
+					mes "[Mingmin]";
+					mes "Nao se preocupe muito. Os sindicatos exigem isso voce sabe. Basta assinar na linha que esta pontilhada";
+					next;
+					if (select( "Assinar o contrato.", "Leve tempo para pensar." ) == 2) {
+						mes "[Mingmin]";
+						mes "Voce pode levar seu tempo....";
+					}
+					else {
+						cutin "min01",0;
+						mes "[Mingmin]";
+						mes "Voce o assinou?";
+						next;
+						mes "[Mingmin]";
+						mes "............";
+						next;
+						cutin "min03",0;
+						mes "[Mingmin]";
+						mes "Haha! Eu me sinto muito melhor agora.";
+						emotion ET_BLABLA;
+						next;
+						mes "[Mingmin]";
+						mes "Obrigado por aceitar o estranho contrato. Ansioso por trabalhar com voce";
+						next;
+						mes "[Mingmin]";
+						mes "Fui cuidadoso com os pedidos do publico porque tenho que ser educado com os aventureiros";
+						next;
+						mes "[Mingmin]";
+						mes "Eu tentei ser poilte . Mas isso nao se adequa a minha personalidade";
+						next;
+						cutin "min02",0;
+						mes "[Mingmin]";
+						mes "Voce deveria ter mais cuidado... Voce notou algo sobre a caneta que assinou com voce? Havia ^FF0000000000 esporos de cogumelos shiitake shiitake nele";
+						next;
+						mes "[Mingmin]";
+						mes "Se os esporos entrarem em sua corrente sanguinea, voce podera cultivar cogumelos dentro de seu proprio corpo";
+						next;
+						mes "[Mingmin]";
+						mes "Demora muito tempo, entao faca o seu melhor. Talvez eu lhe de o antidoto se voce se sair bem";
+						next;
+						cutin "min03",0;
+						mes "[Mingmin]";
+						mes "Tudo bem, agora nos tornamos bastante familiares. Entao. Vamos comecar a trabalhar?";
+						para_110lv01 = 5;
+					}
+				}
+				else if (para_110lv01 > 4) {
+					cutin "min01",0;
+					mes "Precisamos de mais algumas informacoes sobre os seguintes monstros. Escolha";
+					next;
+					switch( select( "Pedidos relacionados com Glastheim", "Pedidos relacionados com torres de Thanatos", "Pedidos relacionados com o vacuo de cinzas", "Pedido pessoal da Mingmin." ) ) {
+						mes "[Mingmin]";
+					case 1:
+						mes "Ouvi dizer que algo esta acontecendo em Glastheim. Os monstros estao a pe.";
+						next;
+						switch( select( "Raydric Research", "Khalitzberg Research", "Wanderer Research" ) ) {
+							mes "[Mingmin]";
+						case 1:
+							if (checkquest(13068,PLAYTIME) == 0)
+								mes "A pesquisa de Raydric esta indo bem. E melhor ter mais amostras para pesquisar!";
+							else if (checkquest(13067,HUNTING) == 1) {
+								cutin "레이드릭카드",3;  //daydric_card
+								mes "Voce pode encontrar Raydric na entrada oeste ou no 2º andar de Glastheim";
+								next;
+								mes "[Mingmin]";
+								mes "Eu preciso de informacoes e documentos, nao importa o que aconteca. Volte para mim depois de lidar com ^FF000030 Raydric^000000's.";
+								next;
+								cutin "min01",0;
+								mes "[Mingmin]";
+								mes "A experiencia que se aprende lutando com monstros sera um bom recorde para a pesquisa";
+							}
+							else if (checkquest(13067,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Como voce se sente lidando com monstros duros? Bons documentos e boa experiencia tambem para voce";
+								callsub S_Quest,13067,13068,700000,200000;
+							}
+							else {
+								cutin "레이드릭카드",3;  //daydric_card
+								mes "Algo esta acontecendo em Glastheim. E essa pista esta em Raydrics que e informacao que eu tenho";
+								next;
+								mes "[Mingmin]";
+								mes "Eu preciso de informacoes e documentos, nao importa o que aconteca. Volte para mim depois de lidar com ^FF000030 Raydric^000000's.";
+								next;
+								cutin "min01",0;
+								if (select( "Take the request.", "Quit" ) == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, volte para mim depois de lidar com os monstros. Preciso de todas as suas historias para documentacao";
+									callsub S_Quest,13068,13067;
+								}
+							}
+							break;
+						case 2:
+							if (checkquest(13070,PLAYTIME) == 0)
+								mes "A pesquisa de Khalitzburg esta indo bem. E melhor ter mais amostras para pesquisar";
+							else if (checkquest(13069,HUNTING) == 1) {
+								cutin "스켈나이트카드",3;  //skullknight_card
+								mes "Khalitzburg sera encontrado na entrada oeste de Glastheim";
+								next;
+								mes "[Mingmin]";
+								mes "Eu preciso de informacoes e documentos, nao importa o que aconteca. Volte para mim depois de lidar com ^FF000030 Khalitzburg's^000000";
+								next;
+								cutin "min01",0;
+								mes "[Mingmin]";
+								mes "A experiencia que se aprende lutando com monstros sera um bom recorde para a pesquisa";
+							}
+							else if (checkquest(13069,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Como voce se sente ao lidar com monstros duros? Bons documentos e boa experiencia tambem para voce";
+								callsub S_Quest,13069,13070,700000,200000;
+							}
+							else {
+								cutin "스켈나이트카드",3;  //skullknight_card
+								mes "Talvez Khalitzburg esteja ligado ao que esta acontecendo em glastheim, entao vamos pesquisa-lo";
+								next;
+								mes "[Mingmin]";
+								mes "Eu preciso de informacoes e documentos, nao importa o que aconteca. Volte para mim depois de lidar com ^FF000030 Khalitzburg's^000000";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, me conte a historia depois de lidar com eles um a um. Eles serao documentos importantes...";
+									callsub S_Quest,13070,13069;
+								}
+							}
+							break;
+						case 3:
+							if (checkquest(13072,PLAYTIME) == 0)
+								mes "A pesquisa de Wanderer esta indo bem. E melhor ter mais amostras para pesquisar";
+							else if (checkquest(13071,HUNTING) == 1) {
+								cutin "배회하는자카드",3;  //wander_man_card
+								mes "Wanderer sera encontrado se voce entrar pela entrada norte e for para uma grande entrada no meio da estrada em Glastheim";
+								next;
+								mes "[Mingmin]";
+								mes "Eu preciso de informacoes e documentos, nao importa o que aconteca. Que tal lidar com ^FF000030 Wanderers^000000";
+								next;
+								cutin "min01",0;
+								mes "[Mingmin]";
+								mes "A experiencia que se aprende lutando com monstros sera um bom recorde para a pesquisa";
+							}
+							else if (checkquest(13071,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Como voce se sente ao lidar com monstros duros? Bons documentos e boa experiencia tambem para voce";
+								callsub S_Quest,13071,13072,700000,200000;
+							}
+							else {
+								cutin "배회하는자카드",3;  //wander_man_card
+								mes "Wanderer e o representante da Glastheim. E perigoso, mas legal!";
+								next;
+								mes "[Mingmin]";
+								mes "Sera uma boa pesquisa. Volte depois de lidar com ^FF000030 Wanderers^000000";
+								next;
+								cutin "min01",0;
+								if (select( "Take the request.", "Quit" ) == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, me conte a historia depois de lidar com eles um a um. Eles serao documentos importantes...";
+									emotion ET_BEST;
+									callsub S_Quest,13072,13071;
+								}
+							}
+						}
+						break;
+					case 2:
+						mes "Precisamos pesquisar monstros na torre de Thanatos";
+						next;
+						switch( select( "Ancient Mimic research", "Deathword research", "Owl Baron research", "Bloody Page research." ) ) {
+							mes "[Mingmin]";
+						case 1:
+							if (checkquest(13074,PLAYTIME) == 0)
+								mes "A pesquisa mimica antiga esta indo bem. E melhor ter mais amostras para a pesquisa!";
+							else if (checkquest(13073,HUNTING) == 1) {
+								cutin "에인션트미믹",3;  //ancient_mimic_card
+								mes "Nao e longe se voce se mudar de Juno ou Hugel para Thanatos ou o lago Abyss";
+								next;
+								mes "[Mingmin]";
+								mes "Nao reclame! Sera uma boa experiencia para voce";
+								next;
+								cutin "min01",0;
+								mes "[Mingmin]";
+								mes "A experiencia que se aprende lutando com monstros sera um bom recorde para a pesquisa";
+							}
+							else if (checkquest(13073,HUNTING) == 2) {
+								cutin "min02",0;
+								mes "Voce fez um bom trabalho hoje";
+								callsub S_Quest,13073,13074,700000,300000;
+							}
+							else {
+								cutin "에인션트미믹",3;  //ancient_mimic_card
+								mes "Voce os vera frequentemente na torre de thanatos ou no lago do abismo. Eles nao sao generosos com suas gotas, mas isso nao e importante para finalizar este pedido";
+								next;
+								mes "[Mingmin]";
+								mes "Nao consigo encontrar nenhuma conexao em duas areas, mas elas continuam surgindo, entao vale a pena pesquisar. Volte depois de tomar conta do ^FF000030 antigo mimico^000000";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Se voce possivelmente receber uma boa gota deles, voce sabe, certo? Nao se esqueca de mim!";
+									emotion ET_SPARK;
+									callsub S_Quest,13074,13073;
+								}
+							}
+							break;
+						case 2:
+							if (checkquest(13076,PLAYTIME) == 0)
+								mes "A pesquisa do Deathword esta indo bem. E melhor ter mais amostras para a pesquisa";
+							else if (checkquest(13075,HUNTING) == 1) {
+								mes "A torre de Thanatos sera mais perigosa do que voce pensava. Talvez voce queira organizar uma festa antes de ir para la";
+								next;
+								mes "[Mingmin]";
+								mes "Eu quero pesquisar isto, entao aceite este pedido, por favor";
+								next;
+								mes "[Mingmin]";
+								mes "Eu lhe darei uma recompensa...";
+							}
+							else if (checkquest(13075,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Muito obrigado. Esta sera uma grande pesquisa";
+								callsub S_Quest,13075,13076,700000,300000;
+							}
+							else {
+								mes "Esta e a razao pela qual escolhi a torre Thanatos para pesquisar. Nao se surpreenda. Este aqui e um livro antigo que se tornou um monstro";
+								next;
+								mes "[Mingmin]";
+								mes "Eu quero pesquisar os antecedentes dessas criaturas. Por favor, verifique ^FF000030 Deathwords^000000";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, cuide deles um a um. Esses livros contem preciosa historia de Midgard, por isso quero pesquisa-los";
+									callsub S_Quest,13076,13075;
+								}
+							}
+							break;
+						case 3:
+							if (checkquest(13078,PLAYTIME) == 0)
+								mes "A pesquisa do Coruja Barao esta indo bem. E melhor ter mais amostras para a pesquisa";
+							else if (checkquest(13077,HUNTING) == 1) {
+								cutin "아울바론카드",3;  //owl_baron_card
+								mes "Voce pode conhece-lo se subir na torre de acordo com os rumores. Para mim, bem, eu nunca estive la em cima";
+								next;
+								mes "[Mingmin]";
+								mes "O cara de chapeu azul foi para o topo, mas eu nao me dei ao trabalho de segui-lo";
+								next;
+								mes "[Mingmin]";
+								mes "De qualquer forma, havera recompensa suficiente, com certeza";
+								cutin "min01",0;
+							}
+							else if (checkquest(13077,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Voltar com seguranca!? O Grupo Eden ficara feliz";
+								callsub S_Quest,13077,13078,700000,300000;
+							}
+							else {
+								cutin "아울바론카드",3;  //owl_baron_card
+								mes "Pessoalmente, nao tenho interesse neste monstro, mas ele foi solicitado ao Grupo Eden";
+								next;
+								mes "[Mingmin]";
+								mes "Por favor, tome conta de ^FF000020 Baroes Corujas^000000. Ajudara outros aventureiros a explorar a torre de Thanatos";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Isso nao significa que nao vou pesquisa-los. Quanto mais documentos, melhor a pesquisa";
+									callsub S_Quest,13078,13077;
+								}
+							}
+							break;
+						case 4:
+							if (checkquest(13080,PLAYTIME) == 0) {
+								cutin "min03",0;
+								mes "Eu gosto de livros antigos! Ok, preciso analisar isto. Paginas Sangrentas! Por favor, traga mais amanha ou depois de amanha. A qualquer hora!";
+							}
+							else if (isbegin_quest(13079) == 1) {
+								if (countitem(7449) > 19) {// Bloody_Page
+									cutin "min03",0;
+									mes "Uau. E tao curioso. E emocionante!";
+									delitem 7449,20;
+									callsub S_Quest,13079,13080,700000,300000;
+								}
+								else {
+									cutin "데스워드",3;  //deathword_card
+									mes "O 3º andar de thanatos tem Deathword monsers que deixam cair estas paginas sangrentas";
+									next;
+									mes "[Mingmin]";
+									mes "Acho que se voce recolher 20 destes deve ser suficiente para a minha pesquisa. E barbaro, mas e um trabalho!";
+									next;
+									mes "[Mingmin]";
+									mes "Havera recompensa suficiente, com certeza";
+									cutin "min01",0;
+								}
+							}
+							else {
+								cutin "데스워드",3;  //deathword_card
+								mes "O fato de eu ter decidido viajar para Thanatos tem a razao. Haha, ouvi dizer que posso obter Bloody Pages dos monstros Deathword";
+								next;
+								mes "[Mingmin]";
+								mes "Sei que sao nojentas e sangrentas, mas imaginem os seculos de historias preservadas nessas paginas...";
+								next;
+								mes "[Mingmin]";
+								mes "Voce pode por favor me conseguir 20 ^FF0000Bloody Pages^000000? Ficarei feliz se houver uma estante util que possamos usar quando voce as trouxer de volta";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir.") == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, eu realmente quero pesquisar isto";
+									callsub S_Quest,13080,13079;
+								}
+							}
+						}
+						break;
+					case 3:
+						mes "A pesquisa para o Vacuo de Cinzas esta apenas comecando. Portanto, ainda ha muitas coisas para estudar";
+						next;
+						switch( select( "Pesquisa Pinguicula Escura", "Pesquisa Nepenthes", "Pesquisa Naga", "Pesquisa Larva Centipede", "Pesquisa Cornus", "Conhecemos o poder magico do chifre que vimos naquele dia." ) ) {
+							mes "[Mingmin]";
+						case 1:
+							if (checkquest(13082,PLAYTIME) == 0)
+								mes "A pesquisa de Pinguicula dark esta em andamento. Por favor, volte para mim na proxima vez!";
+							else if (checkquest(13081,HUNTING) == 1) {
+								cutin "핀귀큘라다크카드",3;  //pinguicula_dark_card
+								mes "Eu acho que esta pesquisa e facil. Eles nao sao muito perigosos pelos relatorios iniciais que recebi";
+								next;
+								mes "[Mingmin]";
+								mes "E a noroeste do Acampamento das Forcas Aliadas. Nao e tao longe assim a pressa";
+								cutin "min01",0;
+							}
+							else if (checkquest(13081,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Bom trabalho! continuar ajudando minha pesquisa. Eu ainda tenho muito a fazer";
+								callsub S_Quest,13081,13082,700000,180000;
+							}
+							else {
+								cutin "핀귀큘라다크카드",3;  //pinguicula_dark_card
+								mes "E o monstro que vive no noroeste do Acampamento das Forcas Aliadas. Nao estou interessado em ir eu mesmo, mas o pedido ja foi pago e posso muito bem pesquisa-los";
+								next;
+								mes "[Mingmin]";
+								mes "Hunt ^FF000030 Dark Pinguicula^000000. Lutar contra ela fornecera alguns bons materiais de pesquisa";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Be careful and safe.";
+									callsub S_Quest,13082,13081;
+								}
+							}
+							break;
+						case 2:
+							if (checkquest(13084,PLAYTIME) == 0)
+								mes "A pesquisa de Nepenthes ainda esta em andamento. Por favor, volte para mim na proxima vez";
+							else if (checkquest(13083,HUNTING) == 1) {
+								cutin "네펜데스카드",3;  //nepenthes_card
+								mes "Pode ser um simples pedido ou um pedido dificil. Tente encontrar amigos se voce estiver em apuros. Isso tambem e aventura!";
+								next;
+								mes "[Mingmin]";
+								mes "E ao leste do Acampamento das Forcas Aliadas. Nao e tao longe assim a pressa";
+								cutin "min01",0;
+							}
+							else if (checkquest(13083,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Bom trabalho! Continuar auxiliando na minha pesquisa. Eu ainda tenho muito a fazer";
+								callsub S_Quest,13083,13084,700000,180000;
+							}
+							else {
+								cutin "네펜데스카드",3;  //nepenthes_card
+								mes "Voce conhece o nome do monstro como mandragora? Ha um monstro semelhante a leste da estacao de expedicao. Tenho certeza de que sera relacionado para a pesquisa de monstros";
+								next;
+								mes "[Mingmin]";
+								mes "Por que voce nao caca 30 ^FF0000Nepenthes^000000? Suas videiras se arrastam por toda parte, portanto, tenha cuidado";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "O pedido como este satisfaz a mim e ao Grupo Eden. Mas tenha cuidado";
+									callsub S_Quest,13084,13083;
+								}
+							}
+							break;
+						case 3:
+							if (checkquest(13086,PLAYTIME) == 0)
+								mes "A pesquisa da Naga ainda esta em andamento. Por favor, volte para mim na proxima vez";
+							else if (checkquest(13085,HUNTING) == 1) {
+								cutin "나가카드",3;  //naga_card
+								mes "Voce cuida daqueles viciados em poderes magicos, eu nao tenho interesse";
+								next;
+								mes "[Mingmin]";
+								mes "Por favor, cuide de 30 monstros Naga a noroeste da estacao de expedicao";
+								cutin "min01",0;
+							}
+							else if (checkquest(13085,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Bom. Continue ajudando minha pesquisa. Tenho demasiados para verificar";
+								callsub S_Quest,13085,13086,700000,180000;
+							}
+							else {
+								cutin "나가카드",3;  //naga_card
+								mes "Por favor, tome conta de 30 ^FF0000Naga^000000 monstros a noroeste da estacao de expedicao";
+								next;
+								mes "[Mingmin]";
+								mes "Nao tenho interesse nisso, mas incomoda meu tempo para pesquisar os outros monstros que eu realmente quero estudar. Por isso, quero que o numero deles seja reduzido";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Por favor, faca o seu melhor. Este pedido tambem e importante para desbloquear pesquisas adicionais";
+									callsub S_Quest,13086,13085;
+								}
+							}
+							break;
+						case 4:
+							if (checkquest(13088,PLAYTIME) == 0)
+								mes "Ainda estou pesquisando a Larva Centipede. Por favor, venha e me ajude na proxima vez";
+							else if (checkquest(13087,HUNTING) == 1) {
+								cutin "센티페데유충카드",3;  //centipede_larva_card
+								mes "Oh... Nao Vamos respirar fundo. Para mim, eu quero exterminar mais de 20 para pesquisa";
+								next;
+								emotion ET_CRY;
+								mes "[Mingmin]";
+								mes "Tenha cuidado. E eles estao a leste da estacao de expedicao";
+								cutin "min02",0;
+							}
+							else if (checkquest(13087,HUNTING) == 2) {
+								cutin "min02",0;
+								mes "Oh. Esta bem. Nao e preciso explicar";
+								emotion ET_OTL;
+								callsub S_Quest,13087,13088,700000,180000;
+							}
+							else {
+								cutin "센티페데유충카드",3;  //centipede_larva_card
+								mes "Yuck! E muito nojento. Olhe para mim. E tao assustador que eu queria pesquisar porque eu estava interessado no Nepenthes. Mas odeio insetos com muitas pernas...";
+								next;
+								mes "[Mingmin]";
+								mes "Volte depois que 20 ^FF0000Centipede Larva^000000 forem exterminadas. Voce pode imaginar como elas se tornaram grandes? Apenas o pensamento faz a minha pele rastejar";
+								next;
+								cutin "min02",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Sinto muito por nao ter sido eu a faze-lo. Nao tenho vergonha de admitir que e muito nojento para mim";
+									callsub S_Quest,13088,13087;
+								}
+							}
+							break;
+						case 5:
+							if (checkquest(13090,PLAYTIME) == 0)
+								mes "A pesquisa de Cornus ainda esta em andamento. Por favor, pesquisar para outros aventureiros";
+							else if (checkquest(13089,HUNTING) == 1) {
+								cutin "코르누스카드",3;  //cornus_card
+								mes "Preciso pesquisar essas criaturas voadoras de cavalos, por isso, por favor, me ajude";
+								next;
+								mes "[Mingmin]";
+								mes "Claro que tambem ajudara seus aventureiros de alguma forma, suponho";
+								cutin "min01",0;
+							}
+							else if (checkquest(13089,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Como foi? Esse monstro e facil para os aventureiros";
+								callsub S_Quest,13089,13090,700000,180000;
+							}
+							else {
+								cutin "코르누스카드",3;  //cornus_card
+								mes "Encontrei o monstro que satisfaz minhas necessidades de pesquisa e ajuda os aventureiros a ganhar experiencia do Grupo Eden. Tambem nao e um monstro fraco ou feroz";
+								next;
+								mes "[Mingmin]";
+								mes "Acredito que os aventureiros lidarao com o Cornus no futuro, portanto saia e lide com ^FF000030 Cornus^000000 para que eu possa pesquisar essa viabilidade";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Isto poderia ser uma revolucao para os aventureiros do Grupo Eden. Seja positivo com este pedido, por favor";
+									callsub S_Quest,13090,13089;
+								}
+							}
+							break;
+						case 6:
+							if (checkquest(13092,PLAYTIME) == 0)
+								mes "Ainda estou pesquisando os Chifres Misticos que voce trouxe. Muito interessante. Posso bater o chapeu azul em breve";
+							else if (isbegin_quest(13091) == 1) {
+								if (countitem(6023) > 19) {// Mystic_Horn
+									cutin "min03",0;
+									mes "Sim, este aqui! Vale a pena fazer. Obrigado por aceitar este pedido";
+									emotion ET_THANKS;
+									delitem 6023,20;
+									callsub S_Quest,13091,13092,700000,180000;
+								}
+								else {
+									cutin "코르누스카드",3;  //cornus_card
+									mes "Ainda estou pesquisando, mas espero extrair o poder magico das coisas magicas tocadas";
+									next;
+									mes "[Mingmin]";
+									mes "Sera util para mim e para os aventureiros, certo?";
+									cutin "min01",0;
+								}
+							}
+							else {
+								cutin "코르누스카드",3;  //cornus_card
+								mes "Foi por isso que aceitei o pedido do Grupo Eden. Encontre 20 ^FF0000Mystic Horn^000000 dos monstros Cornus";
+								next;
+								mes "[Mingmin]";
+								mes "Acho que posso usar esta buzina para coisas boas. E facil de conseguir. Depois eu te avisarei";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir." ) == 1) {
+									mes "[Mingmin]";
+									mes "Voce ganha experiencia e eu recebo material de pesquisa. Bom negocio, certo? Excelente!";
+									callsub S_Quest,13092,13091;
+								}
+							}
+						}
+						break;
+					case 4:
+						mes "Este pedido e para minha pesquisa pessoal. Eu pesquiso para o Grupo Eden e eles me apoiam para contratar pessoas que auxiliam na minha pesquisa";
+						next;
+						switch( select( "Pesquisa da Mumia Antiga", "Pesquisa Geffenia", "Pesquisa Juperos", "Coleta de fragmentos e parafusos enferrujados." ) ) {
+							mes "[Mingmin]";
+						case 1:
+							if (checkquest(13094,PLAYTIME) == 0)
+								mes "A pesquisa da Mumia Antiga ainda esta em andamento.";
+							else if (checkquest(13093,HUNTING) == 1) {
+								cutin "에인션트미이라카드",3;  //ancient_mummy_card
+								mes "Se eu terminar a pesquisa, a primeira coisa que vou fazer e comer um pudim de morango de 10 anos de idade...";
+								next;
+								mes "[Mingmin]";
+								mes "Para terminar minha pesquisa, preciso que voce cancele alguma Mumia Antiga";
+								cutin "min01",0;
+							}
+							else if (checkquest(13093,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Fez um bom trabalho. Fantastico pudim de morango nao e facil de fazer. Confie em mim. Deixarei voce saborea-lo um dia em breve";
+								callsub S_Quest,13093,13094,700000,200000;
+							}
+							else {
+								cutin "에인션트미이라카드",3;  //ancient_mummy_card
+								mes "As coisas devem correr mal. A maioria delas, mas as pessoas querem manter e preservar os alimentos por um longo tempo. ";
+								next;
+								mes "[Mingmin]";
+								mes "Voce ja viu o curativo em que a Mumia Antiga esta enrolada? Elas duram ate mesmo seculos de cada vez";
+								next;
+								mes "[Mingmin]";
+								mes "Acho que esta podre, mas podemos ganhar muito dinheiro se esta pesquisa correr bem. Os conservadores podem fazer um pudim de morango que nao vai mal com o tempo";
+								next;
+								cutin "min01",0;
+								if (select( "Take the request.", "Quit" ) == 1) {
+									mes "[Mingmin]";
+									mes "Esta pesquisa e necessaria para que eu possa fazer meu pudim de morango";
+									callsub S_Quest,13094,13093;
+								}
+							}
+							break;
+						case 2:
+							if (checkquest(13096,PLAYTIME) == 0)
+								mes "A pesquisa de Geffenia acaba de comecar. Ela esta comecando tao lentamente. Vamos pesquisar";
+							else if (checkquest(13095,HUNTING) == 1) {
+								cutin "서큐버스카드",3;  //succubus_card
+								mes "Nao espero muito porque e muito perigoso e nao e de facil acesso";
+								next;
+								mes "[Mingmin]";
+								mes "Este pedido e uma tentativa de um aventureiro que costumava desfrutar dele. Simples! Divertido! Uma experiencia digna";
+								cutin "min01",0;
+							}
+							else if (checkquest(13095,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Voce e mais talentoso do que eu pensava. Se voce encontrou um tato, eu lhe pedirei para a proxima vez tambem. Esta pesquisa depende de voce";
+								callsub S_Quest,13095,13096,700000,200000;
+							}
+							else {
+								cutin "인큐버스카드",3;  //incubus_card
+								mes "Este e um estudo previo para pesquisas preciosas, pois Geffenia e de facil acesso";
+								next;
+								mes "[Mingmin]";
+								mes "O pedido comeca de como encontrar uma forma de entrar. Por favor, de uma olhada que tipo de monstros estao ali. Antes de tudo, comece por cacar ^FF000010^000000 Incubus, Succubus e Violy. Depois, vamos pesquisar os detalhes";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Tente comecar da fonte de Geffen, se quiser mais informacoes";
+									callsub S_Quest,13096,13095;
+								}
+							}
+							break;
+						case 3:
+							if (checkquest(13098,PLAYTIME) == 0)
+								mes "Todos eles me parecem o mesmo.	Eu deveria pesquisar mais";
+							else if (checkquest(13097,HUNTING) == 1) {
+								cutin "베나투",3;  //venatu_card
+								mes "Ha mais um motivo pelo qual muitos aventureiros sao enviados a Juperos e esse e meu verdadeiro pedido";
+								next;
+								mes "[Mingmin]";
+								mes "Se voce for a Juperos? Desejo que voce aceite um pedido sobre ^FF0000Venatus^000000";
+								cutin "min01",0;
+							}
+							else if (checkquest(13097,HUNTING) == 2) {
+								cutin "min03",0;
+								mes "Voce nao esta confuso? Eu ainda nao sei. Qual e a diferenca? De qualquer forma, um bom trabalho";
+								emotion ET_BLABLA;
+								callsub S_Quest,13097,13098,700000,300000;
+							}
+							else {
+								cutin "베나투",3;  //venatu_card
+								mes "Os restos dos antigos, Juperos e misterioso. Ha muitos ^FF0000secrets^000000. Mas esta e mais uma vez uma simples pesquisa de monstros";
+								next;
+								mes "[Mingmin]";
+								mes "O monstro ^FF0000Venatu^000000 em juperos tem 4 tipos de cores. O que significa que existem quatro tipos de monstros";
+								next;
+								mes "[Mingmin]";
+								mes "Pensei que fossem iguais porque sao parecidos. E so eu? Eu nao consigo distinguir. Cacar 30 de cada Verde, Laranja e Azul so para ter certeza";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Nao sera facil ficar sozinho. Mas procurar um companheiro para a aventura e o que faz um aventureiro";
+									callsub S_Quest,13098,13097;
+								}
+							}
+							break;
+						case 4:
+							if (checkquest(13100,PLAYTIME) == 0)
+								mes "Eu farei qualquer coisa melhor do que voce imagina";
+							else if (isbegin_quest(13099) == 1) {
+								if (countitem(7094) > 9 && countitem(7317) > 19) {
+									cutin "min03",0;
+									mes "Obrigado. Voce vai me agradecer se minha pesquisa for concluida";
+									emotion ET_BLABLA;
+									delitem 7094,10;// Mystery_Piece
+									delitem 7317,20;// Screw
+									callsub S_Quest,13099,13100,700000,200000;
+								}
+								else {
+									cutin "베나투",3;  //venatu_card
+									mes "Voce pode encontrar ^FF0000Fragmento e parafuso enferrujado^000000 em juperos por toda parte. A maioria dos monstros o tem";
+									next;
+									mes "[Mingmin]";
+									mes "Eu sei que nao e facil, mas desejo que voce aceite este pedido. Por favor";
+									cutin "min01",0;
+								}
+							}
+							else {
+								cutin "베나투",3;  //venatu_card
+								mes "Juperos e intenso e misterioso. Quando ele apareceu, parece que nao e Midgard";
+								next;
+								mes "[Mingmin]";
+								mes "E uma pesquisa essencial. Preciso saber quem ele e. Isso sera incrivel. Voce pode me trazer 10 ^FF0000Fragmento^000000 e 20 ^FF0000Rusty Screw^000000?";
+								next;
+								cutin "min01",0;
+								if (select( "Aceitar o pedido", "Desistir" ) == 1) {
+									mes "[Mingmin]";
+									mes "Eu nao sei quantas gotas voce pode carregar, mas eu quero tantas quanto voce puder. Posso pedir-lhe que traga 10 ^FF0000Fragmento^000000 e 20 ^FF0000Rusty Screw^000000?";
+									callsub S_Quest,13100,13099;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (para_110lv01 < 5) {
+				mes "O pedido de pesquisa de monstros parece ser facil para voce";
+				next;
+				mes "[Mingmin]";
+				mes "Nao ha nada que eu possa fazer porque estas sao as regras do Grupo do Eden";
+				next;
+				mes "[Mingmin]";
+				mes "[Mingmin]"; mes "Ha alguem que deseja fortemente que voce resolva seu pedido";
+			}
+			else {
+				cutin "min01",0;
+				mes "O contrato e rescindido. "+ strcharinfo(0) +" recompensa por pesquisa concluida. ^FF0000I excluira a pesquisa incompleta de sua lista de busca.^000000";
+				para_110lv01 = 6;
+				next;
+				callsub S_Hunting,
+					13067,200000,"Raydric",
+					13069,200000,"Khalitzburg",
+					13071,200000,"Wanderer",
+					13073,300000,"Ancient Mimic",
+					13075,300000,"Deathword",
+					13077,300000,"Owl Baron";
+				callsub S_Gathering,13079,300000,"Bloody Page",7449,20;
+				callsub S_Hunting,
+					13081,180000,"Dark Pinguicula",
+					13083,180000,"Nepenthes",
+					13085,180000,"Naga",
+					13087,180000,"Centipede Larva",
+					13089,180000,"Cornus";
+				callsub S_Gathering,13091,180000,"Mystic Horn",6023,20;
+				callsub S_Hunting,
+					13093,200000,"Ancient Mummy",
+					13095,200000,"Geffenia expedition",
+					13097,300000,"Juperos";
+				callsub S_Gathering,13099,200000,"Fragmentos e parafusos enferrujados",7094,10,7317,20;
+				mes "[Mingmin]";
+				mes "E um pouco inconveniente. Vou ler para voce educadamente ^FF0000again^000000 em publico";
+				next;
+				mes "[Mingmin]";
+				mes "De qualquer forma "+ strcharinfo(0) +" obrigado por me ajudar a iniciar minha pesquisa";
+				next;
+				cutin "min03",0;
+				mes "[Mingmin]";
+				mes "Nao se preocupe, eu o tratarei como um escravo se nos encontrarmos fora do Grupo Eden ou se voce disser a alguem que fui simpatico com voce";
+				emotion ET_BLABLA;
+				next;
+				cutin "min01",0;
+				mes "[Mingmin]";
+				mes "So porque estou sendo legal agora, nao significa que somos automaticamente amigos";
+			}
+			break;
+		case 2:
+			if (para_110lv01 == 5)
+				mes "Voce quer saber alguma coisa? Estou ocupado pesquisando";
+			else
+				mes "E um bom dia para a pesquisa. E sempre divertido falar com alguem de inteligencia suficiente";
+			while(1) {
+				next;
+				switch( select( "E um bom dia para a pesquisa. E sempre divertido falar com alguem de inteligencia suficiente" ) ) {
+					mes "[Mingmin]";
+				case 1:
+					if (para_110lv01 < 5) {
+						cutin "min02",0;
+						mes "Encontrei um rosto familiar desde que cheguei ao Grupo Eden com este pedido. ^ff0000Rohtert^000000 e o unico";
+						next;
+						mes "[Mingmin]";
+						mes "Eu costumava me juntar a clubes que pesquisavam monstros raros. Ouvi dizer que se tornou uma guilda e de qualquer forma o conheci la";
+						next;
+						mes "[Mingmin]";
+						mes "Pareco mais jovem, mas sou como sua irma. Houve tantas coisas que aconteceram naquele clube. No entanto, eu nao deveria continuar falando mais sobre isso. Talvez eu lhe diga mais tarde, quando tivermos tempo";
+					}
+					else if (para_110lv01 == 5) {
+						cutin "min03",0;
+						mes "Encontrei um rosto familiar desde que cheguei ao Grupo Eden com este pedido. Voce ve o cara ^FF0000Rohtert^000000 com cabelos brancos perto da entrada?";
+						next;
+						mes "[Mingmin]";
+						mes "Agora que ele cresceu... bem, ele costumava me seguir me chamando de irma dele. A proposito, onde esta o cara do chapeu azul que costumava se colar a ele como cola. Eles tiveram uma briga?";
+						next;
+						mes "[Mingmin]";
+						mes "Aquele cara de chapeu azul... Ele costumava me irritar ate mesmo no clube. Se eu voltar a ve-lo, posso dar-lhe um estalo...";
+					}
+					else {
+						cutin "min02",0;
+						mes "Eu costumava conversar com Rohtert de vez em quando enquanto pesquisava. Havia muitas coisas para falar desde que deixei a guilda";
+						next;
+						mes "[Mingmin]";
+						mes "Acho que a guilda ainda esta por aqui desde que havia tantos membros, mesmo quando eu estava la";
+						next;
+						mes "[Mingmin]";
+						mes "Eu ate ouvi dizer que o cara do chapeu azul se tornou um mestre da guilda. Imagine aquele tolo sendo um mestre oh ho ho ho.";
+					}
+					continue;
+				case 2:
+					if (para_110lv01 < 5) {
+						cutin "min01",0;
+						mes "Eu pesquiso monstros. Especialmente suas caracteristicas, personalidade, bacos, localizacoes e relacionamento com outros monstros. Etc.";
+					}
+					else if (para_110lv01 == 5) {
+						cutin "min03",0;
+						mes "Pesquisar estes itens magicos e mais do que te-los em sua posse";
+						next;
+						mes "[Mingmin]";
+						mes "Meu plano ate agora e como este. A magia extraida do Chifre Mistico e comprimida pelos Fragmentos e Parafusos. Em seguida, introduzirei as informacoes antigas que foram escritas nas Paginas Sangrentas";
+						next;
+						mes "[Mingmin]";
+						mes "Tenho esperanca de criar algum tipo de pequeno dispositivo de armazenamento portatil";
+						next;
+						mes "[Mingmin]";
+						mes "Eu serei rico se eu completar esta pesquisa! Tenho certeza";
+					}
+					else {
+						cutin "min01",0;
+						mes "Bem, voce se lembra da minha pesquisa pessoal que mencionei antes? Nao e facil nem mesmo eu tentei desenvolver...";
+						next;
+						mes "[Mingmin]";
+						mes "Eu tentei fazer um dispositivo magico que voce pode segurar em sua mao";
+						next;
+						mes "[Mingmin]";
+						mes "Nao. Nao posso desistir por isto. Eu vou conseguir";
+					}
+					continue;
+				case 3:
+					if (para_110lv01 < 5) {
+						cutin "min02",0;
+						mes "Cogumelo laranja? Eu nao sei";
+					}
+					else if (para_110lv01 == 5) {
+						cutin "min01",0;
+						mes "Nao se preocupe. Ok, talvez se preocupe porque os cogumelos podem estar crescendo em seu corpo. Eu me livrarei dele se voce me ajudar a pesquisar. Sera perigoso se demorar mais tempo";
+					}
+					else {
+						cutin "min02",0;
+						mes "... cogumelo cola shiitake laranja?";
+						next;
+						mes "[Mingmin]";
+						mes "Deixe-me ver. Pode ser perigoso";
+						next;
+						mes "[Mingmin]";
+						mes "Voce me ajudou a pesquisar, entao deixe-me ajuda-lo! Eu vou me livrar de sua infeccao por esporos de cogumelos";
+						next;
+						mes "[Mingmin]";
+						mes "......";
+						next;
+						cutin "min03",0;
+						mes "[Mingmin]";
+						mes "...hee hee...";
+						emotion ET_SMILE;
+						next;
+						mes "[Mingmin]";
+						mes "Hmmph, voce e tao ingenuo. Voce acreditou nisso? Pegajoso... algum tipo de cogumelo esta crescendo em seu corpo? Hahaha";
+						next;
+						mes "[Mingmin]";
+						mes "Era apenas uma brincadeira. Uma pequena brincadeira entre amigos";
+						next;
+						mes "[Mingmin]";
+						mes "Sinto muito se voce esta chateado. Voce facilitou demais...";
+						next;
+						emotion ET_SMILE;
+						mes "[Mingmin]";
+						mes "Voce e mais engracado do que eu pensava. Nao se preocupe. Esse cogumelo nao existe";
+					}
+					continue;
+				case 4:
+					if (para_110lv01 == 5) {
+						cutin "min01",0;
+						mes "Por favor, ajude-me que ha tantas coisas para pesquisar";
+					}
+					else {
+						cutin "min02",0;
+						mes "Espero que voces se divirtam";;
+					}
+				}
+				break;
+			}
+		}
+	}
+	close2;
+	cutin "",255;
+	end;
+
+S_Quest:
+	if (isbegin_quest(getarg(0)))
+		erasequest getarg(0);
+	setquest getarg(1);
+	if (getarg(2,0))
+		getexp getarg(2),getarg(3);
+	return;
+S_Hunting:
+	.@total = getargcount();
+	for ( .@i = 0; .@i < .@total; .@i += 3 ) {
+		.@quest_id = getarg(.@i);
+		switch( checkquest(.@quest_id,HUNTING) ) {
+		case -1:
+			if (checkquest(.@quest_id+1) > -1)
+				erasequest (.@quest_id+1);
+			continue;
+		case 2:
+			mes "[Mingmin]";
+			mes "You finished researching about "+ getarg(.@i+2) +". Thank you.";
+			getexp 700000,getarg(.@i+1);
+			break;
+		case 0:
+		case 1:
+			mes "[Mingmin]";
+			mes "I will delete "+ getarg(.@i+2) +" research from request list.";
+		}
+		erasequest .@quest_id;
+		next;
+	}
+	return;
+S_Gathering:
+	.@quest_id = getarg(0);
+	if (isbegin_quest(.@quest_id) > 0) {
+		if (getarg(5,0))
+			.@count_item2 = countitem(getarg(5));
+		mes "[Mingmin]";
+		if (countitem(getarg(3)) >= getarg(4) && .@count_item2 >= getarg(6,0)) {
+			if (.@count_item2)
+				mes "You finished researching about "+ getitemname(getarg(3)) +" and "+ getitemname(getarg(5)) +". Thank you.";
+			else
+				mes "You finished researching about "+ getitemname(getarg(3)) +". Thank you.";
+			delitem getarg(3),getarg(4);
+			if (getarg(5,0))
+				delitem getarg(5),getarg(6);
+			getexp 700000,getarg(1);
+		}
+		else {
+			if (getarg(5,0))
+				mes "I will delete "+  getitemname(getarg(3)) +" and "+ getitemname(getarg(5)) +" research from request list.";
+			else
+				mes "I will delete "+  getitemname(getarg(3)) +" research from request list.";
+		}
+		erasequest .@quest_id;
+		next;
+	}
+	else if (isbegin_quest(.@quest_id+1) > 0)
+		erasequest (.@quest_id+1);
+	return;
+}

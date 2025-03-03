@@ -1,0 +1,28 @@
+s_room,50,49,3	script	Experiência do Servidor#boost	4_POINT_YELLOW,{
+	set .np$,"^00B2EE[ Experiência do Servidor ]^000000";
+
+	if ( irateExp == 1 ) {
+		mes .np$;
+		mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+		mes "Suas rates estão em^00B2EE 1x/1x^000000";
+		mes "E você tem um bônus de drop de^00B2EE 50%^000000";
+		end;
+	} else if ( irateExp == 25 ) {
+		mes .np$;
+		mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+		mes "Suas rates estão em^00B2EE 25x/25x^000000";
+		mes "E você tem um bônus de drop de^00B2EE 25%^000000";
+		end;
+	} else if ( irateExp == 50 ) {
+		mes .np$;
+		mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+		mes "Suas rates estão em^00B2EE 50x/50x^000000";
+		mes "E você tem um bônus de drop de^00B2EE 0%^000000";
+		end;
+	}
+	end;
+
+OnInit:
+	setunitdata (getnpcid(0), UNPC_GROUP_ID, 2);
+	end;
+}

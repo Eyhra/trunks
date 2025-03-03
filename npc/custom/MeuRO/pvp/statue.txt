@@ -1,0 +1,291 @@
+//====== rAthena Script ======================================================
+//= PVP ladder script with dota announcement
+//===== By: ==================================================================
+//= AnnieRuru
+//===== Current Version: =====================================================
+//= 3.6
+//===== Compatible With: =====================================================
+//= rAthena 2020-10-20, with MySQL 8.0
+//===== Description: =========================================================
+//= PVP ladder store in SQL table
+//= plus anti-sit-killer feature
+//===== Topic ================================================================
+//= https://herc.ws/board/topic/18871-dota-pvp-ladder/
+//===== Additional Comments: =================================================
+//= add PVP Ladder statue due to popular demand
+//============================================================================
+
+/*
+CREATE TABLE `arena_pvp_premio` (
+	`char_id` INT PRIMARY KEY,
+	`name` VARchar(24) NOT NULL DEFAULT '',
+	`Totaln` INT DEFAULT 0,
+	`matou` INT DEFAULT 0,
+	`morreu` INT DEFAULT 0,
+	`streaktime` DATETIME,
+	KEY (`matou`),
+	KEY (`Totaln`)
+) ENGINE = MyISAM;
+
+CREATE TABLE `ownladder` (
+	`guild_id` INT PRIMARY KEY,
+	`name` VARchar(24) NOT NULL DEFAULT '',
+	`currentown` INT DEFAULT 0,
+	`highestown` INT DEFAULT 0,
+	`owntime` DATETIME,
+	KEY (`highestown`)
+) ENGINE = MyISAM; 
+*/
+
+//	add all the maps that you want this script to trigger ... all pvp and event maps perhaps ?
+//	but if you already enable "all" maps, then can comment all these
+//guild_vs1	mapflag	loadevent
+//guild_vs2	mapflag	loadevent
+//guild_vs3	mapflag	loadevent
+//guild_vs4	mapflag	loadevent
+//guild_vs5	mapflag	loadevent
+
+-	script	DOTAPVP	FAKE_NPC,{
+OnInit:
+	.showstatue = 3; // number of statues. This number must match with the number of duplicates at the end of the script
+	.fix_custom_sprite = true; // if your server has custom animated sprite that overlaps the sprite animation repeatedly on the statues, enable this
+
+	sleep 1;
+OnTimer30000: // refresh every 30 seconds. Note the `char` table is unrealiable, player still need to perform certain task to save the character -> see 'save_settings' in conf\map-server.conf
+	.@query$ = "SELECT `char`.`char_id`, `char`.`name`, `char`.`guild_id`, `char`.`class`, `char`.`sex`, `char`.`hair`, `char`.`hair_color`, `char`.`clothes_color`, `char`.`body`, `char`.`head_top`, `char`.`head_mid`, `char`.`head_bottom`, `char`.`robe`, "
+	         +   "`ranking_pvp`.`Matou`, `ranking_pvp`.`Total`, `ranking_pvp`.`Morreu` "
+	         + "FROM `char` RIGHT JOIN `ranking_pvp` ON `char`.`char_id` = `ranking_pvp`.`char_id` ORDER BY `Total` DESC LIMIT "+ .showstatue;
+	.@nb = query_sql(.@query$, .@cid, .@name$, .@guild_id, .@class, .@sex$, .@hair, .@hair_color, .@clothes_color, .@body, .@head_top, .@head_mid, .@head_bottom, .@robe, .@matou, .@Totaln, .@morreu);
+	if (.fix_custom_sprite) {
+		for (.@i = 0; .@i < .@nb; ++.@i) {
+			setunitdata .statue[.@i +1], UNPC_HEADTOP, 0;
+			setunitdata .statue[.@i +1], UNPC_HEADMIDDLE, 0;
+			setunitdata .statue[.@i +1], UNPC_HEADBOTTOM, 0;
+			setunitdata .statue[.@i +1], UNPC_ROBE, 0;
+		}
+	}
+	for (.@i = 0; .@i < .@nb; ++.@i) {
+		setunitdata .statue[.@i +1], UNPC_CLASS, .@class[.@i];
+		setunitdata .statue[.@i +1], UNPC_SEX, (.@sex$[.@i] == "F")? SEX_FEMALE:SEX_MALE;
+		setunitdata .statue[.@i +1], UNPC_HAIRSTYLE, .@hair[.@i];
+		setunitdata .statue[.@i +1], UNPC_HAIRCOLOR, .@hair_color[.@i];
+		setunitdata .statue[.@i +1], UNPC_CLOTHCOLOR, .@clothes_color[.@i];
+		setunitdata .statue[.@i +1], UNPC_BODY2, .@body[.@i];
+		setunitdata .statue[.@i +1], UNPC_HEADTOP, .@head_top[.@i];
+		setunitdata .statue[.@i +1], UNPC_HEADMIDDLE, .@head_mid[.@i];
+		setunitdata .statue[.@i +1], UNPC_HEADBOTTOM, .@head_bottom[.@i];
+		setunitdata .statue[.@i +1], UNPC_ROBE, .@robe[.@i];
+		setnpcdisplay "pvp_ladder_statue#"+(.@i +1), .@name$[.@i];
+		.statue_name$[.@i +1] = .@name$[.@i];
+		.statue_guild$[.@i +1] = getguildname(.@guild_id[.@i]);
+		.statue_matou[.@i +1] = .@matou[.@i];
+		.statue_Totaln[.@i +1] = .@Totaln[.@i];
+		.statue_morreu[.@i +1] = .@morreu[.@i];
+	}
+	for (.@i = .@nb; .@i < .showstatue; ++.@i)
+		setunitdata .statue[.@i +1], UNPC_CLASS, HIDDEN_WARP_NPC;
+	initnpctimer;
+	end;
+}
+
+//prontera,166,188,5	script	PvP-StatsViewer	1_F_MARIA,{
+//	.@npcname$ = strnpcinfo(0);
+//	while (true) {
+//		mes "["+ .@npcname$ +"]";
+//		mes "Hello "+ strcharinfo(0) +"...";
+//		mes "If you want to I can show you your PVP stats.";
+//		next;
+//		switch (select("Most matou","Highest Streak","Longest Ownage","Own Information","Explanation")) {
+//		mes "["+ .@npcname$ +"]";
+//		case 1:
+//			.@nb = query_sql("select name, matou, morreu from ranking_pvp order by matou desc limit "+ getvariableofnpc(.showtotal, "DOTAPVP"), .@name$, .@matou, .@morreu);
+//			if (!.@nb) {
+//				mes "The ladder currently is empty.";
+//				next;
+//			}
+//			for (.@j = 0; .@j < .@nb; .@j += getvariableofnpc(.showpage,"DOTAPVP")) {
+//				for (.@i = .@j; .@i < (getvariableofnpc(.showpage,"DOTAPVP") + .@j) && .@i < .@nb; ++.@i)
+//					mes "^996600"+ (.@i+1) +": ^006699"+ .@name$[.@i] +" ^00AA00["+ .@matou[.@i] +"] ^FF0000<"+ .@morreu[.@i] +">^000000";
+//				next;
+//			}
+//			break;
+//		case 2:
+//			.@nb = query_sql("select name, Totaln, date_format(streaktime,'%a %e/%c/%y %r') from ranking_pvp where Totaln >= "+ getvariableofnpc(.loweststreak,"DOTAPVP") +" order by Totaln desc limit "+ getvariableofnpc(.showtotal,"DOTAPVP"), .@name$, .@streak, .@time$);
+//			if (!.@nb) {
+//				mes "The ladder currently is empty.";
+//				next;
+//			}
+//			for (.@j = 0; .@j < .@nb; .@j += getvariableofnpc(.showpage,"DOTAPVP") ) {
+//				for ( .@i = .@j; .@i < (getvariableofnpc(.showpage,"DOTAPVP") + .@j) && .@i < .@nb; ++.@i) {
+//					mes "^996600"+ (.@i+1) +": ^006699"+ .@name$[.@i] +" ^70AC11{"+ .@streak[.@i] +"} ^000000on :";
+//					mes "    ^EE8800"+ .@time$[.@i] +"^000000";
+//				}
+//				next;
+//			}
+//			break;
+//		case 3:
+//			.@nb = query_sql("select name, highestown, date_format(owntime,'%a %e/%c/%y %r') from ownladder where highestown >= "+ getvariableofnpc(.lowestownage,"DOTAPVP") +" order by highestown desc limit "+ getvariableofnpc(.showtotal,"DOTAPVP"), .@name$, .@owned, .@time$);
+//			if (!.@nb) {
+//				mes "The ladder currently is empty.";
+//				next;
+//			}
+//			for (.@j = 0; .@j < .@nb; .@j += getvariableofnpc(.showpage,"DOTAPVP")) {
+//				for (.@i = .@j; .@i < (getvariableofnpc(.showpage,"DOTAPVP") + .@j) && .@i < .@nb; ++.@i ) {
+//					mes "^996600"+ (.@i+1) +": ^006699"+ .@name$[.@i] +" ^00AAAA("+ .@owned[.@i] +") ^000000on :";
+//					mes "    ^EE8800"+ .@time$[.@i] +"^000000";
+//				}
+//				next;
+//			}
+//			break;
+//		case 4:
+//			if (!@dota_sql_matou && !@dota_sql_morreu)
+//				query_sql "select matou, morreu, Totaln, unix_timestamp(streaktime), date_format(streaktime,'%a %e/%c/%y %r') from ranking_pvp where char_id = "+ getcharid(0), @dota_sql_matou, @dota_sql_morreu, @dota_sql_Totaln, @dota_sql_streaktime, .@time1$;
+//			else
+//				query_sql "select date_format(from_unixtime("+ @dota_sql_streaktime +"),'%a %e/%c/%y %r')", .@time1$;
+//			if (!@dota_sql_matou && !@dota_sql_morreu)
+//				mes "You not yet kill any player.";
+//			else {
+//				mes "Your Current Streak : ^70AC11{"+ @PlayersKilledStreak +"}^000000";
+//				mes "Your Total matou : ^00AA00["+ @dota_sql_matou +"]^000000";
+//				mes "Your Death Counts : ^FF0000<"+ @dota_sql_morreu +">^000000";
+//				if (@dota_sql_matou || @dota_sql_Totaln) {
+//					mes "Highest Streak was ^70AC11{"+ @dota_sql_Totaln +"}^000000 on :";
+//					mes "    ^EE8800"+ .@time1$ +"^000000";
+//				}
+//			}
+//			next;
+//			.@guildid = getcharid(2);
+//			if (.@guildid) {
+//				if (!getvariableofnpc(.guild_ownage_time[.@guildid], "DOTAPVP")) {
+//					query_sql "select currentown, highestown, unix_timestamp(owntime), date_format(owntime,'%a %e/%c/%y %r') from ownladder where guild_id = "+ .@guildid, .@c, .@h, .@t, .@time2$;
+//					set getvariableofnpc(.guild_current_ownage[.@guildid], "DOTAPVP"), .@c;
+//					set getvariableofnpc(.guild_highest_ownage[.@guildid], "DOTAPVP"),.@h;
+//					set getvariableofnpc(.guild_ownage_time[.@guildid], "DOTAPVP"), .@t;
+//				}
+//				else
+//					query_sql "select date_format( from_unixtime("+ getvariableofnpc(.guild_ownage_time[.@guildid], "DOTAPVP") +"),'%a %e/%c/%y %r')", .@time2$;
+//				mes "["+ .@npcname$ +"]";
+//				if (!getvariableofnpc(.guild_ownage_time[.@guildid], "DOTAPVP")) {
+//					mes "Your guild not yet kill any player.";
+//				} else {
+//					mes "Your guild name : ^006699"+ strcharinfo(2) +"^000000";
+//					mes "Current Owning  : ^00AAAA("+ getvariableofnpc(.guild_current_ownage[.@guildid], "DOTAPVP") +")^000000";
+//					mes "Longest Ownage was ^00AAAA("+ getvariableofnpc(.guild_highest_ownage[.@guildid], "DOTAPVP") + ")^000000 on :";
+//					mes "    ^EE8800"+ .@time2$ +"^000000";
+//				}
+//				next;
+//			}
+//			break;
+//		case 5:
+//			mes "Explanation for Most matou:";
+//			mes " ";
+//			mes "^996600Rank. ^006699NAME ^00AA00[Total matou] ^FF0000<morreu>^000000";
+//			mes " ";
+//			mes "--------------------------------";
+//			mes " ";
+//			mes "The ^00AA00matou^000000 added when a player matou another player.";
+//			mes " ";
+//			mes "^FF0000morreu^000000 count increase when a player killed by another player, or suicide (eg: Grand Cross).";
+//			mes " ";
+//			mes "A player killed by monsters, homunculus or pets will not add the matou or morreu count.";
+//			next;
+//			mes "["+ .@npcname$ +"]";
+//			mes "Explanation for Highest Streak:";
+//			mes " ";
+//			mes "^996600Rank. ^006699NAME ^70AC11{Highest Streak} ^000000on :";
+//			mes "    ^EE8800TIME^000000";
+//			mes " ";
+//			mes "--------------------------------";
+//			mes " ";
+//			mes "The ^70AC11Streak^000000 are added every time a player matou another player. It will reset upon log out, killed by another player, or suicide (eg: Sacrifice).";
+//			mes " ";
+//			mes "Then it record in the server the ^EE8800TIME^000000 when that player got that highest streak.";
+//			mes " ";
+//			mes "A player killed by monsters, homunculus or pets will not reset the streak.";
+//			mes " ";
+//			mes "--------------------------------";
+//			mes " ";
+//			mes "The numbers of straight matou to get these announcements are :";
+//			mes "^70AC11"+ getvariableofnpc(.killingspree,"DOTAPVP") +"^000000 : Killing Spree";
+//			mes "^70AC11"+ getvariableofnpc(.dominating,"DOTAPVP") +"^000000 : Dominating";
+//			mes "^70AC11"+ getvariableofnpc(.megakill,"DOTAPVP") +"^000000 : Mega Kill";
+//			mes "^70AC11"+ getvariableofnpc(.unstoppable,"DOTAPVP") +"^000000 : Unstoppable";
+//			mes "^70AC11"+ getvariableofnpc(.wickedsick,"DOTAPVP") +"^000000 : Wicked Sick";
+//			mes "^70AC11"+ getvariableofnpc(.monsterkill,"DOTAPVP") +"^000000 : Monster Kill";
+//			mes "^70AC11"+ getvariableofnpc(.godlike,"DOTAPVP") +"^000000 : Godlike";
+//			mes "^70AC11"+ getvariableofnpc(.holyshit,"DOTAPVP") +"^000000 : Beyond Godlike";
+//			next;
+//			mes "["+ .@npcname$ +"]";
+//			mes "Explanation for Longest Ownage:";
+//			mes " ";
+//			mes "^996600Rank. ^006699NAME ^00AAAA(Longest Ownage) ^000000on :";
+//			mes "    ^EE8800TIME^000000";
+//			mes " ";
+//			mes "--------------------------------";
+//			mes " ";
+//			mes "The ^00AAAAOwnage^000000 added every time any guild members killed another player that doesn't belong to his/her guild. It will reset when any of the guild member was killed by ANY player, including his/her guild member.";
+//			mes " ";
+//			mes "Then it record in the server the ^EE8800TIME^000000 when the guild got that longest ownage.";
+//			mes " ";
+//			mes "If the server went under maintainance, the current ownage will survive after the server restart.";
+//			mes " ";
+//			mes "Any guild member killed by monster, homunculus or pets will not reset the ownage count.";
+//			next;
+//			if (getvariableofnpc(.lvltokill,"DOTAPVP")) {
+//				mes "["+ .@npcname$ +"]";
+//				mes "You must kill another player with minimum base level of "+ getvariableofnpc(.lvltokill,"DOTAPVP") +", in order to get an announcement or get in the ladder.";
+//				mes " ";
+//				mes "It's possible for a base level 1 novice matou a base level 99 player and still can get in the ladder.";
+//				mes "However when a player level 99 matou a level 1 novice will get nothing.";
+//				next;
+//			}
+//			if (getvariableofnpc(.counttopunish,"DOTAPVP")) {
+//				mes "["+ .@npcname$ +"]";
+//				mes "Some noob players try to kill the same person over and over again in hope of getting his/her name appear in the ladder.";
+//				mes "However if you trying to do the same thing on this ladder, your name will announce to the public, and your action will be recorded into the server to notify the GMs.";
+//				next;
+//			}
+//			if (getvariableofnpc(.minlvlrange,"DOTAPVP")) {
+//				mes "["+ .@npcname$ +"]";
+//				mes "When you kill another player thats lower base level than you, the base level gap between you and that player must not more than "+ getvariableofnpc(.minlvlrange,"DOTAPVP") +".";
+//				mes " ";
+//				if (getvariableofnpc(.minlvlrange,"DOTAPVP") >= 200)
+//					mes "In other words, if your base level is 500, the player you killed must be at least level "+(500 - getvariableofnpc(.minlvlrange,"DOTAPVP"))+" then only you will get the announcement and in the ladder.";
+//				else if (getvariableofnpc(.minlvlrange,"DOTAPVP") >= 70)
+//					mes "In other words, if your base level is 255, the player you killed must be at least level "+(255 - getvariableofnpc(.minlvlrange,"DOTAPVP"))+" then only you will get the announcement and in the ladder.";
+//				else
+//					mes "In other words, if your base level is 99, the player you killed must be at least level "+(99 - getvariableofnpc(.minlvlrange,"DOTAPVP"))+" then only you will get the announcement and in the ladder.";
+//				mes "Higher base level matou lower level gets nothing, however lower level player matou higher level will get the announcement.";
+//				next;
+//			}
+//			break;
+//		}
+//	}
+//}
+
+-	script	pvp_ladder_statue	FAKE_NPC,{
+	.@id = getelementofarray(getvariableofnpc(.npcgid, "DOTAPVP"), getnpcid(0));
+	mes "^996600[TOP "+ .@id +"]";
+	mes "^006699Name : "+ getelementofarray(getvariableofnpc(.statue_name$, "DOTAPVP"), .@id);
+	.@guildname$ = getelementofarray(getvariableofnpc(.statue_guild$, "DOTAPVP"), .@id);
+	mes "^00AAAAGuild : "+((.@guildname$ == "null")? "^AAAAAANone": .@guildname$);
+	mes "^00AA00Total : ["+ getelementofarray(getvariableofnpc(.statue_Totaln, "DOTAPVP"), .@id) +"]";
+	mes "^70AC11Players mortos : ["+ getelementofarray(getvariableofnpc(.statue_matou, "DOTAPVP"), .@id) +"]";
+	mes "^FF0000Quantidade de Mortes : <"+ getelementofarray(getvariableofnpc(.statue_morreu, "DOTAPVP"), .@id) +">";
+	close;
+OnInit:
+	.@id = strnpcinfo(2);
+	set getvariableofnpc(.statue[.@id], "DOTAPVP"), getnpcid(0);
+	set getvariableofnpc(.npcgid[getnpcid(0)], "DOTAPVP"), .@id;
+	end;
+}
+prontera,166,173,2	duplicate(pvp_ladder_statue)	pvp_ladder_statue#1	1_F_MARIA
+prontera,164,174,2	duplicate(pvp_ladder_statue)	pvp_ladder_statue#2	1_F_MARIA
+prontera,164,171,2	duplicate(pvp_ladder_statue)	pvp_ladder_statue#3	1_F_MARIA
+//prontera,156,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#4	1_F_MARIA
+//prontera,158,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#5	1_F_MARIA
+//prontera,160,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#6	1_F_MARIA
+//prontera,162,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#7	1_F_MARIA
+//prontera,164,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#8	1_F_MARIA
+//prontera,166,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#9	1_F_MARIA
+//prontera,168,180,4	duplicate(pvp_ladder_statue)	pvp_ladder_statue#10	1_F_MARIA

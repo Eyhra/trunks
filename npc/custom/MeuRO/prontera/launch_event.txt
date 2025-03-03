@@ -1,0 +1,177 @@
+//====================================================================================
+//= Script para avisar sobre o início do novo evento
+//====================================================================================
+-	script	HRO_Event_Starter	-1,{
+OnPcLoginEvent:
+	if ( !#HROEVENT_INFO_LA ) {
+		set .np$,"^00B2EE[ Anfitrião KillerRO ]^000000";
+		cutin "16jur_nor",2;
+		mes .np$;
+		mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000 !";
+		mes "Para comemorar o lançamento do servidor estamos com um evento único ativo!";
+		next;
+		mes .np$;
+		mes "Para saber mais sobre e participar utilize o comando @evento para ir até o NPC.";
+		set #HROEVENT_INFO_LA, 1;
+		//fstatus(getcharid(0),1504,0,1);
+		callfunc("HRO_Event_Updater",28);
+		close3;
+	}
+}
+//====================================================================================
+//= Comando @evento para enviar o jogador até o NPC de evento especial
+//====================================================================================
+-	script	evento	-1,{
+OnInit:
+		unbindatcmd "evento";
+		bindatcmd("evento","evento::OnAtcommand",0,0);
+    end;
+OnAtcommand:
+	warp "prontera",139,199;
+	end;
+}
+//====================================================================================
+//= NPC do evento de lançamento do servidor
+//====================================================================================
+prontera,139,203,3	script	Organizador Evt-Killer	4_EP16_HELMUT,{
+	set .np$,"^00B2EE[ Organizador de Eventos KillerRO ]^000000";
+	cutin "16hel",2;
+	mes .np$;
+	mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^008aff"+strcharinfo(0)+"^000000 !";
+	mes "Para comemorar o lançamento do servidor estamos com um evento único ativo!";
+	switch (select("^008aff[»]^000000 Informações","^3CB371[»]^000000 Ir ao mapa do evento","^ff0000[»]^000000 Sair")){
+		case 1:
+			next;
+			mes .np$;
+			mes "Para comemorarmos o lançamento do servidor existem alguns Cristais Valiosos espalhados pelo mapa do evento.";
+			next;
+			mes .np$;
+			mes "Você tem 10% de chance de conseguir de 1 a 5 Gemas Elementais.";
+			next;
+			mes .np$;
+			mes "Você tem 5% de chance de conseguir 1 entre 3 itens Ticket Loto, K-ROPS, ou 250 Rops.";
+			close3;
+		case 2:
+			next;
+			clearAntMob;
+			warp "in_sphinx4",0,0;
+			close3;
+		case 3:
+			next;
+			mes .np$;
+			mes "Tudo bem, estarei aqui por mais " + callfunc("Time2Str",#HROEVENT_1) + "!";
+			close3;
+	}
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	end;
+}
+//====================================================================================
+//= NPC e pedras especiais espalhadas por prontera
+//====================================================================================
+in_sphinx4,192,173,4	script	Cristais Valiosos#0	S_EMPEL_1,{
+OnTouch:
+	if(#TimeOn_p >= gettimetick(2)){ npctalk ""+(#TimeOn_p-gettimetick(2))+" segundos", ""+strnpcinfo(0)+"", bc_self; end; }
+	set #TimeOn_p,gettimetick(2) + 10;
+	dispbottom "testando.";
+	specialeffect2 457;
+	sleep2 1000;
+	specialeffect2 457;
+	sleep2 1000;
+	specialeffect2 457;
+	sleep2 1000;
+	set @chance, rand(100);
+	set @quantia, rand(1,5);
+	if (@chance >= 1 && @chance <= 85){ // Nenhum prêmio.
+	dispbottom "0%.";
+	}
+	if (@chance >= 86 && @chance <= 95){ //10% de chance de vir prêmio.
+		dispbottom "10%.";
+		specialeffect2 709;getitem 55000,@quantia;
+	}
+	if (@chance >= 96 && @chance <= 100){ // 5% de chance de vir prêmio valioso.
+		dispbottom "5%.";
+		set @randv,rand(3);
+		if(@randv==0){ specialeffect2 709; getitem 55007,1; announce "[ KillerRo ] "+strcharinfo(0)+" quebrou um Cristal Valioso e achou !",2; }
+		if(@randv==1){ specialeffect2 709; set #CASHPOINTS,#CASHPOINTS+250; announce "[ KillerRo ] "+strcharinfo(0)+" quebrou um Cristal Valioso e achou 250 ROPs!",2; }
+		if(@randv==2){ specialeffect2 709; getitem 55001,1; announce "[ KillerRo ] "+strcharinfo(0)+" quebrou um Cristal Valioso e achou!",2; }
+	}
+	set #TimeOn_p,gettimetick(2) + 10;
+	disablenpc strnpcinfo(0);
+	sleep 10000;
+	while( !checkcell( strnpcinfo(4),( .@x = rand( 1,400 ) ),( .@y = rand( 1,400 ) ),cell_chkpass ) ); //celulas
+	movenpc strnpcinfo(0),.@x,.@y;
+	enablenpc strnpcinfo (0); end;
+	
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	end;
+}
+in_sphinx4,151,167,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#2	S_EMPEL_1
+in_sphinx4,25,167,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#3	S_EMPEL_1
+in_sphinx4,28,157,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#4	S_EMPEL_1
+in_sphinx4,36,157,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#5	S_EMPEL_1
+in_sphinx4,44,164,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#6	S_EMPEL_1
+in_sphinx4,57,163,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#7	S_EMPEL_1
+in_sphinx4,72,166,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#8	S_EMPEL_1
+in_sphinx4,86,163,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#9	S_EMPEL_1
+in_sphinx4,87,156,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#10	S_EMPEL_1
+in_sphinx4,111,144,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#11	S_EMPEL_1
+in_sphinx4,121,147,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#12	S_EMPEL_1
+in_sphinx4,119,137,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#13	S_EMPEL_1
+in_sphinx4,125,140,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#14	S_EMPEL_1
+in_sphinx4,100,158,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#16	S_EMPEL_1
+in_sphinx4,134,150,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#17	S_EMPEL_1
+in_sphinx4,146,143,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#18	S_EMPEL_1
+in_sphinx4,152,157,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#19	S_EMPEL_1
+in_sphinx4,142,165,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#20	S_EMPEL_1
+in_sphinx4,163,142,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#21	S_EMPEL_1
+in_sphinx4,146,137,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#22	S_EMPEL_1
+in_sphinx4,127,127,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#23	S_EMPEL_1
+in_sphinx4,153,125,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#24	S_EMPEL_1
+in_sphinx4,136,113,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#25	S_EMPEL_1
+in_sphinx4,130,105,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#26	S_EMPEL_1
+in_sphinx4,140,102,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#27	S_EMPEL_1
+in_sphinx4,133,100,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#28	S_EMPEL_1
+in_sphinx4,123,96,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#29	S_EMPEL_1
+in_sphinx4,130,82,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#30	S_EMPEL_1
+in_sphinx4,113,82,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#31	S_EMPEL_1
+in_sphinx4,138,130,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#32	S_EMPEL_1
+in_sphinx4,121,61,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#33	S_EMPEL_1
+in_sphinx4,114,66,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#34	S_EMPEL_1
+in_sphinx4,109,61,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#35	S_EMPEL_1
+in_sphinx4,101,65,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#36	S_EMPEL_1
+in_sphinx4,99,51,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#37	S_EMPEL_1
+in_sphinx4,105,44,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#38	S_EMPEL_1
+in_sphinx4,117,32,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#39	S_EMPEL_1
+in_sphinx4,121,23,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#40	S_EMPEL_1
+in_sphinx4,139,22,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#41	S_EMPEL_1
+in_sphinx4,145,29,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#42	S_EMPEL_1
+in_sphinx4,101,86,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#43	S_EMPEL_1
+in_sphinx4,89,81,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#44	S_EMPEL_1
+in_sphinx4,75,86,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#45	S_EMPEL_1
+in_sphinx4,71,71,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#46	S_EMPEL_1
+in_sphinx4,51,69,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#47	S_EMPEL_1
+in_sphinx4,48,54,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#48	S_EMPEL_1
+in_sphinx4,27,45,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#49	S_EMPEL_1
+in_sphinx4,39,37,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#50	S_EMPEL_1
+in_sphinx4,44,23,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#51	S_EMPEL_1
+in_sphinx4,26,26,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#52	S_EMPEL_1
+in_sphinx4,16,39,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#53	S_EMPEL_1
+in_sphinx4,180,38,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#54	S_EMPEL_1
+in_sphinx4,172,32,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#55	S_EMPEL_1
+in_sphinx4,165,40,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#56	S_EMPEL_1
+in_sphinx4,157,46,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#57	S_EMPEL_1
+in_sphinx4,147,37,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#58	S_EMPEL_1
+in_sphinx4,106,23,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#59	S_EMPEL_1
+in_sphinx4,92,22,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#60	S_EMPEL_1
+in_sphinx4,83,26,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#61	S_EMPEL_1
+in_sphinx4,71,22,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#62	S_EMPEL_1
+in_sphinx4,69,34,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#63	S_EMPEL_1
+in_sphinx4,54,29,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#64	S_EMPEL_1
+in_sphinx4,13,69,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#65	S_EMPEL_1
+in_sphinx4,26,81,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#66	S_EMPEL_1
+in_sphinx4,34,96,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#67	S_EMPEL_1
+in_sphinx4,25,117,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#68	S_EMPEL_1
+in_sphinx4,46,116,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#69	S_EMPEL_1
+in_sphinx4,59,133,4	duplicate(Cristais Valiosos#0)	Cristais Valiosos#70	S_EMPEL_1

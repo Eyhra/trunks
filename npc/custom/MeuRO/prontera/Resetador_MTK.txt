@@ -1,0 +1,26 @@
+prontera,145,174,5	script	Reset de Oposições MTK	4_4JOB_EINHAR,{
+
+mes "."+strnpcinfo(1)+".";
+mes "Deseja resetar suas oposições?";
+switch(select("Sim:Nao")) {
+	case 1: next;
+	mes "."+strnpcinfo(1)+".";
+	mes "Oposições resetadas.";
+	atcommand "@feelreset";
+	set PC_HATE_MOB_SUN,0;
+	set PC_HATE_MOB_MOON,0;
+	set PC_HATE_MOB_STAR,0;
+	atcommand "@kick "+strcharinfo(0);
+	close;
+		case 2: next;
+		mes "."+strnpcinfo(1)+".";
+		mes "Volte sempre.";
+		close;
+		}
+
+Oninit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Kaito");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}

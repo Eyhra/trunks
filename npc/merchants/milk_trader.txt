@@ -1,0 +1,42 @@
+prontera,73,140,0	script	Leiteiro	86,{
+	if (checkweight(1201,1) == 0) {
+		mes "^3355FFApenas um minuto!";
+		mes "Eu não posso oferecer nada do meu presta serviços para você porque ocê está carregando muito coisas.";
+		mes "Coloque seus itens extras em Armazenamento Kafra e volte novamente~";
+		close;
+	}
+	mes "[Vendedor de Leite]";
+	mes "Ei, ei ...";
+	mes "Se você me trouxer 1 garrafa vazia e 15 Zeny, eu vou trocar eles por 1 leite. Como isso soa?";
+	next;
+	if (select("Troque todas as garrafas vazias.:Cancelar") == 1) {
+		if (countitem(713) <= 0) {
+			mes "[Vendedor de Leite]";
+			mes "Ei ...";
+			mes "Você não tem qualquer garrafa vazia.";
+			mes "Eu não posso te dar este leite qualquer outro você sabe...";
+			close;
+		}
+		set .@bottles,countitem(713);
+		set .@total_weight,.@bottles * 50;
+		set .@total_cost,.@bottles * 15;
+		if (Zeny < .@Total_cost) {
+			mes "[Vendedor de Leite]";
+			mes "Oh, whoa ~!";
+			mes "Você não tem o suficiente zeny para trocar tudo essas garrafas vazias para Leite.";
+			mes "Você precisa ter pelo menos " + .@total_cost + " zeny.";
+			close;
+		}
+		if (MaxWeight - Weight < .@total_weight) {
+			mes "[Vendedor de Leite]";
+			mes "Hmm ...";
+			mes "Você faria um pouco mais de espaço no seu inventário antes de te dar todo esse leite?";
+			close;
+		}
+		set Zeny, Zeny-.@total_cost;
+		delitem 713,.@bottles; //Garrafa Vazia
+		getitem 519,.@bottles; //Leite
+		close;
+	}
+	close;
+}

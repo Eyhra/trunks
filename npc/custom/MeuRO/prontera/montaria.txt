@@ -1,0 +1,65 @@
+//===== RO Scripts =======================================
+//= Sistema de Aluguel Completo + Expandidas
+//===== Versão: =====================================
+//= 1.0
+//============================================================ 
+
+prontera,173,184,1	script	Mestre das Montarias	4_ep18_suad,{
+        cutin "ep18_suad_01",2;
+        mes "^00B2EE[ Mestre das Montarias ]^000000";
+        mes (gettime(3)>= 6&&gettime(3)<= 12?"Bom-dia":(gettime(3)>=13&&gettime(3)<=18?"Boa-tarde":"Boa-noite"))+", ^FFA500"+strcharinfo(0)+"^000000!";
+        mes "O que deseja alugar conosco hoje?";
+	switch(select("^2988CD[»]^000000 Carrinho:^3CB371[»]^000000 Falcão:^3CB371[»]^000000 Peco-Peco - Grifo:^3CB371[»]^000000 Dragão:^3CB371[»]^000000 MadoGear:^FF0000[»]^000000 Sair")){
+		case 1:
+			next;
+                if (checkcart() == true) && (getskilllv("MC_PUSHCART") == 0){
+                    close3;
+                }
+	            setcart;
+                specialeffect 967;
+                close3;
+        case 2:
+            next;
+                if((Class == Job_Hunter || Class == Job_Sniper) && checkfalcon() && getskilllv("HT_FALCON") > 0){
+                    close3;
+                }
+	            setfalcon;
+                specialeffect 967;
+                close3;
+        case 3:
+            next;
+               	if ((Class == Job_Knight || Class == Job_Crusader || Class == Job_Lord_Knight || Class == Job_Paladin || Class == Job_Royal_Guard || Class == Job_Royal_Guard_T || Class == Job_Baby_Royal_Guard) && checkriding() && getskilllv("KN_RIDING") > 0) { 
+                    close3;
+                }
+                setriding;
+                specialeffect 967;
+                close3;
+        case 4:
+            next;
+               	if ((Class == Job_Knight || Class == Job_Lord_Knight) && checkriding() && getskilllv("RK_DRAGONTRAINING") > 0) { 
+                    close3;
+                }
+                setdragon;
+                specialeffect 967;
+                close3;
+        case 5:
+            next;
+	            if ((Class == Job_Mechanic || Class == Job_Mechanic_T || Class == Job_Baby_Mechanic) && checkmadogear() && getskilllv("NC_MADOLICENCE") > 0) {
+                    close3;
+                }
+                setmadogear;
+                specialeffect 967;
+                close3;
+		case 6:
+			next;
+			mes "^00B2EE[ Mestre das Montarias ]^000000";
+			mes "Pode me visitar sempre que precisar de algo !";
+			close3;
+    }
+    end;
+OnInit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Thay");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;	
+}

@@ -1,0 +1,40 @@
+function	script	F_Bonus_Rops	{
+    if( checkchatting() && !$@Chatting || checkvending() && !$@MerchantAT) { goto NadaAqui; end; }
+	.@amount = rand(1, 20);
+    #CASHPOINTS += .@amount; 
+    dispbottom "PowkRO: Você Ganhou "+F_InsertComma(.@amount)+" Rops.";
+        
+    .@party_id = getcharid(1);
+    if (.@party_id) {
+        .@owner_aid = getcharid(3);
+        .@owner_cid = getcharid(0);
+                
+        getpartymember .@party_id, 2;
+        .@partymembercount = $@partymembercount;
+        for (.@i = 0; .@i < .@partymembercount; .@i++) {
+            if ($@partymemberaid[.@i] == .@owner_aid) 
+                continue;            
+                
+   
+            if (attachrid($@partymemberaid[.@i])) {
+
+                .@amount = rand(1, 10);
+                #CASHPOINTS += .@amount; 
+                dispbottom "PowkRO: Você Ganhou "+F_InsertComma(.@amount)+" Rops.";
+                dispbottom "PowkRO: '"+strcharinfo(0)+"' ganhou "+F_InsertComma(.@amount)+" Rops.", 0x00FF00, .@owner_cid;
+                NadaAqui:
+
+				detachrid;
+
+			}
+        }
+    }
+    return;
+OnInit:
+	// Escolha se quer dar cash a mercadores em comercio @at:
+	set $@MerchantAT, 0;	//  0=Não / 1=Sim
+	// Escolha se quer dar cash para quem estiver com chat (Alt+C) aberto
+	set $@Chatting, 0;	// 0=Não / 1=Sim
+	// Fim config		
+end;
+}

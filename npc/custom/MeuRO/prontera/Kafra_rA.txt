@@ -1,0 +1,3298 @@
+/*.---------------------------------------------------------------------.
+  .		 ____                          __                          		.
+  .		/\  _`\                       /\ \__  __                   		.
+  .		\ \ \/\_\  _ __    __     __  \ \ ,_\/\_\  __  __     __   		.
+  .		 \ \ \/_/_/\`'__\/'__`\ /'__`\ \ \ \/\/\ \/\ \/\ \  /'__`\ 		.
+  .		  \ \ \s\ \ \ \//\  __//\ \d\.\_\ \ \_\ \ \ \ \_/ |/\  __/ 		.
+  .		   \ \____/\ \_\\ \____\ \__/.\_\\ \__\\ \_\ \___/ \ \____\		.
+  .		    \/___/  \/_/ \/____/\/__/\/_/ \/__/ \/_/\/__/   \/____/		.
+  .																		.
+  .				2014~2018 © Creative Services and Development			.
+  .						  www.creativesd.com.br							.
+  .---------------------------------------------------------------------.
+  . Script:													            .
+  .	   Funcionária Kafra VIP								            .
+  .---------------------------------------------------------------------.
+  . Autor: Romulo SM (sbk_)                                 Versão: 1.0	.
+  .                                                                     .
+  . Compátivel:	rAthena e derivações.                    	            .
+  .---------------------------------------------------------------------.
+  . Descrição:															.
+  .	   Funcionária Kafra para usuários privilegiados.                   .
+  .---------------------------------------------------------------------.
+  . Changelog:                                                          .
+  .		* 1.0 [sbk_]                                                    .
+  .			- Iniciado o NPC.											.
+  *---------------------------------------------------------------------*/
+// [NOTA1]: 0 desabilita esta opção.
+// [NOTA2]: Emuladores Hercules Suporta 333.333.332 VALORES, rAthena mais recentes 1bi e emuladores com base no eAthena suporta apenas 42 valores.
+// [NOTA3]: Deixe em branco para desabilitar esta opção.
+// [NOTA4]: Para desativar funções secundárias de prevenções, ponha 0 na variável .@Stylist_Enable que geralmente se encontra na linha 3292.
+//
+// [GROUPID]: É o Level de Previlégio do Jogador.
+//
+prontera,156,192,3	script	Funcionária Kafra#vip_01	4_ep18_miriam,{
+	// -----------------------------------------------
+	// -			Configurações Globais		 	 -
+	// -----------------------------------------------
+	
+	// Site no qual será indicado ao jogador para se tornar um Usuário VIP.
+	.@WebSite$ = "https://www.google.com.br/";
+	
+	// Nível de Jogadores Comuns.
+	.@MinGroupID = 0;
+	
+	// Cutin a ser Exibido
+	.@cutin$ = "ep18_miriam_01";	// [NOTA3]
+	
+	// -------------------------------------------------
+
+	// -----------------------------------------------
+	// -		Configurações de Permissões			 -
+	// -----------------------------------------------
+	setarray .@EnableMenus[0],
+				1, 0,	// Habilitar Armazém? [NOTA1],[GROUPID]
+				1, 0,	// Habilitar Armazém do Clã? [NOTA1],[GROUPID]
+				0, 0,	// Habilitar Encantamentos? [NOTA1],[GROUPID]		
+				0, 0,	// Habilitar Estilista? [NOTA1],[GROUPID] (Funções Secundárias [NOTA4])
+				0, 0,	// Habilitar Mudança de Mestre do Clã? [NOTA1],[GROUPID]
+				0, 0,	// Habilitar Removedora de Cartas? [NOTA2],[GROUPID]
+				0, 0,	// Habilitar Reparador de Itens? [NOTA1],[GROUPID]
+				0, 0,	// Habilitar Resetadora de Pontos Atributos? [NOTA1],[GROUPID]
+				0, 0,	// Habilitar Resetadora de Pontos Habilidades? [NOTA1],[GROUPID]
+				1, 0,	// Salvar Ponto Atual? [NOTA1],[GROUPID]
+				0, 0,	// Habilitar Teleporte? [NOTA1],[GROUPID]
+				1, 0,	// Habilitar Teleporte em Castelos da Guerra PE? [NOTA1],[GROUPID]
+				1, 0	// Habilitar Teleporte em Castelos da Guerra SE? [NOTA1],[GROUPID]
+	;
+	
+	// -----------------------------------------------
+	// -		Configurações do Armazém		 	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado no Armazém.
+	.@StorageCost = 0;	// [NOTA1]
+	
+	// Habilitar a checagem de Habilidades Básicas?
+	.@StorageSkill = 1;		// [NOTA1]
+	
+	// -----------------------------------------------
+	// -     Configurações do Armazém do Clã		 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado no Armazém.
+	.@gStorageCost = 1000;	// [NOTA1]
+	
+	// -----------------------------------------------
+	// -		Configurações de Encantamentos		 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado no encantamento.
+	.@EnchantmentCost = 0;
+	
+	// Encantamentos que serão dado para o jogador.
+	//
+	//	Ex:
+	//		setarray .@EnchantmentList[0], Encatamento 1, Efeito Especial 1, Duração 1, Encatamento 2, Efeito Especial 2, Duração 2;
+	//
+	//	O Efeito especial pode 
+	//
+	//	A duração deve ser posta em milisegundos.
+	//
+	setarray .@EnchantmentList[0],	// [NOTA2]
+				SC_BLESSING, EF_BLESSING, 600000,
+				SC_INCREASEAGI, EF_INCAGILITY, 600000,
+				SC_IMPOSITIO, EF_IMPOSITIO, 600000,
+				SC_MAGNIFICAT, EF_MAGNIFICAT, 600000,
+				SC_GLORIA, EF_GLORIA, 600000,
+				SC_MAXIMIZEPOWER, EF_MAXPOWER, 600000
+	;
+	
+	// Habilitar o Reparamento de todos os itens ao receber os buffs?
+	.@EnchantmentRepair = 1;		// [NOTA1]
+	
+	// -----------------------------------------------
+	// -		Configurações do Estilista		 	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado em serviços de Estilista.
+	setarray .@StylistCost[0],	// [NOTA1]
+				0,				// Cor da Roupa
+				0,				// Cor do Cabelo
+				0				// Estilo do Cabelo
+	;
+	
+	// Limite de cores de roupas para 1ª Classe.
+	setarray .@Stylist_1rdjob_clother[0], 0, 553; // [INICIA,TERMINA]
+
+	// Limite de estilo de cabelo para 1ª Classes. 
+	setarray .@Stylist_1rdjob_hair_style[0], 0, 43; 	// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para 1ª Classes. 
+	setarray .@Stylist_1rdjob_hair_color[0], 0, 251; 	// [INICIA,TERMINA]
+
+	// Limite de cores de roupas para 2ª&Avançadas Classe. 
+	setarray .@Stylist_2rdjob_clother[0], 0, 553; 		// [INICIA,TERMINA]
+	
+	// Limite de estilo de cabelo para 2ª Classes&Avançadas Classe. 
+	setarray .@Stylist_2rdjob_hair_style[0], 0, 43; 	// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para 2ª Classes&Avançadas Classe. 
+	setarray .@Stylist_2rdjob_hair_color[0], 0, 251; 	// [INICIA,TERMINA]
+	
+	// Limite de cores de roupas para Classes extendidas. 
+	setarray .@Stylist_extjob_clother[0], 0, 553; 		// [INICIA,TERMINA]
+	
+	// Limite de estilo de cabelo para Classes extendidas. 
+	setarray .@Stylist_extjob_hair_style[0], 0, 43; 	// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para Classes extendidas. 
+	setarray .@Stylist_extjob_hair_color[0], 0, 251; 	// [INICIA,TERMINA]
+	
+	// Limite de cores de roupas para Transclasses. 
+	setarray .@Stylist_transjob_clother[0], 0, 553;		// [INICIA,TERMINA]
+	
+	// Limite de estilo de cabelo para Transclasses. 
+	setarray .@Stylist_transjob_hair_style[0], 0, 43;	// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para Transclasses. 
+	setarray .@Stylist_transjob_hair_color[0], 0, 251;	// [INICIA,TERMINA]
+	
+	// Limite de cores de roupas para 3ª Classes. 
+	setarray .@Stylist_3rdjob_clother[0], 0, 3;			// [INICIA,TERMINA]
+	
+	// Limite de estilo de cabelo para 3ª Classes. 
+	setarray .@Stylist_3rdjob_hair_style[0], 0, 43;		// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para Transclasses. 
+	setarray .@Stylist_3rdjob_hair_color[0], 0, 251;	// [INICIA,TERMINA]
+	
+	// Limite de cores de roupas para Evoluções de Classes extendidas. 
+	setarray .@Stylist_evextjob_clother[0], 0, 3;		// [INICIA,TERMINA]
+	
+	// Limite de estilo de cabelo para Evoluções de Classes extendidas. 
+	setarray .@Stylist_evextjob_hair_style[0], 0, 43;	// [INICIA,TERMINA]
+	
+	// Limite de cores de cabelo para Transclasses. 
+	setarray .@Stylist_evextjob_hair_color[0], 0, 251;	// [INICIA,TERMINA]
+	
+	// -----------------------------------------------
+	// -  Configurações da Mudança de Mestre do Clã  -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para mudar o Mestre do Clã.
+	.@ChangeGMCost = 0;				// [NOTA1]
+	
+	// -----------------------------------------------
+	// -	Configurações do Removedor de Carta		 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para cada carta removida.
+	.@RemoveCardCost = 0;			// [NOTA1]
+	
+	// Devolver as cartas removidas do jogador?
+	.@RemoveCardReturn = 0;			// [NOTA1]
+	
+	// -----------------------------------------------
+	// -  Configurações do Reparador de Equipamento	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para reparar um equipamento.
+	.@RepairCost = 0;				// [NOTA1]
+	
+	// -----------------------------------------------
+	// -   Configurações do Resetador de Atributos 	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para resetar os atributos.
+	.@ResetStatusCost = 0;		// [NOTA1]
+	
+	// Nível de Base exibido para resetar os atributos.
+	.@ResetStatusBase = 0;			// [NOTA1]
+	
+	// Exigir que o jogador distribua todos os pontos de atributos?
+	.@ResetStatusPoint = 0;			// [NOTA1]
+	
+	// -----------------------------------------------
+	// - Configurações do Resetador de Habilidades 	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para resetar as habilidades.
+	.@ResetSkillCost = 0;			// [NOTA1]
+	
+	// Nível de Base exibido para resetar as habilidades.
+	.@ResetSkillJob = 0;			// [NOTA1]
+	
+	// Exigir que o jogador distribua todos as habilidades?
+	.@ResetSkillPoint = 0;			// [NOTA1]
+	
+	// -----------------------------------------------
+	// - Configurações do Salvar Ponto Atual 	 	 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado para Salvar o Ponto Atual.
+	.@SavePointCost = 0;			// [NOTA1]
+	
+	// -----------------------------------------------
+	// - 		Configurações do Teleporte 	 		 -
+	// -----------------------------------------------
+	
+	// Preço que será cobrado no teleporte.
+	setarray .@TeleportCost[0],	// [NOTA 1]
+				0,		// Cidades
+				0,		// Campos
+				0,		// Calabouços
+				0,		// Castelos da Guerra do Emperium Primeira Edição
+				0		// Castelos da Guerra do Emperium Segunda Edição
+	;
+				
+	
+	// -----------------------------------------------
+	// - 		Ínicio da Funcionária Kafra 	 	-
+	// -----------------------------------------------
+	if( checkre(0) )
+		.@re = 1;
+	else
+		.@re = 0;
+
+	.@loop_1 = 1;
+	while(.@loop_1)
+	{
+		if( .@cutin$ != "" )
+			cutin .@cutin$, 2;
+		
+		mes "^FFA500[Funcionária Kafra]^000000";
+		mes "Bem-vindo a Corporação Kafra.";
+		//if( getgroupid() <= .@MinGroupID )
+		//{
+			//mes "Ainda não é um Usuário VIP? Para se tornar um usuário VIP, acesse nosso site:";
+			//mes "^0000FF" + .@WebSite$ + "^000000";
+			//close2;
+			//cutin "", 255;
+			//end;
+		//}
+		mes "Em que posso ajudar?";
+		next;
+		switch( select(
+					(.@EnableMenus[0]&&getgroupid()>=.@EnableMenus[1]?"^3CB371[»]^000000 Armazém.":""),
+					(.@EnableMenus[2]&&getgroupid()>=.@EnableMenus[3]&&getcharid(2)?"^3CB371[»]^000000 Armazém do Clã.":""),
+					(.@EnableMenus[4]&&getgroupid()>=.@EnableMenus[5]?"- Encantamentos.":""),
+					(.@EnableMenus[6]&&getgroupid()>=.@EnableMenus[7]?"- Estilista.":""),
+					(.@EnableMenus[8]&&getgroupid()>=.@EnableMenus[9]&&getcharid(2)&&getcharid(0)==getguildmasterid(getcharid(2))?"- Mudar Mestre do Clã.":""),
+					(.@EnableMenus[10]&&getgroupid()>=.@EnableMenus[11]?"- Remover Cartas.":""),
+					(.@EnableMenus[12]&&getgroupid()>=.@EnableMenus[13]?"- Reparar Equipamentos.":""),
+					(.@EnableMenus[14]&&getgroupid()>=.@EnableMenus[15]?"- Resetar Atributos.":""),
+					(.@EnableMenus[16]&&getgroupid()>=.@EnableMenus[17]?"- Resetar Habilidades.":""),
+					(.@EnableMenus[18]&&getgroupid()>=.@EnableMenus[19]?"^3CB371[»]^000000 Salvar Ponto Atual.":""),
+					(.@EnableMenus[20]&&getgroupid()>=.@EnableMenus[21]||.@EnableMenus[22]&&getgroupid()>= .@EnableMenus[23]||.@EnableMenus[24]&&getgroupid()>= .@EnableMenus[25]?"^3CB371[»]^000000 Teleportes.":""),
+					"^ff0000[»]^000000 Saír.^000000"
+				)
+		)
+		{
+			// Armazém
+			case 1:
+				if( .@StorageSkill && basicskillcheck() && getskilllv("NV_BASIC") < 6 )
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Para abrir o ^0000FFArmazém^000000 é necessário ter o ^FF0000Nível 6 de habilidades Básicas^000000.";
+					next;
+					break;
+				}
+				
+				if( .@StorageCost )
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Para abrir o ^0000FFArmazém^000000 é necessário ^FF0000" + .@StorageCost + " Zenys^000000.";
+					if( Zeny < .@StorageCost )
+					{
+						mes "^FF0000Você não tem o Zeny requirido.^000000";
+						next;
+						break;
+					}
+				}
+				mes "Deseja abrir o ^0000FFArmazém^000000?";
+				next;
+				if( select("^3CB371[»]^000000 Sim, abrir Armazém.", "^ff0000[»]^000000 Não, obrigado.^000000") == 2 )
+					break;
+				
+				if( .@StorageCost )
+					Zeny -= .@StorageCost;
+					
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Muito bem, vou abrir seu ^0000FFArmazém^000000.";
+				close2;
+				cutin "", 255;
+				openstorage;
+				end;
+			// Armazém do Clã
+			case 2:
+				if( .@gStorageCost )
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Para abrir o ^0000FFArmazém do Clã^000000 é necessário ^FF0000" + .@gStorageCost + " Zenys^000000.";
+					if( Zeny < .@gStorageCost )
+					{
+						mes "^FF0000Você não tem o Zeny requirido.^000000";
+						next;
+						break;
+					}
+				}
+				mes "Deseja abrir o ^0000FFArmazém do Clã^000000?";
+				next;
+				if( select("^3CB371[»]^000000 Sim, abrir Armazém do Clã.", "^ff0000[»]^000000 Não, obrigado.^000000") == 2 )
+					break;
+				
+				if( .@StorageCost )
+					Zeny -= .@gStorageCost;
+					
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Muito bem, vou abrir seu ^0000FFArmazém do Clã^000000.";
+				close2;
+				cutin "", 255;
+				guildopenstorage;
+				end;
+			// Encantamentos.
+			case 3:
+				if( .@EnchantmentCost )
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Para receber os ^0000FFEncantamentos^000000 é necessário ^FF0000" + .@EnchantmentCost + " Zenys^000000.";
+					if( Zeny < .@EnchantmentCost )
+					{
+						mes "^FF0000Você não tem o Zeny requirido.^000000";
+						next;
+						break;
+					}
+					mes "Deseja receber seus ^0000FFEncantamentos^000000?";
+					next;
+					if( select("- Sim, receber Encantamentos.", "^FF0000- Não, obrigado.^000000") == 2 )
+						break;
+						
+					Zeny -= .@EnchantmentCost;
+				}
+				
+				if( .@EnchantmentRepair )
+					repairall;
+					
+				for( .@i=0; .@i < getarraysize(.@EnchantmentList); .@i+=3 )
+				{
+					specialeffect2 .@EnchantmentList[.@i+1];
+					sc_start .@EnchantmentList[.@i], .@EnchantmentList[.@i+2], 10;
+				}
+				
+				percentheal 100,100;
+					
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Aqui está seus ^0000FFEncantamentos^000000.";
+				close2;
+				cutin "", 255;
+				end;
+				
+			// Estilista
+			case 4:
+				// Esses parametros são para ajustes de acordo com a classe.
+				.@class = eaclass();
+				if( Class < 6 )
+				{
+					.@min_clother = .@Stylist_1rdjob_clother[0];
+					.@max_clother = .@Stylist_1rdjob_clother[1];
+					.@min_hair = .@Stylist_1rdjob_hair_style[0];
+					.@max_hair = .@Stylist_1rdjob_hair_style[1];
+					.@min_haircolor = .@Stylist_1rdjob_hair_color[0];
+					.@max_haircolor = .@Stylist_1rdjob_hair_color[1];
+				}
+				else if( Class >= 23 && Class <= 25 || Class >= 4045 && Class <= 4049 )
+				{
+					.@min_clother = .@Stylist_extjob_clother[0];
+					.@max_clother = .@Stylist_extjob_clother[1];
+					.@min_hair = .@Stylist_extjob_hair_style[0];
+					.@max_hair = .@Stylist_extjob_hair_style[1];
+					.@min_haircolor = .@Stylist_extjob_hair_color[0];
+					.@max_haircolor = .@Stylist_extjob_hair_color[1];
+				}
+				else if( Class >= 4211 && Class <= 4215 )
+				{
+					.@min_clother = .@Stylist_evextjob_clother[0];
+					.@max_clother = .@Stylist_evextjob_clother[1];
+					.@min_hair = .@Stylist_evextjob_hair_style[0];
+					.@max_hair = .@Stylist_evextjob_hair_style[1];
+					.@min_haircolor = .@Stylist_evextjob_hair_color[0];
+					.@max_haircolor = .@Stylist_evextjob_hair_color[1];
+				}
+				else if( .@class&EAJL_THIRD )
+				{
+					.@min_clother = .@Stylist_3rdjob_clother[0];
+					.@max_clother = .@Stylist_3rdjob_clother[1];
+					.@min_hair = .@Stylist_3rdjob_hair_style[0];
+					.@max_hair = .@Stylist_3rdjob_hair_style[1];
+					.@min_haircolor = .@Stylist_3rdjob_hair_color[0];
+					.@max_haircolor = .@Stylist_3rdjob_hair_color[1];
+				}
+				else if( Class != 23 && Class != 4045 &&.@class&EAJL_2 )
+				{
+					.@min_clother = .@Stylist_2rdjob_clother[0];
+					.@max_clother = .@Stylist_2rdjob_clother[1];
+					.@min_hair = .@Stylist_2rdjob_hair_style[0];
+					.@max_hair = .@Stylist_2rdjob_hair_style[1];
+					.@min_haircolor = .@Stylist_2rdjob_hair_color[0];
+					.@max_haircolor = .@Stylist_2rdjob_hair_color[1];
+				}
+				else if( .@class&EAJ_UPPERMASK )
+				{
+					.@min_clother = .@Stylist_transjob_clother[0];
+					.@max_clother = .@Stylist_transjob_clother[1];
+					.@min_hair = .@Stylist_transjob_hair_style[0];
+					.@max_hair = .@Stylist_transjob_hair_style[1];
+					.@min_haircolor = .@Stylist_transjob_hair_color[0];
+					.@max_haircolor = .@Stylist_transjob_hair_color[1];
+				}
+				else {
+					.@min_clother = .@Stylist_3rdjob_clother[0];
+					.@max_clother = .@Stylist_3rdjob_clother[1];
+					.@min_hair = .@Stylist_3rdjob_hair_style[0];
+					.@max_hair = .@Stylist_3rdjob_hair_style[1];
+					.@min_haircolor = .@Stylist_3rdjob_hair_color[0];
+					.@max_haircolor = .@Stylist_3rdjob_hair_color[1];
+				}
+				
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Em qual visual você deseja modificar?";
+				next;
+				switch( select("- Cor da Roupa.", "- Cor do Cabelo.", "- Estilo do Cabelo.", "^FF0000- Cancelar.^000000") )
+				{
+					case 1:
+						.@last = clother_color;
+						.@loop_2 = 1;
+						while(.@loop_2)
+						{
+							mes "^FFA500[Funcionária Kafra]^000000";
+							mes "Muito bem, a cor da sua roupa atual é ^0000FFestilo número " + (.@last+1) + "^000000.";
+							mes "Como você desejar tingir sua roupa?";
+							next;
+							switch( select("^0000FF- Digitar o número da Cor da Roupa.^000000", "^0000FF- Ver um por vez.^000000", "^FF0000- Cancelar.^000000") )
+							{
+								case 1:
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										mes "^FFA500[Funcionária Kafra]^000000";
+										mes "Por favor, digite um número de uma cor entre ^0000FF" + (.@min_clother+1) + "~" + (.@max_clother+1) + "^000000.";
+										mes "^FF0000Se você digitar '0' você irá cancelar esta operação.^000000";
+										next;
+										input .@color;
+										if( !.@color )
+										{
+											.@loop_3 = 0;
+											break;
+										}
+										else if( .@color > (.@max_clother+1) )
+										{
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Você tem que digitar um número de uma cor entre ^0000FF" + (.@min_clother+1) + "~" + (.@max_clother+1) + "^000000.";
+											mes "^0000FFSe você digitar '0' você irá cancelar esta operação.^000000";
+											next;
+										}
+										else {
+											.@set = .@color-1;
+											setlook 7, .@set;
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Veja como o ^0000FFestilo número " + .@color + "^000000 fico nas suas roupas, deseja manter ela?";
+											next;
+											switch( prompt("^0000FF- Digitar outra cor.", "^006400- Manter essa.^000000", "^FF0000- Cancelar.^000000") )
+											{
+												case 1:
+													break;
+												case 2:
+													if( .@StylistCost[0] )
+													{
+														mes "^FFA500[Funcionária Kafra]^000000";
+														mes "Para mudar a ^0000FFCor da sua Roupa^000000 é necessário ^FF0000" + .@StylistCost[0] + " Zenys^000000.";
+														if( Zeny < .@StylistCost[0] )
+														{
+															setlook 7, .@last;
+															mes "^FF0000Você não tem o Zeny requirido.^000000";
+															next;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														mes "Tem certeza que deseja manter esta cor de Roupa?";
+														next;
+														if( select("- Sim, manter cor da roupa.", "^FF0000- Cancelar.^000000") == 2 )
+														{
+															setlook 7, .@last;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														
+														
+														Zeny -= .@StylistCost[0];
+													}
+													
+													clother_color = .@set;
+													.@loop_3 = 0;
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Muito bem, a ^0000FFCor da Sua Roupa^000000 foi atualizada com sucesso.";
+													close2;
+													cutin "", 255;
+													end;
+												case 3:
+													setlook 7, .@last;
+													.@loop_3 = 0;
+													break;
+												default:
+													setlook 7, .@last;
+													.@loop_3 = 0;
+													.@loop_2 = 0;
+													break;
+											}
+										}
+									}
+									break;
+								case 2:
+									.@last = clother_color;
+									.@progress = .@last;
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										setlook 7, .@progress;
+										mes "^FFA500[Funcionária Kafra]^000000";;
+										mes "^0000FFEstilo número " + (.@progress+1) + "^000000.";
+										mes "Que tal essa? Deseja manter?";
+										next;
+										switch( prompt("^0000FF- Próximo.^000000", (.@progress>0?"^0000FF- Anterior.^000000":""), "^006400- Manter essa.^000000", "^FF0000- Cancelar.^000000") )
+										{
+											case 1:
+												.@progress = ((.@progress+1)>.@max_clother?0:(.@progress+1));
+												break;
+											case 2:
+												.@progress = .@progress-1;
+												break;
+											case 3:
+												if( .@StylistCost[0] )
+												{
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Para mudar a ^0000FFCor da sua Roupa^000000 é necessário ^FF0000" + .@StylistCost[0] + " Zenys^000000.";
+													if( Zeny < .@StylistCost[0] )
+													{
+														setlook 7, .@last;
+														mes "^FF0000Você não tem o Zeny requirido.^000000";
+														next;
+														.@loop_3 = 0;
+														.@loop_2 = 0;
+														break;
+													}
+													mes "Tem certeza que deseja manter esta cor de Roupa?";
+													next;
+													if( select("- Sim, manter cor da roupa.", "^FF0000- Cancelar.^000000") == 2 )
+													{
+														setlook 7, .@last;
+														.@loop_3 = 0;
+														.@loop_2 = 0;
+														break;
+													}
+													
+														
+													Zeny -= .@StylistCost[0];
+												}
+													
+												clother_color = .@progress;
+												mes "^FFA500[Funcionária Kafra]^000000";
+												mes "Muito bem, a ^0000FFCor da Sua Roupa^000000 foi atualizada com sucesso.";
+												close2;
+												cutin "", 255;
+												end;
+											default:
+												setlook 7, .@last;
+												.@loop_3 = 0;
+												.@loop_2 = 0;
+												break;
+										}
+									}
+									break;
+								case 3:
+									.@loop_2 = 0;
+									break;
+							}
+						}
+						break;
+					case 2:
+						.@last = hair_color;
+						.@loop_2 = 1;
+						while(.@loop_2)
+						{
+							mes "^FFA500[Funcionária Kafra]^000000";
+							mes "Muito bem, a cor do seu cabelo atual é ^0000FFestilo número " + (.@last+1) + "^000000.";
+							mes "Como você desejar tingir seu cabelo?";
+							next;
+							switch( select("^0000FF- Digitar o número da Cor do Cabelo.^000000", "^0000FF- Ver um por vez.^000000", "^FF0000- Cancelar.^000000") )
+							{
+								case 1:
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										mes "^FFA500[Funcionária Kafra]^000000";
+										mes "Por favor, digite um número de uma cor entre ^0000FF" + (.@min_haircolor+1) + "~" + (.@max_haircolor+1) + "^000000.";
+										mes "^FF0000Se você digitar '0' você irá cancelar esta operação.^000000";
+										next;
+										input .@color;
+										if( !.@color )
+										{
+											.@loop_3 = 0;
+											break;
+										}
+										else if( .@color > (.@max_haircolor+1) )
+										{
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Você tem que digitar um número de uma cor entre ^0000FF" + (.@min_haircolor+1) + "~" + (.@max_haircolor+1) + "^000000.";
+											mes "^0000FFSe você digitar '0' você irá cancelar esta operação.^000000";
+											next;
+										}
+										else {
+											.@set = .@color-1;
+											setlook 6, .@set;
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Veja como o ^0000FFestilo número " + .@color + "^000000 fico no seu cabelo, deseja manter ela?";
+											next;
+											switch( prompt("^0000FF- Digitar outra cor.", "^006400- Manter essa.^000000", "^FF0000- Cancelar.^000000") )
+											{
+												case 1:
+													break;
+												case 2:
+													if( .@StylistCost[1] )
+													{
+														mes "^FFA500[Funcionária Kafra]^000000";
+														mes "Para mudar a ^0000FFCor do seu Cabelo^000000 é necessário ^FF0000" + .@StylistCost[1] + " Zenys^000000.";
+														if( Zeny < .@StylistCost[1] )
+														{
+															setlook 6, .@last;
+															mes "^FF0000Você não tem o Zeny requirido.^000000";
+															next;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														mes "Tem certeza que deseja manter esta cor do seu Cabelo?";
+														next;
+														if( select("- Sim, manter cor do cabelo.", "^FF0000- Cancelar.^000000") == 2 )
+														{
+															setlook 6, .@last;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														
+														Zeny -= .@StylistCost[1];
+													}
+													
+													hair_color = .@set;
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Muito bem, a ^0000FFCor do Seu Cabelo^000000 foi atualizada com sucesso.";
+													close2;
+													cutin "", 255;
+													end;
+												default:
+													setlook 6, .@last;
+													.@loop_3 = 0;
+													.@loop_2 = 0;
+													break;
+											}
+										}
+									}
+									break;
+								case 2:
+									.@last = hair_color;
+									.@progress = .@last;
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										setlook 6, .@progress;
+										mes "^FFA500[Funcionária Kafra]^000000";;
+										mes "^0000FFEstilo número " + (.@progress+1) + "^000000.";
+										mes "Que tal essa? Deseja manter?";
+										next;
+										switch( prompt("^0000FF- Próximo.^000000", (.@progress>0?"^0000FF- Anterior.^000000":""), "^006400- Manter essa.^000000", "^FF0000- Cancelar.^000000") )
+										{
+											case 1:
+												.@progress = ((.@progress+1)>.@max_haircolor?0:(.@progress+1));
+												break;
+											case 2:
+												.@progress = .@progress-1;
+												break;
+											case 3:
+													if( .@StylistCost[1] )
+													{
+														mes "^FFA500[Funcionária Kafra]^000000";
+														mes "Para mudar a ^0000FFCor do seu Cabelo^000000 é necessário ^FF0000" + .@StylistCost[1] + " Zenys^000000.";
+														if( Zeny < .@StylistCost[1] )
+														{
+															setlook 6, .@last;
+															mes "^FF0000Você não tem o Zeny requirido.^000000";
+															next;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														mes "Tem certeza que deseja manter esta cor do seu Cabelo?";
+														next;
+														if( select("- Sim, manter cor do cabelo.", "^FF0000- Cancelar.^000000") == 2 )
+														{
+															setlook 6, .@last;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														
+														Zeny -= .@StylistCost[1];
+													}
+													
+													hair_color = .@progress;
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Muito bem, a ^0000FFCor do Seu Cabelo^000000 foi atualizada com sucesso.";
+													close2;
+													cutin "", 255;
+													end;
+											default:
+												setlook 6, .@last;
+												.@loop_3 = 0;
+												.@loop_2 = 0;
+												break;
+										}
+									}
+									break;
+								default:
+									.@loop_2 = 0;
+									break;
+							}
+						}
+						break;
+					case 3:
+						.@last = hair_style;
+						.@loop_2 = 1;
+						while(.@loop_2)
+						{
+							mes "^FFA500[Funcionária Kafra]^000000";
+							mes "Muito bem, o seu cabelo atual é ^0000FFestilo número " + (.@last+1) + "^000000.";
+							mes "Como você desejar mudar seu cabelo?";
+							next;
+							switch( select("^0000FF- Digitar o número do Cabelo.^000000", "^0000FF- Ver um por vez.^000000", "^FF0000- Cancelar.^000000") )
+							{
+								case 1:
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										mes "^FFA500[Funcionária Kafra]^000000";
+										mes "Por favor, digite um número de um estilo de cabelo entre ^0000FF" + (.@min_hair+1) + "~" + (.@max_hair+1) + "^000000.";
+										mes "^FF0000Se você digitar '0' você irá cancelar esta operação.^000000";
+										next;
+										input .@color;
+										if( !.@color )
+										{
+											.@loop_3 = 0;
+											break;
+										}
+										else if( .@color > (.@max_hair+1) )
+										{
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Você tem que digitar um número de um estilo de cabelo entre ^0000FF" + (.@min_hair+1) + "~" + (.@max_hair+1) + "^000000.";
+											mes "^0000FFSe você digitar '0' você irá cancelar esta operação.^000000";
+											next;
+										}
+										else {
+											.@set = .@color-1;
+											setlook 1, .@set;
+											mes "^FFA500[Funcionária Kafra]^000000";
+											mes "Veja como o ^0000FFestilo número " + .@color + "^000000 fico no seu cabelo, deseja manter ela?";
+											next;
+											switch( prompt("^0000FF- Digitar outro estilo.", "^006400- Manter essa.^000000", "^FF0000- Cancelar.^000000") )
+											{
+												case 1:
+													break;
+												case 2:
+													if( .@StylistCost[2] )
+													{
+														mes "^FFA500[Funcionária Kafra]^000000";
+														mes "Para mudar o ^0000FFEstilo do seu Cabelo^000000 é necessário ^FF0000" + .@StylistCost[2] + " Zenys^000000.";
+														if( Zeny < .@StylistCost[2] )
+														{
+															setlook 1, .@last;
+															mes "^FF0000Você não tem o Zeny requirido.^000000";
+															next;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														mes "Tem certeza que deseja manter esta o estilo do seu Cabelo?";
+														next;
+														if( select("- Sim, manter estilo do cabelo.", "^FF0000- Cancelar.^000000") == 2 )
+														{
+															setlook 1, .@last;
+															.@loop_3 = 0;
+															.@loop_2 = 0;
+															break;
+														}
+														
+														Zeny -= .@StylistCost[2];
+													}
+													hair_style = .@set;
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Muito bem, o ^0000FFEstilo do Seu Cabelo^000000 foi atualizada com sucesso.";
+													close2;
+													cutin "", 255;
+													end;
+												default:
+													setlook 1, .@last;
+													.@loop_3 = 0;
+													.@loop_2 = 0;
+													.@loop_1 = 0;
+													break;
+											}
+										}
+									}
+									break;
+								case 2:
+									.@last = hair_style;
+									.@progress = .@last;
+									.@loop_3 = 1;
+									while(.@loop_3)
+									{
+										setlook 1, .@progress;
+										mes "^FFA500[Funcionária Kafra]^000000";;
+										mes "^0000FFEstilo número " + (.@progress+1) + "^000000.";
+										mes "Que tal esse? Deseja manter?";
+										next;
+										switch( select("^0000FF- Próximo.^000000", (.@progress>0?"^0000FF- Anterior.^000000":""), "^006400- Manter esse.^000000", "^FF0000- Cancelar.^000000") )
+										{
+											case 1:
+												.@progress = ((.@progress+1)>.@max_hair?0:(.@progress+1));
+												break;
+											case 2:
+												.@progress = .@progress-1;
+												break;
+											case 3:
+												if( .@StylistCost[2] )
+												{
+													mes "^FFA500[Funcionária Kafra]^000000";
+													mes "Para mudar o ^0000FFEstilo do seu Cabelo^000000 é necessário ^FF0000" + .@StylistCost[2] + " Zenys^000000.";
+													if( Zeny < .@StylistCost[2] )
+													{
+														setlook 1, .@last;
+														mes "^FF0000Você não tem o Zeny requirido.^000000";
+														next;
+														.@loop_3 = 0;
+														.@loop_2 = 0;
+														break;
+													}
+													mes "Tem certeza que deseja manter esta o estilo do seu Cabelo?";
+													next;
+													if( select("- Sim, manter estilo do cabelo.", "^FF0000- Cancelar.^000000") == 2 )
+													{
+														setlook 1, .@last;
+														.@loop_3 = 0;
+														.@loop_2 = 0;
+														break;
+													}
+													
+													Zeny -= .@StylistCost[2];
+												}
+												hair_style = .@progress;
+												mes "^FFA500[Funcionária Kafra]^000000";
+												mes "Muito bem, o ^0000FFEstilo do Seu Cabelo^000000 foi atualizada com sucesso.";
+												close2;
+												cutin "", 255;
+												end;
+											default:
+												setlook 1, .@last;
+												.@loop_3 = 0;
+												.@loop_2 = 0;
+												.@loop_1 = 0;
+												break;
+										}
+									}
+									break;
+								default:
+									.@loop_2 = 0;
+									break;
+							}
+						}
+						break;
+					default:
+						break;
+				}
+				break;
+			// Mudar Mestre do Clã
+			case 5:
+				.@loop_2 = 1;
+				while(.@loop_2)
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Por favor digite o nome do jogador que esteja na mesmo Clã que você para ^0000FFMudar o Mestre do Clã^000000.";
+					mes "^0000FFÉ necessário que ele esteja online.^000000";
+					mes "^FF0000Digite 0 para esta operação ser cancelada.^000000.";
+					next;
+					input .@name$;
+					
+					if( .@name$ == "0" )
+						break;
+					
+					deletearray .@char_id[0],getarraysize(.@char_id);
+					query_sql "SELECT `char_id`, `name`, `guild_id`, `online` FROM `char` WHERE `name`='" + .@name$ + "'", .@char_id, .@name$, .@guild_id, .@online;
+					
+					if( !getarraysize(.@char_id) )
+					{
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Este jogador não foi encontrado, tente novamente.";
+						next;
+					}
+					else if( .@guild_id != getcharid(2) )
+					{
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Este jogador não participa do seu Clã, tente um outro.";
+						next;
+					}
+					else if( !.@online )
+					{
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Este jogador encontra-se off-line, tente um outro.";
+						next;
+					}
+					else {
+						mes "^FFA500[Funcionária Kafra]^000000";
+						if( .@ChangeGMCost )
+						{
+							mes "Para mudar o ^0000FFMestre do Clã^000000 é necessário ter ^FF0000" + .@ChangeGMCost + "^000000.";
+							if( Zeny < .@ChangeGMCost )
+							{
+								mes "^FF0000Você não tem o Zeny requirido.^000000";
+								next;
+								.@loop_2 = 0;
+								break;
+							}
+						}
+						mes "Deseja mudar o ^0000FFMestre do Clã^000000 para o Jogador ^FF0000" + .@name$ + "^000000?";
+						next;
+						if( select("- Sim, por favor.", "^FF0000- Cancelar.^000000") == 2 )
+						{
+							.@loop_2 = 0;
+							break;
+						}
+						
+						mes "^FFA500[Funcionária Kafra]^000000";
+						.@GID = getcharid(2);
+						.@change = guildchangegm(getcharid(2), .@name$[0]);
+						if( .@change )
+						{
+							if( .@ChangeGMCost )
+								Zeny -= .@ChangeGMCost;
+							
+							mes "Muito bem, o ^0000FFMestre do Clã " + getguildname(getcharid(2)) + "^000000 foi alterado com sucesso.";
+							close2;
+							cutin "", 255;
+							end;
+						}
+						mes "Houve um erro ao mudar o ^0000FFMestre do Clã " + getguildname(getcharid(2)) + "^000000, tente novamente.";
+						next;
+					}
+				}
+				break;
+			// Remover Cartas
+			case 6:
+				.@loop_2 = 1;
+				while(.@loop_2)
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Certifique-se que você está com o item equipado para ^0000FFRemover as Cartas^000000.";
+					if( !.@RemoveCardReturn )
+					{
+						next;
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Todas as cartas removidas não serão devolvida.";
+						next;
+						mes "^FFA500[Funcionária Kafra]^000000";
+					}
+					
+					if( .@RemoveCardCost )
+						mes "O custo para remoção de cada carta é de ^0000FF" + .@RemoveCardCost + " Zenys^000000.";
+					
+					enable_items;
+					mes "^0000FFVocê pode equipar o item agora mesmo, ao avançar não poderá equipar os itens.^000000";
+					next;
+					disable_items;
+					set .@build_menu$, "";
+					for( .@i=1; .@i <= 10; .@i++ )
+						set .@build_menu$, .@build_menu$ + (getequipisequiped(.@i)&&getequipcardcnt(.@i)?"- " + getequipname(.@i) + " (" + getequipcardcnt(.@i) + ") cartas.:":":");
+					
+					.@choose = select(.@build_menu$+"^FF0000- Cancelar.^000000");
+					
+					if( .@choose == 11 )
+					{
+						.@loop_2 = 0;
+						break;
+					}
+					
+					mes "^FFA500[Funcionária Kafra]^000000";
+					if( @RemoveCardCost )
+					{
+						.@Price = (getequipcardcnt(.@choose)*.@RemoveCardCost);
+						mes "Para remover as cartas do seu item eu nescessito de ^FF0000" + .@Price + " Zenys^000000.";
+					}
+					else
+						.@Price = 0;
+					
+					if( Zeny < .@Price )
+					{
+						mes "^FF0000Você não possue " + .@Price + " Zenys.^000000";
+						next;
+					}
+					else {
+						mes "Deseja remover as cartas do seu ^0000FF" + getequipname(.@choose) + "^000000?";
+						next;
+						switch( select("- Sim, remover cartas.", "^FFA500- Não, escolher outro equipamento.", "^FF0000- Cancelar.^000000") )
+						{
+							case 1:
+								.@equipname$ = getequipname(.@choose);
+								// Faz a contagem das cartas para ser removidas.
+								deletearray .@cardid[0], getarraysize(.@cardid);
+								for( .@i=0; .@i < getequipcardcnt(.@choose); .@i++ )
+									.@cardid[.@i] = getequipcardid(.@choose, .@i);
+						
+								if( .@RemoveCardCost )
+									Zeny -= .@Price;
+									
+								specialeffect EF_HITBODY;
+								specialeffect EF_DOUBLEGUMGANG;
+								successremovecards.@choose;
+								
+								if( !.@RemoveCardReturn )
+								{
+									for( .@i=0; .@i < getarraysize(.@cardid); .@i++ )
+										delitem.@cardid[.@i], 1;
+								}
+								
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Muito bem, as cartas foi removida do seu ^0000FF" + .@equipname$ + "^000000.";
+								close2;
+								cutin "", 255;
+								specialeffect EF_HITBODY;
+								specialeffect EF_NONE;
+								end;
+							case 2:
+								break;
+							case 3:
+								.@loop_2 = 0;
+								break;
+						}
+					}
+				}
+				break;
+			// Reparador de Itens
+			case 7:
+				.@loop_2 = 1;
+				while(.@loop_2)
+				{
+					.@b=1;
+					deletearray .@brokenid, getarraysize(.@brokenid);
+					while(1)
+					{
+						if( getbrokenid(.@b) == 0 )
+							break;
+						
+						.@brokennum[getarraysize(.@brokenid)] = .@b;
+						.@brokenid[getarraysize(.@brokenid)] = getbrokenid(.@b);
+						.@b++;
+					}
+					
+					if( !getarraysize(.@brokenid) )
+					{
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Vejo que você é cuidado-so com seus itens, você tem nenhum quebrado.";
+						next;
+						.@loop_2 = 0;
+						break;
+					}
+					
+					mes "^FFA500[Funcionária Kafra]^000000";
+					if( .@RepairCost )
+					{
+						mes "Para ^0000FFReparar um Equipamento^000000 é necessário ^FF0000" + .@RepairCost + " Zenys^000000.";
+						if( Zeny < .@RepairCost )
+						{
+							mes "^FF0000Você não possue " + .@Price + " Zenys.^000000";
+							next;
+							.@loop_2 = 0;
+							break;
+						}
+					}
+					
+					mes "Escolha o equipamento que deseja reparar.";
+					next;
+					set .@build_menu$, "";
+					for( .@i=0; .@i < getarraysize(.@brokenid); .@i++ )
+						set .@build_menu$, .@build_menu$ + "- " + getitemname(.@brokenid[.@i]) + ".:";
+						
+					.@choose = select(.@build_menu$+"^FF0000- Cancelar.^000000")-1;
+					
+					if( .@choose == getarraysize(.@brokenid) )
+						break;
+					
+					.@Price = .@RepairCost;
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Deseja reparar o ^0000FF" + getitemname(.@brokenid[.@choose]) + "^000000?";
+					next;
+					switch( select("- Sim, reparar.", "^FFA500- Não, escolher outro equipamento.", "^FF0000- Cancelar.^000000") )
+					{
+						case 1:
+							if( .@RepairCost )
+								Zeny -= .@RepairCost;
+								
+							specialeffect EF_REFINEOK;
+							repair .@brokennum[.@choose];
+							mes "^FF0000[Ferreiro]^000000";
+							mes "Muito bem, o seu ^0000FF" + getitemname(.@brokenid[.@choose]) + "^000000 foi reparado.";
+							close2;
+							cutin "", 255;
+							end;
+						case 2:
+							break;
+						case 3:
+							.@loop_2 = 0;
+							break;
+					}
+				}
+				break;
+			// Resetar Atributos
+			case 8:
+				mes "^FFA500[Funcionária Kafra]^000000";
+				if( .@ResetStatusCost )
+					mes "Para resetar seus atributos é necessário ^FF0000" + .@ResetStatusCost + " Zenys^000000.";
+					
+				if( .@ResetStatusBase )
+					mes "Você deve estar no ^FF0000Nível " + .@ResetStatusBase + " de Base^000000 para poder resetar seus atributos.";
+					
+				if( Zeny < .@ResetStatusCost )
+				{
+					mes "^FF0000Você não tem a quantidade de Zeny requerida para resetar seus atributos.^000000";
+					next;
+					break;
+				}
+
+				if( BaseLevel < .@ResetStatusBase )
+				{
+					mes "^FF0000Você não tem Nível de Base suficiente para resetar seus atributos.^000000";
+					next;
+					break;
+				}
+				
+				if( .@ResetStatusPoint && StatusPoint )
+				{
+					mes "^FF0000Você deve distribuir todos seus pontos de atributo para pode resetar.^000000";
+					next;
+					break;
+				}
+				
+				mes "Deseja ^0000FFResetar seus Atributos^000000?";
+				next;
+				if( select("- Sim, resetar atributos.", "^FF0000- Cancelar.^000000") == 2 )
+					break;
+				
+				if( .@ResetStatusCost )
+					Zeny -= .@ResetStatusCost;
+				
+				resetstatus;
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Muito bem, seus atributos foram resetados.";
+				close2;
+				cutin "", 255;
+				end;
+				
+			// Resetar Habilidades
+			case 9:
+				mes "^FFA500[Funcionária Kafra]^000000";
+				if( .@ResetSkillCost )
+					mes "Para resetar suas habilidades é necessário ^FF0000" + .@ResetSkillCost + " Zenys^000000.";
+					
+				if( .@ResetSkillJob )
+					mes "Você deve estar no ^FF0000Nível " + .@ResetSkillJob + " de Classe^000000 para poder resetar suas habilidades.";
+					
+				if( Zeny < .@ResetSkillCost )
+				{
+					mes "^FF0000Você não tem a quantidade de Zeny requerida para resetar suas habilidades.^000000";
+					next;
+					break;
+				}
+
+				if( JobLevel < .@ResetStatusJob )
+				{
+					mes "^FF0000Você não tem Nível de Classe suficiente para resetar suas habilidades.^000000";
+					next;
+					break;
+				}
+				
+				if( .@ResetSkillPoint && SkillPoint )
+				{
+					mes "^FF0000Você deve distribuir todos seus pontos de habilidade para pode resetar.^000000";
+					next;
+					break;
+				}
+				
+				mes "Deseja ^0000FFResetar suas Habilidades^000000?";
+				next;
+				if( select("- Sim, resetar habilidades.", "^FF0000- Cancelar.^000000") == 2 )
+					break;
+				
+				if( .@ResetSkillCost )
+					Zeny -= .@ResetSkillCost;
+				
+				resetskill;
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Muito bem, suas habilidades foram resetadas.";
+				close2;
+				cutin "", 255;
+				end;
+			// Salvar Ponto Atual
+			case 10:
+				if( .@SavePointCost )
+				{
+					mes "^FFA500[Funcionária Kafra]^000000";
+					mes "Para abrir o ^0000FFSalvar Ponto Atual^000000 é necessário ^FF0000" + .@SavePointCost + " Zenys^000000.";
+					if( Zeny < .@SavePointCost )
+					{
+						mes "^FF0000Você não tem o Zeny requirido.^000000";
+						next;
+						break;
+					}
+				}
+				mes "Deseja abrir o ^0000FFSalvar Ponto Atual^000000?";
+				next;
+				if( select("^3CB371[»]^000000 Sim, Salvar Ponto Atual.", "^ff0000[»]^000000 Não, obrigado.^000000") == 2 )
+					break;
+				
+				if( .@SavePointCost )
+					Zeny -= .@SavePointCost;
+				
+				getmapxy .@m$, .@x, .@y, BL_PC;
+				savepoint .@m$, .@x, .@y;
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Muito bem, seu ^0000FFPonto Atual^000000 foi salvo com sucesso.";
+				close2;
+				cutin "", 255;
+				end;
+			// Teleportes
+			case 11:
+				mes "^FFA500[Funcionária Kafra]^000000";
+				mes "Selecione o Local no qual deseja ser ^0000FFTeleportado^000000:";
+				next;
+				switch( select(
+							(WarpLastMap$?"- Último Teleporte.":""),
+							(.@EnableMenus[20]&&getgroupid()>=.@EnableMenus[21]?"- Cidades.":""),
+							(.@EnableMenus[20]&&getgroupid()>=.@EnableMenus[21]?"- Campos.":""),
+							(.@EnableMenus[20]&&getgroupid()>=.@EnableMenus[21]?"- Calabouços.":""),
+							(.@EnableMenus[22]&&getgroupid()>=.@EnableMenus[23]?"^3CB371[»]^000000 Castelos da Guerra Primeira Edição.":""),
+							(.@EnableMenus[24]&&getgroupid()>=.@EnableMenus[25]?"^3CB371[»]^000000 Castelos da Guerra Segunda Edição.":""),
+							"^ff0000[»]^000000 Cancelar."
+						)
+				)
+				{
+					// Último Teleporte
+					case 1:
+						callsub F_WARP, WarpLastMapName$, WarpLastMap$, WarpLastX, WarpLastY, WarpLastCost;
+						break;
+					// Cidades
+					case 2:
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Escolha a ^0000FFCidade^000000 que deseja ser teleportado.";
+						next;
+						switch( select( "- Aldebaran.", "- Alberta.", "- Amatsu.", "- Ayothaya.", (.@re?"- Brasilis.":""), "- Comodo.", (.@re?"- Dewata.":""), (.@re?"- El Dicastes.":""), (.@re?"- Eclage.":""), "- Einbech.", "- Einbroch.", "- Esplendor.", "- Geffen.", "- Hugel.", "- Izlude.", "- Jawaii.", "- Juno.", "- Kunlun.", "- Lighthalzen.", "- Louyang.", "- Lutie.", (.@re?"- Malangdo.":""), (.@re?"- Manuk.":""), (.@re?"- Mora.":""), "- Morroc.", "- Moscóvia.", "- Niflheim.", "- Payon.", (.@re?"- Porto Malaya.":""), "- Prontera.", "- Rachel.", "- Umbala.", "- Veins.") )
+						{
+							// Al De Baran
+							case 1:
+								callsub F_WARP, "Aldebaran", "aldebaran", 140, 131, .@TeleportCost[0];
+								break;
+							// Alberta
+							case 2:
+								callsub F_WARP, "Alberta", "alberta", 192, 147, .@TeleportCost[0];
+								break;
+							// Amatsu
+							case 3:
+								callsub F_WARP, "Amatsu", "amatsu", 192, 84, .@TeleportCost[0];
+								break;
+							// Ayothaya
+							case 4:
+								callsub F_WARP, "Ayothaya", "ayothaya", 209, 208, .@TeleportCost[0];
+								break;
+							// Basilis
+							case 5:
+								callsub F_WARP, "Brasilis", "brasilis", 182, 239, .@TeleportCost[0];
+								break;
+							// Comodo
+							case 6:
+								callsub F_WARP, "Comodo", "comodo", 182, 239, .@TeleportCost[0];
+								break;
+							// Dewata
+							case 7:
+								callsub F_WARP, "Dewata", "dewata", 200, 180, .@TeleportCost[0];
+								break;
+							// El Dicastes
+							case 8:
+								callsub F_WARP, "El Dicastes", "dicastes01", 198, 187, .@TeleportCost[0];
+								break;
+							// Eclage
+							case 9:
+								callsub F_WARP, "Eclage", "eclage", 110, 39, .@TeleportCost[0];
+								break;
+							// Einbech
+							case 10:
+								callsub F_WARP, "Einbech", "einbech", 70, 95, .@TeleportCost[0];
+								break;
+							// Einbroch
+							case 11:
+								callsub F_WARP, "Einbroch", "einbroch", 64, 200, .@TeleportCost[0];
+								break;
+							// Esplendor
+							case 12:
+								callsub F_WARP, "Esplendor", "splendide", 197, 176, .@TeleportCost[0];
+								break;
+							// Geffen
+							case 13:
+								callsub F_WARP, "Geffen", "geffen", 119, 59, .@TeleportCost[0];
+								break;
+							// Hugel
+							case 14:
+								callsub F_WARP, "Hugel", "hugel", 96, 145, .@TeleportCost[0];
+								break;
+							// Izlude
+							case 15:
+								callsub F_WARP, "Izlude", "izlude", 128, 114, .@TeleportCost[0];
+								break;
+							// Jawaii
+							case 16:
+								callsub F_WARP, "Jawaii", "jawaii", 249, 127, .@TeleportCost[0];
+								break;
+							// Juno
+							case 17:
+								callsub F_WARP, "Juno", "yuno", 157, 51, .@TeleportCost[0];
+								break;
+							// Kunlun
+							case 18:
+								callsub F_WARP, "Kunlun", "gonryun", 160, 120, .@TeleportCost[0];
+								break;
+							// Lighthalzen
+							case 19:
+								callsub F_WARP, "Lighthalzen", "lightalzen", 158, 92, .@TeleportCost[0];
+								break;
+							// Louyang
+							case 20:
+								callsub F_WARP, "Louyang", "louyang", 217, 40, .@TeleportCost[0];
+								break;
+							// Lutie
+							case 21:
+								callsub F_WARP, "Lutie", "xmas", 147, 134, .@TeleportCost[0];
+								break;
+							// Malangdo
+							case 22:
+								callsub F_WARP, "Malangdo", "malangdo", 140, 114, .@TeleportCost[0];
+								break;
+							// Manuk
+							case 23:
+								callsub F_WARP, "Manuk", "manuk", 282, 138, .@TeleportCost[0];
+								break;
+							// Mora
+							case 24:
+								callsub F_WARP, "Mora", "mora", 44, 151, .@TeleportCost[0];
+								break;
+							// Morroc
+							case 25:
+								callsub F_WARP, "Morroc", "morocc", 156, 93, .@TeleportCost[0];
+								break;
+							// Moscóvia
+							case 26:
+								callsub F_WARP, "Moscovia", "moscovia", 223, 184, .@TeleportCost[0];
+								break;
+							// Niflheim
+							case 27:
+								callsub F_WARP, "Niflheim", "niflheim", 21, 153, .@TeleportCost[0];
+								break;
+							// Payon
+							case 28:
+								callsub F_WARP, "Payon", "payon", 162, 233, .@TeleportCost[0];
+								break;
+							// Porto Malaya
+							case 29:
+								callsub F_WARP, "Porto Malaya", "malaya", 242, 211, .@TeleportCost[0];
+								break;
+							// Prontera
+							case 30:
+								callsub F_WARP, "Prontera", "prontera", 156, 191, .@TeleportCost[0];
+								break;
+							// Rachel
+							case 31:
+								callsub F_WARP, "Rachel", "rachel", 130, 110, .@TeleportCost[0];
+								break;
+							// Umbala
+							case 32:
+								callsub F_WARP, "Umbala", "umbala", 89, 157, .@TeleportCost[0];
+								break;
+							// Veins
+							case 33:
+								callsub F_WARP, "Veins", "veins", 216, 123, .@TeleportCost[0];
+								break;
+						}
+						break;
+					// Campos
+					case 3:
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Escolha o ^0000FFCampo^000000 que deseja ser teleportado.";
+						next;
+						switch( select("- Campos de Amatsu.", "- Campos de Ayothaya.", "- Campos de Comodo.", (.@re?"- Campos de Eacle.":""), "- Campos de Einbroch.", (.@re?"- Campos de El Dicastes.":""), (.@re?"- Campos de Dewata.":""), "- Campos de Geffen.", "- Campos de Hugel.", "- Campos de Juno.", "- Campo de Kunlun.", "- Campos de Lighthalzen.", "- Campos de Louyang.", "- Campo de Lutie.", (.@re?"- Campos de Malaya.":""), "- Campos de Moscóvia.", "- Campos de Niflheim.", "- Campos de Prontera.", "- Campos de Rachel.", "- Campos de Umbala.", "- Campos de Veins.", "- Campos dos Esplendores.", "- Deserto de Sograt.", (.@re?"- Floresta da Neblina (Bifröst).":""), (.@re?"- Floresta de Brasilis.":""), "- Floresta de Payon.", "- Montanha dos Manuk.", "- Monte Mjolnir.", "^FF0000- Cancelar.^000000") )
+						{
+							// Campos de Amatsu
+							case 1:
+								callsub F_WARP, "Campos de Amatsu", "ama_fild01", 75, 33, .@TeleportCost[1];
+								break;
+							// Campos de Ayothaya
+							case 2:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Ayothaya^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos de Ayothaya (1).", "- Campos de Ayothaya (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos de Ayothaya (1)", "ayo_fild01", 37, 241, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Ayothaya (2)", "ayo_fild02", 134, 149, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Comodo
+							case 3:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Comodo^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Floresta de Pupuchica (1).", "- Praia Komodo (2).", "- Mangue Zenhai (3).", "- Praia Kokomo (4).", "- Limite da Floresta Pupuchica (5).", "- Fortaleza de Saint Darmain (Oeste) (6).", "- Ilha do Farol, Pharos (7).", "- Fortaleza de Saint Darmain (Leste) (8).", "- Fortaleza de Saint Darmain (Sul) (9).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Floresta Pupuchica", "cmd_fild01", 222, 30, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Praia Komodo", "cmd_fild02", 222, 372, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Mangue Zenhai", "cmd_fild03", 27, 68, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Praia Kokomo", "cmd_fild04", 25, 275, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Limite da Floresta Pupuchica", "cmd_fild05", 26, 161, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Fortaleza de Saint Darmain (Oeste)", "cmd_fild06", 28, 288, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Ilha do Farol, Pharos", "cmd_fild07", 147, 370, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Fortaleza de Saint Darmain (Leste)", "cmd_fild08", 25, 102, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Fortaleza de Saint Darmain (Sul)", "cmd_fild09", 18, 170, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Eacle
+							case 4:
+								callsub F_WARP, "Campos de Eacle", "ecl_fild01", 79, 305, .@TeleportCost[1];
+								break;
+							// Campos de Einbroch
+							case 5:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFFloresta da Neblina^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos de Einbroch (1).", "- Campos de Einbroch (2).", "- Campos de Einbroch (3).", "- Campos de Einbroch (4).", "- Campos de Einbroch (5).", "- Campos de Einbroch (6).", "- Campos de Einbroch (7).", "- Campos de Einbroch (8).", "- Campos de Einbroch (9).", "- Campos de Einbroch (10).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos de Einbroch (1)", "ein_fild01", 31, 251, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Einbroch (2)", "ein_fild02", 109, 358, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Campos de Einbroch (3)", "ein_fild03", 361, 257, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Campos de Einbroch (4)", "ein_fild04", 22, 251, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Campos de Einbroch (5)", "ein_fild05", 80, 294, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Campos de Einbroch (6)", "ein_fild06", 135, 37, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Campos de Einbroch (7)", "ein_fild07", 191, 48, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Campos de Einbroch (8)", "ein_fild08", 359, 131, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Campos de Einbroch (9)", "ein_fild09", 38, 132, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Campos de Einbroch (10)", "ein_fild10", 197, 367, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// El Dicastes
+							case 6:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFEl Dicastes^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos de El Dicastes (1).", "- Campos de El Dicastes (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos de El Dicastes (1)", "dic_fild01", 143, 132, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de El Dicastes (2)", "dic_fild02", 143, 217, .@TeleportCost[1];
+										break;	
+									default:
+										break;
+								}
+								break;
+							// Campos de Dewata
+							case 7:
+								callsub F_WARP, "Vila da tribo Jaty", "dew_fild01", 332, 200, .@TeleportCost[1];
+								break;
+							// Campos de Geffen
+							case 8:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o campo de ^0000FFCampo de Geffen^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Arredores de Geffen (1).", "- Arredores de Geffen (2).", "- Arredores de Geffen (3).", "- Arredores de Geffen (4).", "- Arredores de Geffen (5).", "- Arredores de Geffen (6).", "- Arredores de Geffen (7).", "- Arredores de Geffen (8).", "- Arredores de Geffen (9).", "- Arredores de Geffen (10).", "- Arredores de Geffen (11).", "- Floresta Kordt (12).", "- Vila dos Orcs (14).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Arredores de Geffen (1)", "gef_fild01", 46, 199, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Arredores de Geffen (2)", "gef_fild02", 213, 204, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Arredores de Geffen (3)", "gef_fild03", 195, 212, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Arredores de Geffen (4)", "gef_fild04", 257, 192, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Arredores de Geffen (5)", "gef_fild05", 188, 171, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Arredores de Geffen (6)", "gef_fild06", 166, 263, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Arredores de Geffen (7)", "gef_fild07", 248, 158, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Arredores de Geffen (8)", "gef_fild08", 195, 191, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Arredores de Geffen (9)", "gef_fild09", 186, 183, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Arredores de Geffen (10)", "gef_fild10", 221, 117, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Arredores de Geffen (11)", "gef_fild11", 178, 218, .@TeleportCost[1];
+										break;
+									case 12:
+										callsub F_WARP, "Floresta Kordt", "gef_fild12", 136, 328, .@TeleportCost[1];
+										break;
+									case 13:
+										callsub F_WARP, "Vila dos Orcs", "gef_fild14", 211, 185, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Hugel
+							case 9:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFHugel^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Torre de Thanatos (1).", "- Campos de Hugel (2).", "- Campos de Hugel (3).", "- Campos de Hugel (4).", "- O Lago do Abismo (5).", "- Campos de Hugel (6).", "- Campos de Hugel (7).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Torre de Thanatos", "hu_fild01", 268, 101, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Hugel (2)", "hu_fild02", 222, 193, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Campos de Hugel (3)", "hu_fild03", 232, 185, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Campos de Hugel (4)", "hu_fild04", 252, 189, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "O Lago do Abismo", "hu_fild05", 196, 106, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Campos de Hugel (6)", "hu_fild06", 216, 220, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Campos de Hugel (7)", "hu_fild07", 227, 197, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Juno
+							case 10:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Juno^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Fronteira de Aldebaran (1).", "- Campos de Juno (2).", "- Planalto de Juno (3).", "- Planalto de Juno (4).", "- Planalto de El Mes (5).", "- Planalto de El Mes (6).", "- Desfiladeiro de El Mes (7).", "- Academia de Kiel Khayr (8).", "- Acampamento dos Guardas de Schwaltzwald (9).", "- Campos de Juno (10).", "- Campos de Juno (11).", "- Controle da Fronteira (12).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Fronteira de Aldebaran (1)", "yuno_fild01", 189, 224, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Juno (2)", "yuno_fild02", 192, 207, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Planalto de Juno (3)", "yuno_fild03", 221, 157, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Planalto de Juno (4)", "yuno_fild04", 226, 199, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Planalto de El Mes (5)", "yuno_fild05", 223, 177, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Planalto de El Mes (6)", "yuno_fild06", 187, 232, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Desfiladeiro de El Mes (7)", "yuno_fild07", 231, 174, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Academia de Kiel Khayr (8)", "yuno_fild08", 196, 203, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Acampamento dos Guardas de Schwaltzwald (9)", "yuno_fild09", 183, 214, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Campos de Juno (10)", "yuno_fild10", 200, 124, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Campos de Juno (11)", "yuno_fild11", 195, 226, .@TeleportCost[1];
+										break;
+									case 12:
+										callsub F_WARP, "Controle da Fronteira (12)", "yuno_fild12", 210, 304, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campo de Kunlun
+							case 11:
+								callsub F_WARP, "Campo de Kunlun", "gon_fild01", 220, 227, .@TeleportCost[1];
+								break;
+							// Campos de Lighthalzen
+							case 12:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFLighthalzen^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos de Lighthalzen (1).", "- Campos de Lighthalzen (2).", "- Campos de Lighthalzen (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos de Lighthalzen (1)", "lhz_fild01", 240, 179, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Lighthalzen (2)", "lhz_fild02", 185, 235, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Campos de Lighthalzen (3)", "lhz_fild03", 240, 226, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campo de Louyang
+							case 13:
+								callsub F_WARP, "Campo de Louyang", "lou_fild01", 229, 187, .@TeleportCost[1];
+								break;
+							// Campo de Lutie
+							case 14:
+								callsub F_WARP, "Campo de Lutie", "xmas_fild01", 115, 145, .@TeleportCost[1];
+								break;
+							// Campos de Malaya
+							case 15:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFMalaya^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Baryo Mahiwaga (1).", "- Floresta (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Baryo Mahiwaga", "ma_fild01", 40,272, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Floresta", "ma_fild02", 207, 180, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Moscóvia
+							case 16:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFMoscóvia^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Ilha da Baleia (1).", "- Campo de Moscóvia (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Ilha da Baleia", "mosk_fild01", 82, 104, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campo de Moscóvia", "mosk_fild02", 131, 147, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Niflheim
+							case 17:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Campo de ^0000FFNiflheim^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Skellington (1).", "- Vale de Gyoll (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Skellington", "nif_fild01", 215, 229, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Valede Gyoll", "nif_fild02", 167, 234, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Prontera
+							case 18:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local dos ^0000FFArredores de Prontera^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Arredores de Prontera (1).", "- Arredores de Prontera (2).", "- Arredores de Prontera (3).", "- Arredores de Prontera (4).", "- Arredores de Prontera (5).", "- Arredores de Prontera (6).", "- Arredores de Prontera (7).", "- Arredores de Prontera (8).", "- Arredores de Prontera (9).", "- Arredores de Prontera (10).", "- Arredores de Prontera (11).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Arredores de Prontera (1)", "prt_fild01", 208, 227, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Arredores de Prontera (2)", "prt_fild02", 190, 206, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Arredores de Prontera (3)", "prt_fild03", 240, 206, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Arredores de Prontera (4)", "prt_fild04", 190, 143, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Arredores de Prontera (5)", "prt_fild05", 307, 252, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Arredores de Prontera (6)", "prt_fild06", 239, 213, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Arredores de Prontera (7)", "prt_fild07", 185, 188, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Arredores de Prontera (8)", "prt_fild08", 193, 194, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Arredores de Prontera (9)", "prt_fild09", 187, 218, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Arredores de Prontera (10)", "prt_fild10", 210, 183, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Arredores de Prontera (11)", "prt_fild11", 198, 164, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Rachel
+							case 19:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Rachel^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Pradaria Audhumbla (1).", "- Cânion (2).", "- Planície de Ida (3).", "- Pradaria Audhumbla (4).", "- Pradaria Audhumbla (5).", "- Portus Luna (6).", "- Cânion (7).", "- Planície de Ida (8).", "- Pradaria Audhumbla (9).", "- Cânion (10).", "- Planície de Ida (11).", "- Planície de Ida (12).", "- Costa das Lágrimas.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Pradaria Audhumbla (1)", "ra_fild01", 192, 162, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Cânion (2)", "ra_fild02", 235, 166, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Planície Ida (3)", "ra_fild03", 202, 206, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Pradaria Audhumbla (4)", "ra_fild04", 202, 208, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Pradaria Audhumbla (5)", "ra_fild05", 225, 202, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Portus Luna (6)", "ra_fild06", 202, 214, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Cânion (7)", "ra_fild07", 263, 196, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Planície Ida (8)", "ra_fild08", 217, 201, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Pradaria Audhumbla (9)", "ra_fild09", 87, 121, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Cânion (10)", "ra_fild10", 277, 181, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Planície Ida (11)", "ra_fild11", 221, 185, .@TeleportCost[1];
+										break;
+									case 12:
+										callsub F_WARP, "Planície Ida (12)", "ra_fild12", 175, 200, .@TeleportCost[1];
+										break;
+									case 13:
+										callsub F_WARP, "Costa das Lágrimas (13)", "ra_fild13", 175, 200, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Umbala
+							case 20:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Umbala^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Floresta de Luluka (1).", "- Floresta de Hoomga (2).", "- Pântano de Kalala (3).", "- Selva de Hoomga (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Floresta de Luluka", "um_fild01", 217, 206, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Floresta de Hoomga", "um_fild02", 223, 221, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Pântano de Kalala", "um_fild03", 237, 215, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Selva de Hoomga", "um_fild04", 202, 197, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos de Veins
+							case 21:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo de Veins^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos de Veins (1).", "- Campos de Veins (2).", "- Campos de Veins (3).", "- Campos de Veins (4).", "- Campos de Veins (5).", "- Campos de Veins (6).", "- Campos de Veins (7).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos de Veins (1)", "ve_fild01", 186, 175, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos de Veins (2)", "ve_fild02", 196, 370, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Campos de Veins (3)", "ve_fild03", 222, 45, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Campos de Veins (4)", "ve_fild04", 51, 250, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Campos de Veins (5)", "ve_fild05", 202, 324, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Campos de Veins (6)", "ve_fild06", 150, 223, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Campos de Veins (7)", "ve_fild07", 149, 307, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Campos dos Esplendores
+							case 22:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o ^0000FFCampo dos Esplendores^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Campos dos Esplendores (1).", "- Campos dos Esplendores (2).", "- Campos dos Esplendores (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Campos dos Esplendores (1)", "spl_fild01", 193, 220, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Campos dos Esplendores (2)", "spl_fild02", 220, 187, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Campos dos Esplendores (3)", "spl_fild03", 220, 187, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Deserto de Sograt
+							case 23:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local do ^0000FFDeserto de Sograt^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Deserto de Sograt (1).", "- Deserto de Sograt (2).", "- Deserto de Sograt (3).", "- Deserto de Sograt (7).", "- Deserto de Sograt (11).", "- Deserto de Sograt (12).", "- Deserto de Sograt (13).", "- Deserto de Sograt (16).", "- Deserto de Sograt (17).", "- Deserto de Sograt (18).", "- Deserto de Sograt (19).", "- Deserto de Sograt (20).", "- Deserto de Sograt (21).", "- Deserto de Sograt (22).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Deserto de Sograt (1)", "moc_fild01", 219, 205, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Deserto de Sograt (2)", "moc_fild02", 177, 206, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Deserto de Sograt (3)", "moc_fild03", 194, 182, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Deserto de Sograt (7)", "moc_fild07", 224, 170, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Deserto de Sograt (11)", "moc_fild11", 198, 216, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Deserto de Sograt (12)", "moc_fild12", 156, 187, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Deserto de Sograt (13)", "moc_fild13", 185, 263, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Deserto de Sograt (16)", "moc_fild16", 206, 228, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Deserto de Sograt (17)", "moc_fild17", 208, 238, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Deserto de Sograt (18)", "moc_fild18", 209, 223, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Deserto de Sograt (19)", "moc_fild19", 85, 97, .@TeleportCost[1];
+										break;
+									case 12:
+										callsub F_WARP, "Deserto de Sograt (20)", "moc_fild20", 207, 202, .@TeleportCost[1];
+										break;
+									case 13:
+										callsub F_WARP, "Deserto de Sograt (21)", "moc_fild21", 31, 195, .@TeleportCost[1];
+										break;
+									case 14:
+										callsub F_WARP, "Deserto de Sograt (22)", "moc_fild22", 38, 195, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Floresta da Neblina (Bifröst)
+							case 24:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local da ^0000FFFloresta da Neblina^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Sul de Bifröst (1).", "- Norte de Bifröst (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Sul de Bifröst", "bif_fild01", 193, 220, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Norte de Bifröst", "bif_fild02", 220, 187, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Floresta de Brasilis
+							case 25:
+								callsub F_WARP, "Floresta de Brasilis", "bra_fild01", 86, 33, .@TeleportCost[1];
+								break;
+							// Floresta de Payon
+							case 26:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local da ^0000FFFloresta de Payon^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Floresta de Payon (1).", "- Floresta de Payon (2).", "- Floresta de Payon (3).", "- Floresta de Payon (4).", "- Floresta de Payon (5).", "- Floresta de Payon (6).", "- Floresta de Payon (7).", "- Floresta de Payon (8).", "- Floresta de Payon (9).", "- Floresta de Payon (10).", "- Floresta de Payon (11).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Floresta de Payon (1)", "pay_fild01", 158, 206, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Floresta de Payon (2)", "pay_fild02", 151, 219, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Floresta de Payon (3)", "pay_fild03", 205, 148, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Floresta de Payon (4)", "pay_fild04", 186, 247, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Floresta de Payon (5)", "pay_fild05", 134, 204, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Floresta de Payon (6)", "pay_fild06", 193, 235, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Floresta de Payon (7)", "pay_fild07", 200, 177, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Floresta de Payon (8)", "pay_fild08", 137, 189, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Floresta de Payon (9)", "pay_fild09", 201, 224, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Floresta de Payon (10)", "pay_fild10", 160, 205, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Floresta de Payon (11)", "pay_fild11", 194, 150, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Montanha dos Manuk
+							case 27:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local das ^0000FFMontanha dos Manuk^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Montanhas do Manuk (1).", "- Montanha dos Manuk (2).", "- Montanha dos Manuk (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Montanhas do Manuk (1)", "man_fild01", 35, 236, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Montanhas do Manuk (2)", "man_fild02", 35, 262, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Montanhas do Manuk (3)", "man_fild03", 84, 365, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Monte Mjolnir
+							case 28:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o local do ^0000FFMonte Mjolnir^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Monte Mjolnir (1).", "- Monte Mjolnir (2).", "- Monte Mjolnir (3).", "- Monte Mjolnir (4).", "- Monte Mjolnir (5).", "- Monte Mjolnir (6).", "- Monte Mjolnir (7).", "- Monte Mjolnir (8).", "- Monte Mjolnir (9).", "- Monte Mjolnir (10).", "- Monte Mjolnir (11).", "- Monte Mjolnir (12).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Monte Mjolnir (1)", "mjolnir_01", 204, 120, .@TeleportCost[1];
+										break;
+									case 2:
+										callsub F_WARP, "Monte Mjolnir (2)", "mjolnir_02", 175, 193, .@TeleportCost[1];
+										break;
+									case 3:
+										callsub F_WARP, "Monte Mjolnir (3)", "mjolnir_03", 208, 213, .@TeleportCost[1];
+										break;
+									case 4:
+										callsub F_WARP, "Monte Mjolnir (4)", "mjolnir_04", 179, 180, .@TeleportCost[1];
+										break;
+									case 5:
+										callsub F_WARP, "Monte Mjolnir (5)", "mjolnir_05", 181, 240, .@TeleportCost[1];
+										break;
+									case 6:
+										callsub F_WARP, "Monte Mjolnir (6)", "mjolnir_06", 195, 270, .@TeleportCost[1];
+										break;
+									case 7:
+										callsub F_WARP, "Monte Mjolnir (7)", "mjolnir_07", 235, 202, .@TeleportCost[1];
+										break;
+									case 8:
+										callsub F_WARP, "Monte Mjolnir (8)", "mjolnir_08", 188, 215, .@TeleportCost[1];
+										break;
+									case 9:
+										callsub F_WARP, "Monte Mjolnir (9)", "mjolnir_09", 205, 144, .@TeleportCost[1];
+										break;
+									case 10:
+										callsub F_WARP, "Monte Mjolnir (10)", "mjolnir_10", 245, 223, .@TeleportCost[1];
+										break;
+									case 11:
+										callsub F_WARP, "Monte Mjolnir (11)", "mjolnir_11", 180, 206, .@TeleportCost[1];
+										break;
+									case 12:
+										callsub F_WARP, "Monte Mjolnir (12)", "mjolnir_12", 196, 208, .@TeleportCost[1];
+										break;
+									default:
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+						break;
+					// Calabouços
+					case 4:
+						// https://github.com/HerculesWS/Hercules/blob/master/npc/custom/warper.txt
+						// Parei em Payon Dungeon
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Escolha o ^0000FFCalabouço^000000 que deseja ser teleportado.";
+						next;
+						switch( select("- A Grande Ferida.", (.@re?"- Área de Coral Estrelado.":""), "- Calabouços de Amatsu.", "- Calabouços de Ayothaya.", (.@re?"- Calabouços de Brasilis.":""), "- Calabouços de Comodo.", (.@re?"- Calabouços de Dewata.":""), "- Calabouços de Geffen.", "- Calabouços de Kunlun.", "- Calabouço da Mina.", "- Calabouços dos Orcs.", "- Calabouços de Umbala.", "- Caverna de Gelo.", "- Caverna de Payon.", "- Esfinge.", "- Esgoto de Prontera.", "- Fábrica de Brinquedos.", "- Gefenia.", "- Glast Heim.", "- Ilha da Tartaruga.", "- Fábrica de Robôs.", "- Formigueiro Infernal.", "- Floresta Encantada.", "- Labirinto da Floresta.", "- Laboratório de Somatologia.", "- Lago do Abismo.", "- Mina Abandonada de Mjolnir.", "- Monastério.", "- Navio Fantasma.", "- Pirâmide.", "- Ruínas de Juperos.", "- Santuário de Odin.", "- Santuário de Rachel.", (.@re?"- Torre de Bifröst.":""), "- Torre de Thanatos.", "- Torre do Relógio.", "- Tumba Real (Louyang).", (.@re?"- Túnel Kamidal.":""), "- Túnel Submarino.", "- Vulcão de Thor.", "^F0000- Cancelar.^000000") )
+						{
+							// A Grande Ferida
+							case 1:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFA Grande Ferida^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- A Grande Ferida (1).", "- A Grande Ferida (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "A Grande Ferida (1)", "nyd_dun01", 189, 48, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "A Grande Ferida (2)", "nyd_dun02", 165, 30, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Área de Coral Estrelado
+							case 2:
+								callsub F_WARP, "Área de Coral Estrelado", "mal_dun01", 33, 230, .@TeleportCost[2];
+								break;
+							// Calabouço de Amatsu
+							case 3:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço de Amatsu^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Labirinto de Tatames (1).", "- Floresta Subterrânea (2).", "- Templo Subterrâneo (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Labirinto de Tatames", "ama_dun01", 228, 11, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Floresta Subterrânea", "ama_dun02", 34, 41, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Templo Subterrâneo", "ama_dun03", 119, 14, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Ayothaya
+							case 4:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço de Ayothaya^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Labirinto do Santuário Ancestral (1).", "- Interior do Santuário Ancestral (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Labirinto do Santuário Ancestral", "ayo_dun01", 275, 19, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Interior do Santuário Ancestral", "ayo_dun02", 24, 26, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouço de Brasilis
+							case 5:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço de Brasilis^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Caverna das Cataratas (1).", "- Profundezas das Cataras (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Caverna das Cataratas (1)", "bra_dun01", 87, 47, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Profundezas das Cataras (2)", "bra_dun02", 262, 262, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Comodo
+							case 6:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço de Comodo^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Karu, a Caverna do Oeste.", "- Ruande, a Caverna do Norte.", "- Mao, a Caverna do Leste.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Karu, a Caverna do Oeste", "beach_dun", 266, 67, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Ruande, a Caverna do Norte", "beach_dun2", 255, 244, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Mao, a Caverna do Leste", "beach_dun3", 23, 260, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Dewata
+							case 7:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouços de Dewata^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Vulcão Krakatu (1).", "- Caverna Istana (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Vulcão Krakatu", "dew_dun01", 285, 160, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Caverna Istana", "dew_dun02", 299, 29, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Geffen
+							case 8:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFClabouço de Geffen^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Calabouço de Geffen (1).", "- Geffenia (1).", "- Geffenia (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Calabouço de Geffen (1)", "gef_dun01", 104, 99, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Geffenia (1)", "gef_dun02", 115, 236, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Geffenia (2)", "gef_dun03", 106, 132, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Kunlun
+							case 9:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabou de Kulun^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Santuário de Xi Wang Mu (1).", "- Tabuleiro de Go (2).", "- Terra das Fadas (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Santuário de Xi Wang Mu (1)", "gon_dun01", 153, 53, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Tabuleiro de Go (2)", "gon_dun02", 28, 113, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Terra das Fadas (3)", "gon_dun03", 68, 16, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços da Mina
+							case 10:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço da Mina^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Calabouço da Mina (1).", "- Calabouço da Mina (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Calabouço da Mina (1)", "ein_dun01", 22, 14, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Calabouço da Mina (2)", "ein_dun02", 292, 290, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços dos Orcs
+							case 11:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouços dos Orcs^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Calabouço dos Orcs (1).", "- Calabouço dos Orcs (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Calabouço dos Orcs (1)", "orcs_dun01", 298, 167, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Calabouço dos Orcs (2)", "orcs_dun02", 224, 149, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Calabouços de Umbala
+							case 12:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCalabouço de Umbala^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Loja de Carpintaria (1).", "- Estrada para o Outro Mundo (2).", "- Fonte de Hvergelmir (Tronco de Yggdrasil).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Loja de Carpintaria (1)", "um_dun01", 42, 31, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Calabouço da Calabouço de Umbala (2)", "um_dun02", 48, 30, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Fonte de Hvergelmir", "yggdrasil01", 204, 78, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Caverna de Gelo
+							case 13:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCaverna de Gelo^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Caverna de Gelo (1).", "- Caverna de Gelo (2).", "- Caverna de Gelo (3).", "- Caverna de Gelo (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Caverna de Gelo (1)", "ice_dun01", 157, 14, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Caverna de Gelo (2)", "ice_dun02", 151, 155, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Caverna de Gelo (3)", "ice_dun03", 149, 22, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Caverna de Gelo (4)", "ice_dun04", 33, 158, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Caverna de Payon
+							case 14:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFCaverna de Payon^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Caverna de Payon (0).", "- Caverna de Payon (1).", "- Caverna de Payon (2).", "- Caverna de Payon (3).", "- Caverna de Payon (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Caverna de Payon (0)", "pay_dun00", 21, 183, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Caverna de Payon (1)", "pay_dun01", 19, 33, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Caverna de Payon (2)", "pay_dun02", 19, 63, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Caverna de Payon (3)", "pay_dun03", 155, 159, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Caverna de Payon (4)", "pay_dun04", 201, 204, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Esfinge
+							case 15:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFEsfinge^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Esfinge (1).", "- Esfinge (2).", "- Esfinge (3).", "- Esfinge (4).", "- Esfinge (5).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Esfinge (1)", "in_sphinx1", 288, 9, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Esfinge (2)", "in_sphinx2", 149, 81, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Esfinge (3)", "in_sphinx3", 210, 54, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Esfinge (4)", "in_sphinx5", 10, 222, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Esfinge (5)", "in_sphinx5", 100, 99, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Esgoto de Prontera
+							case 16:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFEsgoto de Prontera^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Esgoto de Prontera (1).", "- Esgoto de Prontera (2).", "- Esgoto de Prontera (3).", "- Esgoto de Prontera (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Esgoto de Prontera (1)", "prt_sewb1", 131, 247, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Esgoto de Prontera (2)", "prt_sewb2", 19, 19, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Esgoto de Prontera (3)", "prt_sewb3", 180, 169, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Esgoto de Prontera (4)", "prt_sewb4", 100, 92, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Fábrica de Brinquedos
+							case 17:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFFábrica de Brinquedos^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Depósito da Fábrica de Brinquedos (1).", "- Sala de Construção de Brinquedos (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Depósito da Fábrica de Brinquedos (1)", "xmas_dun01", 205, 15, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Sala de Construção de Brinquedos (2)", "xmas_dun02", 129, 133, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Gefenia
+							case 18:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFClabouço da Mina^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Gefenia (1).", "- Gefenia (2).", "- Gefenia (3).", "- Gefenia (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Gefenia (1)", "gefenia01", 40, 103, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Gefenia (2)", "gefenia02", 203, 34, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Gefenia (3)", "gefenia03", 266, 168, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Gefenia (4)", "gefenia04", 130, 272, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Glast Heim
+							case 19:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFGlast Heim^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Entrada (1).", "- Castelo (1).", "- Castelo (2).", "- Cavalaria (1).", "- Cavalaria (2).", "- Cemitério.", "- Esgoto (1).", "- Esgoto (2).", "- Esgoto (3).", "- Esgoto (4).", "- Abadia.", "- Escadarias de Glast Heim.", "- A Mais Profunda Caverna (1).", "- A Mais Profunda Caverna (2).", "- Prisão Subterrânea (0).", "- Prisão Subterrânea (1).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Entrada de Glast Heim", "glast_01", 370, 304, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Castelo de Glast Heim (1)", "gl_cas01", 199, 29, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Castelo de Glast Heim (2)", "gl_cas02", 104, 25, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Cavalaria de Glast Heim (1)", "gl_knt01", 150, 15, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Cavalaria de Glast Heim (2)", "gl_knt02", 157, 287, .@TeleportCost[2];
+										break;
+									case 6:
+										callsub F_WARP, "Cemitério de Glast Heim", "gl_chyard", 147, 15, .@TeleportCost[2];
+										break;
+									case 7:
+										callsub F_WARP, "Esgoto de Glast Heim (1)", "gl_sew01", 258, 255, .@TeleportCost[2];
+										break;
+									case 8:
+										callsub F_WARP, "Esgoto de Glast Heim (2)", "gl_sew02", 108, 291, .@TeleportCost[2];
+										break;
+									case 9:
+										callsub F_WARP, "Esgoto de Glast Heim (3)", "gl_sew03", 171, 283, .@TeleportCost[2];
+										break;
+									case 10:
+										callsub F_WARP, "Esgoto de Glast Heim (4)", "gl_sew04", 68, 277, .@TeleportCost[2];
+										break;
+									case 11:
+										callsub F_WARP, "Abadia de Glast Heim", "gl_church", 156, 7, .@TeleportCost[2];
+										break;
+									case 12:
+										callsub F_WARP, "Escadarias de Glast Heim", "gl_step", 12, 7, .@TeleportCost[2];
+										break;
+									case 13:
+										callsub F_WARP, "Profunda Caverna de Glast Heim (1)", "gl_dun01", 133, 271, .@TeleportCost[2];
+										break;
+									case 14:
+										callsub F_WARP, "Profunda Caverna de Glast Heim (2)", "gl_dun02", 224, 274, .@TeleportCost[2];
+										break;
+									case 15:
+										callsub F_WARP, "Prisão Subterrânea de Glast Heim (0)", "gl_prison", 14, 70, .@TeleportCost[2];
+										break;
+									case 16:
+										callsub F_WARP, "Prisão Subterrânea de Glast Heim (1)", "gl_prison1", 150, 14, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Ilha da Tartaruga
+							case 20:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFIlha da Tartaruga^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Entrada (1).", "- Calabouço da Ilha da Tartaruga (2).", "- Vila das Boas Tartarugas (3).", "- Palácio da Ilha da Tartaruga (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Entrada (1)", "tur_dun01", 154, 49, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Calabouço da Ilha da Tartaruga (2)", "tur_dun02", 148, 261, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Vila das Boas Tartarugas (3)", "tur_dun03", 132, 189, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Palácio da Ilha da Tartaruga (4)", "tur_dun04", 100, 192, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Fábrica de Robôs
+							case 21:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFFábrica de Robôs^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Fábrica de Robôs (1).", "- Fábrica de Robôs (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Fábrica de Robôs (1)", "kh_dun01", 28, 226, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Fábrica de Robôs (2)", "kh_dun02", 41, 198, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Formigueiro Infernal
+							case 22:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFFormigueiro Infernal^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Formigueiro Infernal (1).", "- Formigueiro Infernal (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Formigueiro Infernal (1)", "anthell01", 208, 227, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Formigueiro Infernal (2)", "anthell02", 190, 206, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Floresta Encantada
+							case 23:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFFloresta Encantada^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Floresta Encantada (1).", "- Floresta Encantada (2).", "- Floresta Encantada (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Floresta Encantada (1)", "mosk_dun01", 189, 48, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Floresta Encantada (2)", "mosk_dun02", 165, 30, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Floresta Encantada (3)", "mosk_dun03", 32, 135, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Labirinto da Floresta
+							case 24:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFLabirinto da Floresta^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Labirinto da Floresta (1).", "- Labirinto da Floresta (2).", "- Labirinto da Floresta (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Labirinto da Floresta (1)", "prt_maze01", 176, 7, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Labirinto da Floresta (2)", "prt_maze02", 93, 20, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Labirinto da Floresta (3)", "prt_maze03", 23, 8, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Laboratório de Somatologia
+							case 25:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFLaboratório de Somatologia^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Laboratório de Somatologia (1).", "- Laboratório de Somatologia (2).", "- Laboratório de Somatologia (3).", (.@re?"- Laboratório de Somatologia (4).":""), "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Laboratório de Somatologia (1)", "lhz_dun01", 150, 288, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Laboratório de Somatologia (2)", "lhz_dun02", 150, 18, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Laboratório de Somatologia (3)", "lhz_dun03", 140, 134, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Laboratório de Somatologia (4)", "lhz_dun04", 244, 52, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Lago do Abismo
+							case 26:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFLago do Abismo^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Lago do Abismo (1).", "- Lago do Abismo (2).", "- Lago do Abismo (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Lago do Abismo (1)", "abyss_01", 261, 272, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Lago do Abismo (2)", "abyss_02", 275, 270, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Lago do Abismo (3)", "abyss_03", 116, 27, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Mina Abandonada de Mjolnir
+							case 27:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFMina Abandonada de Mjolnir^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Mina Abandonada de Mjolnir (1).", "- Mina Abandonada de Mjolnir (2).", "- Mina Abandonada de Mjolnir (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Mina Abandonada de Mjolnir (1)", "mjo_dun01", 52, 17, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Mina Abandonada de Mjolnir (2)", "mjo_dun02", 381, 343, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Mina Abandonada de Mjolnir (3)", "mjo_dun03", 302, 262, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Monastério
+							case 28:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFMonastério^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Monastério (1).", "- Monastério (2).", "- Monastério (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Monastério (1)", "abbey01", 51, 14, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Monastério (2)", "abbey02", 150, 11, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Monastério (3)", "abbey03", 120, 10, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Navio Fantasma
+							case 29:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFNavio Fantasma^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Navio Fantasma (1).", "- Navio Fantasma (2).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Navio Fantasma (1)", "treasure01", 69, 24, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Navio Fantasma (2)", "treasure02", 102, 27, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Pirâmide
+							case 30:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFPirâmide^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Pirâmide (1).", "- Pirâmide (2).", "- Pirâmide (3).", "- Pirâmide (4).", "- Pirâmide (5).", "- Pirâmide (6).", (.@re?"- Base da Pirâmide (1).":""), (.@re?"- Base da Pirâmide (2).":""), "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Pirâmide (1)", "moc_pryd01", 192, 9, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Pirâmide (2)", "moc_pryd02", 10, 192, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Pirâmide (3)", "moc_pryd03", 100, 92, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Pirâmide (4)", "moc_pryd04", 181, 11, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Pirâmide (5)", "moc_pryd05", 94, 96, .@TeleportCost[2];
+										break;
+									case 6:
+										callsub F_WARP, "Pirâmide (6)", "moc_pryd06", 192, 8, .@TeleportCost[2];
+										break;
+									case 7:
+										callsub F_WARP, "Base da Pirâmide (1)", "moc_prydn1", 94, 96, .@TeleportCost[2];
+										break;
+									case 8:
+										callsub F_WARP, "Base da Pirâmide (2)", "moc_prydn2", 192, 8, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Ruínas de Juperos
+							case 31:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFRuínas de Juperos^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Entrada (1).", "- Ruínas de Juperos (2).", "- Ruínas de Juperos (3).", "- Centro de Juperos (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Entrada da Ruínas de Juperos", "ice_dun01", 140, 51, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Ruínas de Juperos (2)", "ice_dun02", 53, 247, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Ruínas de Juperos (3)", "ice_dun03", 37, 63, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Centro de Juperos", "ice_dun04", 150, 285, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Santuário de Odin
+							case 32:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFSantuário de Odin^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Santuário de Odin (1).", "- Santuário de Odin (2).", "- Santuário de Odin (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Santuário de Odin (1)", "odin_tem01", 298, 167, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Santuário de Odin (2)", "odin_tem02", 224, 149, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Santuário de Odin (3)", "odin_tem03", 266, 280, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Santuário de Rachel
+							case 33:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFSantuário de Rachel^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Santuário (1).", "- Santuário (2).", "- Santuário (3).", "- Santuário (4).", "- Santuário (5).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Santuário (1)", "ra_san01", 140, 11, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Santuário (2)", "ra_san02", 32, 21, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Santuário (3)", "ra_san03", 8, 149, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Santuário (4)", "ra_san04", 204, 218, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Santuário (5)", "ra_san05", 150, 9, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Torre de Bifröst
+							case 34:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTorre de Bifröst^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Torre de Bifröst (1).", "- Torre de Bifröst (2).", "- Torre de Bifröst (3).", "- Torre de Bifröst (4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Torre de Bifröst (1)", "ecl_tdun01", 57, 13, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Torre de Bifröst (2)", "ecl_tdun02", 64, 88, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Torre de Bifröst (3)", "ecl_tdun03", 45, 14, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Torre de Bifröst (4)", "ecl_tdun04", 26, 23, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Torre de Thanatos
+							case 35:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTorre de Thanatos^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Torre de Thanatos (1).", "- Torre de Thanatos (2).", "- Torre de Thanatos (3).", "- Torre de Thanatos (4).", "- Torre de Thanatos (5).", "- Torre de Thanatos (6).", "- Torre de Thanatos (7).", "- Torre de Thanatos (8).", "- Torre de Thanatos (9).", "- Torre de Thanatos (10).", "- Torre de Thanatos (11).", "- Torre de Thanatos (12).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Torre de Thanatos (1)", "tha_t01", 150, 39, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Torre de Thanatos (2)", "tha_t02", 150, 136, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Torre de Thanatos (3)", "tha_t03", 220, 158, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Torre de Thanatos (4)", "tha_t04", 59, 143, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Torre de Thanatos (5)", "tha_t05", 62, 11, .@TeleportCost[2];
+										break;
+									case 6:
+										callsub F_WARP, "Torre de Thanatos (6)", "tha_t06", 89, 221, .@TeleportCost[2];
+										break;
+									case 7:
+										callsub F_WARP, "Torre de Thanatos (7)", "tha_t07", 35, 166, .@TeleportCost[2];
+										break;
+									case 8:
+										callsub F_WARP, "Torre de Thanatos (8)", "tha_t08", 93, 148, .@TeleportCost[2];
+										break;
+									case 9:
+										callsub F_WARP, "Torre de Thanatos (9)", "tha_t09", 29, 107, .@TeleportCost[2];
+										break;
+									case 10:
+										callsub F_WARP, "Torre de Thanatos (10)", "tha_t10", 159, 138, .@TeleportCost[2];
+										break;
+									case 11:
+										callsub F_WARP, "Torre de Thanatos (11)", "tha_t11", 19, 20, .@TeleportCost[2];
+										break;
+									case 12:
+										callsub F_WARP, "Torre de Thanatos (12)", "tha_t12", 130, 52, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Torre do Relógio
+							case 36:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTorre do Relógio^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Torre do Relógio (1).", "- Torre do Relógio (2).", "- Torre do Relógio (3).", "- Torre do Relógio (4).", "- Torre do Relógio (s1).", "- Torre do Relógio (s2).", "- Torre do Relógio (s3).", "- Torre do Relógio (s4).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Torre do Relógio (1)", "c_tower_1", 199, 159, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Torre do Relógio (2)", "c_tower_2", 148, 283, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Torre do Relógio (3)", "c_tower_3", 65, 147, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Torre do Relógio (4)", "c_tower_4", 56, 155, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Torre do Relógio (s1)", "alde_dun01", 297, 25, .@TeleportCost[2];
+										break;
+									case 6:
+										callsub F_WARP, "Torre do Relógio (s2)", "alde_dun02", 127, 169, .@TeleportCost[2];
+										break;
+									case 7:
+										callsub F_WARP, "Torre do Relógio (s3)", "alde_dun03", 277, 178, .@TeleportCost[2];
+										break;
+									case 8:
+										callsub F_WARP, "Torre do Relógio (s4)", "alde_dun04", 268, 74, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Tumba Real
+							case 37:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTumba Real^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Tumba Real (1).", "- Tumba Real (2).", "- Suei Long Gon (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Tumba Real (1)", "lou_dun01", 218, 196, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Tumba Real (2)", "lou_dun02", 282, 20, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Suei Long Gon", "lou_dun03", 165, 38, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Túnel Kamidal
+							case 38:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTúnel Kamidal^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Túnel Kamidal (1).", "- Túnel Kamidal (2).", "- Túnel Kamidal (Pesadelo).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Túnel Kamidal (1)", "dic_dun01", 364, 44, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Túnel Kamidal (2)", "dic_dun02", 101, 141, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Túnel Kamidal (Pesadelo)", "dic_dun03", 101, 140, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Túnel Submarino
+							case 39:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFTúnel Submarino^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Túnel Submarino (0).", "- Túnel Submarino (1).", "- Túnel Submarino (3).", "- Túnel Submarino (4).", "- Túnel Submarino (5).", (.@re?"- Túnel Submarino (6).":""), "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Túnel Submarino (0)", "iz_dun00", 168, 168, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Túnel Submarino (1)", "iz_dun01", 253, 252, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Túnel Submarino (3)", "iz_dun02", 236, 204, .@TeleportCost[2];
+										break;
+									case 4:
+										callsub F_WARP, "Túnel Submarino (4)", "iz_dun03", 32, 63, .@TeleportCost[2];
+										break;
+									case 5:
+										callsub F_WARP, "Túnel Submarino (5)", "iz_dun04", 26, 27, .@TeleportCost[2];
+										break;
+									case 6:
+										callsub F_WARP, "Túnel Submarino (6)", "iz_dun05", 141, 187, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Vulcão de Thor
+							case 40:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o andar do ^0000FFVulcão de Thor^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Vulcão de Thor (1).", "- Vulcão de Thor (2).", "- Vulcão de Thor (3).", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Vulcão de Thor (1)", "thor_v01", 21, 228, .@TeleportCost[2];
+										break;
+									case 2:
+										callsub F_WARP, "Vulcão de Thor (2)", "thor_v02", 75, 205, .@TeleportCost[2];
+										break;
+									case 3:
+										callsub F_WARP, "Vulcão de Thor (3)", "thor_v03", 34, 272, .@TeleportCost[2];
+										break;
+									default:
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+						break;
+						
+					// Castelos da Guerra Primeira Edição
+					case 5:
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Escolha o ^0000FFFeudo^000000 que deseja ser teleportado.";
+						next;
+						switch( select("- Feudo de Britoniah (Geffen)", "- Feudo do Bosque Celestial (Payon).", "- Feudo de Lunia (Aldebaran).", "- Feudo das Valquírias (Prontera).", "^FF0000- Cancelar.^000000") )
+						{
+							// Feudo de Britoniah
+							case 1:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo de Britoniah^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Arsulf.", "- Trapesac.", "- Ruaden.", "- Saffran.", "- Arima.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Arsulf", "gef_fild13", 214, 75, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Trapesac", "gef_fild13", 308, 240, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Ruaden", "gef_fild13", 143, 240, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Saffran", "gef_fild13", 193, 278, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Arima", "gef_fild13", 305, 87, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Feudo do Bosque Celestial
+							case 2:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo do Bosque Celestial^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Palácio do Sol.", "- Palácio do Lago Sagrado.", "- Palácio da Sombra.", "- Palácio Escarlate.", "- Palácio da Colina.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Palácio do Sol", "pay_gld", 121, 233, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Palácio do Lago Sagrado", "pay_gld", 295, 116, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Palácio da Sombra", "pay_gld", 317, 293, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Palácio Escarlate", "pay_gld", 140, 160, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Palácio da Colina", "pay_gld", 204, 266, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Feudo de Luina
+							case 3:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo de Luina^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Sirius.", "- Astrum.", "- Canopus.", "- Rigel.", "- Acrux.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Sirius", "alde_gld", 48, 83, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Astrum", "alde_gld", 95,249, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Canopus", "alde_gld", 142, 85, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Rigel", "alde_gld", 239, 242, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Acrux", "alde_gld", 264, 90, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Feudo das Valquírias
+							case 4:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo das Valquírias^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Kriemhild.", "- Hrist.", "- Brynhildr.", "- Skoegul.", "- Gondul.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Castelo de Kriemhild", "prt_gld", 134, 65, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Castelo de Hrist", "prt_gld", 240, 128, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Castelo de Brynhildr", "prt_gld", 153, 137, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Castelo de Skoegul", "prt_gld", 111, 240, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Castelo de Gondul", "prt_gld", 208, 240, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+						break;
+					// Castelos da Guerra Segunda Edição
+					case 6:
+						mes "^FFA500[Funcionária Kafra]^000000";
+						mes "Escolha o ^0000FFFeudo^000000 que deseja ser teleportado.";
+						next;
+						switch( select("- Feudo de Nithafjoll (Schwartzwald).", "- Feudo de Valfreyja (Arunafeltz).", "^FF0000- Cancelar.^000000") )
+						{
+							// Feudo de Nithafjoll
+							case 1:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo de Nithafjoll^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Himinn.", "- Andlangr.", "- Vidblainn.", "- Hljod.", "- Skatyrnir.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Himinn", "sch_gld", 293, 100, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Andlangr", "sch_gld", 288, 252, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Vidblainn", "sch_gld", 97, 196, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Hljod", "sch_gld", 137, 90, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Skatyrnir", "sch_gld", 71, 315, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							// Feudo de Valfreyja
+							case 2:
+								mes "^FFA500[Funcionária Kafra]^000000";
+								mes "Escolha o Castelo do ^0000FFFeudo de Valfreyja^000000 que deseja ser teleportado.";
+								next;
+								switch( select("- Mardol.", "- Syr.", "- Horn.", "- Gefn.", "- Vanadis.", "^FF0000- Cancelar.^000000") )
+								{
+									case 1:
+										callsub F_WARP, "Mardol", "aru_gld", 158, 272, .@TeleportCost[3];
+										break;
+									case 2:
+										callsub F_WARP, "Syr", "aru_gld", 83, 47, .@TeleportCost[3];
+										break;
+									case 3:
+										callsub F_WARP, "Horn", "aru_gld", 68, 155, .@TeleportCost[3];
+										break;
+									case 4:
+										callsub F_WARP, "Gefn", "aru_gld", 299, 345, .@TeleportCost[3];
+										break;
+									case 5:
+										callsub F_WARP, "Vanadis", "aru_gld", 292, 107, .@TeleportCost[3];
+										break;
+									default:
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+						break;
+					default:
+						break;
+				}
+				break;
+						
+			default:
+				.@loop_1 = 0;
+				break;
+		}
+		
+	}
+	
+	if( .@cutin$ != "" )
+		cutin .@cutin$, 2;
+
+	mes "^FFA500[Funcionária Kafra]^000000";
+	mes "A Corporação Kafra estará com você aonde quer você vá!";
+	close2;
+	cutin "", 255;
+	end;
+	
+F_WARP:
+	mes "^FFA500[Funcionária Kafra]^000000";
+	if( getarg(4) )
+	{
+		mes "Para usar o teleporte é necessário ^FF0000" + getarg(4) + " Zenys.^000000";
+		if( Zeny < getarg(4) )
+		{
+			mes "^FF0000Você não tem o Zeny requirido para usar o teleporte.^000000";
+			next;
+			return;
+		}
+	}
+	
+	mes "Tem certeza que deseja ír para ^FF0000" + getarg(0) + "^000000?";
+	next;
+	if( select("- Sim, por favor.", "^FF0000- Cancelar.^000000") == 2 )
+		return;
+	
+	if( getarg(4) )
+		Zeny -= getarg(4);
+	
+	WarpLastMapName$ = getarg(0);
+	WarpLastMap$ = getarg(1);
+	WarpLastX = getarg(2);
+	WarpLastY = getarg(3);
+	WarpLastCost = getarg(4);
+	
+	mes "^FFA500[Funcionária Kafra]^000000";
+	mes "Muito bem, vou te mandar para ^FF0000" + getarg(0) + "^000000.";
+	close2;
+	cutin "", 255;
+	warp getarg(1), getarg(2), getarg(3);
+	end;
+
+//Configurações do NPC.
+Oninit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "Marin");
+setunitdata .@UID, UNPC_GROUP_ID, 7;
+end;
+}
+
+// Modelo de Duplicatas
+//-	duplicate(Funcionária Kafra#vip_01)	Funcionária Kafra#vip_<numero>	<sprite>

@@ -1,0 +1,177 @@
+//===== Loja Online: =============================
+//= http://loja.ragnarokprivate.com.br/
+//===== Versão do NPC: ===========================
+//== 1.0
+//================================================
+
+prontera,142,180,7	script	Pontos de Presença	4_EP16_MARK,{ goto NPC_PRES;
+
+//================================================
+//== Configurações
+
+OnInit:
+	.@UID = getnpcid(0);
+	setunittitle(.@UID, "Tark");
+	setunitdata getnpcid(0),UNPC_GROUP_ID,7;
+	//set .page$,"https://www.hawkro.com.br/";		// Página sobre o sistema
+	set .ns$,"^00B2EE[Pontos de Presença]^000000";	// Nome do NPC
+	set .ns2$,"[ Pontos de Presença ]";				// Nome do NPC (Chat)
+	set .ns3$,"[ Presença ]";						// Nome do NPC (Global)
+	set .vip_needed, 5;								// Nível vip pra vantagens
+	set .pontos_normal, 1;							// Quantidade de pontos para jogadores normais
+	set .pontos_vip, 2;								// Quantidade de pontos para jogadores vips
+	set .nec, 55006;								// Item necessário pra apostar
+	set .chanc1, 1;									// Chance Mega Prêmio
+	set .chanc2, 5;									// Chance Super Prêmio
+	
+	setarray .premio1[0],607;	// Mega Prêmio
+	setarray .premio2[0],607;	// Super Prêmio
+	setarray .premio3[0],607;	// Prêmio Comum
+end;
+	
+//== Fim das Configurações
+//================================================
+//== Script
+
+	NPC_PRES:
+	cutin "mark_wt_1",2;
+	mes .ns$;
+	mes " ";
+	mes "^00B2EEPontos de Presença^000000:^FFA500 ["+#Presenca+"]^000000";
+	switch(select("^3CB371[»]^000000 Apostar","^3CB371[»]^000000 Vale Aposta","^3CB371[»]^000000 Loja Presença","^FFA500[»]^000000 Informações",(Presencaon==0?"^FFA500[»]^000000 Ligar Mensagens":"^FFA500[»]^000000 Desligar Mensagens"))){
+		
+		case 1:
+			jogar_novamente:
+			next;
+			if(countitem(.nec) < 1){ 
+				mes .ns$; 
+				mes "Você não possui nenhum "+getitemname(.nec)+" para apostar."; 
+				close3;
+			}
+			delitem .nec,1;	
+			.@rand = rand( 100 );
+			if ( .@rand < .chanc1 ) {
+				set .Random1, rand( getarraysize( .premio1 ) );
+				getitembound .premio1[ .Random1 ], 1 ,1;
+				announce .ns3$+" : "+strcharinfo(0)+" recebeu o prêmio: ["+getitemname(.premio1[ .Random1 ])+"] (Mega Prêmio "+.chanc1+"%).",0;
+				if(select("^3CB371[»]^000000 Apostar Novamente:^ff0000[»]^000000 Sair") == 2) close3;
+					goto jogar_novamente;
+				end;
+			} else if ( .@rand < .chanc2 ) {
+				set .Random2, rand( getarraysize( .premio2 ) );
+				getitembound .premio2[ .Random2 ], 1 ,1;
+				announce .ns3$+" : "+strcharinfo(0)+" recebeu o prêmio: ["+getitemname(.premio2[ .Random2 ])+"] (Super Prêmio "+.chanc2+"%).",0;
+				if(select("^3CB371[»]^000000 Apostar Novamente:^ff0000[»]^000000 Sair") == 2) close3;
+					goto jogar_novamente;
+				end;
+			} else {
+				set .Random3, rand( getarraysize( .premio3 ) );
+				getitembound .premio3[ .Random3 ], 1 ,1;
+				if(select("^3CB371[»]^000000 Apostar Novamente:^ff0000[»]^000000 Sair") == 2) close3;
+					goto jogar_novamente;
+				end;
+			}
+			end;
+	
+		case 2:
+			next;
+			mes .ns$;
+			mes "Você possui: ^FFA500"+#Presenca+"^000000 Pontos de Presença, deseja trocar 60 Pontos de Presença por 1 ^FFA500"+getitemname(.nec)+"^000000?";
+			if(select("^3CB371[»]^000000 Sim:^ff0000[»]^000000 Não") == 2) close3;
+			next;
+			mes .ns$;
+			mes "Digite quantos ^FFA500"+getitemname(.nec)+"^000000 você deseja trocar.";
+			input .@qtd;
+			next;
+			mes .ns$;
+			mes "Para ^FF9900"+.@qtd+"^000000 ^FFA500"+getitemname(.nec)+"^000000 você precisa de ^00B2EE"+.@qtd*60+"^000000 Pontos de Presença, tem certeza que deseja trocar?";
+			if (select("^3CB371[»]^000000 Sim:^ff0000[»]^000000 Não") == 2) close3;
+			next;
+			if ((#Presenca < .@qtd*60)){
+				mes .ns$;
+				mes "Desculpe mas você não possui ^FFA500Pontos de Presença^000000 suficiente para realizar a troca.";
+				close3;
+			}
+			mes .ns$;
+			mes "A troca foi realizada com sucesso.";
+			#Presenca -= .@qtd*60;
+			getitembound .nec,.@qtd,1;
+			close3;	
+		
+		case 3:
+			switch(select("^3CB371[»]^000000 Presenca:^ff0000[»]^000000Sair")){
+				callshop "Presença",1;
+				end;
+			case 2:
+				next;
+				mes .ns$;
+				mes "volte Mais tarde";
+			end;
+			}
+		
+		case 4:
+			next;
+			mes .ns$; 
+			mes "A cada 1 hora permanecido online você recebe ^FFA500"+.pontos_normal+"^000000 Ponto de Presença do sistema. Se você for um jogador vip, receberá ^FFA500"+.pontos_vip+"^000000.";
+			next;
+			mes .ns$; 
+			mes "Os Pontos podem ser trocados por ^FFA500"+getitemname(.nec)+"^000000 e eles podem ser apostados por prêmios aleatório. Os prêmios são separados por: Itens Comuns, Super Prêmio e Mega Prêmio";
+			next;
+			mes .ns$; 
+			mes "Você pode conferir as premiações do Sistema de Presença acessando este";
+			mes "<URL>link<INFO>"+.page$+"</INFO></URL>, que vai encaminha-lo até o";
+			mes "fórum do servidor.";
+			close3;			
+	
+		case 5:
+			next;
+			mes .ns$; 
+			if(Presencaon){ 
+				mes "As mensagens foram desligadas."; 
+				set Presencaon,0; 
+				close3;
+			} else { 
+				mes "As mensagens foram ligadas."; 
+				set Presencaon,1; 
+				close3; 
+			}		
+	}
+}
+
+//================================================
+//== Contador de Presença
+
+-	script	Presenca	-1,{
+
+OnPCLoginEvent:
+	.ns2$ = getvariableofnpc(.ns2$,"Pontos de Presença");
+	.vip_needed = getvariableofnpc(.vip_needed,"Pontos de Presença");
+	.pontos_normal = getvariableofnpc(.pontos_normal,"Pontos de Presença");
+	.pontos_vip = getvariableofnpc(.pontos_vip,"Pontos de Presença");
+	addtimer 3600000,"Presenca::OnTime";
+end;
+
+OnTime:
+	if(checkvending() || Presenca == 65000) end;	
+	if(Presenca > 0){
+		#Presenca += Presenca;
+		set Presenca,0;
+	}
+	if (getgroupid() < .vip_needed) {
+		#Presenca += .pontos_normal;
+		if(Presencaon)	dispbottom .ns2$+" : Você recebeu 1 Ponto e ficou com "+#Presenca+" Pontos de Presença.";
+	} else {
+		#Presenca += .pontos_vip;
+		if(Presencaon)	dispbottom .ns2$+" : Você recebeu 2 Pontos e ficou com "+#Presenca+" Pontos de Presença.";
+	}
+	addtimer 3600000,"Presenca::OnTime";
+end;
+
+}
+
+-	pointshop	Presença	-1,#Presenca,7227:12       //items Quest do npc
+
+// --------------------------------------------------
+//	Duplicates (VIP Room):
+// --------------------------------------------------
+//mall_aretno,35,93,6	duplicate(Pontos de Presença)	Pontos de Presença#vipr	4_EP16_MARK

@@ -1,0 +1,857 @@
+// Basic Event Manager
+// By Mabuhay
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Currently added are the ff :
+ {#} NAME - "NPC_NAME" 
+ [1] Bombring - "Event_Bombring"
+ [2] Dice - "Event_Dice"
+ [3] Last Man Standing - "Event_LMS"
+ [4] Novice V Zombie - "Event_NvZ"
+ [5] Poring Catcher - "Poring_Catcher"
+ [6] Poring Hunter - "Poring_Hunter" (Added 12-15-2019)
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
+// For easier management of Event NPCs
+/////////////////////////////////////
+//            NOTE:                //
+/////////////////////////////////////
+// I don't support any modifications unless I want to.
+// But if you want to change things especially the rewards,
+// Please refer to my F_Reward Functions
+// https://rathena.org/board/files/file/4068-itemvariablepoints-reward-function-for-beginners-or-lazy/
+// You should be able to easily change the rewards
+// If you have basic scripting knowledge
+
+-	script	Event_Manager	FAKE_NPC,{
+OnInit:
+	// 1 = item reward
+	// 2 = variable/cashpoints reward
+	// If you want to set item and variable/cashpoints rewards, do 1|2.
+	// If you only want 1, just choose between 1 or 2
+	$event_options = 1;
+	
+	// If item reward enabled
+	// What items will be rewarded
+	setarray $event_item_reward,
+		55008, 10;
+		
+	// If variable reward.. set to your variable.
+	// If cashpoints.. set to #CASHPOINTS / #KAFRAPOINTS (Free Cash Points)
+	$event_var$ = "#EVENTVARIABLE";
+	
+	// Variable name?
+	// If cash points, set to Cash Points
+	// If your custom var, set to the name of that thing.
+	$event_var_name$ = "Custom Points";
+	
+	// How much points gain if #VAR / #CASHPOINTS / #KAFRAPOINTS?
+	$event_var_gain = 1;
+	
+	$event_item_arr = getarraysize($event_item_reward);
+	
+	// @eventstart for GM
+	bindatcmd "eventstart", strnpcinfo(0)+"::OnStart",60,60;
+	
+	// @eventjoin
+	bindatcmd "eventjoin", strnpcinfo(0)+"::OnJoinEvent";
+	end;
+	
+OnStart:
+	mes "Select what event to start:";
+	next;
+	switch(select("~ Bombring","~ Dice","~ LMS","~ Poring Catcher","~ NvZ","~ Poring Hunter")) {
+	case 1: .@npc$ = "Event_Bombring"; break;
+	case 2: .@npc$ = "Event_Dice"; break;
+	case 3: .@npc$ = "Event_LMS"; break;
+	case 4: .@npc$ = "Poring_Catcher"; break;
+	case 5: .@npc$ = "Event_NvZ"; break;
+	case 6: .@npc$ = "Poring_Hunter"; break;
+	}
+	donpcevent .@npc$+"::OnStart";
+	end;
+
+OnJoinEvent:
+	mes "[ Event Status ]";
+	mes "Event are as follows : ";
+	next;
+	switch(select(
+		"Bombring Event - "+ ((getvariableofnpc(.start,"Event_Bombring") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_Bombring") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Dice Event - "+ ((getvariableofnpc(.start,"Event_Dice") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_Dice") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Last Man Standing - "+ ((getvariableofnpc(.start,"Event_LMS") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_LMS") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Poring Catcher - "+ ((getvariableofnpc(.start,"Poring_Catcher") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Poring_Catcher") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000",
+		"Novice v Zombie Event - "+ ((getvariableofnpc(.start,"Event_NvZ") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Event_NvZ") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000", 
+		"Poring Hunter Event - "+ ((getvariableofnpc(.start,"Poring_Hunter") == 1) ? "^0000ffParticipe do evento":((getvariableofnpc(.start,"Poring_Hunter") == 2) ? "^0000ffEvento em andamento":"^ff0000Não disponível"))+"^000000" 
+	)) {
+	case 1:
+		.@start = getvariableofnpc(.start,"Event_Bombring");
+		.@map$ = "quiz_02"; .@x = 59; .@y = 345;
+		break;
+		
+	case 2:
+		.@start = getvariableofnpc(.start,"Event_Dice");
+		.@map$ = "quiz_02"; .@x = 55; .@y = 87;
+		break;
+		
+	case 3:
+		.@start = getvariableofnpc(.start,"Event_LMS");
+		.@map$ = "06guild_01"; .@x = 0; .@y = 0;
+		break;
+		
+	case 4:
+		.@start = getvariableofnpc(.start,"Poring_Catcher");
+		.@map$ = "poring_w01"; .@x = 100; .@y = 100;
+		break;
+		
+	case 5:
+		.@start = getvariableofnpc(.start,"Event_NvZ");
+		if ( BaseLevel > 1 || Class != 0 ) {
+			mes "Apenas Novato de nível 1 pode entrar.";
+			close;
+		}
+		getinventorylist;
+		if ( @inventorylist_amount ) {
+			mes "Você deve armazena todos os seus itens primeiro.";
+			close2;
+			@inventorylist_amount = false;
+			end;
+		}
+		sc_start SC_DECREASEAGI,600000,10;
+		.@map$ = "quiz_01"; .@x = 42; .@y = 369;
+		break;
+		
+	case 6:
+		.@start = getvariableofnpc(.start,"Poring_Hunter");
+		getinventorylist;
+		if ( @inventorylist_count ) {
+			mes "Certifique-se de não ter nada em seu inventário.";
+			close;
+		}
+		.@map$ = "pvp_n_1-2"; .@x = 0; .@y = 0;
+		@phunter_points = 0;
+		break;
+	}
+	if ( !.@start ) {
+		mes "O evento não está disponível.";
+		close;
+	} else if ( .@start == 2 ) {
+		mes "Evento em andamento";
+		close;
+	}
+	sc_end SC_ALL;
+	percentheal 100,100;
+	warp .@map$, .@x, .@y;
+	end;
+
+	// OnClock<hour><minute>: donpcevent "<npc_name>::OnStart";
+	OnClock0000: donpcevent "Event_Bombring::OnStart"; end; //----- 12 mn
+	OnClock0100: donpcevent "Event_Dice::OnStart"; end;
+	OnClock0200: donpcevent "Event_LMS::OnStart"; end;
+	OnClock0300: donpcevent "Poring_Catcher::OnStart"; end;
+	OnClock0400: donpcevent "Event_NvZ::OnStart"; end;
+	OnClock0500: donpcevent "Poring_Hunter::OnStart"; end;
+	OnClock0600: donpcevent "Event_Bombring::OnStart"; end; //----- 6 am
+	OnClock0700: donpcevent "Event_Dice::OnStart"; end;
+	OnClock0800: donpcevent "Event_LMS::OnStart"; end;
+	OnClock0900: donpcevent "Poring_Catcher::OnStart"; end;
+	OnClock1000: donpcevent "Event_NvZ::OnStart"; end;
+	OnClock1100: donpcevent "Poring_Hunter::OnStart"; end;
+	OnClock1200: donpcevent "Event_Bombring::OnStart"; end; //----- 12 nn
+	OnClock1300: donpcevent "Event_Dice::OnStart"; end;
+	OnClock1400: donpcevent "Event_LMS::OnStart"; end;
+	OnClock1500: donpcevent "Poring_Catcher::OnStart"; end;
+	OnClock1600: donpcevent "Event_NvZ::OnStart"; end;
+	OnClock1700: donpcevent "Poring_Hunter::OnStart"; end;
+	OnClock1800: donpcevent "Event_Bombring::OnStart"; end; //----- 6 pm
+	OnClock1900: donpcevent "Event_Dice::OnStart"; end;
+	OnClock2000: donpcevent "Event_LMS::OnStart"; end;
+	OnClock2100: donpcevent "Poring_Catcher::OnStart"; end;
+	OnClock2200: donpcevent "Event_NvZ::OnStart"; end;
+	OnClock2300: donpcevent "Poring_Hunter::OnStart"; end; //----- 11 pm
+}
+
+// Bombring Event
+
+-	script	Event_Bombring	-1,{
+OnInit:
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn,
+		mf_nocommand;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "quiz_02", .@mapflag[.@i];
+	end;
+
+OnStart:
+	if ( .start ) end;
+	.round = 0;
+	.start = 1;
+	killmonsterall "quiz_02";
+	announce "Bombring: Vamos ter um evento Bombring.",0;
+	sleep 10000;
+	announce "Bombring: para aqueles que desejam aderir, use @eventjoin",0;
+	sleep 10000;
+	announce "Bombring: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "Bombring: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "Bombring: A entrada para o evento está encerrada.",bc_all,0x0ceedb;
+	if ( getmapusers("quiz_02") < 1 ) {
+		announce "Bombring: Não há participantes suficientes.",bc_all,0x0ceedb;
+		.start = false;
+		mapwarp "quiz_02", "prontera", 147, 161; // warp out.
+		end;
+	}
+	.start = 2;
+	sleep 3500;
+	mapannounce "quiz_02","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","As regras são simples.",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "quiz_02","O evento será executado por 30 segundos por 5 rodadas no total.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","Tudo que você precisa fazer é evitar Bombrings e permanecer vivo por 30 segundos.",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "quiz_02","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 3000;
+	while ( .round < 5 ) {
+		.@count = getmapusers("quiz_02");
+		.round++;
+		mapannounce "quiz_02","Round "+.round,bc_map,0x0ceedb;
+		areamonster "quiz_02",48,334,71,357,"Corra por sua vida!",1904, 5 * .@count * .round;
+		sleep 10000 - ( 1000*.round );
+	}
+	.@count = getmapusers("quiz_02");
+	if ( !.@count )
+		announce "Bombring: Ninguém sobreviveu aos bombrings.",bc_all,0x0ceedb;
+	else if ( .@count ) {
+		.@size = getmapunits(BL_PC,"quiz_02",.@aid);
+		if ( .@size > 1 ) announce "Muitos jogadores ganharam o Evento Bombring.",bc_all,0x0ceedb;
+		for ( .@i = 0; .@i < getarraysize(.@aid); .@i++) {
+			attachrid .@aid[.@i];
+			if ( .@size == 1 ) announce strcharinfo(0)+" venceu o evento Bombring.",bc_all,0x0ceedb;
+			if ( $event_options&1 ) {
+				for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+					getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+			}
+			if ( $event_options&2 ) {
+				setd $event_var$, getd($event_var$)+$event_var_gain;
+				dispbottom "You gained "+$event_var_gain+" "+$event_var_name$+". You now have "+getd($event_var$)+" "+$event_var_name$+".";
+			}
+		}
+		detachrid;
+	}
+	.start = false;
+	sleep 5000;
+	mapwarp "quiz_02","prontera",rand(147,161),rand(147,163);
+	end;
+	
+OnPCDieEvent:
+	if ( .start && strcharinfo(3) == "quiz_02" )
+		warp "prontera",rand(147,161),rand(147,163);
+	end;
+}
+
+// Dice Event
+
+-	script	Event_Dice	-1,{
+OnInit:		
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "quiz_02", .@mapflag[.@i];
+	end;
+
+OnStart:
+	if ( .start ) end;
+	.start = 1;
+	for(.@i = 1;.@i <= 4;.@i++) {
+		disablenpc "Back#"+.@i;
+		disablenpc "Box "+.@i;
+	}
+	announce "Dados: vamos ter um evento de dados.",0;
+	sleep 10000;
+	announce "Dados: Para quem quiser entrar, use @eventjoin",0;
+	sleep 10000;
+	announce "Dados: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "Dados: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "Dados: A entrada para o evento está fechada.",bc_all,0x0ceedb;
+	if ( !getmapusers("quiz_02") ) {
+		announce "Dados: Não há participantes suficientes.",bc_all,0x0ceedb;
+		.start = false;
+		end;
+	}
+	.start = 2;
+	sleep 3500;
+	mapannounce "quiz_02","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","As regras são simples.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","Você terá que entrar em uma das 4 caixas disponíveis.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","Em seguida, um dado de quatro lados será lançado. O número mostrado será o número salvo.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_02","Lembre-se de entrar nas caixas!",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "quiz_02","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 3000;
+	while(!.@end && .start && .@rounds < 5) {
+		for(.@i = 1;.@i <= 4;.@i++) {
+			enablenpc "Back#"+.@i;
+			enablenpc "Box "+.@i;
+		}
+		sleep 1500;
+		mapannounce "quiz_02","Os dados serão lançados em breve. Escolha o numero desejado clicando no número metálico dentro dela.",bc_map,0x0ceedb;
+		sleep 20000;
+		for(.@i = 5;.@i > 0;.@i--) {
+			mapannounce "quiz_02",.@i+"...",bc_map,0x0ceedb;
+			sleep 990;
+		}
+		for(.@i = 1;.@i <= 4;.@i++) {
+			disablenpc "Back#"+.@i;
+			disablenpc "Box "+.@i;
+		}
+		areawarp "quiz_02",32,95,79,76,"prontera",rand(147,161),rand(147,163);
+		areawarp "quiz_02",80,85,80,76,"prontera",rand(147,161),rand(147,163);
+		areawarp "quiz_02",31,85,31,76,"prontera",rand(147,161),rand(147,163);
+		.@n = rand(1,4);
+		mapannounce "quiz_02","Tempo! O dado mostra o número "+.@n+".",bc_map,0x0ceedb;
+		setarray .@cords1[0],33,41;
+		setarray .@cords2[0],45,53;
+		setarray .@cords3[0],57,65;
+		setarray .@cords4[0],69,77;
+		for(.@i = 1;.@i <= 4;.@i++) {
+			if(.@i != .@n)
+				areawarp "quiz_02",getd(".@cords"+.@i+"[0]"),52,getd(".@cords"+.@i+"[1]"),73,"prontera",rand(147,161),rand(147,163);
+		}
+		sleep 3000;
+		.@players = getmapusers("quiz_02");
+		if(.@players <= 3 && .start && .@players) {
+			mapannounce "quiz_02","O evento acabou! Vencedores, aproveitem seus prêmios!",bc_map,0x0ceedb;
+			.@size = getmapunits(BL_PC,"quiz_02",.@players);
+			.start = false;
+			for(.@i = 0;.@i < .@size;.@i++) {
+				attachrid .@players[.@i];
+				announce strcharinfo(0)+" ganhou o evento de dados.",bc_all,0x0ceedb;
+				if ( $event_options&1 ) {
+					for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+						getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+				}
+				if ( $event_options&2 ) {
+					setd $event_var$, getd($event_var$)+$event_var_gain;
+					dispbottom "You gained "+$event_var_gain+" "+$event_var_name$+". You now have "+getd($event_var$)+" "+$event_var_name$+".";
+				}			
+				warp "prontera",rand(147,161),rand(147,163);
+			}
+		} else if( !.@players ) {
+			.@end = true;
+			.start = false;
+			announce "Não houve vencedor no Evento de Dados.",bc_all,0x0ceedb;
+		} else {
+			mapannounce "quiz_02","Ainda não há vencedores claros, vamos lançar os dados novamente.",bc_map,0x0ceedb;
+		}
+		.@rounds++;
+	}
+	if(.@rounds >= 5) {
+		mapannounce "quiz_02","Não houve vencedor claro em todo o evento. O evento acabou.",bc_map,0x0ceedb;
+		.start = false;
+	}
+	end;
+
+}
+
+quiz_02,37,80,3	script	Box 1	HIDDEN_NPC,{
+	warp "quiz_02",rand(33,41),rand(52,73);
+	end;
+
+}
+
+quiz_02,49,80,3	script	Box 2	HIDDEN_NPC,{
+	warp "quiz_02",rand(45,53),rand(52,73);
+	end;
+}
+
+quiz_02,61,80,3	script	Box 3	HIDDEN_NPC,{
+	warp "quiz_02",rand(57,65),rand(52,73);
+	end;
+}
+
+quiz_02,73,80,3	script	Box 4	HIDDEN_NPC,{
+	warp "quiz_02",rand(69,77),rand(52,73);
+	end;
+}
+
+quiz_02,55,90,3	script	Back to Prontera#dice	4_BULLETIN_BOARD2,{
+	warp "prontera",rand(147,161),rand(147,163);
+	end;
+}
+
+quiz_02,37,64,3	script	Back#1	4_BULLETIN_BOARD2,{
+	warp "quiz_02",55,76;
+	end;
+}
+
+quiz_02,49,64,3	duplicate(Back#1)	Back#2	4_BULLETIN_BOARD2
+quiz_02,61,64,3	duplicate(Back#1)	Back#3	4_BULLETIN_BOARD2
+quiz_02,73,64,3	duplicate(Back#1)	Back#4	4_BULLETIN_BOARD2
+
+// Last Man Standing
+
+-	script	Event_LMS	-1,{
+OnInit:	
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "06guild_01", .@mapflag[.@i];
+		
+	end;
+
+OnStart:
+	if ( .start ) end;
+	.start = 1;
+	pvpoff "06guild_01";
+	announce "LMS: Vamos ter um evento Last Man Standing.",0;
+	sleep 10000;
+	announce "LMS: Para quem quiser aderir, use @eventjoin",0;
+	sleep 10000;
+	announce "LMS: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "LMS: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "LMS: A entrada para o evento está encerrada.",bc_all,0x0ceedb;
+	if ( getmapusers("06guild_01") < 2 ) {
+		announce "LMS: Não há participantes suficientes.",bc_all,0x0ceedb;
+		.start = false;
+		end;
+	}
+	.start = 2;
+	sleep 3500;
+	mapannounce "06guild_01","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "06guild_01","As regras são simples.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "06guild_01","Mate todos no mapa.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "06guild_01","O Ultimo de pé vence!",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "06guild_01","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 3000;
+	for (.@i = 10; .@i > 0; .@i--) {
+		mapannounce "06guild_01", "LMS: -- "+.@i+" --",bc_map,0x0ceedb;
+		sleep 1000;
+	}
+	mapannounce "06guild_01", "LMS: Lute! ",bc_map,0x0ceedb;
+	pvpon "06guild_01";
+	.timer = 0;
+	initnpctimer;
+	end;
+	
+OnTimer5000: // check every 5 secs..
+	.timer++;
+	.@size = getmapusers("06guild_01");
+	if ( .@size > 1 && .timer == 6 ) {
+		.timer = 0;
+		mapannounce "06guild_01", "LMS: "+ .@size +" jogadores restantes ..", bc_blue;
+	} 
+	else if ( .@size <= 1 )
+		donpcevent strnpcinfo(3)+"::OnEndEvent";
+	setnpctimer 0;
+	end;
+	
+OnEndEvent:
+	stopnpctimer;
+	.start = false;
+	pvpoff "06guild_01";
+	mapannounce "06guild_01", "LMS: Evento encerrado!",bc_map,0x0ceedb;
+	sleep 5000;
+	.@size = getmapunits(BL_PC,"06guild_01",.@aid);
+	if ( .@size == 0 ) {
+		announce "LMS: Sem vencedores.",0;
+		end;
+	}
+	attachrid .@aid;
+	announce strcharinfo(0)+" venceu o evento Last Man Standing.",bc_all,0x0ceedb;
+	if ( $event_options&1 ) {
+		for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+			getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+	}
+	if ( $event_options&2 ) {
+		setd $event_var$, getd($event_var$)+$event_var_gain;
+		dispbottom "Você ganhou "+$event_var_gain+" "+$event_var_name$+". You now have "+getd($event_var$)+" "+$event_var_name$+".";
+	}				
+	warp "prontera",rand(147,161),rand(147,163);
+	end;
+	
+OnPCDieEvent:
+	if ( .start && strcharinfo(3) == "06guild_01" ) {
+		warp "prontera",rand(147,161),rand(147,163);
+		.@size = getmapusers("06guild_01");
+		if ( .@size > 1 )
+			mapannounce "06guild_01", "LMS: "+ .@size +" jogadores restantes ..", bc_blue;
+		else if ( .@size <= 1 )
+			donpcevent strnpcinfo(3)+"::OnEndEvent";
+	}
+	end;
+	
+}
+
+// Novice V Zombie
+
+-	script	Event_NvZ	-1,{
+OnInit:	
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn,
+		mf_nocommand;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "quiz_01", .@mapflag[.@i];
+	end;
+
+OnStart:
+	if ( .start ) end;
+	.start = 1;
+	killmonsterall "quiz_01";
+	announce "NvZ: Vamos ter um Novato vs. Evento de zumbi.",0;
+	sleep 10000;
+	announce "NvZ: Para quem quiser aderir, use @eventjoin",0;
+	sleep 10000;
+	announce "NvZ: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "NvZ: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "NvZ: A entrada para o evento está encerrada.",bc_all,0x0ceedb;
+	if ( getmapusers("quiz_01") <= 1 ) {
+		announce "NvZ: Não há participantes suficientes.",bc_all,0x0ceedb;
+		.start = false;
+		mapwarp "quiz_01", "prontera", 147, 163; // warp out.
+		end;
+	}
+	.start = 2;
+	sleep 3500;
+	mapannounce "quiz_01","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_01","As regras são simples.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_01","Zumbis serão gerados no mapa.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "quiz_01","e aparecerá a cada 20 segundos.",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "quiz_01","O último sobrevivente vence.",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "quiz_01","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 3000;
+	monster "quiz_01",42,369,"Zombie",1036,4;
+	initnpctimer;
+	end;
+	
+OnTimer20000: // 20 seconds timer and also player check on how many left in map
+	monster "quiz_01",42,369,"Zombie",1036,10;
+	setnpctimer 0;
+	end;
+	
+OnPCDieEvent:
+	if ( .start && strcharinfo(3) == "quiz_01" ) {
+		warp "prontera",rand(147,161),rand(147,163);
+		if ( getmapusers("quiz_01") == 1 ) {
+			stopnpctimer;
+			killmonsterall "quiz_01";
+			.@size = getmapunits(BL_PC,"quiz_01",.@aid);
+			.start = false;
+			attachrid .@aid;
+			announce strcharinfo(0)+" venceu o evento Novice v Zombie.",bc_all,0x0ceedb;
+			if ( $event_options&1 ) {
+				for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+					getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+			}
+			if ( $event_options&2 ) {
+				setd $event_var$, getd($event_var$)+$event_var_gain;
+				dispbottom "Você ganhou "+$event_var_gain+" "+$event_var_name$+". Você agora tem "+getd($event_var$)+" "+$event_var_name$+".";
+			}				
+			warp "prontera",rand(147,161),rand(147,163);
+			end;
+		}
+	}
+	end;
+}
+
+// Poring Catcher
+
+-	script	Poring_Catcher	-1,{
+OnInit:	
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noloot,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "poring_w01", .@mapflag[.@i];
+	end;
+
+OnStart:
+	if ( .start ) end;
+	.start = 1;
+	announce "Poring Catcher: Vamos ter um evento Poring Catcher.",0;
+	sleep 10000;
+	announce "Poring Catcher: Para quem quiser aderir, use @eventjoin",0;
+	sleep 10000;
+	announce "Poring Catcher: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "Poring Catcher: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "Poring Catcher: A entrada para o evento está encerrada.",bc_all,0x0ceedb;
+	.start = 2;
+	sleep 3500;
+	if( !getmapusers("poring_w01") ) {
+		announce "Poring Catcher: Não há participantes suficientes no evento.",bc_all,0x0ceedb;
+		sleep 2500;
+		announce "Poring Catcher: O evento será interrompido.",bc_all,0x0ceedb;
+		.start = false;
+		end;
+	}
+	mapannounce "poring_w01","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "poring_w01","As regras são simples.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "poring_w01","Em alguns segundos, vou gerar toneladas de porings ..",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "poring_w01","..Tudo o que você precisa fazer é matar o Poring com o nome certo ..",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "poring_w01","..Qual seria Poring.",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "poring_w01","Se você matar o errado, você está fora!",bc_map,0x0ceedb;
+	sleep 2000;
+	mapannounce "poring_w01","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 3000;
+	areamonster "poring_w01",84,119,124,90,"Poring",1002,1,strnpcinfo(0)+"::OnMobKilledWin";
+	areamonster "poring_w01",84,119,124,90,"Poking",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Poiring",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Poling",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Porng",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"pH0ur1n6",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"P0ring",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Porong",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Powing",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Poriing",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Boring",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Lolwut!?",1002,3*getmapusers("poring_w01"),"::OnMobKilled";
+	areamonster "poring_w01",84,119,124,90,"Kill me to win!",1002,3*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+	end;
+
+OnMobKilled:
+	dispbottom "Você matou o Poring errado! Yerrrrrrrrrrrr fora!";
+	warp "prontera",rand(147,161),rand(147,163);
+	sleep 5000;
+	if ( !getmapusers("poring_w01") ) {
+		.start = false;
+		killmonsterall "poring_w01";
+		announce "Poring Catcher: Ninguém ganhou o evento Poring Catcher!.",bc_all,0x0ceedb;
+	}
+	end;
+	
+OnMobKilledWin:
+	announce strcharinfo(0)+" ganhou o evento Poring Catcher!",bc_all,0xFF7F50;
+	if ( $event_options&1 ) {
+		for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+			getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+	}
+	if ( $event_options&2 ) {
+		setd $event_var$, getd($event_var$)+$event_var_gain;
+		dispbottom "Você ganhou "+$event_var_gain+" "+$event_var_name$+". Você agora tem "+getd($event_var$)+" "+$event_var_name$+".";
+	}
+	killmonsterall "poring_w01";
+	sleep 5000;
+	mapwarp "poring_w01","prontera",rand(147,161),rand(147,163);
+	.start = false;
+	end;	
+}
+
+poring_w01,105,123,3	script	Back to Prontera	4_BULLETIN_BOARD2,{
+	warp "prontera",rand(147,161),rand(147,163);
+	end;
+}
+
+// Poring Hunter https://rathena.org/board/topic/121969-rporing-hunter-event/#comment-370418
+
+-	script	Poring_Hunter	FAKE_NPC,{
+OnInit:
+	// Event duration default: 3 mins.
+	.duration = 3;
+
+	// Note : spawn counts would be multiplied by number of participants. ( count * player count )
+	// if you dont want it, remove the calculation below.
+	.count[0] = 20; // poring count
+	.count[1] = 10; // drops count
+	.count[2] = 15; // poporing count
+	
+	// Mapflags
+	setarray .@mapflag,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noloot,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nobranch,
+		mf_noreturn,
+		mf_nocommand;
+		
+	for ( .@i = 0; .@i < getarraysize(.@mapflag); .@i++)
+		setmapflag "quiz_02", .@mapflag[.@i];
+	end;
+
+OnStart:
+	if ( .start ) end;
+	pvpoff "pvp_n_1-2";
+	killmonsterall "pvp_n_1-2";
+	.start = 1;
+	.cur_time = 0;
+	announce "Poring Hunter: Vamos ter um evento Poring Hunter.",0;
+	sleep 10000;
+	announce "Poring Hunter: Para quem quiser aderir, use @eventjoin",0;
+	sleep 10000;
+	announce "Poring Hunter: Após 1 minuto, o evento será fechado.",0;
+	sleep 10000;
+	announce "Poring Hunter: Então, por favor, se você quiser participar. usar @eventjoin",0;
+	sleep 60000;
+	announce "Poring Hunter: A entrada para o evento está encerrada.",bc_all,0x0ceedb;
+	.@player = getmapusers("pvp_n_1-2");
+	if ( .@player < 2 ) {
+		announce "Poring Hunter : Não há participantes suficientes.", bc_all,0x0ceedb;
+		goto OnEnd;
+		end;
+	}
+	announce "Poring Hunter : O portal do evento foi fechado, o evento começou, boa sorte a todos os jogadores!", bc_all;
+	.start = 2;
+	mapannounce "pvp_n_1-2","Estamos prestes a começar o evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "pvp_n_1-2","Porings concedem 1 ponto quando mortos, Drops 5 pontos, Poporings -10 pontos.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "pvp_n_1-2","Voce terá "+.duration+" minutos para obter o máximo de pontos possível.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "pvp_n_1-2","O jogador que obtiver mais pontos dentro do tempo atribuído será o vencedor do evento.",bc_map,0x0ceedb;
+	sleep 2500;
+	mapannounce "pvp_n_1-2","Isso é tudo. Vamos começar.",bc_map,0x0ceedb;
+	sleep 2000;
+	// NOTE : if you wish not to multiply the spawn to participants, remove < *.@player > on all mob spawns.
+	monster "pvp_n_1-2", 0, 0, "Poring", 1002, .count[0]*.@player, strnpcinfo(0)+"::OnKillPoring";
+	monster "pvp_n_1-2", 0, 0, "Drops", 1113, .count[1]*.@player, strnpcinfo(0)+"::OnKillDrops";
+	monster "pvp_n_1-2", 0, 0, "Poporing", 1031, .count[2]*.@player, strnpcinfo(0)+"::OnKillPoporing";
+	initnpctimer;
+	end;
+	
+OnKillPoring: callsub OnKillMob, 1002, "Poring", "OnKillPoring", 1;
+OnKillDrops: callsub OnKillMob, 1113, "Drops", "OnKillDrops", 5;
+OnKillPoporing: callsub OnKillMob, 1031, "Poporing", "OnKillPoporing", -10;
+OnKillMob:
+	.@mobid = getarg(0);
+	.@name$ = getarg(1);
+	.@event$ = getarg(2);
+	.@val = getarg(3);
+	@phunter_points += .@val;
+	monster "pvp_n_1-2",0,0,.@name$,.@mobid,1,strnpcinfo(0)+"::"+.@event$;
+	dispbottom "Você tem "+ @phunter_points +" Point(s).";
+	end;	
+
+OnTimer60000:
+	.cur_time++;
+	if ( .cur_time < .duration ) {
+		mapannounce "pvp_n_1-2", "Você tem "+( .duration - .cur_time )+" min(s) left.", bc_blue|bc_map;
+		setnpctimer 0;
+		end;
+	}
+	stopnpctimer;
+	killmonsterall "pvp_n_1-2";
+	.@count = getmapunits(BL_PC,"pvp_n_1-2",.@aid[0]);
+	freeloop(true);
+	for ( .@i = 0; .@i < .@count; .@i++ ) {
+		attachrid(.@aid[.@i]);
+		if ( @phunter_points > .most_points ) {
+			.most_points = @phunter_points;
+			.win_aid[0] = getcharid(3);
+			.win_name$[0] = strcharinfo(0);
+		} else if ( @phunter_points == .most_points && @phunter_points > 0 ) {
+			.win_aid[getarraysize(.win_aid)] = getcharid(3);
+			.win_name$[getarraysize(.win_name$)] = strcharinfo(0);
+		}
+		detachrid;
+	}
+	freeloop(false);
+	.@size = getarraysize(.win_aid);
+	if ( .@size > 1 )
+		announce "Poring Hunter : O evento acabou, e nós temos "+.@size+" winners having "+.most_points+" pontos cada! Parabéns!", bc_all,0xFF7F50;
+	else if ( .@size == 1 )
+		announce "Poring Hunter : O evento acabou e o vencedor é ["+.win_name$+"] with "+.most_points+" pontos! Parabéns!", bc_all,0xFF7F50;
+	else 
+		announce "Poring Hunter : O evento acabou e não há vencedores.", bc_all,0x0ceedb;
+	if ( .@size ) { 
+		for ( .@i = 0; .@i < .@size; .@i++ ) { 
+			attachrid(.win_aid[.@i]);
+			if ( $event_options&1 ) {
+				for ( .@j = 0; .@j < $event_item_arr; .@j += 2 )
+					getitem $event_item_reward[.@j], $event_item_reward[.@j+1];
+			}
+			if ( $event_options&2 ) {
+				setd $event_var$, getd($event_var$)+$event_var_gain;
+				dispbottom "Você ganhou "+$event_var_gain+" "+$event_var_name$+". Você agora tem "+getd($event_var$)+" "+$event_var_name$+".";
+			}
+			dispbottom "Aqui está a sua recompensa do evento Poring Hunter.";
+			detachrid;
+		}
+	}
+	OnEnd:
+	mapannounce "pvp_n_1-2", "Warping out in few sec..", bc_blue|bc_map;
+	.most_points = .start = false;
+	deletearray .win_aid;
+	deletearray .win_name$;
+	sleep 5000;
+	mapwarp "pvp_n_1-2","prontera",rand(147,161),rand(147,163);
+	pvpon "pvp_n_1-2";
+	end;
+}

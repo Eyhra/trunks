@@ -1,0 +1,86 @@
+prontera,146,170,6	script	+10 Refiner NPC	4_geffen_13,{
+	for( set .@i,EQI_SHOES; .@i <= EQI_HAND_R; set .@i,.@i + 1 )
+		if( getequipisequiped( .@i ) ){
+			if( getequipisenableref( .@i ) && getequiprefinerycnt( .@i ) <= .max_refine ){
+				set .@eq_count,.@eq_count + 1;
+				set .@menu$,.@menu$ + " +"+getequiprefinerycnt( .@i )+" "+getequipname( .@i ) +":";
+			}else{
+				set .@menu$,.@menu$ +":";
+			}
+		}else{
+			set .@menu$,.@menu$ +":";
+		}
+	if( !.@eq_count ){
+		mes "Você não tem nenhum equipamento disponível para refinar.";
+		close;
+	}
+
+	set .@equipment,select( .@menu$ ) + 1;
+	set .@temp_equip,getequipid( .@equipment );
+
+	do{
+		if( getequipid( .@equipment ) != .@temp_equip ){
+			mes "Não mude para outros equipamentos.";
+			close;
+		}
+		
+		set .@eq_level,getequipweaponlv( .@equipment );
+		if( .@eq_level == 1 ) set .@free_refine,6;
+		else if( .@eq_level == 2 ) set .@free_refine,7;
+		else if( .@eq_level == 3 ) set .@free_refine,8;
+		else if( .@eq_level == 4 ) set .@free_refine,9;
+		else if( .@eq_level == 5 ) set .@free_refine,3;
+		else if( .@eq_level == 6 ) set .@free_refine,2;
+		else set .@free_refine,4;
+		
+		set .@refine_count,getequiprefinerycnt( .@equipment );
+		
+		if( .zeny_cost ){
+			mes "Cada Refino : ^0055FF"+callfunc( "ValueConvert",.zeny_cost )+" Zeny^000000";
+			mes "Desrefinar : ^FF0000Free^000000";
+			mes " ";
+			mes "Se atual, refine abaixo +^FF0000"+.@free_refine+" : ^FF0000Free^000000";
+			next;
+		}
+
+		set .@refine,select(( .@refine_count >= .max_refine )?"":"Refinar para ^0055FF+"+( .@refine_count + 1 )+" "+getequipname( .@equipment )+"^000000",
+							( .@refine_count < 1 )?"":"Desrefinar -1" );  // temporary disabled de-refine
+		
+		if( Zeny < .zeny_cost && .@refine == 1 ){
+			message strcharinfo(0),"Não tem zeny suficiente.";
+			break;
+		}
+		
+		if( .@refine_count < 1 && .@refine == 2 ){
+			mes "Você não pode refinar mais isso.";
+			break;
+		}else if( .@refine_count >= .max_refine && .@refine == 1 ){
+			mes "Você não pode refinar mais isso.";
+		}else{
+			if( .@refine == 1 && .@refine_count >= .@free_refine )
+				set Zeny,Zeny - .zeny_cost;
+			switch( .@refine ){
+				Case 1: successrefitem .@equipment; break;
+				Case 2: downrefitem .@equipment; break;
+				default: break;
+			}
+		}
+		
+		if( getequiprefinerycnt( .@equipment ) >= .max_refine ){
+			mes "Alcance máximo de refinamento...";
+			break;
+		}
+	}while( 1 );
+	close;
+
+	OnInit:
+		OnWhisperGlobal:
+		set .zeny_cost,0;
+		set .max_refine,10;
+
+		.@UID = getnpcid(0);
+		setunittitle(.@UID, "Ferreiro");
+		setunitdata .@UID, UNPC_GROUP_ID, 7;
+		//waitingroom "  Refiner / DeRefiner",0;
+		end;
+}

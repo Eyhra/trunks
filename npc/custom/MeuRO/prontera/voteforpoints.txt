@@ -1,0 +1,135 @@
+//====================================================================================
+//Script Name: Vote For Points NPC Script for FluxCP
+//SVN: Tested in rAthena r156513
+//Developed By: JayPee Mateo
+//Version: 1.0
+//Requirement(s): FluxCP V4P Addon
+//Description: Este é um script npc para o FluxCP Votar em pontos para os jogadores
+//reivindicar seus pontos de votos
+//====================================================================================
+
+prontera,140,182,7	script	Vote por Pontos	4_ep17_basket,{
+function getPoints;
+
+	set .@n$, 			"[Vote por Pontos]";
+	set .@settings, 	1;		// 0 = item, 1 = shop
+	set .@itemReward, 	501;	// se as configurações estiverem definidas no item
+	set .@convertRate, 	2;		// 2 Pontos de votação para 1 poção vermelha
+	set .vp, 			getPoints(getcharid(3));
+	
+	switch (.@settings) {
+		case 0:
+			mes .@n$;
+			mes "Deseja converter seu "+ .vp +" Pontos de Votos?";
+			mes "^ff0000A taxa de conversão atual é "+ .@convertRate +" Vote Points for 1 "+ getitemname(.@itemReward) +".";
+			next;
+			menu "Sim", L_Convert, "Nao", -;
+			mes .@n$;
+			mes "Tchau, entao.";
+			break;
+		case 1:
+			mes .@n$;
+			mes "Voce tem ^ff0000"+ .vp +"^000000 Pontos de Votos.";
+			mes "Gostaria de ir as compra?";
+			next;
+			menu "Sim", -, "Nao", L_Goodbye;
+			mes .@n$;
+			mes "Divirta-se fazendo compras!";
+			callshop "votepoints_shop",1;
+			npcshopattach "votepoints_shop";
+			end;
+	}
+	
+	L_Goodbye:
+		mes .@n$;
+		mes "Adeus, Entao.";
+		close;
+	
+	L_Convert:
+		if (.vp < .@convertRate)
+			goto L_VotePointsTooLow;
+		mes .@n$;
+		mes "Quantos pontos de votacao voce gostaria de converter?";
+		next;
+		menu "Tudo", L_ConvertAll, "Input Amount", L_ConvertAmount;
+	
+	L_ConvertAmount:
+		input .@convert;
+		
+		if (.@convert > .vp)
+			goto L_VotePointsTooLow;
+		
+		set .vp, ((.vp - .@convert) + (.@convert % .@convertRate));
+		set .@convert, (.@convert / .@convertRate);
+		getitem .@itemReward, .@convert;
+		query_sql("UPDATE cp_v4p_voters SET points = "+ .vp +" WHERE account_id = "+ getcharid(3));
+		
+		mes .@n$;
+		mes "Você recebeu"+ .@convert +"x "+ getitemname(.@itemReward) +".";
+		mes "Seus pontos de votacao atuais sao "+ .vp;
+		close;
+		
+	L_ConvertAll:
+		set .@convert, (.vp / .@convertRate);
+		set .vp, (.vp % .@convertRate);
+		getitem .@itemReward, .@convert;
+		query_sql("UPDATE cp_v4p_voters SET points = "+ .vp +" WHERE account_id = "+ getcharid(3));
+		
+		mes .@n$;
+		mes "Você recebeu "+ .@convert +"x "+ getitemname(.@itemReward) +".";
+		mes "Seus pontos de votação atuais sao "+ .vp;
+		close;
+	
+	L_VotePointsTooLow:
+		mes .@n$;
+		mes "Seus pontos de voto estao muito baixos. Volte quando voce tiver a quantidade minima de pontos de voto.";
+		close;
+	
+	function getPoints {
+		set .@account_id, getarg(0);
+		
+		set .@count, query_sql("SELECT points FROM cp_v4p_voters WHERE account_id = "+ .@account_id, .@votepoints);
+		
+		return .@count ? .@votepoints : 0;
+	}
+	
+	OnBuyItem:
+		set .@cost,0;
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+			for(set .@j,0; .@j<getarraysize(.itemShop); set .@j,.@j+2)
+				if (@bought_nameid[.@i] == .itemShop[.@j]) {
+					set .@cost, .@cost+(.itemShop[.@j+1]*@bought_quantity[.@i]);
+					break;
+				}
+		mes .@n$;
+		if (.@cost > .vp) mes "Voce não tem pontos de voto suficientes.";
+		else {
+			for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+				getitem @bought_nameid[.@i], @bought_quantity[.@i];
+				dispbottom "Purchased "+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+".";
+			}
+			set .vp, .vp - .@cost;
+			query_sql("UPDATE cp_v4p_voters SET points = points - "+ .@cost +" WHERE account_id = "+ getcharid(3));
+			mes .@n$;
+			mes "Compra concluida.";
+			mes "Você tem ^ff0000"+ .vp +"^000000 Vote Points.";
+			emotion ET_MONEY;
+		}
+		set .@cost,0;
+		deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+		deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+		close;
+	
+	OnInit:
+		setarray .itemShop[0],	607,1, 607,25, 607,25, 607,25, 607,25,  607,25, 607,25, 607,10, 607,15, 607,15, 607,15, 607,15, 607,15, 607,15, 607,15; // <ITEM_ID>,<PRICE>,...
+		
+		npcshopdelitem "votepoints_shop",512;
+		for(set .@i, 0; .@i < getarraysize(.itemShop); set .@i, .@i+2)
+			npcshopadditem "votepoints_shop", .itemShop[.@i], .itemShop[.@i+1];
+		.@UID = getnpcid(0);
+		setunittitle(.@UID, "Eliza");
+		setunitdata .@UID, UNPC_GROUP_ID, 7;	
+	end;
+}
+
+-	shop	votepoints_shop	-1,512:-1

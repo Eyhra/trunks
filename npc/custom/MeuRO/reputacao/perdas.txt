@@ -1,0 +1,3339 @@
+kh_dun01,0,0,0	script	#kiel01	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "kh_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "kh_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+kh_dun02,0,0,0	script	#kiel02	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "kh_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "kh_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Kiel ====================
+
+ein_dun01,0,0,0	script	#mina1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ein_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ein_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ein_dun02,0,0,0	script	#mina2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ein_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ein_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Minas ====================
+
+dew_dun01,0,0,0	script	#dew1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "dew_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "dew_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+dew_dun02,0,0,0	script	#dew2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "dew_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "dew_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Dewata ====================
+
+gef_dun01,0,0,0	script	#gefd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gef_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gef_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gef_dun02,0,0,0	script	#gefd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gef_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gef_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gef_dun03,0,0,0	script	#gefd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gef_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gef_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim GefDun ====================
+
+mosk_dun01,0,0,0	script	#mosk1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mosk_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mosk_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+mosk_dun02,0,0,0	script	#mosk2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mosk_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mosk_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+mosk_dun03,0,0,0	script	#mosk3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mosk_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mosk_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Moskovia ====================
+
+gon_dun01,0,0,0	script	#gon1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gon_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gon_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gon_dun02,0,0,0	script	#gon2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gon_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gon_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gon_dun03,0,0,0	script	#gon3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gon_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gon_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim GonDun ====================
+
+dic_dun01,0,0,0	script	#dic1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "dic_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "dic_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+dic_dun02,0,0,0	script	#dic2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "dic_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "dic_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+dic_dun03,0,0,0	script	#dic3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "dic_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "dic_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Scaraba ====================
+
+bra_dun01,0,0,0	script	#bra1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "bra_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "bra_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+bra_dun02,0,0,0	script	#bra2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "bra_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "bra_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Bradun ====================
+
+beach_dun,0,0,0	script	#beach1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "beach_dun") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "beach_dun") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+beach_dun2,0,0,0	script	#beach2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "beach_dun2") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "beach_dun2") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+beach_dun3,0,0,0	script	#beach3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "beach_dun3") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "beach_dun3") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim BeachDun ====================
+
+ice_dun01,0,0,0	script	#ice1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ice_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ice_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ice_dun02,0,0,0	script	#ice2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ice_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ice_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ice_dun03,0,0,0	script	#ice3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ice_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ice_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ice_dun04,0,0,0	script	#ice4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ice_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ice_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim IceDun ====================
+
+lou_dun01,0,0,0	script	#lou1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lou_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lou_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+lou_dun02,0,0,0	script	#lou2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lou_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lou_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+lou_dun03,0,0,0	script	#lou3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lou_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lou_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim LouDun ====================
+
+mag_dun01,0,0,0	script	#mag1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mag_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mag_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+mag_dun02,0,0,0	script	#mag2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mag_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mag_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim MagDun ====================
+
+pay_dun00,0,0,0	script	#pay1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "pay_dun00") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "pay_dun00") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+pay_dun01,0,0,0	script	#pay2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "pay_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "pay_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+pay_dun02,0,0,0	script	#pay3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "pay_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "pay_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+pay_dun03,0,0,0	script	#pay4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "pay_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "pay_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+pay_dun04,0,0,0	script	#pay5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "pay_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "pay_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim PayDun ====================
+
+um_dun01,0,0,0	script	#um1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "um_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "um_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+um_dun02,0,0,0	script	#um2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "um_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "um_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+yggdrasil01,0,0,0	script	#um3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "yggdrasil01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "yggdrasil01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim UmDum ====================
+
+orcsdun01,0,0,0	script	#orcs1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "orcsdun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "orcsdun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+orcsdun02,0,0,0	script	#orcs2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "orcsdun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "orcsdun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim OrcDun ====================
+
+in_sphinx1,0,0,0	script	#pira1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "in_sphinx1") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "in_sphinx1") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+in_sphinx2,0,0,0	script	#pira2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "in_sphinx2") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "in_sphinx2") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+in_sphinx3,0,0,0	script	#pira3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "in_sphinx3") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "in_sphinx3") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+in_sphinx4,0,0,0	script	#pira4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "in_sphinx4") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "in_sphinx4") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Esfinge ====================
+
+prt_sewb1,0,0,0	script	#sewb1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_sewb1") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_sewb1") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+prt_sewb2,0,0,0	script	#sewb2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_sewb2") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_sewb2") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+prt_sewb3,0,0,0	script	#sewb3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_sewb3") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_sewb3") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+prt_sewb4,0,0,0	script	#sewb4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_sewb4") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_sewb4") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Esgoto ====================
+
+xmas_dun01,0,0,0	script	#xmas1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "xmas_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "xmas_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+xmas_dun02,0,0,0	script	#xmas2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "xmas_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "xmas_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim FabricaBrinquedo ====================
+
+nyd_dun01,0,0,0	script	#Nyd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "nyd_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "nyd_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+nyd_dun02,0,0,0	script	#Nyd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "nyd_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "nyd_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim NydDun ====================
+
+anthell01,0,0,0	script	#form1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "anthell01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "anthell01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+anthell02,0,0,0	script	#form2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "anthell02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "anthell02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Formigueiro ====================
+
+gefenia01,0,0,0	script	#gefn1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gefenia01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gefenia01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gefenia02,0,0,0	script	#gefn2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gefenia02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gefenia02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gefenia03,0,0,0	script	#gefn3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gefenia03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gefenia03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gefenia04,0,0,0	script	#gefn4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gefenia04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gefenia04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim Geffenia ====================
+
+gl_cas01_,0,0,0	script	#glasth1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_cas01_") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_cas01_") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_cas01,0,0,0	script	#glasth2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_cas01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_cas01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_cas02,0,0,0	script	#glasth3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_cas02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_cas02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_knt01,0,0,0	script	#glasth4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_knt01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_knt01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_knt02,0,0,0	script	#glasth5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_knt02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_knt02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_chyard,0,0,0	script	#glasth6	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_chyard") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_chyard") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_sew01,0,0,0	script	#glasth7	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_sew01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_sew01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_sew02,0,0,0	script	#glasth8	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_sew02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_sew02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_sew03,0,0,0	script	#glasth9	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_sew03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_sew03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_sew04,0,0,0	script	#glasth10	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_sew04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_sew04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_church,0,0,0	script	#glasth11	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_church") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_church") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_step,0,0,0	script	#glasth12	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_step") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_step") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_dun01,0,0,0	script	#glasth13	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_dun02,0,0,0	script	#glasth14	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_prison,0,0,0	script	#glasth15	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_prison") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_prison") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+gl_prison1,0,0,0	script	#glasth16	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "gl_prison1") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "gl_prison1") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim GlastH ====================
+
+tur_dun01,0,0,0	script	#turd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tur_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tur_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tur_dun02,0,0,0	script	#turd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tur_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tur_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tur_dun03,0,0,0	script	#turd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tur_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tur_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tur_dun04,0,0,0	script	#turd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tur_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tur_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim TurDun ====================
+
+jupe_cave,0,0,0	script	#jupd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "jupe_cave") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "jupe_cave") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+juperos_01,0,0,0	script	#jupd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "juperos_01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "juperos_01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+juperos_02,0,0,0	script	#jupd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "juperos_02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "juperos_02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+jupe_core,0,0,0	script	#jupd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "jupe_core") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "jupe_core") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim JupDun ====================
+
+prt_maze01,0,0,0	script	#mazd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_maze01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_maze01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+prt_maze02,0,0,0	script	#mazd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_maze02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_maze02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+prt_maze03,0,0,0	script	#mazd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "prt_maze03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "prt_maze03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim MazeDun ====================
+
+ama_dun01,0,0,0	script	#amad1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ama_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ama_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ama_dun02,0,0,0	script	#amad2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ama_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ama_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ama_dun03,0,0,0	script	#amad3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ama_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ama_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim AmaDun ====================
+
+lhz_dun01,0,0,0	script	#lhzd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lhz_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lhz_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+lhz_dun02,0,0,0	script	#lhzd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lhz_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lhz_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+lhz_dun03,0,0,0	script	#lhzd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lhz_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lhz_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+lhz_dun04,0,0,0	script	#lhzd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "lhz_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "lhz_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim LhzDun ====================
+
+abyss_01,0,0,0	script	#abysd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abyss_01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abyss_01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+abyss_02,0,0,0	script	#abysd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abyss_02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abyss_02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+abyss_03,0,0,0	script	#abysd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abyss_03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abyss_03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim AbyssDun ====================
+
+mjo_dun01,0,0,0	script	#mjod1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mjo_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mjo_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+mjo_dun02,0,0,0	script	#mjod2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mjo_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mjo_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+mjo_dun03,0,0,0	script	#mjod3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "mjo_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "mjo_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim MjoDun ====================
+
+abbey01,0,0,0	script	#abey1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abbey01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abbey01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+abbey02,0,0,0	script	#abey2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abbey02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abbey02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+abbey03,0,0,0	script	#abey3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "abbey03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "abbey03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim AbbeyDUn ====================
+
+treasure01,0,0,0	script	#tread1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "treasure01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "treasure01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+treasure02,0,0,0	script	#tread2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "treasure02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "treasure02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim NavioDun ====================
+
+moc_pryd01,0,0,0	script	#pryd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+moc_pryd02,0,0,0	script	#pryd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+moc_pryd03,0,0,0	script	#pryd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+moc_pryd04,0,0,0	script	#pryd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+moc_pryd05,0,0,0	script	#pryd5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd05") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd05") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+moc_pryd06,0,0,0	script	#pryd6	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "moc_pryd06") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "moc_pryd06") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim PrydDun ====================
+
+ayo_dun01,0,0,0	script	#ayod1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ayo_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ayo_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ayo_dun02,0,0,0	script	#ayod2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ayo_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ayo_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim LabAncestral ====================
+
+ra_san01,0,0,0	script	#racd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ra_san01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ra_san01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ra_san02,0,0,0	script	#racd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ra_san02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ra_san02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ra_san03,0,0,0	script	#racd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ra_san03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ra_san03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ra_san04,0,0,0	script	#racd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ra_san04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ra_san04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim RachelDun ====================
+
+odin_tem01,0,0,0	script	#odind1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "odin_tem01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "odin_tem01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+odin_tem02,0,0,0	script	#odind2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "odin_tem02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "odin_tem02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+odin_tem03,0,0,0	script	#odind3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "odin_tem03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "odin_tem03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim OdinDun ====================
+
+ecl_tdun01,0,0,0	script	#bifrd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ecl_tdun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ecl_tdun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ecl_tdun02,0,0,0	script	#bifrd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ecl_tdun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ecl_tdun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ecl_tdun03,0,0,0	script	#bifrd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ecl_tdun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ecl_tdun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+ecl_tdun04,0,0,0	script	#bifrd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "ecl_tdun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "ecl_tdun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim BifrostDun ====================
+
+tha_t01,0,0,0	script	#thatd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t02,0,0,0	script	#thatd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t03,0,0,0	script	#thatd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t04,0,0,0	script	#thatd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t05,0,0,0	script	#thatd5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t05") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t05") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t06,0,0,0	script	#thatd6	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t06") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t06") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t07,0,0,0	script	#thatd7	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t07") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t07") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t08,0,0,0	script	#thatd8	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t08") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t08") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t09,0,0,0	script	#thatd9	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t09") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t09") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t10,0,0,0	script	#thatd10	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t10") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t10") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t11,0,0,0	script	#thatd11	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t11") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t11") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+tha_t12,0,0,0	script	#thatd12	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "tha_t12") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "tha_t12") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim ThanatosDun ====================
+
+c_tower1,0,0,0	script	#clockd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "c_tower1") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "c_tower1") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+c_tower2,0,0,0	script	#clockd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "c_tower2") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "c_tower2") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+c_tower3,0,0,0	script	#clockd3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "c_tower3") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "c_tower3") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+c_tower4,0,0,0	script	#clockd4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "c_tower4") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "c_tower4") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+alde_dun01,0,0,0	script	#clockd5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "alde_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "alde_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+alde_dun02,0,0,0	script	#clockd6	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "alde_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "alde_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+alde_dun03,0,0,0	script	#clockd7	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "alde_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "alde_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+alde_dun04,0,0,0	script	#clockd8	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "alde_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "alde_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim ClockDun ====================
+
+iz_dun00,0,0,0	script	#izdn1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun00") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun00") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+iz_dun01,0,0,0	script	#izdn2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+iz_dun02,0,0,0	script	#izdn3	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+iz_dun03,0,0,0	script	#izdn4	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun03") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun03") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+iz_dun04,0,0,0	script	#izdn5	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun04") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun04") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+iz_dun05,0,0,0	script	#izdn6	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "iz_dun05") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "iz_dun05") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim IzDun ====================
+
+thor_v01,0,0,0	script	#thqd1	-1,{
+
+OnNPCKillEvent:
+	if( getcharid(1) && (strcharinfo(3) == "thor_v01") ) {
+        getmapxy (.@map$, .@x, .@y, BL_PC);
+        getpartymember getcharid(1), 1;
+        getpartymember getcharid(1), 2;
+        if(getreputpoint(3) >= 10000) end; // Party
+			for ( .@i = 0; .@i < $@partymembercount; ++.@i ) {
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+					attachrid ( $@partymemberaid[.@i]);
+					getmapxy ( @map$, @x, @y, BL_PC );
+					if ( distance(.@x, .@y, @x, @y) < 15 && @map$ == .@map$ ) { // reduced the distance to 15 cells
+						setreputpoint(3, 10);
+					}
+				}    
+			}
+		} else if(strcharinfo(3) == "thor_v01") {
+			setreputpoint(3, 10);	// Solo
+		}
+    end;
+
+OnPCDieEvent:
+	if( getcharid(1) && (strcharinfo(3) == "thor_v01") ) {
+        getmapxy (.@map$, .@x, .@y, BL_PC);
+        getpartymember getcharid(1), 1;
+        getpartymember getcharid(1), 2;
+        if(getreputpoint(3) >= 10000) end; // Party
+			for ( .@i = 0; .@i < $@partymembercount; ++.@i ) {
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+					attachrid ( $@partymemberaid[.@i]);
+					getmapxy ( @map$, @x, @y, BL_PC );
+					if ( distance(.@x, .@y, @x, @y) < 15 && @map$ == .@map$ ) { // reduced the distance to 15 cells
+						setreputpoint(3, -100);
+					}
+				}    
+			}
+		} else if(strcharinfo(3) == "thor_v01") {
+			setreputpoint(3, -100);	// Solo
+		}
+    end;
+}
+
+thor_v02,0,0,0	script	#thod2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "thor_v02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "thor_v02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+thor_v03,0,0,0	script	#thod3	-1,{
+
+OnNPCKillEvent:
+	if( getcharid(1) && (strcharinfo(3) == "thor_v03") ) {
+        getmapxy (.@map$, .@x, .@y, BL_PC);
+        getpartymember getcharid(1), 1;
+        getpartymember getcharid(1), 2;
+        if(getreputpoint(3) >= 10000) end; // Party
+			for ( .@i = 0; .@i < $@partymembercount; ++.@i ) {
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+					attachrid ( $@partymemberaid[.@i]);
+					getmapxy ( @map$, @x, @y, BL_PC );
+					if ( distance(.@x, .@y, @x, @y) < 15 && @map$ == .@map$ ) { // reduced the distance to 15 cells
+						setreputpoint(3, 10);
+					}
+				}    
+			}
+		} else if(strcharinfo(3) == "thor_v03") {
+				setreputpoint(3, 10);	// Solo	
+		}
+    end;
+
+OnPCDieEvent:
+	if( getcharid(1) && (strcharinfo(3) == "thor_v03") ) {
+        getmapxy (.@map$, .@x, .@y, BL_PC);
+        getpartymember getcharid(1), 1;
+        getpartymember getcharid(1), 2;
+        if(getreputpoint(3) >= 10000) end; // Party
+			for ( .@i = 0; .@i < $@partymembercount; ++.@i ) {
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+					attachrid ( $@partymemberaid[.@i]);
+					getmapxy ( @map$, @x, @y, BL_PC );
+					if ( distance(.@x, .@y, @x, @y) < 15 && @map$ == .@map$ ) { // reduced the distance to 15 cells
+						setreputpoint(3, -100);
+					}
+				}    
+			}
+		} else if(strcharinfo(3) == "thor_v03") {
+			setreputpoint(3, -100);	// Solo
+		}
+    end;
+}
+//==================== Fim ThorDun ====================
+
+nif_dun01,0,0,0	script	#nifhd1	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "nif_dun01") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "nif_dun01") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+
+nif_dun02,0,0,0	script	#nifhd2	-1,{
+
+OnNPCKillEvent:
+	if(strcharinfo(3) == "nif_dun02") {	
+		if(getreputpoint(3) >= 10000){
+		end;
+		} else {
+			setreputpoint(3, 10);
+		}
+	}	
+	end;
+
+OnPCDieEvent:
+	// Pontos de reputação perdidos ao morrer no mapa
+	if(strcharinfo(3) == "nif_dun02") {
+		setreputpoint(3, -100);
+		end;
+	}
+	end;
+}
+//==================== Fim NifDun ====================

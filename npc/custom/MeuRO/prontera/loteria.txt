@@ -1,0 +1,129 @@
+prontera,133,201,5	script	Garota da Lotérica	4_f_premi,{
+cutin "prm_1",2;
+mes "[Garota da Lotérica]";
+mes "==============================";
+mes "Bem vindo as promoções do ^339966KillerRO!^000000";
+mes "==============================";
+next;
+mes "[Garota da Lotérica]";
+mes "A Promoções funcionam da seguinte forma:";
+mes "Você precisa inserir um ^ff0000<ITEM>Cupom de Promoção<INFO>7558</INFO></ITEM>^000000.";
+next;
+mes "[Garota da Lotérica]";
+mes "^c21704Nossos melhores prêmios são:^000000";
+mes "==============================";
+mes "^ff0000<ITEM>Sapatos Convergentes [1]<INFO>22014</INFO></ITEM>^000000 ^2dc204 1,00%";
+mes "^ff0000<ITEM>Fones de Ultima Geração<INFO>31569</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "^ff0000<ITEM>Comunicador Cibernético<INFO>31574</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "^ff0000<ITEM>Auréolas Digitais<INFO>31572</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "^ff0000<ITEM>Orbes Místicos<INFO>31386</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "==============================";
+mes "^c21704Os prêmios especiais são:^000000";
+mes "==============================";
+mes "^ff0000<ITEM>+9 Ticket de Refino Armadura<INFO>6232</INFO></ITEM>^000000 ^2dc204 1,00%";
+mes "^ff0000<ITEM>+9 Ticket de Refino Arma<INFO>6228</INFO></ITEM>^000000 ^2dc204 1,00%";
+mes "^ff0000<ITEM>+8 Ticket de Refino Armadura<INFO>6233</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "^ff0000<ITEM>+8 Ticket de Refino Arma<INFO>6229</INFO></ITEM>^000000 ^2dc204 2,00%";
+mes "^ff0000<ITEM>Churrasco Selvagem<INFO>12429</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Coquetel Uivante<INFO>12430</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Carne ao Vinho<INFO>12431</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Chá Gelado de Siroma<INFO>12432</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Cozido de Drosera<INFO>12433</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Macarrão com Petite<INFO>12434</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Cogumelo Grelhado 100x<INFO>13996</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Balas Amargas 100x<INFO>13999</INFO></ITEM>^000000 ^2dc204 10,00%";
+mes "^ff0000<ITEM>Cogumelo Grelhado 10x<INFO>14522</INFO></ITEM>^000000 ^2dc204 15,00%";
+mes "^ff0000<ITEM>Balas Amargas 10x<INFO>14523</INFO></ITEM>^000000 ^2dc204 15,00%";
+mes "^ff0000<ITEM>Fruto de Yggdrasil 100x<INFO>607</INFO></ITEM>^000000 ^2dc204 15,00%";
+mes "^ff0000<ITEM>Fruto de Yggdrasil 25x<INFO>607</INFO></ITEM>^000000 ^2dc204 25,00%";
+mes "^ff0000<ITEM>Fruto de Yggrasil 50x<INFO>607</INFO></ITEM>^000000 ^2dc204 GARANTIDO";
+mes "^ff0000<ITEM>Galho Sangrento 3x<INFO>12103</INFO></ITEM>^000000 ^2dc204 30,00%";
+mes "^ff0000<ITEM>Galho Sangrento 5x<INFO>12103</INFO></ITEM>^000000 ^2dc204 20,00%";
+mes "^ff0000<ITEM>Caixa de Assumptio 50x<INFO>13588</INFO></ITEM>^000000 ^2dc204 50,00%";
+mes "^ff0000<ITEM>Benção de Tyr 10xx<INFO>14601</INFO></ITEM>^000000 ^2dc204 50,00%";
+mes "^ff0000<ITEM>Grande Pílula de Combate 10x<INFO>12792</INFO></ITEM>^000000 ^2dc204 30,00%";
+mes "^ff0000<ITEM>Pílula de Combate 10x<INFO>12791</INFO></ITEM>^000000 ^2dc204 30,00%";
+mes "^ff0000<ITEM>Caixa de Poção do Vento 10x<INFO>13995</INFO></ITEM>^000000 ^2dc204 50,00%";
+mes "^ff0000<ITEM>Enciclopédia de Combate 200%<INFO>12411</INFO></ITEM>^000000 ^2dc204 50,00%";
+mes "^ff0000<ITEM>Manual de Combate 100%<INFO>14533</INFO></ITEM>^000000 ^2dc204 50,00%";
+next;
+mes "[Garota da Lotérica]";
+mes "A chance de conseguir um item é aleatória";
+mes "você também tem chance de conseguir alguns consumíveis.";
+if (countitem(7558) < 1)
+	close3;
+next;
+if(select("Inserir Cupom!:Sem Chance...")==2)
+	close3;
+mes "[Garota da Lotérica]";
+mes "Aqui vamos nós..";
+delitem 7558,1;
+set .@Total,29;
+//<Chance%>,<ItemID>,<Amount>
+setarray .@P1[0],2,31569,1; //Convergentes
+setarray .@P2[0],2,31386,1; //Visual
+setarray .@P3[0],2,31574,1; //Visual
+setarray .@P4[0],2,31572,1; //Visual
+setarray .@P5[0],2,22014,1; //Visual
+setarray .@P6[0],1,6232,1; //RefineTicket+9
+setarray .@P7[0],1,6228,1; //RefineTicket+9
+setarray .@P8[0],2,6233,5; //RefineTicket+8
+setarray .@P9[0],2,6229,1; //RefineTicket+8
+setarray .@P10[0],10,12429,1; //STR+20
+setarray .@P11[0],10,12430,1; //AGI+20
+setarray .@P12[0],10,12431,1; //VIT+20
+setarray .@P13[0],10,12432,1; //INT+20
+setarray .@P14[0],10,12433,1; //DEX+20
+setarray .@P15[0],10,12434,1; //LUK+20 ordem das comidas ta errada.
+setarray .@P16[0],10,13996,1; //(Caixa De Bolinhos HP 100x)
+setarray .@P17[0],10,13999,1; //(Caixa de Pilulas SP 100x)
+setarray .@P18[0],15,14522,10; //Bolinho Solto 10x
+setarray .@P19[0],15,14523,10; // Pilula Solta 10x
+setarray .@P20[0],15,607,100; //Fruto de Yggdrasil 50
+setarray .@P21[0],25,607,25; //Fruto de Yggdrasil 25
+setarray .@P22[0],30,12103,3; //Galho Sangrento 1x (Yeah Bwoi)
+setarray .@P23[0],20,12103,5; //Galho Sangrento 5x (Yeah Bwoi)
+setarray .@P24[0],50,13588,1; //Assumptio Box 30x
+setarray .@P25[0],50,14601,10; //Benção de Tyr 10x
+setarray .@P26[0],30,12792,10; //Grande Pilula de Combate 10x
+setarray .@P27[0],30,12791,10; //Pilula de Combate 10x
+setarray .@P28[0],50,13995,3; //Poção do Vento Box com 10x
+setarray .@P29[0],50,12411,1; //Manual XPBASE 200%
+setarray .@P30[0],50,14533,3; //Manual XPBASE 100%
+setarray .@Default[0],607,50; //BUCETA DE CAMELO
+set .@i, rand(1,.@Total);
+if (rand(1,31) > getd(".@P"+.@i+"[0]"))
+{
+	for(set .@j,0; .@j<getarraysize(.@Default); set .@j,.@j+2)
+	{
+		getitem .@Default[.@j], .@Default[.@j+1];
+		if(!.@k[0])
+			setarray .@k[0], .@Default[.@j], .@Default[.@j+1];
+		cutin "prm_1",255;	
+	}
+}
+else{
+	for(set .@j,1; .@j<getarraysize(getd(".@P"+.@i)); set .@j,.@j+2)
+	{
+		getitem getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+		if (!.@k[0])
+		{
+			set .@gz,.@i;
+			setarray .@k[0], getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+			break;
+			cutin "prm_1",255;
+		}
+	}
+}
+if(1<=.@gz&.@gz<=4)
+	announce "Parabéns! "+strcharinfo(0)+" recebeu "+getitemname(.@k[0])+" x "+.@k[1]+" da Loteria. (prontera 133,201)!",0;
+specialeffect2 248;
+close3;
+cutin "prm_1",255;
+OnInit:
+.@UID = getnpcid(0);
+setunittitle(.@UID, "KillerRO - Promoção");
+setunitdata .@UID, UNPC_GROUP_ID,7;
+end;
+
+}
